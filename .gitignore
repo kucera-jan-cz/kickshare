@@ -1,6 +1,7 @@
-*.class
-target/
-test-output/
+**/*.class
+**/target/
+**/test-output/
+**/.mvn/
 
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
@@ -15,6 +16,7 @@ test-output/
 **/.project
 **/.settings/
 **/.idea/
+**/*.iml
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
