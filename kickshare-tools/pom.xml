@@ -1,0 +1,48 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+				 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<packaging>pom</packaging>
+	<groupId>com.github.kucera-jan-cz.kickshare</groupId>
+	<artifactId>tools-pom</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<name>${project.artifactId}</name>
+
+	<properties>
+		<maven.compiler.source>1.8</maven.compiler.source>
+		<maven.compiler.target>1.8</maven.compiler.target>
+		<encoding>UTF-8</encoding>
+        <!-- SCALA -->
+		<scala.version>2.12.1</scala.version>
+		<scala.binary>2.12</scala.binary>
+        <scala.compat.version>2.12</scala.compat.version>
+        <scala-logging.version>3.5.0</scala-logging.version>
+		<scalatest.version>3.0.1</scalatest.version>
+        <json4s.version>3.4.0</json4s.version>
+        <jsurfer4s.version>0.0.1-SNAPSHOT</jsurfer4s.version>
+        <json4s-jackson.version>3.5.0</json4s-jackson.version>
+
+        <!-- JAVA -->
+        <slf4j.version>1.7.21</slf4j.version>
+        <json-path.version>2.2.0</json-path.version>
+		<commons-io.version>2.4</commons-io.version>
+		<testng.version>6.9.10</testng.version>
+		<elasticsearch.version>2.1.1</elasticsearch.version>
+        <elasticsearch-rest.version>5.2.2</elasticsearch-rest.version>
+        <elasticsearch-transport.version>5.2.2</elasticsearch-transport.version>
+		<zookeeper.version>3.4.8</zookeeper.version>
+		<jackson.version>2.6.2</jackson.version>
+		<config.version>1.2.1</config.version>
+		<curator.version>2.11.0</curator.version>
+		<logback-classic.version>1.1.7</logback-classic.version>
+		<jsurfer-core.version>1.2.8</jsurfer-core.version>
+		<jackson-databind.version>2.8.2</jackson-databind.version>
+		<gson.version>2.7</gson.version>
+		<json-simple.version>1.1.1</json-simple.version>
+
+	</properties>
+
+	<modules>
+		<module>data-indexer</module>
+	</modules>
+
+</project>
