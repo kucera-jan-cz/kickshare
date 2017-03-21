@@ -9,8 +9,7 @@ import org.springframework.security.config.annotation.web.servlet.configuration.
 
 @SpringBootConfiguration
 @EnableAutoConfiguration
-@ComponentScan(basePackages =  {"com.github.kickshare.rest", "com.github.kickshare.security"})
-//@EnableWebMvcSecurity
+@ComponentScan(basePackages =  {"com.github.kickshare.rest", "com.github.kickshare.security", "com.github.kickshare.service"})
 @EnableWebSecurity
 public class KickshareRestApplication {
 
