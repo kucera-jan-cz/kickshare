@@ -1,7 +1,6 @@
-import { Component, NgModule, NgZone, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { FormControl, FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { BrowserModule } from "@angular/platform-browser";
-import { AgmCoreModule, MapsAPILoader } from 'angular2-google-maps/core';
+import {Component, NgZone, OnInit, ViewChild, ElementRef} from "@angular/core";
+import {FormControl} from "@angular/forms";
+import {MapsAPILoader} from "angular2-google-maps/core";
 
 @Component({
     selector: 'my-app',
@@ -69,17 +68,3 @@ export class App implements OnInit {
         }
     }
 }
-
-@NgModule({
-    imports: [
-        AgmCoreModule.forRoot({
-            libraries: ["places"]
-        }),
-        BrowserModule,
-        FormsModule,
-        ReactiveFormsModule
-    ],
-    declarations: [ App ],
-    bootstrap: [ App ]
-})
-export class AppModule {}
