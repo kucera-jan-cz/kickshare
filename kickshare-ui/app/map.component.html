@@ -1,17 +1,10 @@
-<div id="map"></div>
-<script>
-    function initMap() {
-        var uluru = {lat: 49.19953918457031, lng: 16.6075496673584};
-        var map = new google.maps.Map(document.getElementById('map'), {
-            zoom: 4,
-            center: uluru
-        });
-        var marker = new google.maps.Marker({
-            position: uluru,
-            map: map
-        });
-    }
-</script>
-<script async defer
-        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA-NAJu2diDDRzMKz9jKTIj6HVXODMjXpk&callback=initMap">
-</script>
+<div class="container">
+    <h1>Angular 2 + Google Maps Places Autocomplete</h1>
+    <div class="form-group">
+        <input placeholder="search for location" autocorrect="off" autocapitalize="off"
+               spellcheck="off" type="text" class="form-control" #search [formControl]="searchControl">
+    </div>
+    <sebm-google-map [latitude]="latitude" [longitude]="longitude" [scrollwheel]="false" [zoom]="zoom">
+        <sebm-google-map-marker [latitude]="latitude" [longitude]="longitude"></sebm-google-map-marker>
+    </sebm-google-map>
+</div>
