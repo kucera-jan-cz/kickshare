@@ -4,9 +4,6 @@ import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.xpath.XPathExpressionException;
-
 import com.github.kickshare.kickstarter.exception.ParsingException;
 
 /**

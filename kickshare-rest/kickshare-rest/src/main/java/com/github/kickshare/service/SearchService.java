@@ -1,7 +1,6 @@
 package com.github.kickshare.service;
 
 import java.util.List;
-import java.util.Objects;
 
 import com.github.kickshare.service.entity.City;
 
