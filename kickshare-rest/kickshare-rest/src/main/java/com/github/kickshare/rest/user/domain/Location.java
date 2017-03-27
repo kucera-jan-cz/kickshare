@@ -1,6 +1,7 @@
 package com.github.kickshare.rest.user.domain;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 /**
@@ -8,6 +9,7 @@ import lombok.Data;
  * @since 19.3.2017
  */
 @Data
+@AllArgsConstructor
 public class Location {
     @JsonProperty
     private Float lat;

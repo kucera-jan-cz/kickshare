@@ -1,7 +1,5 @@
 package com.github.kickshare.rest.user.domain;
 
-import java.util.List;
-
 import lombok.Data;
 
 /**
