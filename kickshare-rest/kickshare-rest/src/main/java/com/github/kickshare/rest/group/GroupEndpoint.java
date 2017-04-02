@@ -24,13 +24,15 @@ import org.springframework.web.bind.annotation.RestController;
 public class GroupEndpoint {
     private static final Logger LOGGER = LoggerFactory.getLogger(GroupEndpoint.class);
     private static final Feature[] POINTS = {
-            point(49.1951F, 16.6068F, "Brno"),
-            point(50.083333F, 14.416667F, "Praha"),
-            point(49.0520F, 15.8086F, "České Budějovice"),
-            point(49.5955F, 17.25175F, "Olomouc"),
-            point(49.83332F, 18.25F, "Ostrava"),
-            point(49.33818F, 15.0043F, "Benešov"),
-            point(50.16667F, 13F, "Karlovy Vary"),
+            point(49.1951F, 16.6068F, "Brno", true),
+            point(49.1951F, 16.6068F, "Brno", false),
+            point(49.1951F, 16.6068F, "Brno", false),
+            point(50.083333F, 14.416667F, "Praha", false),
+            point(49.0520F, 15.8086F, "České Budějovice", true),
+            point(49.5955F, 17.25175F, "Olomouc", false),
+            point(49.83332F, 18.25F, "Ostrava", true),
+            point(49.33818F, 15.0043F, "Benešov", false),
+            point(50.16667F, 13F, "Karlovy Vary", true),
     };
     //Search for groups using user's location, using distance near (slider), tags, potentially campaign's name
 
@@ -50,21 +52,14 @@ public class GroupEndpoint {
         for (int i = 0; i < items; i++) {
             collection.add(POINTS[RandomUtils.nextInt(0, POINTS.length)]);
         }
-//            FeatureCollection collection = new FeatureCollection()
-//                    .add(point(49.1951F, 16.6068F, "Brno"))
-//                    .add(point(50.083333F, 14.416667F, "Praha"))
-//                    .add(point(49.0520F, 15.8086F, "České Budějovice"))
-//                    .add(point(49.5955F, 17.25175F, "Olomouc"))
-//                    .add(point(49.83332F, 18.25F, "Ostrava"))
-//                    .add(point(49.33818F, 15.0043F, "Benešov"))
-//                    .add(point(50.16667F, 13F, "Karlovy Vary"));
             return collection;
         }
 
-    private static Feature point(Float lat, Float lon, String name) {
+    private static Feature point(Float lat, Float lon, String name, boolean isLocal) {
         Feature feature = new Feature();
         feature.setGeometry(new Point(lon, lat));
-        feature.setProperty("name", "mypoint");
+        String type = (isLocal) ? "local" : "global";
+        feature.setProperty("type", type);
         return feature;
     }
 
