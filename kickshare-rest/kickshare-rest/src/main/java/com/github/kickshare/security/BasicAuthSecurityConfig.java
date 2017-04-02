@@ -13,7 +13,7 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
  * @since 14.3.2017
  */
 @Component
-public class ApplicationSecurityAdapter extends WebSecurityConfigurerAdapter {
+public class BasicAuthSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
                 .antMatchers("/system/info").permitAll()
@@ -36,7 +36,7 @@ public class ApplicationSecurityAdapter extends WebSecurityConfigurerAdapter {
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
         auth
                 .inMemoryAuthentication()
-                .withUser("user").password("user").roles("USER");
+                .withUser("user").password("user").roles("USER", "ACTUATOR");
     }
 
 

@@ -1,5 +1,6 @@
 package com.github.kickshare.rest;
 
+import com.github.kickshare.db.dao.ProjectRepository;
 import com.github.kickshare.service.SearchService;
 import com.github.kickshare.service.entity.City;
 import org.slf4j.Logger;
@@ -20,10 +21,12 @@ public class ElasticInfoEndpoint {
     private static final Logger LOGGER = LoggerFactory.getLogger(ElasticInfoEndpoint.class);
 
     private SearchService searchService;
+    private ProjectRepository projectRepository;
 
     @Autowired
-    public ElasticInfoEndpoint(final SearchService searchService) {
+    public ElasticInfoEndpoint(final SearchService searchService, final ProjectRepository projectRepository) {
         this.searchService = searchService;
+        this.projectRepository = projectRepository;
     }
 
     @RequestMapping("/elastic/info")
@@ -35,4 +38,10 @@ public class ElasticInfoEndpoint {
     public City getCityById(@PathVariable String id) {
         return searchService.getCityById(id);
     }
+
+//    @GetMapping("/projects/{id}")
+//    public Project getProject(@PathVariable Long id) {
+//        Project project = projectRepository.findOne(id);
+//        return project;
+//    }
 }
