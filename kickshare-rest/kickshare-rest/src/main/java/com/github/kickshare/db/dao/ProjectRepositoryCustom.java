@@ -2,6 +2,7 @@ package com.github.kickshare.db.dao;
 
 import java.util.List;
 
+import com.github.kickshare.db.entity.Group;
 import com.github.kickshare.db.entity.Project;
 
 /**
@@ -10,4 +11,6 @@ import com.github.kickshare.db.entity.Project;
  */
 public interface ProjectRepositoryCustom {
     public List<Project> getProjects(Long userId);
+
+    public List<Group> findAllGroups(Long id);
 }

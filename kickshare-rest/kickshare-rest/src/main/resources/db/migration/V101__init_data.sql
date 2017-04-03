@@ -7,14 +7,21 @@ INSERT INTO project (id, name, description, url, deadline) VALUES (
     DATEADD('MONTH', 1, CURRENT_DATE)
 );
 
+INSERT INTO project (id, name, description, url, deadline) VALUES (
+    217227567, 'The World of SMOG: Rise of Moloch',
+    'A Victorian, adventure board game taking place in an alternative England where magic and technology have taken an extraordinary turn!',
+    'https://www.kickstarter.com/projects/coolminiornot/the-world-of-smog-rise-of-moloch?ref=category',
+    DATEADD('MONTH', 1, CURRENT_DATE)
+);
+
 INSERT INTO user (id, email, name, surname) VALUES (1, 'xatrix101@gmail.com', 'Jan', 'Kučera');
 INSERT INTO user (id, email, name, surname) VALUES (2, 'bruce.wayne@gmail.com', 'Bruce', 'Wayne');
 INSERT INTO user (id, email, name, surname) VALUES (3, 'peter.parker@gmail.com', 'Peter', 'Parker');
 
-INSERT INTO `group` (id, leader_id, name) VALUES (1, 1, 'Quodd Heroes CZ');
+INSERT INTO `group` (id, leader_id, name, project_id) VALUES (1, 1, 'Quodd Heroes CZ', 439380282);
 INSERT INTO user_2_group (group_id, user_id) VALUES (1, 1);
 INSERT INTO user_2_group (group_id, user_id) VALUES (1, 2);
 
-INSERT INTO `group` (id, leader_id, name) VALUES (2, 1, 'The Edge CZ');
+INSERT INTO `group` (id, leader_id, name, project_id) VALUES (2, 1, 'The Edge CZ', 217227567);
 INSERT INTO user_2_group (group_id, user_id) VALUES (2, 1);
 INSERT INTO user_2_group (group_id, user_id) VALUES (2, 3);
