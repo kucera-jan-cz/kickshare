@@ -3,6 +3,7 @@ package com.github.kickshare.rest.group;
 import java.util.Collections;
 import java.util.List;
 
+import com.github.kickshare.service.SearchService;
 import org.apache.commons.lang3.RandomUtils;
 import org.geojson.Feature;
 import org.geojson.FeatureCollection;
@@ -35,6 +36,7 @@ public class GroupEndpoint {
             point(50.16667F, 13F, "Karlovy Vary", true),
     };
     //Search for groups using user's location, using distance near (slider), tags, potentially campaign's name
+    private SearchService service;
 
     @PostMapping("/search")
     public List<Object> searchGroups(String userId, String categoryId, SearchGroupOptions options) {
