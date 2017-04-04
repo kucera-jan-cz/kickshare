@@ -9,6 +9,7 @@ import lombok.Data;
  * @since 19.3.2017
  */
 @Data
+@Deprecated
 public class SearchGroupOptions {
     private String campaignName;
     private Boolean findNearby;
