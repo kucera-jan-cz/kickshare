@@ -25,6 +25,6 @@ public class SearchServiceTest {
         SearchServiceImpl service = new SearchServiceImpl(client, new ObjectMapper());
         GeoBoundary boundary = new GeoBoundary(new Location(51F, 13F), new Location(50F, 15F));
         final GroupSearchOptions options = GroupSearchOptions.builder().searchLocalOnly(false).geoBoundary(boundary).build();
-        service.searchCities(options);
+        service.searchGroups(options);
     }
 }

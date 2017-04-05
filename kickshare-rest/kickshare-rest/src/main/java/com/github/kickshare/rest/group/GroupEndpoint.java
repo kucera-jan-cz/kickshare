@@ -1,9 +1,17 @@
 package com.github.kickshare.rest.group;
 
+import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
+import com.github.kickshare.service.GeoBoundary;
+import com.github.kickshare.service.GroupSearchOptions;
+import com.github.kickshare.service.Location;
 import com.github.kickshare.service.SearchService;
+import com.github.kickshare.service.entity.CityGrid;
+import lombok.AllArgsConstructor;
 import org.apache.commons.lang3.RandomUtils;
 import org.geojson.Feature;
 import org.geojson.FeatureCollection;
@@ -22,6 +30,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("/groups")
+@AllArgsConstructor
 public class GroupEndpoint {
     private static final Logger LOGGER = LoggerFactory.getLogger(GroupEndpoint.class);
     private static final Feature[] POINTS = {
@@ -54,13 +63,50 @@ public class GroupEndpoint {
         for (int i = 0; i < items; i++) {
             collection.add(POINTS[RandomUtils.nextInt(0, POINTS.length)]);
         }
-            return collection;
-        }
+        return collection;
+    }
+
+    @RequestMapping(value = "/search/data.jsonp", produces = MediaType.APPLICATION_JSON_VALUE)
+    public FeatureCollection getData(
+            @RequestParam String callback,
+            @RequestParam Map<String, String> params
+//            @RequestParam Float ne_lat,
+//            @RequestParam Float ne_lon,
+//            @RequestParam Float sw_lat,
+//            @RequestParam Float sw_lon,
+//            @RequestParam Boolean only_local,
+//            @RequestParam String projectName)
+    ) throws IOException {
+        GroupSearchOptions.GroupSearchOptionsBuilder builder = GroupSearchOptions.builder();
+        builder.searchLocalOnly(Boolean.valueOf(params.get("only_local")));
+        builder.projectName(params.get("name"));
+        Location leftTop = new Location(
+                Float.parseFloat(params.get("ne_lat")),
+                Float.parseFloat(params.get("ne_lon"))
+        );
+        Location rightBottom = new Location(
+                Float.parseFloat(params.get("sw_lat")),
+                Float.parseFloat(params.get("sw_lon"))
+        );
+        builder.geoBoundary(new GeoBoundary(leftTop, rightBottom));
+        GroupSearchOptions options = builder.build();
+        final List<CityGrid> cityGrids = service.searchCityGrid(options);
+        FeatureCollection collection = new FeatureCollection();
+        collection.addAll(cityGrids.stream().map(GroupEndpoint::point).collect(Collectors.toList()));
+        return collection;
+    }
+
+    public static Feature point(final CityGrid city) {
+        Feature feature = new Feature();
+        feature.setGeometry(new Point(city.getLocation().getLon(), city.getLocation().getLat()));
+        feature.setProperty("type", city.getType().name());
+        return feature;
+    }
 
     private static Feature point(Float lat, Float lon, String name, boolean isLocal) {
         Feature feature = new Feature();
         feature.setGeometry(new Point(lon, lat));
-        String type = (isLocal) ? "local" : "global";
+        String type = (isLocal) ? "LOCAL" : "GLOBAL";
         feature.setProperty("type", type);
         return feature;
     }

@@ -15,4 +15,9 @@ public class Location {
     private Float lat;
     @JsonProperty
     private Float lon;
+
+    public Location(Double lat, Double lon) {
+        this.lat = lat.floatValue();
+        this.lon = lon.floatValue();
+    }
 }
