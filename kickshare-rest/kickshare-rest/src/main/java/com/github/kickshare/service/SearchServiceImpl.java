@@ -6,21 +6,18 @@ import java.util.Collections;
 import java.util.List;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.github.kickshare.service.entity.City;
+import com.github.kickshare.service.entity.CityGrid;
 import com.github.kickshare.service.entity.Group;
+import com.github.kickshare.service.parser.CityGridParser;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.client.Client;
-import org.elasticsearch.common.geo.GeoPoint;
-import org.elasticsearch.common.xcontent.ToXContent;
-import org.elasticsearch.common.xcontent.XContentBuilder;
-import org.elasticsearch.common.xcontent.XContentFactory;
-import org.elasticsearch.index.query.GeoBoundingBoxQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
-import org.jsfr.json.JsonPathListener;
+import org.elasticsearch.search.aggregations.AggregationBuilder;
+import org.elasticsearch.search.aggregations.AggregationBuilders;
+import org.elasticsearch.search.aggregations.bucket.terms.TermsAggregationBuilder;
 import org.jsfr.json.JsonSurfer;
-import org.jsfr.json.SurfingConfiguration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,28 +39,25 @@ public class SearchServiceImpl implements SearchService {
         this.mapper = mapper;
     }
 
-    public List<Group> searchCities(GroupSearchOptions options) throws IOException {
+    public List<Group> searchGroups(GroupSearchOptions options) throws IOException {
         QueryBuilder query = options.toQuery();
         LOGGER.info("Query:\n{}", query);
         SearchResponse response = client.prepareSearch("ks2").setQuery(query).get();
-//        for(SearchHit hit : response.getHits().hits()) {
-//            LOGGER.info("{}", hit.sourceAsString());
-//        }
-
-        XContentBuilder builder = XContentFactory.jsonBuilder();
-        builder.startObject();
-        response.toXContent(builder, ToXContent.EMPTY_PARAMS);
-        builder.endObject();
-        final JsonPathListener listener = (o, context) -> {
-            ObjectNode node = (ObjectNode) o;
-            LOGGER.info("{}", o.getClass());
-
-        };
-        SurfingConfiguration configuration = SurfingConfiguration.builder().bind("$.hits.hits[*]._source", listener).build();
-//        JsonSurfer.jackson().surf(builder.string(), configuration);
-        Collection<Group> groups = JsonSurfer.jackson().collectAll(builder.string(), Group.class, "$.hits.hits[*]._source");
+        Collection<Group> groups = JsonSurfer.jackson().collectAll(response.toString(), Group.class, "$.hits.hits[*]._source");
         LOGGER.info("{}", groups);
         return Collections.emptyList();
+    }
+
+    public List<CityGrid> searchCityGrid(GroupSearchOptions options) throws IOException {
+        QueryBuilder query = options.toQuery();
+        //@TODO - change precision based on google zoom
+        final TermsAggregationBuilder isLocalAgg = AggregationBuilders.terms("IS_LOCAL").field("is_local").size(2);
+        final AggregationBuilder aggregation = AggregationBuilders
+                .geohashGrid("CITIES").field("location").precision(4)
+                .subAggregation(isLocalAgg);
+        SearchResponse response = client.prepareSearch("ks2").setQuery(query).addAggregation(aggregation).get();
+        CityGridParser parser = new CityGridParser();
+        return parser.apply(response.toString());
     }
 
     @Override
@@ -95,11 +89,5 @@ public class SearchServiceImpl implements SearchService {
         }
 
         return new City(id, null);
-    }
-
-    private GeoBoundingBoxQueryBuilder toQuery(GeoBoundary boundary, String field) {
-        GeoPoint topLeft = new GeoPoint(boundary.getLeftTop().getLat(), boundary.getLeftTop().getLon());
-        GeoPoint bottomRight = new GeoPoint(boundary.getRightBottom().getLat(), boundary.getRightBottom().getLon());
-        return QueryBuilders.geoBoundingBoxQuery(field).setCorners(topLeft, bottomRight);
     }
 }
