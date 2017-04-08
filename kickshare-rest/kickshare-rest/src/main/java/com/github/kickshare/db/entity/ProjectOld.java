@@ -11,7 +11,8 @@ import lombok.Data;
  */
 @Entity(name = "project")
 @Data
-public class Project {
+@Deprecated
+public class ProjectOld {
     @Id
     private Long id;
     private String name;

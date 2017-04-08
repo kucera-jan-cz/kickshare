@@ -4,7 +4,7 @@ import java.sql.Connection;
 import java.util.List;
 
 import com.github.kickshare.db.entity.Group;
-import com.github.kickshare.db.entity.Project;
+import com.github.kickshare.domain.Project;
 import org.jooq.SQLDialect;
 import org.jooq.conf.Settings;
 import org.jooq.impl.DSL;

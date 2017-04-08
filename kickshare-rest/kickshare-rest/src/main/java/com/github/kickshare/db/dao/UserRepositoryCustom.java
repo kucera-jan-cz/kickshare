@@ -1,9 +1,13 @@
 package com.github.kickshare.db.dao;
 
+//import java.util.List;
+//
+//import com.github.kickshare.db.entity.Group;
+//import com.github.kickshare.db.entity.Project;
+
 import java.util.List;
 
-import com.github.kickshare.db.entity.Group;
-import com.github.kickshare.db.entity.Project;
+import com.github.kickshare.domain.Project;
 
 /**
  * @author Jan.Kucera
@@ -12,5 +16,5 @@ import com.github.kickshare.db.entity.Project;
 public interface UserRepositoryCustom {
     public List<Project> getProjects(Long userId);
 
-    public List<Group> getAllGroups(Long userId);
+//    public List<Group> getAllGroups(Long userId);
 }

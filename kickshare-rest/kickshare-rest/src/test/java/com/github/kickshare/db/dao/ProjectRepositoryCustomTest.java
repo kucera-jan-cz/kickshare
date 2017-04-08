@@ -33,7 +33,6 @@ public class ProjectRepositoryCustomTest {
     @Test
     public void load() throws SQLException {
         Connection connection = db.getConnection();
-        connection.setSchema("KICKSHARE");
         ProjectRepositoryCustom custom = new ProjectRepositoryCustomImpl(connection);
         List<Group> groups = custom.findAllGroups(439380282L);
         assertNotNull(groups);
