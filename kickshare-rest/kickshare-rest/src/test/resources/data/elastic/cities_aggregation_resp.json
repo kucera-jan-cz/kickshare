@@ -1,0 +1,65 @@
+{
+  "took": 7,
+  "timed_out": false,
+  "_shards": {
+    "total": 1,
+    "successful": 1,
+    "failed": 0
+  },
+  "hits": {
+    "total": 35,
+    "max_score": 0,
+    "hits": []
+  },
+  "aggregations": {
+    "CITIES": {
+      "buckets": [
+        {
+          "key": "u2ezcg",
+          "doc_count": 2,
+          "IS_LOCAL": {
+            "doc_count_error_upper_bound": 0,
+            "sum_other_doc_count": 0,
+            "buckets": [
+              {
+                "key": 0,
+                "key_as_string": "false",
+                "doc_count": 2
+              }
+            ]
+          }
+        },
+        {
+          "key": "u2u50u",
+          "doc_count": 1,
+          "IS_LOCAL": {
+            "doc_count_error_upper_bound": 0,
+            "sum_other_doc_count": 0,
+            "buckets": [
+              {
+                "key": 1,
+                "key_as_string": "true",
+                "doc_count": 1
+              }
+            ]
+          }
+        },
+        {
+          "key": "u2u4c1",
+          "doc_count": 1,
+          "IS_LOCAL": {
+            "doc_count_error_upper_bound": 0,
+            "sum_other_doc_count": 0,
+            "buckets": [
+              {
+                "key": 1,
+                "key_as_string": "true",
+                "doc_count": 1
+              }
+            ]
+          }
+        }
+      ]
+    }
+  }
+}

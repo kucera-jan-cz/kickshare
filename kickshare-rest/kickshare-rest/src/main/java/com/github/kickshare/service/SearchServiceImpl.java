@@ -46,6 +46,7 @@ public class SearchServiceImpl implements SearchService {
         Collection<Group> groups = JsonSurfer.jackson().collectAll(response.toString(), Group.class, "$.hits.hits[*]._source");
         LOGGER.info("{}", groups);
         return Collections.emptyList();
+
     }
 
     public List<CityGrid> searchCityGrid(GroupSearchOptions options) throws IOException {
