@@ -27,15 +27,14 @@ public class UserRepositoryCustomTest {
                 .setType(EmbeddedDatabaseType.H2)
                 .addScript("db/migration/V001__init.sql")
                 .addScript("db/migration/V101__init_data.sql")
-                .setName("KICKSHARE")
+                .setName("CZ")
                 .build();
     }
 
     @Test
     public void load() throws SQLException {
         Connection connection = db.getConnection();
-        connection.setSchema("KICKSHARE");
-        UserRepositoryCustom custom = new UserRepositoryCustomImpl(connection);
+        UserRepositoryCustomImpl custom = new UserRepositoryCustomImpl(connection);
         List<Group> groups = custom.getAllGroups(1L);
         assertNotNull(groups);
     }

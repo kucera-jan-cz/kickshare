@@ -4,7 +4,7 @@ import java.sql.Connection;
 import java.util.List;
 
 import com.github.kickshare.db.entity.Group;
-import com.github.kickshare.db.entity.Project;
+import com.github.kickshare.domain.Project;
 import org.jooq.conf.MappedSchema;
 import org.jooq.conf.RenderMapping;
 import org.jooq.conf.Settings;
@@ -31,7 +31,6 @@ public class UserRepositoryCustomImpl implements UserRepositoryCustom {
         return projects;
     }
 
-    @Override
     public List<Group> getAllGroups(Long userId) {
         List<Group> groups = DSL.using(connection, settings)
                 .select()

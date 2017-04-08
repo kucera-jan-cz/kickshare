@@ -1,7 +1,9 @@
 package com.github.kickshare.db.dao;
 
-import com.github.kickshare.db.entity.Project;
-import org.springframework.data.repository.CrudRepository;
+import java.util.List;
+
+import com.github.kickshare.db.h2.tables.pojos.Project;
+import com.github.kickshare.db.h2.tables.records.ProjectRecord;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -9,6 +11,7 @@ import org.springframework.stereotype.Repository;
  * @since 30.3.2017
  */
 @Repository
-public interface ProjectRepository extends CrudRepository<Project, Long> {
-    public Project findById(Long id);
+public interface ProjectRepository extends EnhancedDAO<ProjectRecord, Project, Long> {
+
+    List<Project> findProjects();
 }

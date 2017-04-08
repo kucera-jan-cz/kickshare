@@ -1,25 +1,39 @@
-package com.github.kickshare.rest.group;
+package com.github.kickshare.rest;
 
 import java.io.IOException;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import javax.validation.Valid;
+
+import com.github.kickshare.db.dao.GroupRepository;
+import com.github.kickshare.db.h2.tables.pojos.Group;
+import com.github.kickshare.domain.User;
+import com.github.kickshare.mapper.MapperUtils;
+import com.github.kickshare.rest.group.SearchGroupOptions;
+import com.github.kickshare.rest.group.domain.CreateGroupRequest;
+import com.github.kickshare.security.CustomUser;
 import com.github.kickshare.service.GeoBoundary;
 import com.github.kickshare.service.GroupSearchOptions;
 import com.github.kickshare.service.Location;
+import com.github.kickshare.service.ProjectService;
 import com.github.kickshare.service.SearchService;
 import com.github.kickshare.service.entity.CityGrid;
 import lombok.AllArgsConstructor;
 import org.apache.commons.lang3.RandomUtils;
+import org.dozer.Mapper;
 import org.geojson.Feature;
 import org.geojson.FeatureCollection;
 import org.geojson.Point;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.MediaType;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -44,12 +58,16 @@ public class GroupEndpoint {
             point(49.33818F, 15.0043F, "Benešov", false),
             point(50.16667F, 13F, "Karlovy Vary", true),
     };
+    public static final long USER_ID = 1L;
     //Search for groups using user's location, using distance near (slider), tags, potentially campaign's name
     private SearchService service;
+    private ProjectService projectService;
+    private GroupRepository groupRepository;
+    private Mapper dozer;
 
     @PostMapping("/search")
     public List<Object> searchGroups(String userId, String categoryId, SearchGroupOptions options) {
-        return Collections.emptyList();
+        return service.searchGroups();
     }
 
     @RequestMapping(value = "/search/jsonp", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -77,6 +95,44 @@ public class GroupEndpoint {
 //            @RequestParam Boolean only_local,
 //            @RequestParam String projectName)
     ) throws IOException {
+        GroupSearchOptions options = toOptions(params);
+        final List<CityGrid> cityGrids = service.searchCityGrid(options);
+        FeatureCollection collection = new FeatureCollection();
+        collection.addAll(cityGrids.stream().map(GroupEndpoint::point).collect(Collectors.toList()));
+        return collection;
+    }
+
+    //@TODO - simple post would be better
+    @PostMapping("/create")
+    public Long createGroup(@RequestBody @Valid CreateGroupRequest request,
+            @AuthenticationPrincipal CustomUser customUser) throws IOException {
+        LOGGER.info("{}", customUser);
+        Long projectId = projectService.registerProject(request.getProject());
+        Group group = new Group(null, customUser.getId(), projectId, request.getName());
+        return groupRepository.createReturningKey(group);
+    }
+
+    @PostMapping("/{groupId}/users")
+    public void registerParticipant(@PathVariable Long groupId) {
+        groupRepository.registerUser(groupId, USER_ID);
+    }
+
+    @GetMapping
+    public List<Group> getByProjectId(@RequestParam("project_id") Long projectId) {
+//        return dozer.map(groupRepository.findAllByProjectId(projectId), ;
+        return null;
+    }
+
+    @GetMapping("/{groupId}/users")
+    public List<User> getUsers(@PathVariable Long groupId,
+            @AuthenticationPrincipal org.springframework.security.core.userdetails.User customUser) {
+        LOGGER.info("{}", customUser);
+        List<com.github.kickshare.db.h2.tables.pojos.User> list = groupRepository.findAllUsers(groupId);
+        List<User> users = new MapperUtils(dozer).map(list, User.class);
+        return users;
+    }
+
+    private GroupSearchOptions toOptions(Map<String, String> params) {
         GroupSearchOptions.GroupSearchOptionsBuilder builder = GroupSearchOptions.builder();
         builder.searchLocalOnly(Boolean.valueOf(params.get("only_local")));
         builder.projectName(params.get("name"));
@@ -89,11 +145,7 @@ public class GroupEndpoint {
                 Float.parseFloat(params.get("sw_lon"))
         );
         builder.geoBoundary(new GeoBoundary(leftTop, rightBottom));
-        GroupSearchOptions options = builder.build();
-        final List<CityGrid> cityGrids = service.searchCityGrid(options);
-        FeatureCollection collection = new FeatureCollection();
-        collection.addAll(cityGrids.stream().map(GroupEndpoint::point).collect(Collectors.toList()));
-        return collection;
+        return builder.build();
     }
 
     public static Feature point(final CityGrid city) {

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mappings xmlns="http://dozer.sourceforge.net"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://dozer.sourceforge.net
+          http://dozer.sourceforge.net/schema/beanmapping.xsd">
+    <configuration>
+        <custom-converters> <!-- these are always bi-directional -->
+            <converter type="com.github.kickshare.mapper.converter.InstantCustomConverter">
+                <class-a>java.time.Instant</class-a>
+                <class-b>java.sql.Date</class-b>
+            </converter>
+        </custom-converters>
+    </configuration>
+
+    <mapping wildcard="true">
+        <class-a>com.github.kickshare.domain.Project</class-a>
+        <class-b>com.github.kickshare.db.h2.tables.pojos.Project</class-b>
+    </mapping>
+
+</mappings>
