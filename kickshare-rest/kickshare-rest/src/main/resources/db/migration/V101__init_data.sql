@@ -1,5 +1,3 @@
-SET SCHEMA KICKSHARE;
-
 INSERT INTO project (id, name, description, url, deadline) VALUES (
     439380282, 'Quodd Heroes',
     'A completely unique board game with Amazing minis, scenario-based gameplay, and gorgeous art. Action, Adventure and Mayhem await!',
