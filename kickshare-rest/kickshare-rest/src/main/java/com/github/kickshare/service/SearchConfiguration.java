@@ -32,6 +32,7 @@ public class SearchConfiguration {
                 .build();
 
         InetSocketTransportAddress address = new InetSocketTransportAddress(InetAddress.getByName(host), port);
+        //@TODO - when elastic is down it kill whole application, consider running in semi-state?
         Client client = new PreBuiltTransportClient(settings).addTransportAddress(address);
         return client;
     }

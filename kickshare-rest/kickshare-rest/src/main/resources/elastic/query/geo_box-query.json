@@ -1,0 +1,17 @@
+{
+  "bool": {
+    "must": {
+      "match_all": {}
+    },
+    "filter": [
+      {
+        "geo_bounding_box": {
+          "location": {
+            "top_left": { {0} },
+            "bottom_right": { {1} }
+          }
+        }
+      }
+    ]
+  }
+}
