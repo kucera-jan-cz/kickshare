@@ -1,6 +1,5 @@
 package com.github.kickshare.kickstarter.entity;
 
-import java.math.BigDecimal;
 import java.time.Instant;
 
 import lombok.AllArgsConstructor;
@@ -12,8 +11,9 @@ import lombok.Data;
  */
 @Data
 @AllArgsConstructor
-public class Project {
-    private BigDecimal id;
+@Deprecated
+public class ProjectOld {
+    private Long id;
     private String name;
     private String description;
     private String url;
