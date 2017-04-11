@@ -16,7 +16,7 @@
     <description>Kickshare REST backend project</description>
 
     <properties>
-        <db.url>jdbc:h2:file:./target/flyway-test</db.url>
+        <db.url>jdbc:h2:file:./target/flyway-test;AUTO_SERVER=TRUE</db.url>
         <db.username>test</db.username>
     </properties>
 

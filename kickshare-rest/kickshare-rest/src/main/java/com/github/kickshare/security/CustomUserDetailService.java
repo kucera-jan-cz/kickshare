@@ -1,10 +1,8 @@
 package com.github.kickshare.security;
 
 import static com.github.kickshare.db.h2.Tables.USER_AUTH;
-import static org.jooq.impl.DSL.using;
 
-import java.util.List;
-
+import com.github.kickshare.db.h2.tables.daos.UserAuthDao;
 import com.github.kickshare.db.h2.tables.pojos.UserAuth;
 import lombok.AllArgsConstructor;
 import org.jooq.Configuration;
@@ -21,17 +19,20 @@ public class CustomUserDetailService implements UserDetailsService {
 
     @Override
     public CustomUser loadUserByUsername(final String username) throws UsernameNotFoundException {
-        List<UserAuth> auths = using(jooqConfig)
-                .select()
-                .from(USER_AUTH)
-                .where(USER_AUTH.NAME.eq(username))
-                .fetchInto(UserAuth.class);
-//                        (auth ->{
-//                    new CustomUser(
-//                    auth.field(USER_AUTH.USER_ID, String.class)
-//                    );
-//                });
-        UserAuth auth = auths.get(0);
+        //@TODO - make it in Spring??
+        UserAuthDao dao = new UserAuthDao(jooqConfig);
+        UserAuth auth = dao.fetchOne(USER_AUTH.NAME, username);
+//        List<UserAuth> auths = using(jooqConfig)
+//                .select()
+//                .from(USER_AUTH)
+//                .where(USER_AUTH.NAME.eq(username))
+//                .fetchInto(UserAuth.class);
+////                        (auth ->{
+////                    new CustomUser(
+////                    auth.field(USER_AUTH.USER_ID, String.class)
+////                    );
+////                });
+//        UserAuth auth = auths.get(0);
         return new CustomUser(
                 auth.getName(), auth.getPassword(), auth.getUserId()
 //                result.field(USER_AUTH.PASSWORD), result.field(USER_AUTH.USER_ID)
