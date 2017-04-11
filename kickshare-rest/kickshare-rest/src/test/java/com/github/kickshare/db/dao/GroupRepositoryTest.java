@@ -26,7 +26,7 @@ public class GroupRepositoryTest {
     private static EmbeddedDatabase db;
     private static DSLContext dsl;
 
-//    @BeforeClass
+    //    @BeforeClass
     @BeforeClass
     public static void setUp() throws SQLException {
         //db = new EmbeddedDatabaseBuilder().addDefaultScripts().build();
@@ -58,8 +58,6 @@ public class GroupRepositoryTest {
         group.setName("Boardgame 42 CZ");
         group.setProjectId(439380282L);
         Long key = repository.createReturningKey(group);
-
-
 
         Group retrievedGroup = repository.findById(key);
         assertNotNull(group);

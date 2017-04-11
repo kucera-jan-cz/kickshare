@@ -1,7 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
     <include resource="org/springframework/boot/logging/logback/base.xml"/>
-    <logger name="org.springframework.web" level="DEBUG" additivity="false">
+    <!--<appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">-->
+        <!--<encoder>-->
+            <!--<pattern>%d{HH:mm:ss.SSS} %-4relative [%thread] %-5level %logger{35} - %msg%n</pattern>-->
+            <!--<charset>utf8</charset>-->
+        <!--</encoder>-->
+    <!--</appender>-->
+    <!--https://github.com/spring-projects/spring-boot/blob/master/spring-boot/src/main/resources/org/springframework/boot/logging/logback/defaults.xml -->
+
+    <logger name="org.springframework.web" level="WARN" additivity="false">
         <appender-ref ref="CONSOLE"/>
     </logger>
+    <!--<root level="INFO">-->
+        <!--<appender-ref ref="CONSOLE" />-->
+    <!--</root>-->
 </configuration>

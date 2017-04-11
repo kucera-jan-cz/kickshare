@@ -62,7 +62,9 @@ public class GroupRepositoryImpl extends AbstractRepository<GroupRecord, Group, 
                 .from(USER)
                 .join(USER_2_GROUP).on(USER.ID.eq(USER_2_GROUP.USER_ID))
                 .where(USER_2_GROUP.GROUP_ID.eq(groupId))
-        .fetchInto(User.class);
+                .fetchInto(User.class);
         return null;
     }
+
+
 }

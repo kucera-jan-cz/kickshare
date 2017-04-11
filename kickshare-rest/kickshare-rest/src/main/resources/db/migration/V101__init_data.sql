@@ -12,6 +12,13 @@ INSERT INTO project (id, name, description, url, deadline) VALUES (
     DATEADD('MONTH', 1, CURRENT_DATE)
 );
 
+INSERT INTO project (id, name, description, url, deadline) VALUES (
+    1893061183, 'The Edge: Dawnfall',
+    '',
+    'https://www.kickstarter.com/projects/awakenrealms/the-edge-dawnfall?ref=category',
+    DATEADD('MONTH', 1, CURRENT_DATE)
+);
+
 INSERT INTO user (id, email, name, surname) VALUES (1, 'xatrix101@gmail.com', 'Jan', 'Kučera');
 INSERT INTO user (id, email, name, surname) VALUES (2, 'bruce.wayne@gmail.com', 'Bruce', 'Wayne');
 INSERT INTO user (id, email, name, surname) VALUES (3, 'peter.parker@gmail.com', 'Peter', 'Parker');
@@ -20,6 +27,13 @@ INSERT INTO `group` (id, leader_id, name, project_id) VALUES (1, 1, 'Quodd Heroe
 INSERT INTO user_2_group (group_id, user_id) VALUES (1, 1);
 INSERT INTO user_2_group (group_id, user_id) VALUES (1, 2);
 
-INSERT INTO `group` (id, leader_id, name, project_id) VALUES (2, 1, 'The Edge CZ', 217227567);
+INSERT INTO `group` (id, leader_id, name, project_id) VALUES (2, 1, 'The Edge CZ', 1893061183);
 INSERT INTO user_2_group (group_id, user_id) VALUES (2, 1);
 INSERT INTO user_2_group (group_id, user_id) VALUES (2, 3);
+
+INSERT INTO `group` (id, leader_id, name, project_id) VALUES (3, 1, 'Rise of Moloch CZ Brno', 217227567);
+INSERT INTO user_2_group (group_id, user_id) VALUES (3, 1);
+
+INSERT INTO `group` (id, leader_id, name, project_id) VALUES (4, 1, 'Rise of Moloch US Gotham', 217227567);
+INSERT INTO user_2_group (group_id, user_id) VALUES (4, 2);
+INSERT INTO user_2_group (group_id, user_id) VALUES (4, 3);

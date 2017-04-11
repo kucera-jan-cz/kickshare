@@ -13,7 +13,10 @@
     <logger name="com.github.kickshare" level="INFO" additivity="false">
         <appender-ref ref="CONSOLE"/>
     </logger>
-    <root level="ERROR">
+    <logger name="com.github.kickshare.db.tools" level="DEBUG" additivity="false">
+        <appender-ref ref="CONSOLE"/>
+    </logger>
+    <root level="WARN">
         <appender-ref ref="CONSOLE"/>
     </root>
 </configuration>

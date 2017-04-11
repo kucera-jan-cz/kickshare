@@ -1,10 +1,9 @@
 package com.github.kickshare.security;
 
-import static com.github.kickshare.db.h2.Tables.USER_AUTH;
-import static org.jooq.impl.DSL.using;
-
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import com.github.kickshare.db.h2.tables.daos.UserAuthDao;
+import com.github.kickshare.db.h2.tables.pojos.UserAuth;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -76,11 +75,14 @@ public class SecurityConfig {
 
     @Autowired
     public void setupUsers(PasswordEncoder encoder, org.jooq.Configuration configuration) {
-        using(configuration)
-                .insertInto(USER_AUTH)
-                .columns(USER_AUTH.NAME, USER_AUTH.PASSWORD, USER_AUTH.USER_ID)
-                .values("user", encoder.encode("user"), 1L)
-                .execute();
+        UserAuthDao dao = new UserAuthDao(configuration);
+        if(dao.fetchByName("user").isEmpty()) {
+            dao.insert(new UserAuth(1L, "user", encoder.encode("user")));
+        }
+//                .insertInto(USER_AUTH)
+//                .columns(USER_AUTH.NAME, USER_AUTH.PASSWORD, USER_AUTH.USER_ID)
+//                .values(, 1L)
+//                .execute();
     }
 
     @Bean

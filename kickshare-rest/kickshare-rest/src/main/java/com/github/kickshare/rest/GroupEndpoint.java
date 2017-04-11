@@ -132,6 +132,20 @@ public class GroupEndpoint {
         return users;
     }
 
+    /**
+     export interface Group {
+     name: string
+     project_id: number
+     group_id: number
+     leader_name: string
+     leader_rating: number
+     is_local: boolean
+     participant_count: number
+     }
+     * @param params
+     * @return
+     */
+
     private GroupSearchOptions toOptions(Map<String, String> params) {
         GroupSearchOptions.GroupSearchOptionsBuilder builder = GroupSearchOptions.builder();
         builder.searchLocalOnly(Boolean.valueOf(params.get("only_local")));
