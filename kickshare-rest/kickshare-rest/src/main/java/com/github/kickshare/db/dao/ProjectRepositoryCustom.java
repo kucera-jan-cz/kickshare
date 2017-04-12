@@ -2,7 +2,7 @@ package com.github.kickshare.db.dao;
 
 import java.util.List;
 
-import com.github.kickshare.db.entity.Group;
+import com.github.kickshare.domain.Group;
 import com.github.kickshare.domain.Project;
 
 /**

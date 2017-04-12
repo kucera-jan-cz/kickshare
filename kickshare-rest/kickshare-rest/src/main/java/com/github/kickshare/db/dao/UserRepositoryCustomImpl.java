@@ -3,7 +3,7 @@ package com.github.kickshare.db.dao;
 import java.sql.Connection;
 import java.util.List;
 
-import com.github.kickshare.db.entity.Group;
+import com.github.kickshare.domain.Group;
 import com.github.kickshare.domain.Project;
 import org.jooq.conf.MappedSchema;
 import org.jooq.conf.RenderMapping;

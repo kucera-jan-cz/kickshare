@@ -1,5 +1,6 @@
 package com.github.kickshare;
 
+import com.github.kickshare.db.JooqConfiguration;
 import com.github.kickshare.kickstarter.KSConfiguration;
 import com.github.kickshare.mapper.MappingConfiguration;
 import com.github.kickshare.security.SecurityConfig;
@@ -16,7 +17,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 @ComponentScan(basePackages = { "com.github.kickshare.rest", "com.github.kickshare.service", "com.github.kickshare.db" })
 @EnableWebSecurity
 @EnableConfigurationProperties
-@Import({ SecurityConfig.class, MappingConfiguration.class, KSConfiguration.class })
+@Import({ JooqConfiguration.class, SecurityConfig.class, MappingConfiguration.class, KSConfiguration.class })
 public class KickshareRestApplication {
 
 //    @Bean

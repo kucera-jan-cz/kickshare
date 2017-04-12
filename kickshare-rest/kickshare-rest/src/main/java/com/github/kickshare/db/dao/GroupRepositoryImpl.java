@@ -14,6 +14,8 @@ import com.github.kickshare.db.h2.tables.records.GroupRecord;
 import org.jooq.Configuration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * @author Jan.Kucera
@@ -28,10 +30,15 @@ public class GroupRepositoryImpl extends AbstractRepository<GroupRecord, Group, 
     }
 
     @Override
+    @Transactional(propagation = Propagation.REQUIRED)
     public Long createReturningKey(final Group group) {
         Long groupId = super.createReturningKey(group);
-        dsl.insertInto(USER_2_GROUP).columns(USER_2_GROUP.GROUP_ID, USER_2_GROUP.USER_ID).values(groupId, group.getLeaderId());
-        return groupId;
+        if(groupId < 1) {
+            throw new IllegalArgumentException("Failure");
+        } else {
+            dsl.insertInto(USER_2_GROUP).columns(USER_2_GROUP.GROUP_ID, USER_2_GROUP.USER_ID).values(groupId, group.getLeaderId());
+            return groupId;
+        }
     }
 
     public List<Group> findAllByProjectId(final Project project) {

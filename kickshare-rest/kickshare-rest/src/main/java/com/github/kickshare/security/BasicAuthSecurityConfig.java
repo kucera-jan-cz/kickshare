@@ -6,6 +6,7 @@ import org.springframework.http.converter.json.MappingJackson2HttpMessageConvert
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.stereotype.Component;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -17,7 +18,7 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 @Component
 @AllArgsConstructor
 public class BasicAuthSecurityConfig extends WebSecurityConfigurerAdapter {
-//        DelegatingWebMvcConfiguration {
+    //        DelegatingWebMvcConfiguration {
     private final MappingJackson2HttpMessageConverter messageConverter;
 
 //    @Override
@@ -33,6 +34,7 @@ public class BasicAuthSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/groups/**").permitAll()
                 .anyRequest().authenticated();
         http.httpBasic();
+        http.addFilterBefore(new SchemaHttpFilter(), BasicAuthenticationFilter.class);
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowCredentials(true); // you USUALLY want this
