@@ -26,6 +26,8 @@ import org.jooq.impl.DSL;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * @author Jan.Kucera
@@ -44,6 +46,7 @@ public class KickshareRepositoryImpl implements KickshareRepository {
     private Mapper mapper;
 
     @Override
+    @Transactional(propagation = Propagation.REQUIRED)
     public ProjectInfo findProjectInfo(final Long projectId) {
         final Project project = projectDao.fetchOneById(projectId);
         final ProjectPhoto projectPhoto = photoDao.fetchOneByProjectId(projectId);

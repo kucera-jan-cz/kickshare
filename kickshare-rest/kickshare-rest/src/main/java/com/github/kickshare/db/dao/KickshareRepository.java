@@ -4,7 +4,6 @@ import java.util.List;
 
 import com.github.kickshare.domain.GroupInfo;
 import com.github.kickshare.domain.ProjectInfo;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -15,7 +14,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Deprecated
 @Transactional
-@javax.transaction.Transactional
 public interface KickshareRepository {
 
     //CAMPAIGN VIEW
@@ -28,8 +26,7 @@ public interface KickshareRepository {
      * REQ: project_id
      * RESP: name, deadline, photo_url, url, [tags]
      */
-    @javax.transaction.Transactional
-    @Transactional(propagation = Propagation.REQUIRED)
+//    @Transactional(propagation = Propagation.REQUIRED)
     ProjectInfo findProjectInfo(Long projectId);
 
     List<GroupInfo> findAllGroupInfo(Long projectId);

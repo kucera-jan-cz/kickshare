@@ -2,11 +2,14 @@ package com.github.kickshare.security;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import com.github.kickshare.db.JooqConfiguration;
 import com.github.kickshare.db.h2.tables.daos.UserAuthDao;
 import com.github.kickshare.db.h2.tables.pojos.UserAuth;
+import com.github.kickshare.db.multischema.SchemaContextHolder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -19,6 +22,7 @@ import org.springframework.security.web.csrf.CsrfTokenRepository;
  * @since 28.3.2017
  */
 @Configuration
+@Import({JooqConfiguration.class})
 //@ComponentScan(basePackages = {"com.github.kickshare.security.jwt.http"})
 public class SecurityConfig {
 
@@ -75,6 +79,8 @@ public class SecurityConfig {
 
     @Autowired
     public void setupUsers(PasswordEncoder encoder, org.jooq.Configuration configuration) {
+        //@TODO - get rid of this and move it to data
+        SchemaContextHolder.setSchema("CZ");
         UserAuthDao dao = new UserAuthDao(configuration);
         if(dao.fetchByName("user").isEmpty()) {
             dao.insert(new UserAuth(1L, "user", encoder.encode("user")));
