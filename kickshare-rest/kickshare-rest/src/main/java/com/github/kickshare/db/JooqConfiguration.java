@@ -17,7 +17,7 @@ import org.jooq.impl.DataSourceConnectionProvider;
 import org.jooq.impl.DefaultConfiguration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
@@ -93,15 +93,15 @@ public class JooqConfiguration {
     public DataSourceConnectionProvider dataSourceConnectionProvider(DataSource dataSource) {
         return new DataSourceConnectionProvider(new TransactionAwareDataSourceProxy(new MultiSchemaDataSource(dataSource)));
     }
-
-    protected <T> T createDataSource(DataSourceProperties properties,
-            Class<? extends DataSource> type) {
-        return (T) properties.initializeDataSourceBuilder().type(type).build();
-    }
+//
+//    protected <T> T createDataSource(DataSourceProperties properties,
+//            Class<? extends DataSource> type) {
+//        return (T) properties.initializeDataSourceBuilder().type(type).build();
+//    }
 
     @Bean
-    public FlywayMultiTenantMigration migration(Flyway flyway) {
-        return new FlywayMultiTenantMigration(flyway, () -> Arrays.asList("CZ", "SK", "UK"));
+    public FlywayMultiTenantMigration migration(Flyway flyway, @Value("${kickshare.flyway.schemas}") String schemas) {
+        return new FlywayMultiTenantMigration(flyway, () -> Arrays.asList(schemas.split(",")));
     }
 
     @Bean

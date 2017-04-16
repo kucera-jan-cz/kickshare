@@ -21,7 +21,8 @@ public class SchemaHttpFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(final HttpServletRequest request, final HttpServletResponse response, final FilterChain filterChain)
             throws ServletException, IOException {
-        String schema = request.getHeader("country");
+//        String schema = request.getHeader("country");
+        String schema = "CZ";
         //@TODO - validate that schema is setup
         SchemaContextHolder.setSchema(schema);
         filterChain.doFilter(request, response);

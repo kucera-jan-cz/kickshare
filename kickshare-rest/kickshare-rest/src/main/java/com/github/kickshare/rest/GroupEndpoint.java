@@ -108,7 +108,7 @@ public class GroupEndpoint {
             @AuthenticationPrincipal CustomUser customUser) throws IOException {
         LOGGER.info("{}", customUser);
         Long projectId = projectService.registerProject(request.getProject());
-        Group group = new Group(null, customUser.getId(), projectId, request.getName());
+        Group group = new Group(null, customUser.getId(), projectId, request.getName(), null, null, null);
         return groupRepository.createReturningKey(group);
     }
 
