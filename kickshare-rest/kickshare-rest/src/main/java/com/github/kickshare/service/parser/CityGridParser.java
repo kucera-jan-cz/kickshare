@@ -28,10 +28,9 @@ public class CityGridParser implements Function<String, List<CityGrid>> {
         final List<CityGrid> cities = new ArrayList<>();
         final JsonPathListener listener = (o, context) -> {
             ObjectNode node = (ObjectNode) o;
-            LOGGER.info("{}", o.getClass());
             Location location = getLocation(node);
             CityGrid.Type type = getType(node);
-            CityGrid city = new CityGrid(location, node.get("doc_count").asInt(), type);
+            CityGrid city = new CityGrid(location, type, node.get("doc_count").asInt(), 0, 0);
             cities.add(city);
 
         };

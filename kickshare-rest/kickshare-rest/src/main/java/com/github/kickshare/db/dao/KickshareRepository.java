@@ -1,9 +1,14 @@
 package com.github.kickshare.db.dao;
 
+import java.io.IOException;
 import java.util.List;
 
+import com.github.kickshare.domain.City;
 import com.github.kickshare.domain.GroupInfo;
 import com.github.kickshare.domain.ProjectInfo;
+import com.github.kickshare.service.GroupSearchOptions;
+import com.github.kickshare.service.Location;
+import com.github.kickshare.service.entity.CityGrid;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -49,4 +54,7 @@ public interface KickshareRepository {
      *  RESP: Name, photo_url, url, project_id
      */
 
+    List<City> findCitiesWithing(Location ne, Location sw);
+
+    List<CityGrid> searchCityGrid(GroupSearchOptions options) throws IOException;
 }

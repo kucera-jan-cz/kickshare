@@ -27,14 +27,14 @@ public class BasicAuthSecurityConfig extends WebSecurityConfigurerAdapter {
 //    }
 
     protected void configure(HttpSecurity http) throws Exception {
-        http
-                .csrf().disable()
-                .authorizeRequests()
-                .antMatchers("/system/info").permitAll()
-                .antMatchers("/groups/**").permitAll()
-                .anyRequest().authenticated();
-        http.httpBasic();
-        http.addFilterBefore(new SchemaHttpFilter(), BasicAuthenticationFilter.class);
+//        http
+//                .csrf().disable()
+//                .authorizeRequests()
+//                .antMatchers("/system/info").permitAll()
+//                .antMatchers("/groups/**").permitAll()
+//                .anyRequest().authenticated();
+//        http.httpBasic();
+//        http.addFilterBefore(new SchemaHttpFilter(), BasicAuthenticationFilter.class);
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowCredentials(true); // you USUALLY want this
@@ -44,6 +44,9 @@ public class BasicAuthSecurityConfig extends WebSecurityConfigurerAdapter {
         config.addAllowedMethod("PUT");
         source.registerCorsConfiguration("/**", config);
         http.cors().configurationSource(source);
+
+        http.csrf().disable().anonymous();
+        http.addFilterBefore(new SchemaHttpFilter(), BasicAuthenticationFilter.class);
     }
 
     @Autowired

@@ -13,6 +13,12 @@ import lombok.Data;
 public class CityGrid {
     public enum Type {LOCAL, GLOBAL, MIXED}
     private Location location;
-    private Integer numberOfGroups;
     private Type type;
+    private Integer groupCount;
+    private Integer localGroups;
+    private Integer globalGroups;
+
+    public CityGrid() {
+
+    }
 }

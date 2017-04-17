@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 import javax.validation.Valid;
 
 import com.github.kickshare.db.dao.GroupRepository;
+import com.github.kickshare.db.dao.KickshareRepository;
 import com.github.kickshare.db.h2.tables.pojos.Group;
 import com.github.kickshare.domain.User;
 import com.github.kickshare.mapper.MapperUtils;
@@ -63,6 +64,7 @@ public class GroupEndpoint {
     private SearchService service;
     private ProjectService projectService;
     private GroupRepository groupRepository;
+    private KickshareRepository repository;
     private Mapper dozer;
 
     @PostMapping("/search")
@@ -96,7 +98,7 @@ public class GroupEndpoint {
 //            @RequestParam String projectName)
     ) throws IOException {
         GroupSearchOptions options = toOptions(params);
-        final List<CityGrid> cityGrids = service.searchCityGrid(options);
+        final List<CityGrid> cityGrids = repository.searchCityGrid(options);
         FeatureCollection collection = new FeatureCollection();
         collection.addAll(cityGrids.stream().map(GroupEndpoint::point).collect(Collectors.toList()));
         return collection;
@@ -108,7 +110,7 @@ public class GroupEndpoint {
             @AuthenticationPrincipal CustomUser customUser) throws IOException {
         LOGGER.info("{}", customUser);
         Long projectId = projectService.registerProject(request.getProject());
-        Group group = new Group(null, customUser.getId(), projectId, request.getName(), null, null, null);
+        Group group = new Group(null, customUser.getId(), projectId, request.getName(), null, null, true);
         return groupRepository.createReturningKey(group);
     }
 

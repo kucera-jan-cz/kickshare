@@ -113,7 +113,7 @@ public class JooqConfiguration {
                 .derive(connectionProvider)
                 .derive(transactionProvider)
                 .derive(executeListenerProvider)
-                .derive(SQLDialect.H2)
+                .derive(SQLDialect.POSTGRES)
                 .derive(new SQLLogging());
         configuration.settings().withRenderSchema(false);
         return configuration;

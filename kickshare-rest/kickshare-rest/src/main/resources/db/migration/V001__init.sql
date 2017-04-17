@@ -29,9 +29,10 @@ CREATE TABLE "group" (
     leader_id BIGINT NOT NULL REFERENCES "user"(id),
     project_id BIGINT NOT NULL REFERENCES project(id),
     name varchar (255) NOT NULL,
-    location POINT,
-    lat NUMERIC(10,6),
-    lon NUMERIC(10,6)
+    lat NUMERIC(10,6) NOT NULL,
+    lon NUMERIC(10,6) NOT NULL,
+--    @TODO consider making city_id reference
+    is_local BOOLEAN DEFAULT TRUE
 );
 
 CREATE TABLE user_2_group (
@@ -43,4 +44,11 @@ CREATE TABLE user_auth (
     user_id bigserial PRIMARY KEY REFERENCES "user"(id),
     name varchar (255),
     password varchar (255)
+);
+
+CREATE TABLE city (
+    id integer PRIMARY KEY,
+    name varchar (255),
+    lat NUMERIC(10,6),
+    lon NUMERIC(10,6)
 );
