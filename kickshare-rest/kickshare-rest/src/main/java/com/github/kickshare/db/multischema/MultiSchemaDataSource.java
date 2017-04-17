@@ -33,7 +33,8 @@ public class MultiSchemaDataSource implements DataSource {
     }
 
     private void setSchema(Connection connection) throws SQLException {
-        connection.createStatement().execute("SET SCHEMA " + SchemaContextHolder.getSchema());
+//        connection.createStatement().execute("SET SCHEMA " + SchemaContextHolder.getSchema());
+        connection.setSchema(SchemaContextHolder.getSchema());
     }
 
     @Override
