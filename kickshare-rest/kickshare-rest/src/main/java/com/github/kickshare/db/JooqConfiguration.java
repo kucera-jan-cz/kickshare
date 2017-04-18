@@ -21,6 +21,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
+import org.springframework.core.io.ResourceLoader;
 import org.springframework.jdbc.datasource.TransactionAwareDataSourceProxy;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
@@ -100,8 +101,8 @@ public class JooqConfiguration {
 //    }
 
     @Bean
-    public FlywayMultiTenantMigration migration(Flyway flyway, @Value("${kickshare.flyway.schemas}") String schemas) {
-        return new FlywayMultiTenantMigration(flyway, () -> Arrays.asList(schemas.split(",")));
+    public FlywayMultiTenantMigration migration(Flyway flyway, ResourceLoader resourceLoader, @Value("${kickshare.flyway.schemas}") String schemas) {
+        return new FlywayMultiTenantMigration(flyway, resourceLoader, () -> Arrays.asList(schemas.split(",")));
     }
 
     @Bean

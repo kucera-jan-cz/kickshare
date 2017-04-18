@@ -18,6 +18,10 @@
     <logger name="com.github.kickshare.db.tools.SQLLogging" level="DEBUG" additivity="false">
         <appender-ref ref="CONSOLE"/>
     </logger>
+    <logger name="org.flywaydb.core" level="INFO" additivity="false">
+        <appender-ref ref="CONSOLE"/>
+    </logger>
+
 
     <!--<root level="INFO">-->
         <!--<appender-ref ref="CONSOLE" />-->

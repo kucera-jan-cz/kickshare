@@ -1,9 +1,9 @@
 package com.github.kickshare.db.dao;
 
+import static com.github.kickshare.db.h2.Tables.BACKER;
+import static com.github.kickshare.db.h2.Tables.BACKER_2_GROUP;
 import static com.github.kickshare.db.h2.Tables.CITY;
 import static com.github.kickshare.db.h2.Tables.GROUP;
-import static com.github.kickshare.db.h2.Tables.USER;
-import static com.github.kickshare.db.h2.Tables.USER_2_GROUP;
 import static org.jooq.impl.DSL.concat;
 import static org.jooq.impl.DSL.count;
 import static org.jooq.impl.DSL.val;
@@ -13,8 +13,8 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.function.Function;
 
+import com.github.kickshare.db.h2.tables.Backer;
 import com.github.kickshare.db.h2.tables.Group;
-import com.github.kickshare.db.h2.tables.User;
 import com.github.kickshare.db.h2.tables.daos.ProjectDao;
 import com.github.kickshare.db.h2.tables.daos.ProjectPhotoDao;
 import com.github.kickshare.db.h2.tables.pojos.Project;
@@ -74,7 +74,7 @@ public class KickshareRepositoryImpl implements KickshareRepository {
     public List<GroupInfo> findAllGroupInfo(final Long projectId) {
         final Project project = projectDao.fetchOneById(projectId);
         final ProjectPhoto projectPhoto = photoDao.fetchOneByProjectId(projectId);
-        User u = USER.as("u");
+        Backer u = BACKER.as("u");
         Group g = GROUP.as("g");
         /**
          * SELECT *
@@ -82,15 +82,15 @@ public class KickshareRepositoryImpl implements KickshareRepository {
          JOIN USER AS u ON g.LEADER_ID = u.ID
          INNER JOIN (
          SELECT COUNT(*), GROUP_ID
-         FROM USER_2_GROUP
+         FROM BACKER_2_GROUP
          GROUP BY (GROUP_ID)
          ) AS c ON c.GROUP_ID = g.ID
          WHERE project_id = 217227567;
          */
         TableLike<?> c = dsl
-                .select(USER_2_GROUP.GROUP_ID.as("GROUP_ID"), DSL.count().as(PARTICIPANT_COUNT))
-                .from(USER_2_GROUP)
-                .groupBy(USER_2_GROUP.GROUP_ID).asTable("c");
+                .select(BACKER_2_GROUP.GROUP_ID.as("GROUP_ID"), DSL.count().as(PARTICIPANT_COUNT))
+                .from(BACKER_2_GROUP)
+                .groupBy(BACKER_2_GROUP.GROUP_ID).asTable("c");
 
         SelectField<?>[] fields = {
                 g.ID, g.NAME, g.PROJECT_ID, val(true).as("is_local"),
@@ -151,10 +151,11 @@ public class KickshareRepositoryImpl implements KickshareRepository {
         LOGGER.info("Returning: {}", cities);
         return cities;
     }
+
     private Condition where(GroupSearchOptions ops) {
         Condition query = mapViewCondition(ops);
         String name = ops.getProjectName();
-        if(StringUtils.isNotBlank(name) && name.length() >= 3) {
+        if (StringUtils.isNotBlank(name) && name.length() >= 3) {
             query = query.and(GROUP.NAME.like('%' + name + '%'));
         }
         return query;

@@ -1,4 +1,4 @@
-package com.github.kickshare.rest.user;
+package com.github.kickshare.rest;
 
 import com.github.kickshare.rest.user.domain.UserInfo;
 import org.springframework.web.bind.annotation.GetMapping;

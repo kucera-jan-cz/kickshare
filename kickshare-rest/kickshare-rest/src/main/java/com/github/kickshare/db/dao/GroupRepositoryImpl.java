@@ -1,15 +1,15 @@
 package com.github.kickshare.db.dao;
 
+import static com.github.kickshare.db.h2.Tables.BACKER;
+import static com.github.kickshare.db.h2.Tables.BACKER_2_GROUP;
 import static com.github.kickshare.db.h2.Tables.GROUP;
-import static com.github.kickshare.db.h2.Tables.USER;
-import static com.github.kickshare.db.h2.Tables.USER_2_GROUP;
 
 import java.util.List;
 
 import com.github.kickshare.db.h2.tables.daos.GroupDao;
+import com.github.kickshare.db.h2.tables.pojos.Backer;
 import com.github.kickshare.db.h2.tables.pojos.Group;
 import com.github.kickshare.db.h2.tables.pojos.Project;
-import com.github.kickshare.db.h2.tables.pojos.User;
 import com.github.kickshare.db.h2.tables.records.GroupRecord;
 import org.jooq.Configuration;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,10 +33,10 @@ public class GroupRepositoryImpl extends AbstractRepository<GroupRecord, Group, 
     @Transactional(propagation = Propagation.REQUIRED)
     public Long createReturningKey(final Group group) {
         Long groupId = super.createReturningKey(group);
-        if(groupId < 1) {
+        if (groupId < 1) {
             throw new IllegalArgumentException("Failure");
         } else {
-            dsl.insertInto(USER_2_GROUP).columns(USER_2_GROUP.GROUP_ID, USER_2_GROUP.USER_ID).values(groupId, group.getLeaderId());
+            dsl.insertInto(BACKER_2_GROUP).columns(BACKER_2_GROUP.GROUP_ID, BACKER_2_GROUP.BACKER_ID).values(groupId, group.getLeaderId());
             return groupId;
         }
     }
@@ -56,20 +56,20 @@ public class GroupRepositoryImpl extends AbstractRepository<GroupRecord, Group, 
 
     public void registerUser(Long groupId, Long userId) {
         dsl
-                .insertInto(USER_2_GROUP)
-                .columns(USER_2_GROUP.GROUP_ID, USER_2_GROUP.USER_ID)
+                .insertInto(BACKER_2_GROUP)
+                .columns(BACKER_2_GROUP.GROUP_ID, BACKER_2_GROUP.BACKER_ID)
                 .values(groupId, userId)
                 .execute();
     }
 
     @Override
-    public List<User> findAllUsers(final Long groupId) {
+    public List<Backer> findAllUsers(final Long groupId) {
         dsl
                 .select()
-                .from(USER)
-                .join(USER_2_GROUP).on(USER.ID.eq(USER_2_GROUP.USER_ID))
-                .where(USER_2_GROUP.GROUP_ID.eq(groupId))
-                .fetchInto(User.class);
+                .from(BACKER)
+                .join(BACKER_2_GROUP).on(BACKER.ID.eq(BACKER_2_GROUP.BACKER_ID))
+                .where(BACKER_2_GROUP.GROUP_ID.eq(groupId))
+                .fetchInto(Backer.class);
         return null;
     }
 
