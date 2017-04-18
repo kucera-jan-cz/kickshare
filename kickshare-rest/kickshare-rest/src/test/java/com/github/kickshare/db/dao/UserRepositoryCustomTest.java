@@ -26,7 +26,7 @@ public class UserRepositoryCustomTest {
         this.db = new EmbeddedDatabaseBuilder()
                 .setType(EmbeddedDatabaseType.H2)
                 .addScript("db/migration/V001__init.sql")
-                .addScript("db/migration/V101__init_data.sql")
+                .addScript("db/cz/migration/V101__init_data.sql")
                 .setName("CZ")
                 .build();
     }

@@ -9,8 +9,8 @@ import javax.validation.Valid;
 
 import com.github.kickshare.db.dao.GroupRepository;
 import com.github.kickshare.db.dao.KickshareRepository;
+import com.github.kickshare.db.h2.tables.Backer;
 import com.github.kickshare.db.h2.tables.pojos.Group;
-import com.github.kickshare.domain.User;
 import com.github.kickshare.mapper.MapperUtils;
 import com.github.kickshare.rest.group.SearchGroupOptions;
 import com.github.kickshare.rest.group.domain.CreateGroupRequest;
@@ -126,11 +126,11 @@ public class GroupEndpoint {
     }
 
     @GetMapping("/{groupId}/users")
-    public List<User> getUsers(@PathVariable Long groupId,
+    public List<Backer> getUsers(@PathVariable Long groupId,
             @AuthenticationPrincipal org.springframework.security.core.userdetails.User customUser) {
         LOGGER.info("{}", customUser);
-        List<com.github.kickshare.db.h2.tables.pojos.User> list = groupRepository.findAllUsers(groupId);
-        List<User> users = new MapperUtils(dozer).map(list, User.class);
+        List<com.github.kickshare.db.h2.tables.pojos.Backer> list = groupRepository.findAllUsers(groupId);
+        List<Backer> users = new MapperUtils(dozer).map(list, Backer.class);
         return users;
     }
 

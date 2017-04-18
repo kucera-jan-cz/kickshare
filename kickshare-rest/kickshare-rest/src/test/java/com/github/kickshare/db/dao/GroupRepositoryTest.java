@@ -32,8 +32,9 @@ public class GroupRepositoryTest {
         //db = new EmbeddedDatabaseBuilder().addDefaultScripts().build();
         db = new EmbeddedDatabaseBuilder()
                 .setType(EmbeddedDatabaseType.H2)
+                .addScript("data/db/V000__test_init.sql")
                 .addScript("db/migration/V001__init.sql")
-                .addScript("db/migration/V101__init_data.sql")
+                .addScript("db/cz/migration/V101__init_data.sql")
                 .build();
         Connection connection = db.getConnection();
         Settings settings = new Settings().withRenderSchema(false);
