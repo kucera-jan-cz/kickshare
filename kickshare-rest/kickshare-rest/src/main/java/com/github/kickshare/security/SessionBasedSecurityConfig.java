@@ -23,28 +23,26 @@ import org.springframework.security.web.csrf.CsrfTokenRepository;
  * @since 14.3.2017
  */
 @Configuration
-public class SessionBasedSecurityConfig
-        extends WebSecurityConfigurerAdapter {
+public class SessionBasedSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     CsrfTokenRepository csrfTokenRepository;
 
     protected void configure(HttpSecurity http) throws Exception {
-        http
-                .csrf().disable()
-//                .csrfTokenRepository(csrfTokenRepository).ignoringAntMatchers()
+//        http
+//            .httpBasic().and()
+//            .authorizeRequests()
+//                .antMatchers("/index.html", "/home.html", "/login.html", "/").permitAll().anyRequest()
+//                .authenticated().and()
+//            .csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
 //                .and()
-                .authorizeRequests()
-                .antMatchers("/resources/**").permitAll()
-                .antMatchers("/sign-up").permitAll()
-                .antMatchers("/sign-in").permitAll()
-                .anyRequest().authenticated()
-                .and()
-                .formLogin()
-                .loginPage("/")
-                .loginProcessingUrl("/loginprocess")
-                .failureUrl("/mobile/app/sign-in?loginFailure=true")
-                .permitAll()
+//            .formLogin()
+//                .loginPage("/")
+//                .loginProcessingUrl("/loginprocess")
+//                .failureUrl("/mobile/app/sign-in?loginFailure=true")
+//                .permitAll()
+        http.cors().and().authorizeRequests()
+                .anyRequest().authenticated();
         ;
     }
 

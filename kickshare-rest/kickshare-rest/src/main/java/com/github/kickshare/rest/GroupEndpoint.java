@@ -12,14 +12,12 @@ import com.github.kickshare.db.dao.KickshareRepository;
 import com.github.kickshare.db.h2.tables.Backer;
 import com.github.kickshare.db.h2.tables.pojos.Group;
 import com.github.kickshare.mapper.MapperUtils;
-import com.github.kickshare.rest.group.SearchGroupOptions;
 import com.github.kickshare.rest.group.domain.CreateGroupRequest;
 import com.github.kickshare.security.CustomUser;
 import com.github.kickshare.service.GeoBoundary;
 import com.github.kickshare.service.GroupSearchOptions;
 import com.github.kickshare.service.Location;
 import com.github.kickshare.service.ProjectService;
-import com.github.kickshare.service.SearchService;
 import com.github.kickshare.service.entity.CityGrid;
 import lombok.AllArgsConstructor;
 import org.apache.commons.lang3.RandomUtils;
@@ -61,16 +59,10 @@ public class GroupEndpoint {
     };
     public static final long USER_ID = 1L;
     //Search for groups using user's location, using distance near (slider), tags, potentially campaign's name
-    private SearchService service;
     private ProjectService projectService;
     private GroupRepository groupRepository;
     private KickshareRepository repository;
     private Mapper dozer;
-
-    @PostMapping("/search")
-    public List<Object> searchGroups(String userId, String categoryId, SearchGroupOptions options) {
-        return service.searchGroups();
-    }
 
     @RequestMapping(value = "/search/jsonp", produces = MediaType.APPLICATION_JSON_VALUE)
     public FeatureCollection getData(

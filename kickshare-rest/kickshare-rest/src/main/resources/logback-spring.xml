@@ -9,7 +9,7 @@
     <!--</appender>-->
     <!--https://github.com/spring-projects/spring-boot/blob/master/spring-boot/src/main/resources/org/springframework/boot/logging/logback/defaults.xml -->
 
-    <logger name="org.springframework.web" level="WARN" additivity="false">
+    <logger name="org.springframework.web" level="DEBUG" additivity="false">
         <appender-ref ref="CONSOLE"/>
     </logger>
     <logger name="com.github.kickshare" level="INFO" additivity="false">
