@@ -106,15 +106,15 @@ public class SecurityConfig {
 //        return new JWTSecurityConfig();//unauthorizedHandler, passwordEncoder, authenticationTokenFilterBean);
 //    }
 
-//    @Bean
-//    public SessionBasedSecurityConfig securityConfig() {
-//        return new SessionBasedSecurityConfig();
-//    }
-
     @Bean
-    public BasicAuthSecurityConfig securityConfig() {
-        return new BasicAuthSecurityConfig(null);
+    public SessionBasedSecurityConfig securityConfig() {
+        return new SessionBasedSecurityConfig();
     }
+
+//    @Bean
+//    public BasicAuthSecurityConfig securityConfig() {
+//        return new BasicAuthSecurityConfig(null);
+//    }
 
     @Bean
     public CsrfTokenRepository csrfTokenRepository() {

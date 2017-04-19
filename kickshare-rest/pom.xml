@@ -31,7 +31,6 @@
         <testng.version>6.11</testng.version>
         <dom4j.version>1.6.1</dom4j.version>
         <jaxen.version>1.1.6</jaxen.version>
-        <elasticsearch.version>5.2.2</elasticsearch.version>
         <jsurfer-core.version>1.2.8</jsurfer-core.version>
         <commons-io.version>2.5</commons-io.version>
         <dozer.version>5.5.1</dozer.version>
