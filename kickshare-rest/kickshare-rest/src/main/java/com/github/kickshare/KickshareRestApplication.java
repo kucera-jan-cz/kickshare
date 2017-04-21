@@ -15,7 +15,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 @SpringBootConfiguration
 @EnableAutoConfiguration(exclude = { })
 @ComponentScan(basePackages = { "com.github.kickshare.rest", "com.github.kickshare.service", "com.github.kickshare.db" })
-@EnableWebSecurity
+@EnableWebSecurity(debug = true)
 @EnableConfigurationProperties
 @Import({ JooqConfiguration.class, SecurityConfig.class, MappingConfiguration.class, KSConfiguration.class })
 public class KickshareRestApplication {

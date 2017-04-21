@@ -118,7 +118,7 @@ public class KickshareRepositoryImpl implements KickshareRepository {
         return dsl.select()
                 .from(CITY)
                 .where(CITY.LAT.between(BigDecimal.valueOf(sw.getLat()), BigDecimal.valueOf(ne.getLat()))
-                        .and(CITY.LON.between(BigDecimal.valueOf(sw.getLon()), BigDecimal.valueOf(ne.getLon())))
+                        .and(CITY.LON.between(BigDecimal.valueOf(ne.getLon()), BigDecimal.valueOf(sw.getLon())))
                 ).fetchInto(City.class);
     }
 
