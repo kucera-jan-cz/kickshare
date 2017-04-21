@@ -12,6 +12,9 @@
     <logger name="org.springframework.web" level="DEBUG" additivity="false">
         <appender-ref ref="CONSOLE"/>
     </logger>
+    <logger name="org.springframework.security.web.FilterChainProxy" level="DEBUG">
+        <appender-ref ref="CONSOLE"/>
+    </logger>
     <logger name="com.github.kickshare" level="INFO" additivity="false">
         <appender-ref ref="CONSOLE"/>
     </logger>
