@@ -15,4 +15,8 @@ class LoaderTest extends FunSuite with Slf4jLogging {
   test("load projects") {
     ProjectLoader.load().take(5).foreach(logger.info("{}", _))
   }
+
+  test("Load cities") {
+    GeoCityLoader.load("CZ").take(10).foreach(logger.info("{}", _))
+  }
 }
