@@ -1,0 +1,808 @@
+{
+  "took": 1,
+  "timed_out": false,
+  "_shards": {
+    "total": 1,
+    "successful": 1,
+    "failed": 0
+  },
+  "hits": {
+    "total": 16317,
+    "max_score": 0,
+    "hits": []
+  },
+  "aggregations": {
+    "GeoHashGrid": {
+      "buckets": [
+        {
+          "key": "u2fz",
+          "doc_count": 189
+        },
+        {
+          "key": "u2g5",
+          "doc_count": 179
+        },
+        {
+          "key": "u2f6",
+          "doc_count": 179
+        },
+        {
+          "key": "u2ff",
+          "doc_count": 170
+        },
+        {
+          "key": "u2dj",
+          "doc_count": 170
+        },
+        {
+          "key": "u2g7",
+          "doc_count": 161
+        },
+        {
+          "key": "u2f3",
+          "doc_count": 161
+        },
+        {
+          "key": "u2cz",
+          "doc_count": 160
+        },
+        {
+          "key": "u2fe",
+          "doc_count": 159
+        },
+        {
+          "key": "u2f7",
+          "doc_count": 158
+        },
+        {
+          "key": "u340",
+          "doc_count": 154
+        },
+        {
+          "key": "u2fp",
+          "doc_count": 153
+        },
+        {
+          "key": "u2fg",
+          "doc_count": 153
+        },
+        {
+          "key": "u29z",
+          "doc_count": 150
+        },
+        {
+          "key": "u2f9",
+          "doc_count": 147
+        },
+        {
+          "key": "u2gq",
+          "doc_count": 145
+        },
+        {
+          "key": "u2fd",
+          "doc_count": 145
+        },
+        {
+          "key": "u2dm",
+          "doc_count": 145
+        },
+        {
+          "key": "u2gh",
+          "doc_count": 143
+        },
+        {
+          "key": "u2gn",
+          "doc_count": 142
+        },
+        {
+          "key": "u2cq",
+          "doc_count": 141
+        },
+        {
+          "key": "u2fx",
+          "doc_count": 140
+        },
+        {
+          "key": "u2fc",
+          "doc_count": 139
+        },
+        {
+          "key": "u2f4",
+          "doc_count": 137
+        },
+        {
+          "key": "u2fj",
+          "doc_count": 136
+        },
+        {
+          "key": "u2fy",
+          "doc_count": 133
+        },
+        {
+          "key": "u2g9",
+          "doc_count": 131
+        },
+        {
+          "key": "u2bv",
+          "doc_count": 129
+        },
+        {
+          "key": "u2g4",
+          "doc_count": 128
+        },
+        {
+          "key": "u2gk",
+          "doc_count": 126
+        },
+        {
+          "key": "u2f1",
+          "doc_count": 126
+        },
+        {
+          "key": "u34b",
+          "doc_count": 125
+        },
+        {
+          "key": "u2gj",
+          "doc_count": 125
+        },
+        {
+          "key": "u2dn",
+          "doc_count": 124
+        },
+        {
+          "key": "u2cc",
+          "doc_count": 124
+        },
+        {
+          "key": "u2c9",
+          "doc_count": 124
+        },
+        {
+          "key": "u2gr",
+          "doc_count": 123
+        },
+        {
+          "key": "u2fw",
+          "doc_count": 123
+        },
+        {
+          "key": "u2u4",
+          "doc_count": 122
+        },
+        {
+          "key": "u348",
+          "doc_count": 121
+        },
+        {
+          "key": "u2fk",
+          "doc_count": 121
+        },
+        {
+          "key": "u2cb",
+          "doc_count": 121
+        },
+        {
+          "key": "u2gt",
+          "doc_count": 120
+        },
+        {
+          "key": "u2f8",
+          "doc_count": 119
+        },
+        {
+          "key": "u2c8",
+          "doc_count": 119
+        },
+        {
+          "key": "u2fq",
+          "doc_count": 118
+        },
+        {
+          "key": "u2c2",
+          "doc_count": 118
+        },
+        {
+          "key": "u2fu",
+          "doc_count": 117
+        },
+        {
+          "key": "u2c1",
+          "doc_count": 117
+        },
+        {
+          "key": "u2gs",
+          "doc_count": 116
+        },
+        {
+          "key": "u2fs",
+          "doc_count": 116
+        },
+        {
+          "key": "u2f0",
+          "doc_count": 116
+        },
+        {
+          "key": "u2dp",
+          "doc_count": 116
+        },
+        {
+          "key": "u2fm",
+          "doc_count": 113
+        },
+        {
+          "key": "u2c5",
+          "doc_count": 113
+        },
+        {
+          "key": "u2c3",
+          "doc_count": 112
+        },
+        {
+          "key": "u2fh",
+          "doc_count": 111
+        },
+        {
+          "key": "u2cw",
+          "doc_count": 111
+        },
+        {
+          "key": "u2c7",
+          "doc_count": 111
+        },
+        {
+          "key": "u2g1",
+          "doc_count": 110
+        },
+        {
+          "key": "u2g8",
+          "doc_count": 109
+        },
+        {
+          "key": "u2f5",
+          "doc_count": 109
+        },
+        {
+          "key": "u2cm",
+          "doc_count": 109
+        },
+        {
+          "key": "u2gm",
+          "doc_count": 108
+        },
+        {
+          "key": "u342",
+          "doc_count": 107
+        },
+        {
+          "key": "u2fr",
+          "doc_count": 107
+        },
+        {
+          "key": "u2gp",
+          "doc_count": 106
+        },
+        {
+          "key": "u2dq",
+          "doc_count": 105
+        },
+        {
+          "key": "u2ck",
+          "doc_count": 105
+        },
+        {
+          "key": "u31b",
+          "doc_count": 104
+        },
+        {
+          "key": "u2cy",
+          "doc_count": 104
+        },
+        {
+          "key": "u2cj",
+          "doc_count": 104
+        },
+        {
+          "key": "u2u3",
+          "doc_count": 103
+        },
+        {
+          "key": "u2fn",
+          "doc_count": 103
+        },
+        {
+          "key": "u2dz",
+          "doc_count": 103
+        },
+        {
+          "key": "u29x",
+          "doc_count": 103
+        },
+        {
+          "key": "u2c4",
+          "doc_count": 102
+        },
+        {
+          "key": "u2gc",
+          "doc_count": 101
+        },
+        {
+          "key": "u2cs",
+          "doc_count": 100
+        },
+        {
+          "key": "u2fb",
+          "doc_count": 99
+        },
+        {
+          "key": "u2gf",
+          "doc_count": 98
+        },
+        {
+          "key": "u2ce",
+          "doc_count": 98
+        },
+        {
+          "key": "u2f2",
+          "doc_count": 97
+        },
+        {
+          "key": "u29y",
+          "doc_count": 97
+        },
+        {
+          "key": "u2cg",
+          "doc_count": 96
+        },
+        {
+          "key": "u2cx",
+          "doc_count": 95
+        },
+        {
+          "key": "u2u5",
+          "doc_count": 94
+        },
+        {
+          "key": "u2u2",
+          "doc_count": 94
+        },
+        {
+          "key": "u2u9",
+          "doc_count": 93
+        },
+        {
+          "key": "u2g6",
+          "doc_count": 93
+        },
+        {
+          "key": "u2fv",
+          "doc_count": 93
+        },
+        {
+          "key": "u2ft",
+          "doc_count": 93
+        },
+        {
+          "key": "u2cd",
+          "doc_count": 93
+        },
+        {
+          "key": "u2g2",
+          "doc_count": 92
+        },
+        {
+          "key": "u2g0",
+          "doc_count": 92
+        },
+        {
+          "key": "u2cf",
+          "doc_count": 92
+        },
+        {
+          "key": "u2dh",
+          "doc_count": 91
+        },
+        {
+          "key": "u2ge",
+          "doc_count": 88
+        },
+        {
+          "key": "u2u1",
+          "doc_count": 87
+        },
+        {
+          "key": "u2cv",
+          "doc_count": 86
+        },
+        {
+          "key": "u2u0",
+          "doc_count": 85
+        },
+        {
+          "key": "u2g3",
+          "doc_count": 85
+        },
+        {
+          "key": "u2er",
+          "doc_count": 85
+        },
+        {
+          "key": "u2ep",
+          "doc_count": 85
+        },
+        {
+          "key": "u2gu",
+          "doc_count": 84
+        },
+        {
+          "key": "u2gd",
+          "doc_count": 84
+        },
+        {
+          "key": "u2c6",
+          "doc_count": 84
+        },
+        {
+          "key": "u2ug",
+          "doc_count": 82
+        },
+        {
+          "key": "u2dr",
+          "doc_count": 80
+        },
+        {
+          "key": "u2ct",
+          "doc_count": 80
+        },
+        {
+          "key": "u2ue",
+          "doc_count": 79
+        },
+        {
+          "key": "u2dx",
+          "doc_count": 79
+        },
+        {
+          "key": "u2v4",
+          "doc_count": 78
+        },
+        {
+          "key": "u2u8",
+          "doc_count": 78
+        },
+        {
+          "key": "u2gg",
+          "doc_count": 76
+        },
+        {
+          "key": "u2ch",
+          "doc_count": 76
+        },
+        {
+          "key": "u2cn",
+          "doc_count": 75
+        },
+        {
+          "key": "u2sx",
+          "doc_count": 74
+        },
+        {
+          "key": "u2uf",
+          "doc_count": 73
+        },
+        {
+          "key": "u2bu",
+          "doc_count": 73
+        },
+        {
+          "key": "u2ez",
+          "doc_count": 72
+        },
+        {
+          "key": "u2eq",
+          "doc_count": 72
+        },
+        {
+          "key": "u2v5",
+          "doc_count": 70
+        },
+        {
+          "key": "u2ex",
+          "doc_count": 70
+        },
+        {
+          "key": "u2sp",
+          "doc_count": 69
+        },
+        {
+          "key": "u2cu",
+          "doc_count": 69
+        },
+        {
+          "key": "u2u6",
+          "doc_count": 67
+        },
+        {
+          "key": "u2uh",
+          "doc_count": 66
+        },
+        {
+          "key": "u2ud",
+          "doc_count": 66
+        },
+        {
+          "key": "u2uc",
+          "doc_count": 65
+        },
+        {
+          "key": "u2gb",
+          "doc_count": 64
+        },
+        {
+          "key": "u2sr",
+          "doc_count": 63
+        },
+        {
+          "key": "u2gw",
+          "doc_count": 63
+        },
+        {
+          "key": "u2en",
+          "doc_count": 63
+        },
+        {
+          "key": "u2ew",
+          "doc_count": 61
+        },
+        {
+          "key": "u2um",
+          "doc_count": 60
+        },
+        {
+          "key": "u2un",
+          "doc_count": 59
+        },
+        {
+          "key": "u2uj",
+          "doc_count": 59
+        },
+        {
+          "key": "u2u7",
+          "doc_count": 58
+        },
+        {
+          "key": "u2gx",
+          "doc_count": 57
+        },
+        {
+          "key": "u2us",
+          "doc_count": 55
+        },
+        {
+          "key": "u2uk",
+          "doc_count": 55
+        },
+        {
+          "key": "u2ub",
+          "doc_count": 55
+        },
+        {
+          "key": "u343",
+          "doc_count": 54
+        },
+        {
+          "key": "u349",
+          "doc_count": 53
+        },
+        {
+          "key": "u2dw",
+          "doc_count": 52
+        },
+        {
+          "key": "u2sn",
+          "doc_count": 49
+        },
+        {
+          "key": "u2sq",
+          "doc_count": 47
+        },
+        {
+          "key": "u2ey",
+          "doc_count": 47
+        },
+        {
+          "key": "u350",
+          "doc_count": 46
+        },
+        {
+          "key": "u29v",
+          "doc_count": 46
+        },
+        {
+          "key": "u2sz",
+          "doc_count": 40
+        },
+        {
+          "key": "u2dk",
+          "doc_count": 39
+        },
+        {
+          "key": "u2sw",
+          "doc_count": 38
+        },
+        {
+          "key": "u341",
+          "doc_count": 37
+        },
+        {
+          "key": "u2v1",
+          "doc_count": 37
+        },
+        {
+          "key": "u2dy",
+          "doc_count": 37
+        },
+        {
+          "key": "u2bg",
+          "doc_count": 36
+        },
+        {
+          "key": "u2ut",
+          "doc_count": 33
+        },
+        {
+          "key": "u2cr",
+          "doc_count": 33
+        },
+        {
+          "key": "u2by",
+          "doc_count": 32
+        },
+        {
+          "key": "u2uu",
+          "doc_count": 31
+        },
+        {
+          "key": "u2em",
+          "doc_count": 31
+        },
+        {
+          "key": "u2bt",
+          "doc_count": 29
+        },
+        {
+          "key": "u2ev",
+          "doc_count": 27
+        },
+        {
+          "key": "u2dt",
+          "doc_count": 27
+        },
+        {
+          "key": "u2et",
+          "doc_count": 25
+        },
+        {
+          "key": "u2bf",
+          "doc_count": 25
+        },
+        {
+          "key": "u2gv",
+          "doc_count": 24
+        },
+        {
+          "key": "u352",
+          "doc_count": 23
+        },
+        {
+          "key": "u2v6",
+          "doc_count": 23
+        },
+        {
+          "key": "u29w",
+          "doc_count": 23
+        },
+        {
+          "key": "u29r",
+          "doc_count": 23
+        },
+        {
+          "key": "u34c",
+          "doc_count": 20
+        },
+        {
+          "key": "u2c0",
+          "doc_count": 18
+        },
+        {
+          "key": "u2v3",
+          "doc_count": 16
+        },
+        {
+          "key": "u2sj",
+          "doc_count": 16
+        },
+        {
+          "key": "u346",
+          "doc_count": 15
+        },
+        {
+          "key": "u344",
+          "doc_count": 15
+        },
+        {
+          "key": "u318",
+          "doc_count": 15
+        },
+        {
+          "key": "u34d",
+          "doc_count": 13
+        },
+        {
+          "key": "u2uq",
+          "doc_count": 13
+        },
+        {
+          "key": "u2v0",
+          "doc_count": 9
+        },
+        {
+          "key": "u2uw",
+          "doc_count": 7
+        },
+        {
+          "key": "u358",
+          "doc_count": 5
+        },
+        {
+          "key": "u2bs",
+          "doc_count": 5
+        },
+        {
+          "key": "u2sm",
+          "doc_count": 4
+        },
+        {
+          "key": "u2bw",
+          "doc_count": 3
+        },
+        {
+          "key": "u34f",
+          "doc_count": 2
+        },
+        {
+          "key": "u31c",
+          "doc_count": 2
+        },
+        {
+          "key": "u2vh",
+          "doc_count": 2
+        },
+        {
+          "key": "u2sy",
+          "doc_count": 2
+        },
+        {
+          "key": "u2bc",
+          "doc_count": 2
+        },
+        {
+          "key": "u29u",
+          "doc_count": 2
+        },
+        {
+          "key": "u2st",
+          "doc_count": 1
+        },
+        {
+          "key": "u2gy",
+          "doc_count": 1
+        },
+        {
+          "key": "u2ej",
+          "doc_count": 1
+        }
+      ]
+    }
+  }
+}
