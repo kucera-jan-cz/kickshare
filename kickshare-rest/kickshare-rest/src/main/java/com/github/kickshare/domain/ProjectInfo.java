@@ -22,6 +22,6 @@ public class ProjectInfo {
     private Project project;
 
     public ProjectInfo() {
-
+        this.project = new Project();
     }
 }

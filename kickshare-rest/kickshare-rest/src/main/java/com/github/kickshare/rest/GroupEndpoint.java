@@ -11,7 +11,7 @@ import com.github.kickshare.db.dao.GroupRepository;
 import com.github.kickshare.db.dao.KickshareRepository;
 import com.github.kickshare.db.h2.tables.Backer;
 import com.github.kickshare.db.h2.tables.pojos.Group;
-import com.github.kickshare.mapper.MapperUtils;
+import com.github.kickshare.mapper.ExtendedMapper;
 import com.github.kickshare.rest.group.domain.CreateGroupRequest;
 import com.github.kickshare.security.CustomUser;
 import com.github.kickshare.service.GeoBoundary;
@@ -21,7 +21,6 @@ import com.github.kickshare.service.ProjectService;
 import com.github.kickshare.service.entity.CityGrid;
 import lombok.AllArgsConstructor;
 import org.apache.commons.lang3.RandomUtils;
-import org.dozer.Mapper;
 import org.geojson.Feature;
 import org.geojson.FeatureCollection;
 import org.geojson.Point;
@@ -62,7 +61,7 @@ public class GroupEndpoint {
     private ProjectService projectService;
     private GroupRepository groupRepository;
     private KickshareRepository repository;
-    private Mapper dozer;
+    private ExtendedMapper dozer;
 
     @RequestMapping(value = "/search/jsonp", produces = MediaType.APPLICATION_JSON_VALUE)
     public FeatureCollection getData(
@@ -122,7 +121,7 @@ public class GroupEndpoint {
             @AuthenticationPrincipal org.springframework.security.core.userdetails.User customUser) {
         LOGGER.info("{}", customUser);
         List<com.github.kickshare.db.h2.tables.pojos.Backer> list = groupRepository.findAllUsers(groupId);
-        List<Backer> users = new MapperUtils(dozer).map(list, Backer.class);
+        List<Backer> users = dozer.map(list, Backer.class);
         return users;
     }
 

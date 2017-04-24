@@ -1,6 +1,8 @@
 package com.github.kickshare.mapper;
 
+import org.dozer.Mapper;
 import org.dozer.spring.DozerBeanMapperFactoryBean;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -19,5 +21,10 @@ public class MappingConfiguration {
         // Other configurations
         dozerBeanMapperFactoryBean.setMappingFiles(resources);
         return dozerBeanMapperFactoryBean;
+    }
+
+    @Bean
+    public ExtendedMapper extendedMapper(@Autowired Mapper mapper) {
+        return new ExtendedMapper(mapper);
     }
 }

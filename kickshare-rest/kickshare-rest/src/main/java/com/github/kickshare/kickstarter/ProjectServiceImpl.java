@@ -13,7 +13,8 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.github.kickshare.domain.Project;
+import com.github.kickshare.kickstarter.entity.Project;
+import com.github.kickshare.kickstarter.entity.ProjectPhoto;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -77,12 +78,16 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     private Project parseProject(ObjectNode projectNode) {
+        JsonNode photoNode = projectNode.get("photo");
+        Long id = projectNode.get("id").longValue();
+        ProjectPhoto photo = new ProjectPhoto(id, photoNode.get("thumb").textValue(), photoNode.get("small").textValue());
         return new Project(
-                projectNode.get("id").longValue(),
+                id,
                 projectNode.get("name").textValue(),
                 projectNode.get("blurb").textValue(),
                 projectNode.path("urls").path("web").path("project").textValue(),
-                Instant.ofEpochMilli(projectNode.get("deadline").longValue())
+                Instant.ofEpochSecond(projectNode.get("deadline").longValue()),
+                photo
         );
     }
 
