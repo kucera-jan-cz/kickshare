@@ -17,4 +17,9 @@
         <class-b>com.github.kickshare.db.h2.tables.pojos.Project</class-b>
     </mapping>
 
+    <mapping wildcard="true">
+        <class-a>com.github.kickshare.domain.Category</class-a>
+        <class-b>com.github.kickshare.db.h2.tables.pojos.Category</class-b>
+    </mapping>
+
 </mappings>

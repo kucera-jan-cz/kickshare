@@ -36,6 +36,7 @@
         <dozer.version>5.5.1</dozer.version>
         <unitils.version>3.4.2</unitils.version>
         <postgresql.version>42.0.0</postgresql.version>
+        <spring-session.version>1.3.0.RELEASE</spring-session.version>
     </properties>
 
 </project>
