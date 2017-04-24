@@ -118,8 +118,10 @@ public class KickshareRepositoryImpl implements KickshareRepository {
         return dsl.select()
                 .from(CITY)
                 .where(CITY.LAT.between(BigDecimal.valueOf(sw.getLat()), BigDecimal.valueOf(ne.getLat()))
-                        .and(CITY.LON.between(BigDecimal.valueOf(ne.getLon()), BigDecimal.valueOf(sw.getLon())))
-                ).fetchInto(City.class);
+                        .and(CITY.LON.between(BigDecimal.valueOf(sw.getLon()),BigDecimal.valueOf(ne.getLon())))
+                )
+                .limit(1_000)
+                .fetchInto(City.class);
     }
 
     public List<CityGrid> searchCityGrid(GroupSearchOptions options) throws IOException {

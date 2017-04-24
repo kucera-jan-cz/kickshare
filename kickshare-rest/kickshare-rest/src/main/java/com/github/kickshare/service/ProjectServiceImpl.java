@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
-import java.util.function.Predicate;
 
 import com.github.kickshare.db.dao.ProjectRepository;
 import com.github.kickshare.domain.Project;
@@ -35,16 +34,17 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     public Long registerProject(Project project) throws IOException {
-        Predicate<Project> equalFilter = p -> p.getId().equals(project.getId()) && p.getName()
-                .equals(project.getName());
-        if (repository.existsById(project.getId())) {
-            LOGGER.debug("Project {} with ID {} exists", project.getName(), project.getId());
-            return project.getId();
-        } else {
-            Project ksProject = ksService.findProjects(project.getName(), "Games").stream().filter(equalFilter)
-                    .findAny().get();
-            return repository.createReturningKey(mapper.map(ksProject, DB_TYPE));
-        }
+//        Predicate<Project> equalFilter = p -> p.getId().equals(project.getId()) && p.getName()
+//                .equals(project.getName());
+//        if (repository.existsById(project.getId())) {
+//            LOGGER.debug("Project {} with ID {} exists", project.getName(), project.getId());
+//            return project.getId();
+//        } else {
+//            Project ksProject = ksService.findProjects(project.getName(), "Games").stream().filter(equalFilter)
+//                    .findAny().get();
+//            return repository.createReturningKey(mapper.map(ksProject, DB_TYPE));
+//        }
+        return 1L;
     }
 
     public List<Project> findProjects(String text) throws ExecutionException, InterruptedException {
