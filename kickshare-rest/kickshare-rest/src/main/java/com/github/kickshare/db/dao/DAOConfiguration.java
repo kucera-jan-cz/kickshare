@@ -1,5 +1,6 @@
 package com.github.kickshare.db.dao;
 
+import com.github.kickshare.db.h2.tables.daos.CategoryDao;
 import com.github.kickshare.db.h2.tables.daos.ProjectDao;
 import com.github.kickshare.db.h2.tables.daos.ProjectPhotoDao;
 import org.springframework.context.annotation.Bean;
@@ -19,5 +20,10 @@ public class DAOConfiguration {
     @Bean
     public ProjectPhotoDao projectPhotoDao(org.jooq.Configuration configuration) {
         return new ProjectPhotoDao(configuration);
+    }
+
+    @Bean
+    public CategoryDao categoryDao(org.jooq.Configuration configuration) {
+        return new CategoryDao(configuration);
     }
 }

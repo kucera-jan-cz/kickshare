@@ -12,4 +12,9 @@ import lombok.Data;
 public class Category {
     private Long id;
     private String name;
+    private Boolean isRoot;
+    private Long parentId;
+    private String slug;
+
+    public Category() {}
 }

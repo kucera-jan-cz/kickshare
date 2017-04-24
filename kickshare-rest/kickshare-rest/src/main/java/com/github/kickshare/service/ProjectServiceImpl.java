@@ -9,8 +9,8 @@ import java.util.concurrent.ScheduledExecutorService;
 
 import com.github.kickshare.db.dao.ProjectRepository;
 import com.github.kickshare.domain.Project;
+import com.github.kickshare.mapper.ExtendedMapper;
 import lombok.AllArgsConstructor;
-import org.dozer.Mapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -29,7 +29,7 @@ public class ProjectServiceImpl implements ProjectService {
 
     private ProjectRepository repository;
     private com.github.kickshare.kickstarter.ProjectService ksService;
-    private Mapper mapper;
+    private ExtendedMapper mapper;
 
 
     @Override

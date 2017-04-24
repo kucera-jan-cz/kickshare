@@ -22,12 +22,12 @@ import com.github.kickshare.db.h2.tables.pojos.ProjectPhoto;
 import com.github.kickshare.domain.City;
 import com.github.kickshare.domain.GroupInfo;
 import com.github.kickshare.domain.ProjectInfo;
+import com.github.kickshare.mapper.ExtendedMapper;
 import com.github.kickshare.service.GroupSearchOptions;
 import com.github.kickshare.service.Location;
 import com.github.kickshare.service.entity.CityGrid;
 import lombok.AllArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
-import org.dozer.Mapper;
 import org.jooq.Condition;
 import org.jooq.DSLContext;
 import org.jooq.Field;
@@ -56,7 +56,7 @@ public class KickshareRepositoryImpl implements KickshareRepository {
     private DSLContext dsl;
     private ProjectDao projectDao;
     private ProjectPhotoDao photoDao;
-    private Mapper mapper;
+    private ExtendedMapper mapper;
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED)

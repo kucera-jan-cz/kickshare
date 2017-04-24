@@ -12,7 +12,7 @@ import com.github.kickshare.db.h2.tables.daos.ProjectDao;
 import com.github.kickshare.db.h2.tables.daos.ProjectPhotoDao;
 import com.github.kickshare.db.tools.SQLLogging;
 import com.github.kickshare.domain.GroupInfo;
-import org.dozer.Mapper;
+import com.github.kickshare.mapper.ExtendedMapper;
 import org.jooq.Configuration;
 import org.jooq.DSLContext;
 import org.jooq.conf.Settings;
@@ -32,7 +32,7 @@ public class DatabaseIntegrationTest {
     public void groupInfo() throws SQLException {
         DSLContext context = createFileDSL();
         Configuration config = context.configuration();
-        Mapper mapper = null;
+        ExtendedMapper mapper = null;
         KickshareRepository repository = new KickshareRepositoryImpl(context, new ProjectDao(config), new ProjectPhotoDao(config), mapper);
         List<GroupInfo> infos = repository.findAllGroupInfo(217227567L);
         assertNotNull(infos);
