@@ -37,8 +37,8 @@ public class ProjectEndpoint {
 
 
     @GetMapping("/search")
-    public List<ProjectInfo> searchProjects(@RequestParam final String name) throws IOException {
-        List<ProjectInfo> projects = dozer.map(kickstarter.findProjects(name, ""), ProjectInfo.class);
+    public List<ProjectInfo> searchProjects(@RequestParam final String name, @RequestParam final Integer categoryId) throws IOException {
+        List<ProjectInfo> projects = dozer.map(kickstarter.findProjects(name, categoryId), ProjectInfo.class);
         LOGGER.debug("Found projects: {}", projects);
         return projects;
     }
