@@ -17,7 +17,7 @@ public interface ProjectService {
     List<Project> findProjects() throws IOException;
 
     //@TODO - consider using enum for categories
-    List<Project> findProjects(String term, String category) throws IOException;
+    List<Project> findProjects(String term, Integer category) throws IOException;
 
     Optional<Project> findById(Long id) throws IOException;
 }

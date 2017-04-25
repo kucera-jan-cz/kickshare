@@ -81,12 +81,6 @@ public class GroupEndpoint {
     public FeatureCollection getData(
             @RequestParam String callback,
             @RequestParam Map<String, String> params
-//            @RequestParam Float ne_lat,
-//            @RequestParam Float ne_lon,
-//            @RequestParam Float sw_lat,
-//            @RequestParam Float sw_lon,
-//            @RequestParam Boolean only_local,
-//            @RequestParam String projectName)
     ) throws IOException {
         GroupSearchOptions options = toOptions(params);
         final List<CityGrid> cityGrids = repository.searchCityGrid(options);

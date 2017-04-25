@@ -31,7 +31,6 @@ public interface KickshareRepository {
      * REQ: project_id
      * RESP: name, deadline, photo_url, url, [tags]
      */
-//    @Transactional(propagation = Propagation.REQUIRED)
     ProjectInfo findProjectInfo(Long projectId);
 
     List<GroupInfo> findAllGroupInfo(Long projectId);

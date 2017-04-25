@@ -5,6 +5,7 @@ import java.io.InputStream;
 import java.net.URI;
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
@@ -41,17 +42,19 @@ public class ProjectServiceImpl implements ProjectService {
     private final UriComponentsBuilder advancedSearchUriBuilder = ProjectServiceImpl.createTermSearchBuilder();
 
     @Override
+    @Deprecated
     public List<Project> findProjects() throws IOException {
-        return null;
+        return Collections.emptyList();
     }
 
     @Override
+    @Deprecated
     public Optional<Project> findById(final Long id) throws IOException {
         return Optional.empty();
     }
 
     //@TODO - better include whole Category object
-    public List<Project> findProjects(String term, String category) throws IOException {
+    public List<Project> findProjects(String term, Integer category) throws IOException {
         URI uri = termUriBuilder.buildAndExpand(term, category).toUri();
 
         InputStream jsonAsStream = executeGet(uri);
