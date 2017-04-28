@@ -19,7 +19,17 @@ CREATE TABLE backer (
 	id BIGSERIAL PRIMARY KEY,
 	email VARCHAR (255),
 	name VARCHAR (255) NOT NULL,
-	surname VARCHAR (255) NOT NULL
+	surname VARCHAR (255) NOT NULL,
+	leader_rating REAL,
+	backer_rating REAL
+);
+
+CREATE TABLE address (
+    id BIGSERIAL PRIMARY KEY,
+    backer_id BIGSERIAL NOT NULL REFERENCES backer(id),
+    street VARCHAR (100),
+    city VARCHAR (100),
+    postal_code VARCHAR (100)
 );
 
 CREATE TABLE "group" (
@@ -50,6 +60,13 @@ CREATE TABLE backer_locations (
 CREATE TABLE backer_2_group (
     group_id BIGSERIAL NOT NULL REFERENCES "group" (id),
     backer_id BIGSERIAL NOT NULL REFERENCES backer (id)
+);
+
+CREATE TABLE backer_rating (
+    backer_id BIGSERIAL NOT NULL REFERENCES backer (id),
+    group_id BIGSERIAL NOT NULL REFERENCES "group" (id),
+    rating SMALLINT NOT NULL,
+    is_leader BOOLEAN NOT NULL
 );
 
 -- @TODO remove once it's moved to Spring table

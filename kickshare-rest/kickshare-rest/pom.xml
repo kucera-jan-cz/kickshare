@@ -44,9 +44,9 @@
 
         <!-- DB -->
         <dependency>
-        <groupId>com.h2database</groupId>
-        <artifactId>h2</artifactId>
-        <version>${h2.version}</version>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <version>${h2.version}</version>
         </dependency>
         <dependency>
             <groupId>org.postgresql</groupId>
@@ -65,21 +65,21 @@
         </dependency>
 
         <!-- Security -->
-        <dependency>
-            <groupId>org.springframework.session</groupId>
-            <artifactId>spring-session</artifactId>
-            <version>${spring-session.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.session</groupId>
-            <artifactId>spring-session-jdbc</artifactId>
-            <version>${spring-session.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.security</groupId>
-            <artifactId>spring-security-jwt</artifactId>
-            <version>1.0.7.RELEASE</version>
-        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>org.springframework.session</groupId>-->
+            <!--<artifactId>spring-session</artifactId>-->
+            <!--<version>${spring-session.version}</version>-->
+        <!--</dependency>-->
+        <!--<dependency>-->
+            <!--<groupId>org.springframework.session</groupId>-->
+            <!--<artifactId>spring-session-jdbc</artifactId>-->
+            <!--<version>${spring-session.version}</version>-->
+        <!--</dependency>-->
+        <!--<dependency>-->
+            <!--<groupId>org.springframework.security</groupId>-->
+            <!--<artifactId>spring-security-jwt</artifactId>-->
+            <!--<version>1.0.7.RELEASE</version>-->
+        <!--</dependency>-->
         <dependency>
             <groupId>io.jsonwebtoken</groupId>
             <artifactId>jjwt</artifactId>
@@ -281,6 +281,41 @@
                     </execution>
                 </executions>
             </plugin>
+            <!--<plugin>-->
+                <!--<groupId>org.codehaus.mojo</groupId>-->
+                <!--<artifactId>sql-maven-plugin</artifactId>-->
+                <!--<version>3.0.0-SNAPSHOT</version>-->
+
+                <!--<dependencies>-->
+                    <!--&lt;!&ndash; specify the dependent jdbc driver here &ndash;&gt;-->
+                    <!--<dependency>-->
+                        <!--<groupId>org.postgresql</groupId>-->
+                        <!--<artifactId>postgresql</artifactId>-->
+                        <!--<version>${postgresql.version}</version>-->
+                    <!--</dependency>-->
+                <!--</dependencies>-->
+                <!--&lt;!&ndash; common configuration shared by all executions &ndash;&gt;-->
+                <!--<configuration>-->
+                    <!--<driver>org.postgresql.Driver</driver>-->
+                    <!--<url>${db.url}</url>-->
+                    <!--<username>${db.username}</username>-->
+                    <!--<password>${db.password}</password>-->
+                    <!--&lt;!&ndash;all executions are ignored if -Dmaven.test.skip=true&ndash;&gt;-->
+                <!--</configuration>-->
+                <!--<executions>-->
+                    <!--<execution>-->
+                        <!--<id>drop-schemas</id>-->
+                        <!--<phase>clean</phase>-->
+                        <!--<goals>-->
+                            <!--<goal>execute</goal>-->
+                        <!--</goals>-->
+                        <!--<configuration>-->
+                            <!--<autocommit>true</autocommit>-->
+                            <!--<sqlCommand>DROP SCHEMA IF EXISTS "KS","CZ","SK","GB","DE","ES" CASCADE;</sqlCommand>-->
+                        <!--</configuration>-->
+                    <!--</execution>-->
+                <!--</executions>-->
+            <!--</plugin>-->
         </plugins>
     </build>
 

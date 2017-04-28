@@ -2,19 +2,15 @@ package com.github.kickshare.db.dao;
 
 import static org.testng.Assert.assertNotNull;
 
-import java.sql.Connection;
 import java.sql.SQLException;
 
 import com.github.kickshare.db.h2.tables.daos.GroupDao;
 import com.github.kickshare.db.h2.tables.pojos.Group;
 import org.jooq.DSLContext;
-import org.jooq.conf.Settings;
-import org.jooq.impl.DSL;
-import org.junit.BeforeClass;
-import org.junit.Test;
-import org.springframework.jdbc.datasource.embedded.EmbeddedDatabase;
-import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
-import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Test;
 //import org.testng.annotations.BeforeClass;
 //import org.testng.annotations.Test;
 
@@ -23,25 +19,21 @@ import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
  * @since 6.4.2017
  */
 public class GroupRepositoryTest {
-    private static EmbeddedDatabase db;
+    private static final Logger LOGGER = LoggerFactory.getLogger(GroupRepositoryTest.class);
     private static DSLContext dsl;
 
-    //    @BeforeClass
     @BeforeClass
     public static void setUp() throws SQLException {
-        //db = new EmbeddedDatabaseBuilder().addDefaultScripts().build();
-        db = new EmbeddedDatabaseBuilder()
-                .setType(EmbeddedDatabaseType.H2)
-                .addScript("data/db/V000__test_init.sql")
-                .addScript("db/migration/V001__init.sql")
-                .addScript("db/cz/migration/V101__init_data.sql")
-                .build();
-        Connection connection = db.getConnection();
-        Settings settings = new Settings().withRenderSchema(false);
-        dsl = DSL.using(connection, settings);
+        dsl = DSLUtil.create();
     }
 
     @Test
+    public void testGroupInfo() {
+        GroupRepository repository = new GroupRepositoryImpl(dsl.configuration());
+        LOGGER.info("{}", repository.getGroupInfo(1L));
+    }
+
+    @Test(enabled = false)
     public void load() throws SQLException {
 //        GroupRepositoryImpl repository = new GroupRepositoryImpl(dsl);
 //        Group group = repository.findOne(1L);
@@ -50,7 +42,7 @@ public class GroupRepositoryTest {
     }
 
 
-    @Test
+    @Test(enabled = false)
     public void create() throws SQLException {
 //        GroupRepositoryImpl repository = new GroupRepositoryImpl();
         GroupRepositoryImpl repository = new GroupRepositoryImpl(dsl.configuration());

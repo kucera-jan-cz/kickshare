@@ -8,8 +8,10 @@ import lombok.Data;
  */
 @Data
 public class User {
-    private Long id;
-    private String email;
-    private String name;
-    private String surname;
+    private final Long id;
+    private final String email;
+    private final String name;
+    private final String surname;
+    private final Float leaderRating;
+    private final Float backerRating;
 }

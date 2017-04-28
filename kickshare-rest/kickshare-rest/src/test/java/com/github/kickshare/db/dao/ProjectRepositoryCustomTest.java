@@ -1,16 +1,12 @@
 package com.github.kickshare.db.dao;
 
 
-import static org.testng.Assert.assertNotNull;
-
-import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.List;
 
-import com.github.kickshare.domain.Group;
-import org.springframework.jdbc.datasource.embedded.EmbeddedDatabase;
-import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
-import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
+import org.jooq.DSLContext;
+import org.jooq.Result;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -19,25 +15,25 @@ import org.testng.annotations.Test;
  * @since 3.4.2017
  */
 public class ProjectRepositoryCustomTest {
-    private EmbeddedDatabase db;
+    private static final Logger LOGGER = LoggerFactory.getLogger(ProjectRepositoryCustomTest.class);
+    private static DSLContext dsl;
 
     @BeforeClass
-    public void setUp() {
-        //db = new EmbeddedDatabaseBuilder().addDefaultScripts().build();
-        this.db = new EmbeddedDatabaseBuilder()
-                .setType(EmbeddedDatabaseType.H2)
-                .addScript("data/db/V000__test_init.sql")
-                .addScript("db/migration/V001__init.sql")
-                .addScript("db/cz/migration/V101__init_data.sql")
-                .build();
+    public void setUp() throws SQLException {
+        dsl = DSLUtil.create();
+
+        Result<?> tables = dsl.resultQuery("SELECT table_schema,table_name FROM information_schema.tables\n"
+                + "ORDER BY table_schema,table_name").fetch();
+        LOGGER.info("{}", tables);
     }
 
     @Test
     public void load() throws SQLException {
-        Connection connection = db.getConnection();
-        ProjectRepositoryCustom custom = new ProjectRepositoryCustomImpl(connection);
-        List<Group> groups = custom.findAllGroups(439380282L);
-        assertNotNull(groups);
+//        ProjectRepositoryCustom custom = new ProjectRepositoryCustomImpl(connection);
+//        List<Group> groups = custom.findAllGroups(439380282L);
+//        assertNotNull(groups);
+        ProjectRepository repository = new ProjectRepositoryImpl(dsl.configuration());
+        LOGGER.info("{}", repository.getBacker(1L));
 
     }
 }

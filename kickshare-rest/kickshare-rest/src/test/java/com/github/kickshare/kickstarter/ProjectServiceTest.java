@@ -25,7 +25,7 @@ public class ProjectServiceTest {
         final ClientHttpRequestFactory requestFactory = new MockMvcClientHttpRequestFactory(stream);
         final ObjectMapper mapper = new ObjectMapper();
         ProjectService service = new ProjectServiceImpl(requestFactory, mapper);
-        List<Project> projects = service.findProjects("Quodd Heroes", "TabletopGames");
+        List<Project> projects = service.findProjects("Quodd Heroes", 34);
         LOGGER.info("{}", mapper.writeValueAsString(projects));
         assertNull(projects);
 

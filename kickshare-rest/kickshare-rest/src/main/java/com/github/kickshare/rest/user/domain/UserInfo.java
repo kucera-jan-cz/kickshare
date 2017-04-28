@@ -18,5 +18,4 @@ public class UserInfo {
     private Address address;
 
 
-
 }

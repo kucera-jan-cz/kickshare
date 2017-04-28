@@ -4,6 +4,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.github.kickshare.domain.Project;
 import lombok.Data;
 
@@ -20,4 +21,7 @@ public class CreateGroupRequest {
     @NotNull
     @Size(min = 4)
     private String name;
+
+    @JsonProperty("is_local")
+    private Boolean isLocal;
 }

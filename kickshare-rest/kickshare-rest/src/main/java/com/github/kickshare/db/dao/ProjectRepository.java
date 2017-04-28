@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.github.kickshare.db.h2.tables.pojos.Project;
 import com.github.kickshare.db.h2.tables.records.ProjectRecord;
+import com.github.kickshare.domain.BackerInfo;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -14,4 +15,6 @@ import org.springframework.stereotype.Repository;
 public interface ProjectRepository extends EnhancedDAO<ProjectRecord, Project, Long> {
 
     List<Project> findProjects();
+
+    BackerInfo getBacker(Long id);
 }

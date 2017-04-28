@@ -1,6 +1,9 @@
 package com.github.kickshare.db.dao;
 
+import com.github.kickshare.db.h2.tables.daos.AddressDao;
+import com.github.kickshare.db.h2.tables.daos.BackerDao;
 import com.github.kickshare.db.h2.tables.daos.CategoryDao;
+import com.github.kickshare.db.h2.tables.daos.CityDao;
 import com.github.kickshare.db.h2.tables.daos.ProjectDao;
 import com.github.kickshare.db.h2.tables.daos.ProjectPhotoDao;
 import org.springframework.context.annotation.Bean;
@@ -25,5 +28,20 @@ public class DAOConfiguration {
     @Bean
     public CategoryDao categoryDao(org.jooq.Configuration configuration) {
         return new CategoryDao(configuration);
+    }
+
+    @Bean
+    public BackerDao backerDao(org.jooq.Configuration configuration) {
+        return new BackerDao(configuration);
+    }
+
+    @Bean
+    public CityDao cityDao(org.jooq.Configuration configuration) {
+        return new CityDao(configuration);
+    }
+
+    @Bean
+    public AddressDao addressDao(org.jooq.Configuration configuration) {
+        return new AddressDao(configuration);
     }
 }
