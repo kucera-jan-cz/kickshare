@@ -11,6 +11,7 @@ import com.github.kickshare.db.dao.GroupRepository;
 import com.github.kickshare.db.dao.KickshareRepository;
 import com.github.kickshare.db.h2.tables.Backer;
 import com.github.kickshare.db.h2.tables.pojos.Group;
+import com.github.kickshare.domain.GroupInfo;
 import com.github.kickshare.mapper.ExtendedMapper;
 import com.github.kickshare.rest.group.domain.CreateGroupRequest;
 import com.github.kickshare.security.CustomUser;
@@ -108,6 +109,11 @@ public class GroupEndpoint {
     public List<Group> getByProjectId(@RequestParam("project_id") Long projectId) {
 //        return dozer.map(groupRepository.findAllByProjectId(projectId), ;
         return null;
+    }
+
+    @GetMapping("/{groupId}")
+    public GroupInfo getUsers(@PathVariable Long groupId) {
+        return groupRepository.getGroupInfo(groupId);
     }
 
     @GetMapping("/{groupId}/users")

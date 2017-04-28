@@ -1,5 +1,8 @@
 package com.github.kickshare.domain;
 
+import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
@@ -8,6 +11,7 @@ import lombok.Data;
  * @since 10.4.2017
  */
 @Data
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class GroupInfo {
     //@TODO - maybe leave as id?
     //Project related
@@ -37,4 +41,8 @@ public class GroupInfo {
 
     @JsonProperty("participant_count")
     private Integer numOfParticipants;
+
+    private Group group;
+    private User leader;
+    private List<User> backers;
 }

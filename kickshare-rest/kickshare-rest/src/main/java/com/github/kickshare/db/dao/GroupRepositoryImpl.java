@@ -5,12 +5,17 @@ import static com.github.kickshare.db.h2.Tables.BACKER_2_GROUP;
 import static com.github.kickshare.db.h2.Tables.GROUP;
 
 import java.util.List;
+import java.util.Map;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 import com.github.kickshare.db.h2.tables.daos.GroupDao;
 import com.github.kickshare.db.h2.tables.pojos.Backer;
 import com.github.kickshare.db.h2.tables.pojos.Group;
 import com.github.kickshare.db.h2.tables.pojos.Project;
 import com.github.kickshare.db.h2.tables.records.GroupRecord;
+import com.github.kickshare.domain.GroupInfo;
+import com.github.kickshare.domain.User;
 import org.jooq.Configuration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -73,5 +78,28 @@ public class GroupRepositoryImpl extends AbstractRepository<GroupRecord, Group, 
         return null;
     }
 
+    @Override
+    public GroupInfo getGroupInfo(final Long groupId) {
+        Map<com.github.kickshare.domain.Group, List<User>> usersByGroup = dsl.select()
+                .from(BACKER)
+                .join(BACKER_2_GROUP).on(BACKER.ID.eq(BACKER_2_GROUP.BACKER_ID))
+                .join(GROUP).on(GROUP.ID.eq(BACKER_2_GROUP.GROUP_ID))
+                .where(BACKER_2_GROUP.GROUP_ID.eq(groupId))
+                .fetchGroups(
+                        r -> r.into(GROUP).into(com.github.kickshare.domain.Group.class),
+                        r -> r.into(BACKER).into(User.class)
+                );
+        GroupInfo info = new GroupInfo();
+        //@TODO figure out miss
+        Map.Entry<com.github.kickshare.domain.Group, List<User>> entry = usersByGroup.entrySet().iterator().next();
+        com.github.kickshare.domain.Group group = entry.getKey();
+        List<User> backers = entry.getValue();
+        Predicate<User> isLeader = (User b) -> b.getId().equals(group.getLeaderId());
+        Map<Boolean, List<User>> backersByLeadership = backers.stream().collect(Collectors.partitioningBy(isLeader));
+        info.setGroup(group);
+        info.setBackers(backersByLeadership.get(false));
+        info.setLeader(backersByLeadership.get(true).get(0));
+        return info;
+    }
 
 }

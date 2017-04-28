@@ -23,6 +23,7 @@ import org.springframework.security.web.csrf.CsrfTokenRepository;
  */
 @Configuration
 @Import({JooqConfiguration.class})
+//@EnableJdbcHttpSession
 //@ComponentScan(basePackages = {"com.github.kickshare.security.jwt.http"})
 public class SecurityConfig {
 
@@ -41,8 +42,9 @@ public class SecurityConfig {
 //
 //        return halObjectMapper
 //    }
+    //@TODO - figure out usage of this ObjectMapper instead of default one
     @Autowired
-    public void configeJackson(Jackson2ObjectMapperBuilder jackson2ObjectMapperBuilder) {
+    public void configureJackson(@Autowired Jackson2ObjectMapperBuilder jackson2ObjectMapperBuilder) {
         jackson2ObjectMapperBuilder.serializationInclusion(JsonInclude.Include.NON_NULL);
         jackson2ObjectMapperBuilder.modulesToInstall(new JavaTimeModule());
     }
@@ -106,15 +108,15 @@ public class SecurityConfig {
 //        return new JWTSecurityConfig();//unauthorizedHandler, passwordEncoder, authenticationTokenFilterBean);
 //    }
 
-    @Bean
-    public SessionBasedSecurityConfig securityConfig() {
-        return new SessionBasedSecurityConfig();
-    }
-
 //    @Bean
-//    public BasicAuthSecurityConfig securityConfig() {
-//        return new BasicAuthSecurityConfig(null);
+//    public SessionBasedSecurityConfig securityConfig() {
+//        return new SessionBasedSecurityConfig();
 //    }
+
+    @Bean
+    public BasicAuthSecurityConfig securityConfig() {
+        return new BasicAuthSecurityConfig(null);
+    }
 
     @Bean
     public CsrfTokenRepository csrfTokenRepository() {
