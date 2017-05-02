@@ -26,9 +26,10 @@
         <json-path.version>2.2.0</json-path.version>
 		<commons-io.version>2.4</commons-io.version>
 		<testng.version>6.9.10</testng.version>
-		<elasticsearch.version>2.1.1</elasticsearch.version>
+		<!--<elasticsearch.version>2.1.1</elasticsearch.version>-->
         <elasticsearch-rest.version>5.2.2</elasticsearch-rest.version>
         <elasticsearch-transport.version>5.2.2</elasticsearch-transport.version>
+        <postgresql.version>42.0.0</postgresql.version>
 		<zookeeper.version>3.4.8</zookeeper.version>
 		<jackson.version>2.6.2</jackson.version>
 		<config.version>1.2.1</config.version>
