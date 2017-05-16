@@ -33,7 +33,11 @@ public interface KickshareRepository {
      */
     ProjectInfo findProjectInfo(Long projectId);
 
+    List<ProjectInfo> findProjectInfoByName(final String name);
+
     List<GroupInfo> findAllGroupInfo(Long projectId);
+
+    void saveProjects(final List<ProjectInfo> projects);
 
 
     //DASHBOARD
