@@ -281,41 +281,41 @@
                     </execution>
                 </executions>
             </plugin>
-            <!--<plugin>-->
-                <!--<groupId>org.codehaus.mojo</groupId>-->
-                <!--<artifactId>sql-maven-plugin</artifactId>-->
-                <!--<version>3.0.0-SNAPSHOT</version>-->
-
-                <!--<dependencies>-->
-                    <!--&lt;!&ndash; specify the dependent jdbc driver here &ndash;&gt;-->
-                    <!--<dependency>-->
-                        <!--<groupId>org.postgresql</groupId>-->
-                        <!--<artifactId>postgresql</artifactId>-->
-                        <!--<version>${postgresql.version}</version>-->
-                    <!--</dependency>-->
-                <!--</dependencies>-->
-                <!--&lt;!&ndash; common configuration shared by all executions &ndash;&gt;-->
-                <!--<configuration>-->
-                    <!--<driver>org.postgresql.Driver</driver>-->
-                    <!--<url>${db.url}</url>-->
-                    <!--<username>${db.username}</username>-->
-                    <!--<password>${db.password}</password>-->
-                    <!--&lt;!&ndash;all executions are ignored if -Dmaven.test.skip=true&ndash;&gt;-->
-                <!--</configuration>-->
-                <!--<executions>-->
-                    <!--<execution>-->
-                        <!--<id>drop-schemas</id>-->
-                        <!--<phase>clean</phase>-->
-                        <!--<goals>-->
-                            <!--<goal>execute</goal>-->
-                        <!--</goals>-->
-                        <!--<configuration>-->
-                            <!--<autocommit>true</autocommit>-->
-                            <!--<sqlCommand>DROP SCHEMA IF EXISTS "KS","CZ","SK","GB","DE","ES" CASCADE;</sqlCommand>-->
-                        <!--</configuration>-->
-                    <!--</execution>-->
-                <!--</executions>-->
-            <!--</plugin>-->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>sql-maven-plugin</artifactId>
+                <version>1.5</version>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.postgresql</groupId>
+                        <artifactId>postgresql</artifactId>
+                        <version>${postgresql.version}</version>
+                    </dependency>
+                </dependencies>
+                <configuration>
+                    <driver>org.postgresql.Driver</driver>
+                    <url>${db.url}</url>
+                    <username>${db.username}</username>
+                    <password>${db.password}</password>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>drop-schemas</id>
+                        <phase>clean</phase>
+                        <goals>
+                            <goal>execute</goal>
+                        </goals>
+                        <configuration>
+                            <delimiter>/</delimiter>
+                            <delimiterType>normal</delimiterType>
+                            <autocommit>true</autocommit>
+                            <srcFiles>
+                                <srcFile>${project.basedir}/integration/sql/drop_schemas.sql</srcFile>
+                            </srcFiles>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
     </build>
 
