@@ -11,3 +11,4 @@ import com.github.kickshare.domain.Project;
 public interface ProjectService {
     Long registerProject(Project project) throws IOException;
 }
+

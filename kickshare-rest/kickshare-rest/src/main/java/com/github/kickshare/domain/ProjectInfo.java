@@ -21,6 +21,8 @@ public class ProjectInfo {
     @JsonIgnore
     private Project project;
 
+    private ProjectPhoto photo;
+
     public ProjectInfo() {
         this.project = new Project();
     }

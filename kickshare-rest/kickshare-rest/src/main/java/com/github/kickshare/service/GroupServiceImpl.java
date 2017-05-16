@@ -27,11 +27,20 @@ public class GroupServiceImpl {
     private final CityDao cityDao;
     private final BackerDao dao;
 
+
     @Transactional
     public Long createGroup(String groupName, Long leaderId, Long projectId, Boolean isLocal) {
         Validate.isTrue(projectRepository.existsById(projectId));
         City city = cityDao.fetchOneById(1);
         Group group = new Group(null, leaderId, projectId, groupName, null, null, true);
         return groupRepository.createReturningKey(group);
+    }
+
+    public Long createGroup(, Long leaderId) {
+        Long projectId = 1L;
+        String name = "";
+        dao.fetchOneById(leaderId).
+        Group group = new Group(null, leaderId, projectId, name, null, null, true);
+        groupRepository.createReturningKey(group);
     }
 }

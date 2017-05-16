@@ -4,7 +4,7 @@ import static com.github.kickshare.db.h2.Tables.BACKER;
 import static com.github.kickshare.db.h2.Tables.BACKER_2_GROUP;
 import static com.github.kickshare.db.h2.Tables.CITY;
 import static com.github.kickshare.db.h2.Tables.GROUP;
-import static org.jooq.impl.DSL.concat;
+import static com.github.kickshare.db.h2.Tables.PROJECT;
 import static org.jooq.impl.DSL.count;
 import static org.jooq.impl.DSL.val;
 
@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import com.github.kickshare.db.h2.tables.Backer;
 import com.github.kickshare.db.h2.tables.Group;
@@ -19,6 +20,7 @@ import com.github.kickshare.db.h2.tables.daos.ProjectDao;
 import com.github.kickshare.db.h2.tables.daos.ProjectPhotoDao;
 import com.github.kickshare.db.h2.tables.pojos.Project;
 import com.github.kickshare.db.h2.tables.pojos.ProjectPhoto;
+import com.github.kickshare.db.h2.tables.records.ProjectRecord;
 import com.github.kickshare.domain.City;
 import com.github.kickshare.domain.GroupInfo;
 import com.github.kickshare.domain.ProjectInfo;
@@ -70,6 +72,38 @@ public class KickshareRepositoryImpl implements KickshareRepository {
     }
 
     @Override
+    @Transactional(propagation = Propagation.REQUIRED)
+    public List<ProjectInfo> findProjectInfoByName(final String name) {
+        final List<Project> projects = searchProject(name);
+        final List<ProjectInfo> infos = projects.stream().map(project -> {
+            final ProjectPhoto projectPhoto = photoDao.fetchOneByProjectId(project.getId());
+            ProjectInfo info = new ProjectInfo();
+            info.setProject(mapper.map(project, com.github.kickshare.domain.Project.class));
+            info.setPhotoUrl(projectPhoto.getThumb());
+            return info;
+        }).collect(Collectors.toList());
+        return infos;
+    }
+
+    @Override
+    @Transactional(propagation = Propagation.REQUIRED)
+    public void saveProjects(final List<ProjectInfo> projects) {
+//        projects.stream()
+//                .map(p -> mapper.map(p, Project.class))
+//                .forEach(p -> dsl.insertInto(PROJECT).values(p).onDuplicateKeyIgnore().execute());
+        for(ProjectInfo info: projects) {
+            Project project = mapper.map(info, Project.class);
+            ProjectRecord record = dsl.newRecord(PROJECT, project);
+            int count = dsl.insertInto(PROJECT, record.fields()).values(record.valuesRow().fields()).onConflictDoNothing().execute();
+            if(count > 0) {
+                ProjectPhoto photo = mapper.map(info.getPhoto(), ProjectPhoto.class);
+                photo.setProjectId(info.getId());
+                photoDao.insert(photo);
+            }
+        }
+    }
+
+    @Override
     //@TODO - make this transactional
     public List<GroupInfo> findAllGroupInfo(final Long projectId) {
         final Project project = projectDao.fetchOneById(projectId);
@@ -118,7 +152,7 @@ public class KickshareRepositoryImpl implements KickshareRepository {
         return dsl.select()
                 .from(CITY)
                 .where(CITY.LAT.between(BigDecimal.valueOf(sw.getLat()), BigDecimal.valueOf(ne.getLat()))
-                        .and(CITY.LON.between(BigDecimal.valueOf(sw.getLon()),BigDecimal.valueOf(ne.getLon())))
+                        .and(CITY.LON.between(BigDecimal.valueOf(sw.getLon()), BigDecimal.valueOf(ne.getLon())))
                 )
                 .limit(1_000)
                 .fetchInto(City.class);
@@ -170,6 +204,10 @@ public class KickshareRepositoryImpl implements KickshareRepository {
         Condition latCondition = GROUP.LAT.between(BigDecimal.valueOf(se.getLat()), BigDecimal.valueOf(nw.getLat()));
         Condition lonCondition = GROUP.LON.between(BigDecimal.valueOf(se.getLon()), BigDecimal.valueOf(nw.getLon()));
         return latCondition.and(lonCondition);
+    }
+
+    private List<Project> searchProject(String name) {
+        return dsl.select().from(PROJECT).where(PROJECT.NAME.like('%' + name + '%')).fetchInto(Project.class);
     }
 
 
