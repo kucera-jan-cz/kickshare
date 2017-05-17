@@ -10,13 +10,14 @@ import javax.validation.Valid;
 import com.github.kickshare.db.dao.GroupRepository;
 import com.github.kickshare.db.dao.KickshareRepository;
 import com.github.kickshare.db.h2.tables.Backer;
-import com.github.kickshare.db.h2.tables.pojos.Group;
+import com.github.kickshare.domain.Group;
 import com.github.kickshare.domain.GroupInfo;
 import com.github.kickshare.mapper.ExtendedMapper;
 import com.github.kickshare.rest.group.domain.CreateGroupRequest;
 import com.github.kickshare.security.CustomUser;
 import com.github.kickshare.service.GeoBoundary;
 import com.github.kickshare.service.GroupSearchOptions;
+import com.github.kickshare.service.GroupServiceImpl;
 import com.github.kickshare.service.Location;
 import com.github.kickshare.service.ProjectService;
 import com.github.kickshare.service.entity.CityGrid;
@@ -63,6 +64,7 @@ public class GroupEndpoint {
     private GroupRepository groupRepository;
     private KickshareRepository repository;
     private ExtendedMapper dozer;
+    private GroupServiceImpl groupService;
 
     @RequestMapping(value = "/search/jsonp", produces = MediaType.APPLICATION_JSON_VALUE)
     public FeatureCollection getData(
@@ -90,13 +92,22 @@ public class GroupEndpoint {
         return collection;
     }
 
+    @PostMapping
+    public Long create(@RequestBody @Valid Group group, @AuthenticationPrincipal CustomUser customUser) throws IOException {
+        final Long projectId = group.getProjectId();
+        final String name = group.getName();
+        final boolean isLocal = group.getIsLocal();
+        return groupService.createGroup(projectId, name, customUser.getId(), isLocal);
+    }
+
     //@TODO - simple post would be better
     @PostMapping("/create")
     public Long createGroup(@RequestBody @Valid CreateGroupRequest request,
             @AuthenticationPrincipal CustomUser customUser) throws IOException {
         LOGGER.info("{}", customUser);
         Long projectId = projectService.registerProject(request.getProject());
-        Group group = new Group(null, customUser.getId(), projectId, request.getName(), null, null, true);
+        com.github.kickshare.db.h2.tables.pojos.Group group = new com.github.kickshare.db.h2.tables.pojos.Group(null, customUser.getId(), projectId,
+                request.getName(), null, null, true);
         return groupRepository.createReturningKey(group);
     }
 
