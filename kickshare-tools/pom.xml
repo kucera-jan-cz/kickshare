@@ -20,7 +20,8 @@
         <json4s.version>3.4.0</json4s.version>
         <jsurfer4s.version>0.0.1-SNAPSHOT</jsurfer4s.version>
         <json4s-jackson.version>3.5.0</json4s-jackson.version>
-
+        <gatling.version>2.2.5</gatling.version>
+        <gatling-plugin.version>2.2.4</gatling-plugin.version>
         <!-- JAVA -->
         <slf4j.version>1.7.21</slf4j.version>
         <json-path.version>2.2.0</json-path.version>
@@ -44,6 +45,7 @@
 
 	<modules>
 		<module>data-indexer</module>
+        <module>stress-test</module>
 	</modules>
 
 </project>
