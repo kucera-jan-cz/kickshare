@@ -5,6 +5,7 @@ import static com.github.kickshare.db.h2.Tables.BACKER_2_GROUP;
 import static com.github.kickshare.db.h2.Tables.CITY;
 import static com.github.kickshare.db.h2.Tables.GROUP;
 import static com.github.kickshare.db.h2.Tables.PROJECT;
+import static org.jooq.impl.DSL.concat;
 import static org.jooq.impl.DSL.count;
 import static org.jooq.impl.DSL.val;
 

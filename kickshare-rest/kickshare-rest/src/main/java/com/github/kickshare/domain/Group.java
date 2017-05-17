@@ -1,5 +1,9 @@
 package com.github.kickshare.domain;
 
+import javax.validation.constraints.NotNull;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 /**
@@ -7,9 +11,20 @@ import lombok.Data;
  * @since 10.4.2017
  */
 @Data
+@AllArgsConstructor
 public class Group {
-    private Long   id;
-    private Long   leaderId;
-    private Long   projectId;
+    private Long id;
+
+    @NotNull
     private String name;
+
+    private Long leaderId;
+
+    @NotNull
+    @JsonProperty("project_id")
+    private Long projectId;
+
+    @NotNull
+    @JsonProperty("is_local")
+    private Boolean isLocal;
 }
