@@ -14,6 +14,7 @@ INSERT INTO backer (id, email, name, surname, leader_rating, backer_rating) VALU
 (3, 'peter.parker@gmail.com', 'Peter', 'Parker', NULL, NULL),
 (4, 'tony.stark@gmail.com', 'Tony', 'Stark', NULL, NULL)
 ;
+ALTER SEQUENCE backer_id_seq RESTART WITH 100;
 
 INSERT INTO "group" (id, leader_id, name, project_id, lat, lon, is_local) VALUES
 (1, 1, 'Quodd Heroes CZ Brno', 439380282, 49.1951, 16.6068, false);
@@ -47,3 +48,5 @@ INSERT INTO backer_2_group (group_id, backer_id) VALUES (7, 3);
 
 INSERT INTO "group" (id, leader_id, name, project_id, lat, lon, is_local) VALUES (8, 4, 'The Edge CZ České Budějovice', 1893061183, 49.0520, 15.8086, true );
 INSERT INTO backer_2_group (group_id, backer_id) VALUES (8, 3);
+
+ALTER SEQUENCE group_id_seq RESTART WITH 100;
