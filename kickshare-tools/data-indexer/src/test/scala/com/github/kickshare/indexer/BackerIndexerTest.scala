@@ -82,7 +82,7 @@ class BackerIndexerTest extends FunSuite with Slf4jLogging {
     SQL(s"""INSERT INTO address (backer_id, street, city, postal_code) VALUES ({id}, {street}, {city}, {postal_code})""")
       .batchByName(Seq('id -> city.id, 'city -> city.name, 'street -> faker.address().streetAddress(), 'postal_code -> faker.address().zipCode()))
 
-    SQL(s"""SELECT * FROM 'group' TABLESAMPLE BERNOULLI (10) LIMIT 2;"""
+//    SQL(s"""SELECT * FROM 'group' TABLESAMPLE BERNOULLI (10) LIMIT 2;""");
   }
 
 
