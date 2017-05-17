@@ -59,7 +59,8 @@ CREATE TABLE backer_locations (
 
 CREATE TABLE backer_2_group (
     group_id BIGSERIAL NOT NULL REFERENCES "group" (id) ON DELETE CASCADE,
-    backer_id BIGSERIAL NOT NULL REFERENCES backer (id)
+    backer_id BIGSERIAL NOT NULL REFERENCES backer (id),
+    PRIMARY KEY (group_id, backer_id)
 );
 
 CREATE TABLE backer_rating (
