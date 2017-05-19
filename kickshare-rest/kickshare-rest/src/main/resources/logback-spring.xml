@@ -9,21 +9,13 @@
     <!--</appender>-->
     <!--https://github.com/spring-projects/spring-boot/blob/master/spring-boot/src/main/resources/org/springframework/boot/logging/logback/defaults.xml -->
 
-    <logger name="org.springframework.web" level="WARN" additivity="false">
-        <appender-ref ref="CONSOLE"/>
-    </logger>
-    <logger name="org.springframework.security.web.FilterChainProxy" level="WARN">
-        <appender-ref ref="CONSOLE"/>
-    </logger>
-    <logger name="com.github.kickshare" level="INFO" additivity="false">
-        <appender-ref ref="CONSOLE"/>
-    </logger>
-    <logger name="com.github.kickshare.db.tools.SQLLogging" level="DEBUG" additivity="false">
-        <appender-ref ref="CONSOLE"/>
-    </logger>
-    <logger name="org.flywaydb.core" level="INFO" additivity="false">
-        <appender-ref ref="CONSOLE"/>
-    </logger>
+    <logger name="org.springframework.web" level="WARN" />
+    <!--<logger name="org.springframework" level="DEBUG" />-->
+    <logger name="org.springframework.security.web.FilterChainProxy" level="DEBUG"/>
+    <logger name="org.springframework.boot.autoconfigure.logging.AutoConfigurationReportLoggingInitializer" level="DEBUG" />
+    <logger name="com.github.kickshare" level="INFO" />
+    <logger name="com.github.kickshare.db.tools.SQLLogging" level="DEBUG"/>
+    <logger name="org.flywaydb.core" level="INFO"/>
 
 
     <root level="DEBUG">

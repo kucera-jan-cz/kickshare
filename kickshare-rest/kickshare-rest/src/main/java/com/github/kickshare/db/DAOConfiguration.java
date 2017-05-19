@@ -1,4 +1,4 @@
-package com.github.kickshare.db.dao;
+package com.github.kickshare.db;
 
 import com.github.kickshare.db.h2.tables.daos.AddressDao;
 import com.github.kickshare.db.h2.tables.daos.BackerDao;
