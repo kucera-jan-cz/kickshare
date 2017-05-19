@@ -72,9 +72,9 @@ CREATE TABLE backer_rating (
 
 -- @TODO remove once it's moved to Spring table
 CREATE TABLE user_auth (
-    user_id bigserial PRIMARY KEY REFERENCES backer(id),
-    name varchar (255),
-    password varchar (255)
+    user_id BIGSERIAL PRIMARY KEY REFERENCES backer(id),
+    name VARCHAR (255),
+    password VARCHAR (255)
 );
 
 CREATE TABLE category (
