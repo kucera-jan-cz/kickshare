@@ -39,7 +39,8 @@ public class GroupServiceImpl {
     }
 
     public Long createGroup(Long projectId, String groupName, Long leaderId, boolean isLocal) {
-        City city = backerRepository.getPermanentAddress(leaderId);
+        Validate.isTrue(projectRepository.existsById(projectId), "Given project id ({0}) does not exists", projectId);
+        City city = Validate.notNull(backerRepository.getPermanentAddress(leaderId), "Give leader ({0}) does not have permanent address", leaderId);
         Group group = new Group(null, leaderId, projectId, groupName, city.getLat(), city.getLon(), isLocal);
         Long groupId = groupRepository.createReturningKey(group);
         backer2GroupDao.insert(new Backer_2Group(groupId, leaderId));

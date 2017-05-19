@@ -6,18 +6,23 @@ import com.github.kickshare.mapper.MappingConfiguration;
 import com.github.kickshare.security.SecurityConfig;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.SpringBootConfiguration;
+import org.springframework.boot.actuate.autoconfigure.MetricExportAutoConfiguration;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.autoconfigure.cache.CacheAutoConfiguration;
+import org.springframework.boot.autoconfigure.flyway.FlywayAutoConfiguration;
+import org.springframework.boot.autoconfigure.jmx.JmxAutoConfiguration;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Import;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 
 @SpringBootConfiguration
-@EnableAutoConfiguration(exclude = { })
+@EnableAutoConfiguration(exclude = { FlywayAutoConfiguration.class, JmxAutoConfiguration.class, MetricExportAutoConfiguration.class,
+        CacheAutoConfiguration.class })
+@Import({ JooqConfiguration.class, SecurityConfig.class, MappingConfiguration.class, KSConfiguration.class, })
 @ComponentScan(basePackages = { "com.github.kickshare.rest", "com.github.kickshare.service", "com.github.kickshare.db" })
 @EnableWebSecurity(debug = true)
 @EnableConfigurationProperties
-@Import({ JooqConfiguration.class, SecurityConfig.class, MappingConfiguration.class, KSConfiguration.class })
 public class KickshareRestApplication {
 
 //    @Bean
