@@ -1,6 +1,15 @@
 package com.github.kickshare.rest;
 
+import com.github.kickshare.db.dao.BackerRepository;
+import com.github.kickshare.db.h2.tables.pojos.Backer;
 import com.github.kickshare.rest.user.domain.UserInfo;
+import com.github.kickshare.security.BackerDetails;
+import lombok.AllArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,7 +23,13 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("/users")
+@AllArgsConstructor
 public class UserEndpoint {
+    private static final Logger LOGGER = LoggerFactory.getLogger(UserEndpoint.class);
+    private BackerRepository backerRepository;
+    private UserDetailsManager userManager;
+    private PasswordEncoder encoder;
+
 
     @GetMapping("/{userId}/info")
     public UserInfo getInfo(@PathVariable String userId) {
@@ -22,8 +37,13 @@ public class UserEndpoint {
     }
 
     @PostMapping
-    public String createUser(@RequestBody UserInfo user) {
-        return null;
+    public UserDetails createUser(@RequestBody UserInfo user) {
+        //@TODO create backer
+        LOGGER.info("Creating user: {}", user);
+        Long id = backerRepository.createReturningKey(new Backer(null, user.getEmail(), "Testing", "User", new Float(5.0), new Float(5.0)));
+        BackerDetails userToStore = new BackerDetails(user.getEmail(), encoder.encode("user"), id);
+        userManager.createUser(userToStore);
+        return userManager.loadUserByUsername(user.getEmail());
     }
 
 }

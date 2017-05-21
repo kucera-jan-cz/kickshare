@@ -1,6 +1,7 @@
 package com.github.kickshare.security;
 
 import java.io.IOException;
+import java.util.Optional;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -21,9 +22,9 @@ public class SchemaHttpFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(final HttpServletRequest request, final HttpServletResponse response, final FilterChain filterChain)
             throws ServletException, IOException {
-//        String schema = request.getHeader("country");
-        String schema = "CZ";
+
         //@TODO - validate that schema is setup
+        String schema = Optional.ofNullable(request.getHeader("country")).orElse("CZ");
         SchemaContextHolder.setSchema(schema);
         filterChain.doFilter(request, response);
     }
