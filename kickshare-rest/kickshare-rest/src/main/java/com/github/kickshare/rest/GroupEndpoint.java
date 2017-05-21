@@ -14,7 +14,7 @@ import com.github.kickshare.domain.Group;
 import com.github.kickshare.domain.GroupInfo;
 import com.github.kickshare.mapper.ExtendedMapper;
 import com.github.kickshare.rest.group.domain.CreateGroupRequest;
-import com.github.kickshare.security.CustomUser;
+import com.github.kickshare.security.BackerDetails;
 import com.github.kickshare.service.GeoBoundary;
 import com.github.kickshare.service.GroupSearchOptions;
 import com.github.kickshare.service.GroupServiceImpl;
@@ -93,20 +93,20 @@ public class GroupEndpoint {
     }
 
     @PostMapping
-    public Long create(@RequestBody @Valid Group group, @AuthenticationPrincipal CustomUser customUser) throws IOException {
+    public Long create(@RequestBody @Valid Group group, @AuthenticationPrincipal BackerDetails user) throws IOException {
         final Long projectId = group.getProjectId();
         final String name = group.getName();
         final boolean isLocal = group.getIsLocal();
-        return groupService.createGroup(projectId, name, customUser.getId(), isLocal);
+        return groupService.createGroup(projectId, name, user.getId(), isLocal);
     }
 
     //@TODO - simple post would be better
     @PostMapping("/create")
     public Long createGroup(@RequestBody @Valid CreateGroupRequest request,
-            @AuthenticationPrincipal CustomUser customUser) throws IOException {
-        LOGGER.info("{}", customUser);
+            @AuthenticationPrincipal BackerDetails user) throws IOException {
+        LOGGER.info("{}", user);
         Long projectId = projectService.registerProject(request.getProject());
-        com.github.kickshare.db.h2.tables.pojos.Group group = new com.github.kickshare.db.h2.tables.pojos.Group(null, customUser.getId(), projectId,
+        com.github.kickshare.db.h2.tables.pojos.Group group = new com.github.kickshare.db.h2.tables.pojos.Group(null, user.getId(), projectId,
                 request.getName(), null, null, true);
         return groupRepository.createReturningKey(group);
     }

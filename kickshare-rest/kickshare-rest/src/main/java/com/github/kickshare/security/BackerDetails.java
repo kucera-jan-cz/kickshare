@@ -9,10 +9,10 @@ import org.springframework.security.core.userdetails.User;
  * @author Jan.Kucera
  * @since 8.4.2017
  */
-public class CustomUser extends User {
+public class BackerDetails extends User {
     private final Long id;
 
-    public CustomUser(final String username, final String password, final Long id) {
+    public BackerDetails(final String username, final String password, final Long id) {
         super(username, password,
                 Arrays.asList(new SimpleGrantedAuthority("USER"), new SimpleGrantedAuthority("ACTUATOR")));
         this.id = id;
