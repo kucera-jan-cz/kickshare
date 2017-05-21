@@ -17,7 +17,7 @@ CREATE TABLE project (
 ---- @TODO - email must be unique
 CREATE TABLE backer (
 	id BIGSERIAL PRIMARY KEY,
-	email VARCHAR (255),
+	email VARCHAR (255) UNIQUE,
 	name VARCHAR (255) NOT NULL,
 	surname VARCHAR (255) NOT NULL,
 	leader_rating REAL,
