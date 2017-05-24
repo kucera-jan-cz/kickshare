@@ -22,7 +22,7 @@ import org.springframework.context.annotation.Import;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.provisioning.UserDetailsManager;
+import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.security.web.csrf.CsrfTokenRepository;
 import org.springframework.session.jdbc.config.annotation.web.http.EnableJdbcHttpSession;
@@ -36,7 +36,7 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
  */
 @Configuration
 @Import({ JooqConfiguration.class })
-@EnableJdbcHttpSession(maxInactiveIntervalInSeconds = 30)
+@EnableJdbcHttpSession(maxInactiveIntervalInSeconds = 120)
 @ComponentScan(basePackages = { "com.github.kickshare.security.session" })
 public class SecurityConfig {
     private static final Logger LOGGER = LoggerFactory.getLogger(SecurityConfig.class);
@@ -129,7 +129,7 @@ public class SecurityConfig {
 
     @Bean
     @Autowired
-    public UserDetailsManager udm(DataSource dataSource) {
+    public JdbcUserDetailsManager udm(DataSource dataSource) {
         ExtendedJdbcUserDetailsManager udm = new ExtendedJdbcUserDetailsManager();
         udm.setDataSource(new MultiSchemaDataSource(dataSource));
         return udm;

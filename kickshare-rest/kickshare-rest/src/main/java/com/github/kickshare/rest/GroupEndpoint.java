@@ -106,14 +106,15 @@ public class GroupEndpoint {
             @AuthenticationPrincipal BackerDetails user) throws IOException {
         LOGGER.info("{}", user);
         Long projectId = projectService.registerProject(request.getProject());
+
         com.github.kickshare.db.h2.tables.pojos.Group group = new com.github.kickshare.db.h2.tables.pojos.Group(null, user.getId(), projectId,
-                request.getName(), null, null, true);
+                request.getName(), null, null, null, true);
         return groupRepository.createReturningKey(group);
     }
 
     @PostMapping("/{groupId}/users")
-    public void registerParticipant(@PathVariable Long groupId) {
-        groupRepository.registerUser(groupId, USER_ID);
+    public void registerParticipant(@PathVariable Long groupId, @AuthenticationPrincipal BackerDetails user) {
+        groupService.registerBacker(groupId, user.getId());
     }
 
     @GetMapping

@@ -22,4 +22,9 @@
         <class-b>com.github.kickshare.db.h2.tables.pojos.Category</class-b>
     </mapping>
 
+    <mapping wildcard="true">
+        <class-a>com.github.kickshare.domain.Leader</class-a>
+        <class-b>com.github.kickshare.db.h2.tables.pojos.Leader</class-b>
+    </mapping>
+
 </mappings>

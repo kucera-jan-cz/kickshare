@@ -17,6 +17,7 @@ import java.util.stream.Collectors;
 
 import com.github.kickshare.db.h2.tables.Backer;
 import com.github.kickshare.db.h2.tables.Group;
+import com.github.kickshare.db.h2.tables.daos.LeaderDao;
 import com.github.kickshare.db.h2.tables.daos.ProjectDao;
 import com.github.kickshare.db.h2.tables.daos.ProjectPhotoDao;
 import com.github.kickshare.db.h2.tables.pojos.Project;
@@ -59,7 +60,9 @@ public class KickshareRepositoryImpl implements KickshareRepository {
     private DSLContext dsl;
     private ProjectDao projectDao;
     private ProjectPhotoDao photoDao;
+    private final LeaderDao leaderDao;
     private ExtendedMapper mapper;
+//    private JdbcUserDetailsManager userManager;
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
@@ -92,11 +95,11 @@ public class KickshareRepositoryImpl implements KickshareRepository {
 //        projects.stream()
 //                .map(p -> mapper.map(p, Project.class))
 //                .forEach(p -> dsl.insertInto(PROJECT).values(p).onDuplicateKeyIgnore().execute());
-        for(ProjectInfo info: projects) {
+        for (ProjectInfo info : projects) {
             Project project = mapper.map(info, Project.class);
             ProjectRecord record = dsl.newRecord(PROJECT, project);
             int count = dsl.insertInto(PROJECT, record.fields()).values(record.valuesRow().fields()).onConflictDoNothing().execute();
-            if(count > 0) {
+            if (count > 0) {
                 ProjectPhoto photo = mapper.map(info.getPhoto(), ProjectPhoto.class);
                 photo.setProjectId(info.getId());
                 photoDao.insert(photo);

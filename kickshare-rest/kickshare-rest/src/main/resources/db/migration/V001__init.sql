@@ -14,7 +14,6 @@ CREATE TABLE project (
 	deadline DATE
 );
 
----- @TODO - email must be unique
 CREATE TABLE backer (
 	id BIGSERIAL PRIMARY KEY,
 	email VARCHAR (255) UNIQUE,
@@ -22,6 +21,12 @@ CREATE TABLE backer (
 	surname VARCHAR (255) NOT NULL,
 	leader_rating REAL,
 	backer_rating REAL
+);
+
+CREATE TABLE leader (
+    backer_id BIGSERIAL PRIMARY KEY REFERENCES backer(id),
+    email VARCHAR (255) UNIQUE,
+    kickstarter_id BIGINT UNIQUE
 );
 
 CREATE TABLE address (
@@ -37,10 +42,12 @@ CREATE TABLE "group" (
     leader_id BIGINT NOT NULL REFERENCES backer(id),
     project_id BIGINT NOT NULL REFERENCES project(id),
     name VARCHAR(255) NOT NULL,
+    city_id INTEGER NOT NULL,
     lat NUMERIC(10,6) NOT NULL,
     lon NUMERIC(10,6) NOT NULL,
 --    @TODO consider making city_id reference
     is_local BOOLEAN DEFAULT TRUE
+
 );
 
 CREATE TABLE project_photo (
