@@ -16,6 +16,8 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.github.kickshare.kickstarter.entity.Project;
 import com.github.kickshare.kickstarter.entity.ProjectPhoto;
+import com.github.kickshare.kickstarter.entity.User;
+import com.github.kickshare.kickstarter.exception.AuthenticationException;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,10 +38,11 @@ import org.springframework.web.util.UriComponentsBuilder;
 @Component("ks.kickstarter.projectService")
 public class ProjectServiceImpl implements ProjectService {
     private static final Logger LOGGER = LoggerFactory.getLogger(ProjectServiceImpl.class);
+    public static final String KS_PRODUCTION_ID = "2II5GGBZLOOZAA5XBU1U0Y44BU57Q58L8KOGM7H0E0YFHP3KTG";
     private ClientHttpRequestFactory requestFactory;
     private ObjectMapper mapper;
     private final UriComponentsBuilder termUriBuilder = ProjectServiceImpl.createTermSearchBuilder();
-    private final UriComponentsBuilder advancedSearchUriBuilder = ProjectServiceImpl.createTermSearchBuilder();
+    private final URI xauthUri = ProjectServiceImpl.createXAuthBuilder().build().toUri();
 
     @Override
     @Deprecated
@@ -62,6 +65,16 @@ public class ProjectServiceImpl implements ProjectService {
         return parseProjects(root);
     }
 
+    @Override
+    public Long verify(String user, String password) throws IOException, AuthenticationException {
+        ClientHttpResponse response = post(xauthUri, new User(user, password));
+        if(!response.getStatusCode().is2xxSuccessful()) {
+            throw new AuthenticationException();
+        }
+        JsonNode responseRoot = mapper.readTree(response.getBody());
+        return responseRoot.path("user").path("id").asLong();
+    }
+
     private List<Project> parseProjects(JsonNode root) {
         ArrayNode projectsNode = (ArrayNode) root.get("projects");
         List<Project> projects = new ArrayList<>();
@@ -78,6 +91,13 @@ public class ProjectServiceImpl implements ProjectService {
         ClientHttpRequest request = requestFactory.createRequest(uri, HttpMethod.GET);
         ClientHttpResponse response = request.execute();
         return response.getBody();
+    }
+
+    private ClientHttpResponse post(URI uri, Object body) throws IOException {
+        ClientHttpRequest request = requestFactory.createRequest(uri, HttpMethod.POST);
+        mapper.writeValue(request.getBody(), body);
+        ClientHttpResponse response = request.execute();
+        return response;
     }
 
     private Project parseProject(ObjectNode projectNode) {
@@ -116,4 +136,11 @@ public class ProjectServiceImpl implements ProjectService {
                 .queryParam("category_id", "{category_id}");
     }
 
+    public static UriComponentsBuilder createXAuthBuilder() {
+        return UriComponentsBuilder.newInstance()
+                .scheme("https")
+                .host("api.kickstarter.com")
+                .path("/xauth/access_token")
+                .queryParam("client_id", KS_PRODUCTION_ID);
+    }
 }

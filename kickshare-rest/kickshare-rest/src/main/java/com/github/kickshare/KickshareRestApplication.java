@@ -1,5 +1,6 @@
 package com.github.kickshare;
 
+import com.github.kickshare.db.DAOConfiguration;
 import com.github.kickshare.db.JooqConfiguration;
 import com.github.kickshare.kickstarter.KSConfiguration;
 import com.github.kickshare.mapper.MappingConfiguration;
@@ -19,7 +20,7 @@ import org.springframework.context.annotation.Import;
 @EnableAutoConfiguration(exclude = {
         FlywayAutoConfiguration.class, JmxAutoConfiguration.class,
         MetricExportAutoConfiguration.class, CacheAutoConfiguration.class })
-@Import({ JooqConfiguration.class, SecurityConfig.class, MappingConfiguration.class, KSConfiguration.class, })
+@Import({ JooqConfiguration.class, DAOConfiguration.class, SecurityConfig.class, MappingConfiguration.class, KSConfiguration.class, })
 @ComponentScan(basePackages = { "com.github.kickshare.rest", "com.github.kickshare.service", "com.github.kickshare.db" })
 @EnableConfigurationProperties
 public class KickshareRestApplication {

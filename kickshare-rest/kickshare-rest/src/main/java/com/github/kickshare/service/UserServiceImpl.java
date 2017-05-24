@@ -1,10 +1,17 @@
 package com.github.kickshare.service;
 
-import com.github.kickshare.db.dao.BackerRepositoryImpl;
+import com.github.kickshare.db.dao.BackerRepository;
 import com.github.kickshare.db.h2.tables.daos.AddressDao;
-import com.github.kickshare.domain.UserInfo;
+import com.github.kickshare.db.h2.tables.daos.BackerDao;
+import com.github.kickshare.db.h2.tables.daos.CityDao;
+import com.github.kickshare.db.h2.tables.pojos.Backer;
+import com.github.kickshare.db.h2.tables.pojos.City;
 import com.github.kickshare.mapper.ExtendedMapper;
+import com.github.kickshare.security.BackerDetails;
 import lombok.AllArgsConstructor;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.stereotype.Service;
 
 /**
@@ -15,16 +22,26 @@ import org.springframework.stereotype.Service;
 @AllArgsConstructor
 public class UserServiceImpl {
     //@TODO make interface
-    private BackerRepositoryImpl backerRepository;
-    private AddressDao addressDao;
     private ExtendedMapper dozer;
+    private BackerRepository backerRepository;
+    private UserDetailsManager userManager;
+    private BackerDao backerDao;
+    private PasswordEncoder encoder;
+    private AddressDao addressDao;
+    private CityDao cityDao;
 
-    public void createUser(UserInfo userInfo) {
+    public UserDetails createUser(String email, Integer cityId) {
 //        Backer backer = new Backer(null, userInfo.getEmail(), userInfo.getName(), userInfo.getSurname());
 //        Long personId = backerRepository.createReturningKey(backer);
 //        Address address = userInfo.getAddress();
 //        com.github.kickshare.db.h2.tables.pojos.Address dbAddress = new com.github.kickshare.db.h2.tables.pojos.Address(null, personId, address.getStreet(),
 //                address.getCity(), address.getPostalCode());
 //        addressDao.insert(dbAddress);
+        City city = cityDao.fetchOneById(cityId);
+        Long id = backerRepository.createReturningKey(new Backer(null, email, "Testing", "User", new Float(5.0), new Float(5.0)));
+        BackerDetails userToStore = new BackerDetails(email, encoder.encode("user"), id);
+        userManager.createUser(userToStore);
+        //@TODO insert address
+        return userManager.loadUserByUsername(email);
     }
 }

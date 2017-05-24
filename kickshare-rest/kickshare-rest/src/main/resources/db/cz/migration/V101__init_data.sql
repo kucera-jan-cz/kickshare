@@ -16,12 +16,8 @@ INSERT INTO backer (id, email, name, surname, leader_rating, backer_rating) VALU
 ;
 ALTER SEQUENCE backer_id_seq RESTART WITH 100;
 
-INSERT INTO users (id, username, password, enabled) VALUES
-(1, 'xatrix101@gmail.com', '$2a$10$zWVlsjiuimbWVE4D4ZrlseB459kSEeB93e8FM58n8QQBiClwV17Pa', true);
-
-INSERT INTO authorities (username, authority) VALUES
-('xatrix101@gmail.com', 'ACTUATOR'),
-('xatrix101@gmail.com', 'USER');
+INSERT INTO leader (backer_id, email, kickstarter_id) VALUES
+(1, 'kickshare.eu@gmail.com', 1564258620);
 
 INSERT INTO "group" (id, leader_id, name, project_id, lat, lon, is_local) VALUES
 (1, 1, 'Quodd Heroes CZ Brno', 439380282, 49.1951, 16.6068, false);

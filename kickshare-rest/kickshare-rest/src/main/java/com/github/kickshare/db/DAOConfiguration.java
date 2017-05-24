@@ -6,6 +6,7 @@ import com.github.kickshare.db.h2.tables.daos.BackerLocationsDao;
 import com.github.kickshare.db.h2.tables.daos.Backer_2GroupDao;
 import com.github.kickshare.db.h2.tables.daos.CategoryDao;
 import com.github.kickshare.db.h2.tables.daos.CityDao;
+import com.github.kickshare.db.h2.tables.daos.LeaderDao;
 import com.github.kickshare.db.h2.tables.daos.ProjectDao;
 import com.github.kickshare.db.h2.tables.daos.ProjectPhotoDao;
 import org.springframework.context.annotation.Bean;
@@ -55,5 +56,10 @@ public class DAOConfiguration {
     @Bean
     public Backer_2GroupDao backerToGroupDao(org.jooq.Configuration configuration) {
         return new Backer_2GroupDao(configuration);
+    }
+
+    @Bean
+    public LeaderDao leaderDao(org.jooq.Configuration configuration) {
+        return new LeaderDao(configuration);
     }
 }
