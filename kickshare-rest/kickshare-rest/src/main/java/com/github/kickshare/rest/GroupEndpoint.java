@@ -112,7 +112,7 @@ public class GroupEndpoint {
         return groupRepository.createReturningKey(group);
     }
 
-    @PostMapping("/{groupId}/users")
+    @PostMapping("/{groupId}/users/register")
     public void registerParticipant(@PathVariable Long groupId, @AuthenticationPrincipal BackerDetails user) {
         groupService.registerBacker(groupId, user.getId());
     }

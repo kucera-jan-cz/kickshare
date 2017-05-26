@@ -19,6 +19,7 @@ import org.testng.annotations.Test;
  */
 public class ProjectServiceTest {
     private static final Logger LOGGER = LoggerFactory.getLogger(ProjectServiceTest.class);
+
     @Test
     public void parseTest() throws IOException {
         InputStream stream = this.getClass().getClassLoader().getResourceAsStream("data/kickstarter/discover_advanced.json");
@@ -28,6 +29,5 @@ public class ProjectServiceTest {
         List<Project> projects = service.findProjects("Quodd Heroes", 34);
         LOGGER.info("{}", mapper.writeValueAsString(projects));
         assertNull(projects);
-
     }
 }
