@@ -10,7 +10,7 @@ import org.springframework.core.io.ClassPathResource;
 /**
  * Util class for working with JSON and other resources.
  */
-public class TestUtil {
+public final class TestUtil {
     private TestUtil() {
     }
 

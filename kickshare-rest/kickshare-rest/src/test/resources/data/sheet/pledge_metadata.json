@@ -1,0 +1,46 @@
+{
+  "fromCurrency" : "USD",
+  "toCurrency" : "CZK",
+  "conversionRate" : 23.58,
+  "backers" : [
+    {
+      "backer" : {
+        "name" : "Jan",
+        "surname" : "Kučera"
+      },
+      "address" : {
+        "city" : "Brno"
+      }
+    },
+    {
+      "backer" : {
+        "name" : "Bruce",
+        "surname" : "Wayne"
+      },
+      "address" : {
+        "city" : "Gotham"
+      }
+    },
+    {
+      "backer" : {
+        "name" : "Peter",
+        "surname" : "Parker"
+      },
+      "address" : {
+        "city" : "New York"
+      }
+    }
+  ],
+  "rewards" : [
+    {
+      "name" : "Basic",
+      "price" : 85,
+      "currency" : "USD"
+    },
+    {
+      "name" : "Deluxe",
+      "price" : 105,
+      "currency" : "USD"
+    }
+  ]
+}
