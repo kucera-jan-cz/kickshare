@@ -3,6 +3,7 @@ package com.github.kickshare.service;
 import com.github.kickshare.db.dao.BackerRepository;
 import com.github.kickshare.db.dao.GroupRepository;
 import com.github.kickshare.db.dao.ProjectRepository;
+import com.github.kickshare.db.h2.enums.GroupRequestStatus;
 import com.github.kickshare.db.h2.tables.daos.Backer_2GroupDao;
 import com.github.kickshare.db.h2.tables.daos.CityDao;
 import com.github.kickshare.db.h2.tables.daos.LeaderDao;
@@ -51,15 +52,14 @@ public class GroupServiceImpl {
         City city = Validate.notNull(backerRepository.getPermanentAddress(leaderId), "Give leader ({0}) does not have permanent address", leaderId);
         Group group = new Group(null, leaderId, projectId, groupName, city.getId(), city.getLat(), city.getLon(), isLocal);
         Long groupId = groupRepository.createReturningKey(group);
-        backer2GroupDao.insert(new Backer_2Group(groupId, leaderId));
+        backer2GroupDao.insert(new Backer_2Group(groupId, leaderId, GroupRequestStatus.APPROVED));
         return groupId;
     }
 
     @Transactional
     public void registerBacker(Long groupId, Long backerId) {
-//        @TODO - retrieve group limit and validate
-//        groupRepository.getGroupInfo(groupId)
-        groupRepository.registerUser(groupId, backerId);
+
+        backer2GroupDao.update(new Backer_2Group(groupId, backerId, GroupRequestStatus.REQUESTED));
     }
 
     @Transactional
@@ -67,5 +67,13 @@ public class GroupServiceImpl {
         Validate.isTrue(!leaderDao.existsById(id), "User is already registered as leader");
         leaderDao.insert(mapper.map(new Leader(id, email, kickstarterId), com.github.kickshare.db.h2.tables.pojos.Leader.class));
         userManager.addUserToGroup(email, GroupConstants.LEADERS);
+    }
+
+    public boolean ownGroup(final Long leaderId, final Long groupId) {
+        return backerRepository.ownGroup(leaderId, groupId);
+    }
+
+    public void updateGroupRequestStatus(final Long groupId, final Long backerId, GroupRequestStatus status) {
+        backer2GroupDao.update(new Backer_2Group(groupId, backerId, status));
     }
 }

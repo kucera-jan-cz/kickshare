@@ -17,9 +17,19 @@ public interface GroupRepository extends EnhancedDAO<GroupRecord, Group, Long> {
 
     List<Group> findAllByProjectId(Long projectId);
 
-    void registerUser(Long groupId, Long userId);
-
+    /**
+     *
+     * @param groupId
+     * @return list of approved backers
+     */
     List<Backer> findAllUsers(Long groupId);
 
+    /**
+     * @param groupId
+     * @return list of backers waiting for approval
+     */
+    List<Backer> findWaitingUsers(final Long groupId);
+
     GroupInfo getGroupInfo(Long groupId);
+
 }

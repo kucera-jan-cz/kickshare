@@ -9,11 +9,11 @@ import javax.validation.Valid;
 
 import com.github.kickshare.db.dao.GroupRepository;
 import com.github.kickshare.db.dao.KickshareRepository;
+import com.github.kickshare.db.h2.enums.GroupRequestStatus;
 import com.github.kickshare.db.h2.tables.Backer;
 import com.github.kickshare.domain.Group;
 import com.github.kickshare.domain.GroupInfo;
 import com.github.kickshare.mapper.ExtendedMapper;
-import com.github.kickshare.rest.group.domain.CreateGroupRequest;
 import com.github.kickshare.security.BackerDetails;
 import com.github.kickshare.service.GeoBoundary;
 import com.github.kickshare.service.GroupSearchOptions;
@@ -23,6 +23,7 @@ import com.github.kickshare.service.ProjectService;
 import com.github.kickshare.service.entity.CityGrid;
 import lombok.AllArgsConstructor;
 import org.apache.commons.lang3.RandomUtils;
+import org.apache.commons.lang3.Validate;
 import org.geojson.Feature;
 import org.geojson.FeatureCollection;
 import org.geojson.Point;
@@ -100,21 +101,21 @@ public class GroupEndpoint {
         return groupService.createGroup(projectId, name, user.getId(), isLocal);
     }
 
-    //@TODO - simple post would be better
-    @PostMapping("/create")
-    public Long createGroup(@RequestBody @Valid CreateGroupRequest request,
-            @AuthenticationPrincipal BackerDetails user) throws IOException {
-        LOGGER.info("{}", user);
-        Long projectId = projectService.registerProject(request.getProject());
-
-        com.github.kickshare.db.h2.tables.pojos.Group group = new com.github.kickshare.db.h2.tables.pojos.Group(null, user.getId(), projectId,
-                request.getName(), null, null, null, true);
-        return groupRepository.createReturningKey(group);
-    }
-
-    @PostMapping("/{groupId}/users/register")
+    @PostMapping("/{groupId}/users")
     public void registerParticipant(@PathVariable Long groupId, @AuthenticationPrincipal BackerDetails user) {
         groupService.registerBacker(groupId, user.getId());
+    }
+
+    @PostMapping("/{groupId}/users/{backerId}/approve")
+    public void approveBacker(@PathVariable Long groupId, @PathVariable Long backerId, @AuthenticationPrincipal BackerDetails user) {
+        Validate.isTrue(groupService.ownGroup(user.getId(), groupId), "Access violation: no rights for altering group");
+        groupService.updateGroupRequestStatus(groupId, backerId, GroupRequestStatus.APPROVED);
+    }
+
+    @PostMapping("/{groupId}/users/{backerId}/decline")
+    public void declineBacker(@PathVariable Long groupId, @PathVariable Long backerId, @AuthenticationPrincipal BackerDetails user) {
+        Validate.isTrue(groupService.ownGroup(user.getId(), groupId), "Access violation: no rights for altering group");
+        groupService.updateGroupRequestStatus(groupId, backerId, GroupRequestStatus.DECLINED);
     }
 
     @GetMapping

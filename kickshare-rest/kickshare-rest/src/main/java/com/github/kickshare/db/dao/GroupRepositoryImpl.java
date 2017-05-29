@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
+import com.github.kickshare.db.h2.enums.GroupRequestStatus;
 import com.github.kickshare.db.h2.tables.daos.GroupDao;
 import com.github.kickshare.db.h2.tables.pojos.Backer;
 import com.github.kickshare.db.h2.tables.pojos.Group;
@@ -59,23 +60,13 @@ public class GroupRepositoryImpl extends AbstractRepository<GroupRecord, Group, 
                 .fetchInto(Group.class);
     }
 
-    public void registerUser(Long groupId, Long userId) {
-        dsl
-                .insertInto(BACKER_2_GROUP)
-                .columns(BACKER_2_GROUP.GROUP_ID, BACKER_2_GROUP.BACKER_ID)
-                .values(groupId, userId)
-                .execute();
-    }
-
     @Override
     public List<Backer> findAllUsers(final Long groupId) {
-        dsl
-                .select()
-                .from(BACKER)
-                .join(BACKER_2_GROUP).on(BACKER.ID.eq(BACKER_2_GROUP.BACKER_ID))
-                .where(BACKER_2_GROUP.GROUP_ID.eq(groupId))
-                .fetchInto(Backer.class);
-        return null;
+        return findUsersByStatus(groupId, GroupRequestStatus.APPROVED);
+    }
+
+    public List<Backer> findWaitingUsers(final Long groupId) {
+        return findUsersByStatus(groupId, GroupRequestStatus.REQUESTED);
     }
 
     @Override
@@ -85,6 +76,7 @@ public class GroupRepositoryImpl extends AbstractRepository<GroupRecord, Group, 
                 .join(BACKER_2_GROUP).on(BACKER.ID.eq(BACKER_2_GROUP.BACKER_ID))
                 .join(GROUP).on(GROUP.ID.eq(BACKER_2_GROUP.GROUP_ID))
                 .where(BACKER_2_GROUP.GROUP_ID.eq(groupId))
+                .and(BACKER_2_GROUP.STATUS.eq(GroupRequestStatus.APPROVED))
                 .fetchGroups(
                         r -> r.into(GROUP).into(com.github.kickshare.domain.Group.class),
                         r -> r.into(BACKER).into(User.class)
@@ -102,4 +94,13 @@ public class GroupRepositoryImpl extends AbstractRepository<GroupRecord, Group, 
         return info;
     }
 
+    private List<Backer> findUsersByStatus(final Long groupId, final GroupRequestStatus status) {
+        return dsl
+                .select()
+                .from(BACKER)
+                .join(BACKER_2_GROUP).on(BACKER.ID.eq(BACKER_2_GROUP.BACKER_ID))
+                .where(BACKER_2_GROUP.GROUP_ID.eq(groupId))
+                .and(BACKER_2_GROUP.STATUS.eq(status))
+                .fetchInto(Backer.class);
+    }
 }
