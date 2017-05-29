@@ -9,5 +9,7 @@ import com.github.kickshare.domain.City;
  * @since 17.5.2017
  */
 public interface BackerRepository extends EnhancedDAO<BackerRecord, Backer, Long> {
-    public City getPermanentAddress(Long backerId);
+    City getPermanentAddress(Long backerId);
+
+    boolean ownGroup(Long leaderId, Long groupId);
 }

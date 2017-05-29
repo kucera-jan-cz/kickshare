@@ -33,6 +33,7 @@
         <jaxen.version>1.1.6</jaxen.version>
         <jsurfer-core.version>1.2.8</jsurfer-core.version>
         <commons-io.version>2.5</commons-io.version>
+        <poi.version>3.16</poi.version>
         <dozer.version>5.5.1</dozer.version>
         <unitils.version>3.4.2</unitils.version>
         <postgresql.version>42.0.0</postgresql.version>

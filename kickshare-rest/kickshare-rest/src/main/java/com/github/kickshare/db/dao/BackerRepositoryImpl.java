@@ -2,6 +2,7 @@ package com.github.kickshare.db.dao;
 
 import static com.github.kickshare.db.h2.Tables.BACKER_LOCATIONS;
 import static com.github.kickshare.db.h2.Tables.CITY;
+import static com.github.kickshare.db.h2.Tables.GROUP;
 
 import com.github.kickshare.db.h2.tables.daos.BackerDao;
 import com.github.kickshare.db.h2.tables.pojos.Backer;
@@ -34,6 +35,15 @@ public class BackerRepositoryImpl extends AbstractRepository<BackerRecord, Backe
                 .fetchOneInto(City.class);
         LOGGER.info("Retrieved permanent city for backer ({}): {}", backerId, city);
         return city;
+    }
+
+    public boolean ownGroup(Long leaderId, Long groupId) {
+        return this.dsl.fetchExists(
+                this.dsl.selectOne()
+                        .from(GROUP)
+                        .where(GROUP.LEADER_ID.eq(leaderId))
+                            .and(GROUP.ID.eq(groupId))
+        );
     }
 
 }

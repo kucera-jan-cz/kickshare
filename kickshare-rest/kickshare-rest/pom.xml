@@ -255,6 +255,12 @@
                             <name>org.jooq.util.postgres.PostgresDatabase</name>
                             <includes>.*</includes>
                             <inputSchema>KS</inputSchema>
+                            <!--<masterDataTables>-->
+                                <!--<masterDataTable>-->
+                                    <!--<name>group_status_new</name>-->
+                                    <!--<description>name</description>-->
+                                <!--</masterDataTable>-->
+                            <!--</masterDataTables>-->
                         </database>
                         <target>
                             <packageName>com.github.kickshare.db.h2</packageName>
