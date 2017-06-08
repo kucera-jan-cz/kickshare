@@ -18,6 +18,7 @@ public class Group {
     @NotNull
     private String name;
 
+    @JsonProperty("leader_id")
     private Long leaderId;
 
     @NotNull
