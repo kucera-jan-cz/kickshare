@@ -7,19 +7,17 @@ import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
-import com.github.kickshare.db.dao.GroupRepository;
 import com.github.kickshare.db.dao.KickshareRepository;
 import com.github.kickshare.db.h2.enums.GroupRequestStatus;
-import com.github.kickshare.db.h2.tables.Backer;
 import com.github.kickshare.domain.Group;
-import com.github.kickshare.domain.GroupInfo;
+import com.github.kickshare.domain.GroupDetail;
+import com.github.kickshare.domain.User;
 import com.github.kickshare.mapper.ExtendedMapper;
 import com.github.kickshare.security.BackerDetails;
 import com.github.kickshare.service.GeoBoundary;
 import com.github.kickshare.service.GroupSearchOptions;
 import com.github.kickshare.service.GroupServiceImpl;
 import com.github.kickshare.service.Location;
-import com.github.kickshare.service.ProjectService;
 import com.github.kickshare.service.entity.CityGrid;
 import lombok.AllArgsConstructor;
 import org.apache.commons.lang3.RandomUtils;
@@ -61,8 +59,6 @@ public class GroupEndpoint {
     };
     public static final long USER_ID = 1L;
     //Search for groups using user's location, using distance near (slider), tags, potentially campaign's name
-    private ProjectService projectService;
-    private GroupRepository groupRepository;
     private KickshareRepository repository;
     private ExtendedMapper dozer;
     private GroupServiceImpl groupService;
@@ -94,11 +90,12 @@ public class GroupEndpoint {
     }
 
     @PostMapping
-    public Long create(@RequestBody @Valid Group group, @AuthenticationPrincipal BackerDetails user) throws IOException {
+    public Group create(@RequestBody @Valid Group group, @AuthenticationPrincipal BackerDetails user) throws IOException {
         final Long projectId = group.getProjectId();
         final String name = group.getName();
         final boolean isLocal = group.getIsLocal();
-        return groupService.createGroup(projectId, name, user.getId(), isLocal);
+        Long groupId = groupService.createGroup(projectId, name, user.getId(), isLocal, group.getLimit());
+        return groupService.getGroup(groupId);
     }
 
     @PostMapping("/{groupId}/users")
@@ -125,17 +122,15 @@ public class GroupEndpoint {
     }
 
     @GetMapping("/{groupId}")
-    public GroupInfo getUsers(@PathVariable Long groupId) {
-        return groupRepository.getGroupInfo(groupId);
+    public GroupDetail getGroupInfo(@PathVariable Long groupId) {
+        return groupService.getGroupDetail(groupId);
     }
 
     @GetMapping("/{groupId}/users")
-    public List<Backer> getUsers(@PathVariable Long groupId,
+    public List<User> getUsers(@PathVariable Long groupId,
             @AuthenticationPrincipal org.springframework.security.core.userdetails.User customUser) {
         LOGGER.info("{}", customUser);
-        List<com.github.kickshare.db.h2.tables.pojos.Backer> list = groupRepository.findAllUsers(groupId);
-        List<Backer> users = dozer.map(list, Backer.class);
-        return users;
+        return groupService.getGroupUsers(groupId);
     }
 
     /**

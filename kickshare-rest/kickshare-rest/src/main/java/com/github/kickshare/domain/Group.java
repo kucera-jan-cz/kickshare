@@ -28,4 +28,8 @@ public class Group {
     @NotNull
     @JsonProperty("is_local")
     private Boolean isLocal;
+
+    private Integer limit;
+
+    public Group() {}
 }
