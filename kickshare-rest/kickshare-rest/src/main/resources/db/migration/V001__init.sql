@@ -61,7 +61,8 @@ CREATE TABLE "group" (
     city_id INTEGER,
     lat NUMERIC(10,6) NOT NULL,
     lon NUMERIC(10,6) NOT NULL,
-    is_local BOOLEAN DEFAULT TRUE
+    is_local BOOLEAN DEFAULT TRUE,
+    "limit" INTEGER DEFAULT 10
 );
 
 CREATE TABLE project_photo (

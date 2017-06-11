@@ -4,5 +4,10 @@
   "description": "A completely unique board game with Amazing minis, scenario-based gameplay, and gorgeous art. Action, Adventure and Mayhem await!",
   "url": "https://www.kickstarter.com/projects/wondermentgames/quodd-heroes-0?ref=category",
   "deadline": 1483462740,
-  "photo_url": "https://ksr-ugc.imgix.net/assets/015/136/434/e087701618d6667ec7f5aae3044d9353_original.jpg?w=160&h=90&fit=fill&bg=000000&v=1488474152&auto=format&q=92&s=9076cf32a24159a78cd9028af6bbb30f"
+  "photo_url": "https://ksr-ugc.imgix.net/assets/015/136/434/e087701618d6667ec7f5aae3044d9353_original.jpg?w=160&h=90&fit=fill&bg=000000&v=1488474152&auto=format&q=92&s=9076cf32a24159a78cd9028af6bbb30f",
+  "photo" : {
+    "projectId" : 439380282,
+    "thumb" : "https://ksr-ugc.imgix.net/assets/015/136/434/e087701618d6667ec7f5aae3044d9353_original.jpg?w=40&h=22&fit=fill&bg=000000&v=1488474152&auto=format&q=92&s=205412d2983203359862898452db7799",
+    "small" : "https://ksr-ugc.imgix.net/assets/015/136/434/e087701618d6667ec7f5aae3044d9353_original.jpg?w=160&h=90&fit=fill&bg=000000&v=1488474152&auto=format&q=92&s=9076cf32a24159a78cd9028af6bbb30f"
+  }
 }

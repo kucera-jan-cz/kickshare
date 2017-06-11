@@ -11,6 +11,7 @@ import com.github.kickshare.kickstarter.entity.Project;
 import org.dozer.DozerBeanMapper;
 import org.dozer.Mapper;
 import org.json.JSONException;
+import org.mapstruct.factory.Mappers;
 import org.skyscreamer.jsonassert.JSONAssert;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,6 +37,18 @@ public class ProjectMapperTest {
         );
         Project ksProject = mapper.readValue(ResourceUtil.toString("data/mapper/ks/project.json"), Project.class);
         ProjectInfo domainProject = dozer.map(ksProject, com.github.kickshare.domain.ProjectInfo.class);
+        String domain = mapper.writeValueAsString(domainProject);
+        String expected = ResourceUtil.toString("data/mapper/domain/project_info.json");
+        LOGGER.info("Comparing:\n{}\n{}", domain, expected);
+        JSONAssert.assertEquals(domain, expected, false);
+    }
+
+    @Test
+    public void projectMapStruct() throws IOException, JSONException {
+        Project ksProject = mapper.readValue(ResourceUtil.toString("data/mapper/ks/project.json"), Project.class);
+        ProjectMapper msMapper = Mappers.getMapper(ProjectMapper.class);
+//        ProjectInfo domainProject = ProjectMapper.MAPPER.toDomain(ksProject);
+        ProjectInfo domainProject = msMapper.toDomain(ksProject);
         String domain = mapper.writeValueAsString(domainProject);
         String expected = ResourceUtil.toString("data/mapper/domain/project_info.json");
         LOGGER.info("Comparing:\n{}\n{}", domain, expected);

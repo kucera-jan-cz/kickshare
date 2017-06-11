@@ -72,6 +72,7 @@ public class KickshareRepositoryImpl implements KickshareRepository {
         ProjectInfo info = new ProjectInfo();
         info.setProject(mapper.map(project, com.github.kickshare.domain.Project.class));
         info.setPhotoUrl(projectPhoto.getThumb());
+        info.setPhoto(mapper.map(projectPhoto, com.github.kickshare.domain.ProjectPhoto.class));
         return info;
     }
 
