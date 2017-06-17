@@ -38,15 +38,18 @@ INSERT INTO "group" (id, leader_id, name, project_id, lat, lon) VALUES
 INSERT INTO backer_2_group (group_id, backer_id, status) VALUES (4, 2, 'APPROVED');
 INSERT INTO backer_2_group (group_id, backer_id, status) VALUES (4, 3, 'APPROVED');
 
-INSERT INTO "group" (id, leader_id, name, project_id, lat, lon, is_local) VALUES (5, 3, 'Quodd Heroes CZ Praha', 439380282, 50.0833, 14.4666, false );
+INSERT INTO "group" (id, leader_id, name, project_id, lat, lon, is_local) VALUES
+(5, 3, 'Quodd Heroes CZ Praha', 439380282, 50.0833, 14.4666, false );
 INSERT INTO backer_2_group (group_id, backer_id, status) VALUES (5, 2, 'APPROVED');
 INSERT INTO backer_2_group (group_id, backer_id, status) VALUES (5, 3, 'APPROVED');
 
-INSERT INTO "group" (id, leader_id, name, project_id, lat, lon) VALUES (6, 2, 'The Edge CZ Praha', 1893061183, 50.0833, 14.4666 );
+INSERT INTO "group" (id, leader_id, name, project_id, lat, lon) VALUES
+(6, 2, 'The Edge CZ Praha', 1893061183, 50.0833, 14.4666 );
 INSERT INTO backer_2_group (group_id, backer_id, status) VALUES (6, 1, 'APPROVED');
 INSERT INTO backer_2_group (group_id, backer_id, status) VALUES (6, 3, 'APPROVED');
 
-INSERT INTO "group" (id, leader_id, name, project_id, lat, lon, is_local) VALUES (7, 4, 'The Edge CZ Ostrava', 1893061183, 49.83332, 18.25, true );
+INSERT INTO "group" (id, leader_id, name, project_id, lat, lon, is_local) VALUES
+(7, 4, 'The Edge CZ Ostrava', 1893061183, 49.83332, 18.25, true );
 INSERT INTO backer_2_group (group_id, backer_id, status) VALUES (7, 3, 'APPROVED');
 
 INSERT INTO "group" (id, leader_id, name, project_id, lat, lon, is_local) VALUES (8, 4, 'The Edge CZ České Budějovice', 1893061183, 49.0520, 15.8086, true );

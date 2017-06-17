@@ -164,6 +164,16 @@ public class KickshareRepositoryImpl implements KickshareRepository {
                 .fetchInto(City.class);
     }
 
+    @Override
+    public List<com.github.kickshare.db.h2.tables.pojos.Group> searchGroups(GroupSearchOptions options) {
+        List<com.github.kickshare.db.h2.tables.pojos.Group> groups = dsl.select()
+                .from(GROUP)
+                .where(where(options))
+                .fetchInto(com.github.kickshare.db.h2.tables.pojos.Group.class);
+        LOGGER.info("Returning: {}", groups);
+        return groups;
+    }
+
     public List<CityGrid> searchCityGrid(GroupSearchOptions options) throws IOException {
         final Function<Record, CityGrid> transformer = (rec) -> {
             CityGrid grid = new CityGrid();
@@ -197,8 +207,12 @@ public class KickshareRepositoryImpl implements KickshareRepository {
     private Condition where(GroupSearchOptions ops) {
         Condition query = mapViewCondition(ops);
         String name = ops.getProjectName();
+        Long projectId = ops.getProjectId();
         if (StringUtils.isNotBlank(name) && name.length() >= 3) {
             query = query.and(GROUP.NAME.like('%' + name + '%'));
+        }
+        if(projectId != null && projectId > 0) {
+            query = query.and(GROUP.PROJECT_ID.eq(ops.getProjectId()));
         }
         return query;
     }
