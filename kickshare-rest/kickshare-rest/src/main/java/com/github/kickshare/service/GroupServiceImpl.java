@@ -1,6 +1,7 @@
 package com.github.kickshare.service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import com.github.kickshare.db.dao.BackerRepository;
 import com.github.kickshare.db.dao.GroupRepository;
@@ -78,6 +79,14 @@ public class GroupServiceImpl {
         detail.setProject(projectInfo.getProject());
         detail.setPhoto(projectInfo.getPhoto());
         return detail;
+    }
+
+    @Transactional
+    public List<GroupDetail> searchGroups(GroupSearchOptions options) {
+        //@TODO - implement this temporal properly
+        return kickshareRepository.searchGroups(options).stream()
+                .map(g -> getGroupDetail(g.getId()))
+                .collect(Collectors.toList());
     }
 
     //    @TODO - decide whether user type should stay or completely rewrite to Backer

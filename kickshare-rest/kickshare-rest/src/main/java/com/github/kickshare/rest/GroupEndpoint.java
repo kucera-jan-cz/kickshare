@@ -89,6 +89,13 @@ public class GroupEndpoint {
         return collection;
     }
 
+    @GetMapping("/search")
+    public List<GroupDetail> searchGroups(@RequestParam Map<String, String> params) {
+        GroupSearchOptions options = toOptions(params);
+        return groupService.searchGroups(options);
+    }
+
+
     @PostMapping
     public Group create(@RequestBody @Valid Group group, @AuthenticationPrincipal BackerDetails user) throws IOException {
         final Long projectId = group.getProjectId();
@@ -151,6 +158,7 @@ public class GroupEndpoint {
         GroupSearchOptions.GroupSearchOptionsBuilder builder = GroupSearchOptions.builder();
         builder.searchLocalOnly(Boolean.valueOf(params.get("only_local")));
         builder.projectName(params.get("name"));
+        builder.projectId(Long.valueOf(params.getOrDefault("project_id", "-1")));
         Location leftTop = new Location(
                 Float.parseFloat(params.get("ne_lat")),
                 Float.parseFloat(params.get("ne_lon"))

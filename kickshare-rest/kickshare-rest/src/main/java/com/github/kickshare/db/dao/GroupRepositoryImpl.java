@@ -90,7 +90,8 @@ public class GroupRepositoryImpl extends AbstractRepository<GroupRecord, Group, 
         Map<Boolean, List<User>> backersByLeadership = backers.stream().collect(Collectors.partitioningBy(isLeader));
         info.setGroup(group);
         info.setBackers(backersByLeadership.get(false));
-        info.setLeader(backersByLeadership.get(true).get(0));
+        //@TODO - fix an issue with missing leader
+        info.setLeader(backersByLeadership.get(true).stream().findFirst().orElse(null));
         return info;
     }
 

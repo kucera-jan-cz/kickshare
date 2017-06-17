@@ -12,6 +12,7 @@ import lombok.Data;
 public class GroupSearchOptions {
     private Boolean searchLocalOnly;
     private String projectName;
+    private Long projectId;
     private GeoBoundary geoBoundary;
     private Location localCity;
 }
