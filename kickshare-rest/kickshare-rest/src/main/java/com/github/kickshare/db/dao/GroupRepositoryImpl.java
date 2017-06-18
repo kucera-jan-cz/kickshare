@@ -11,12 +11,11 @@ import java.util.stream.Collectors;
 
 import com.github.kickshare.db.h2.enums.GroupRequestStatus;
 import com.github.kickshare.db.h2.tables.daos.GroupDao;
-import com.github.kickshare.db.h2.tables.pojos.Backer;
 import com.github.kickshare.db.h2.tables.pojos.Group;
 import com.github.kickshare.db.h2.tables.pojos.Project;
 import com.github.kickshare.db.h2.tables.records.GroupRecord;
+import com.github.kickshare.domain.Backer;
 import com.github.kickshare.domain.GroupInfo;
-import com.github.kickshare.domain.User;
 import org.jooq.Configuration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -61,17 +60,17 @@ public class GroupRepositoryImpl extends AbstractRepository<GroupRecord, Group, 
     }
 
     @Override
-    public List<Backer> findAllUsers(final Long groupId) {
+    public List<com.github.kickshare.db.h2.tables.pojos.Backer> findAllUsers(final Long groupId) {
         return findUsersByStatus(groupId, GroupRequestStatus.APPROVED);
     }
 
-    public List<Backer> findWaitingUsers(final Long groupId) {
+    public List<com.github.kickshare.db.h2.tables.pojos.Backer> findWaitingUsers(final Long groupId) {
         return findUsersByStatus(groupId, GroupRequestStatus.REQUESTED);
     }
 
     @Override
     public GroupInfo getGroupInfo(final Long groupId) {
-        Map<com.github.kickshare.domain.Group, List<User>> usersByGroup = dsl.select()
+        Map<com.github.kickshare.domain.Group, List<Backer>> usersByGroup = dsl.select()
                 .from(BACKER)
                 .join(BACKER_2_GROUP).on(BACKER.ID.eq(BACKER_2_GROUP.BACKER_ID))
                 .join(GROUP).on(GROUP.ID.eq(BACKER_2_GROUP.GROUP_ID))
@@ -79,15 +78,15 @@ public class GroupRepositoryImpl extends AbstractRepository<GroupRecord, Group, 
                 .and(BACKER_2_GROUP.STATUS.eq(GroupRequestStatus.APPROVED))
                 .fetchGroups(
                         r -> r.into(GROUP).into(com.github.kickshare.domain.Group.class),
-                        r -> r.into(BACKER).into(User.class)
+                        r -> r.into(BACKER).into(Backer.class)
                 );
         GroupInfo info = new GroupInfo();
         //@TODO figure out miss
-        Map.Entry<com.github.kickshare.domain.Group, List<User>> entry = usersByGroup.entrySet().iterator().next();
+        Map.Entry<com.github.kickshare.domain.Group, List<Backer>> entry = usersByGroup.entrySet().iterator().next();
         com.github.kickshare.domain.Group group = entry.getKey();
-        List<User> backers = entry.getValue();
-        Predicate<User> isLeader = (User b) -> b.getId().equals(group.getLeaderId());
-        Map<Boolean, List<User>> backersByLeadership = backers.stream().collect(Collectors.partitioningBy(isLeader));
+        List<Backer> backers = entry.getValue();
+        Predicate<Backer> isLeader = (Backer b) -> b.getId().equals(group.getLeaderId());
+        Map<Boolean, List<Backer>> backersByLeadership = backers.stream().collect(Collectors.partitioningBy(isLeader));
         info.setGroup(group);
         info.setBackers(backersByLeadership.get(false));
         //@TODO - fix an issue with missing leader
@@ -95,13 +94,13 @@ public class GroupRepositoryImpl extends AbstractRepository<GroupRecord, Group, 
         return info;
     }
 
-    private List<Backer> findUsersByStatus(final Long groupId, final GroupRequestStatus status) {
+    private List<com.github.kickshare.db.h2.tables.pojos.Backer> findUsersByStatus(final Long groupId, final GroupRequestStatus status) {
         return dsl
                 .select()
                 .from(BACKER)
                 .join(BACKER_2_GROUP).on(BACKER.ID.eq(BACKER_2_GROUP.BACKER_ID))
                 .where(BACKER_2_GROUP.GROUP_ID.eq(groupId))
                 .and(BACKER_2_GROUP.STATUS.eq(status))
-                .fetchInto(Backer.class);
+                .fetchInto(com.github.kickshare.db.h2.tables.pojos.Backer.class);
     }
 }

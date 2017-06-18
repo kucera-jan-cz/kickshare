@@ -9,9 +9,9 @@ import javax.validation.Valid;
 
 import com.github.kickshare.db.dao.KickshareRepository;
 import com.github.kickshare.db.h2.enums.GroupRequestStatus;
+import com.github.kickshare.domain.Backer;
 import com.github.kickshare.domain.Group;
 import com.github.kickshare.domain.GroupDetail;
-import com.github.kickshare.domain.User;
 import com.github.kickshare.mapper.ExtendedMapper;
 import com.github.kickshare.security.BackerDetails;
 import com.github.kickshare.service.GeoBoundary;
@@ -134,7 +134,7 @@ public class GroupEndpoint {
     }
 
     @GetMapping("/{groupId}/users")
-    public List<User> getUsers(@PathVariable Long groupId,
+    public List<Backer> getUsers(@PathVariable Long groupId,
             @AuthenticationPrincipal org.springframework.security.core.userdetails.User customUser) {
         LOGGER.info("{}", customUser);
         return groupService.getGroupUsers(groupId);

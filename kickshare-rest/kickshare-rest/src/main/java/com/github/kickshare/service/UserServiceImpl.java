@@ -38,7 +38,7 @@ public class UserServiceImpl {
 //                address.getCity(), address.getPostalCode());
 //        addressDao.insert(dbAddress);
         City city = cityDao.fetchOneById(cityId);
-        Long id = backerRepository.createReturningKey(new Backer(null, email, "Testing", "User", new Float(5.0), new Float(5.0)));
+        Long id = backerRepository.createReturningKey(new Backer(null, email, "Testing", "Backer", new Float(5.0), new Float(5.0)));
         BackerDetails userToStore = new BackerDetails(email, encoder.encode("user"), id);
         userManager.createUser(userToStore);
         //@TODO insert address

@@ -13,12 +13,12 @@ import com.github.kickshare.db.h2.tables.daos.CityDao;
 import com.github.kickshare.db.h2.tables.daos.LeaderDao;
 import com.github.kickshare.db.h2.tables.pojos.Backer_2Group;
 import com.github.kickshare.db.h2.tables.pojos.Group;
+import com.github.kickshare.domain.Backer;
 import com.github.kickshare.domain.City;
 import com.github.kickshare.domain.GroupDetail;
 import com.github.kickshare.domain.GroupInfo;
 import com.github.kickshare.domain.Leader;
 import com.github.kickshare.domain.ProjectInfo;
-import com.github.kickshare.domain.User;
 import com.github.kickshare.mapper.ExtendedMapper;
 import com.github.kickshare.security.GroupConstants;
 import lombok.AllArgsConstructor;
@@ -90,8 +90,8 @@ public class GroupServiceImpl {
     }
 
     //    @TODO - decide whether user type should stay or completely rewrite to Backer
-    public List<User> getGroupUsers(Long groupId) {
-        return mapper.map(groupRepository.findAllUsers(groupId), User.class);
+    public List<Backer> getGroupUsers(Long groupId) {
+        return mapper.map(groupRepository.findAllUsers(groupId), Backer.class);
     }
 
     @Transactional
@@ -101,7 +101,7 @@ public class GroupServiceImpl {
 
     @Transactional
     public void saveLeader(final Long id, final String email, final Long kickstarterId) {
-        Validate.isTrue(!leaderDao.existsById(id), "User is already registered as leader");
+        Validate.isTrue(!leaderDao.existsById(id), "Backer is already registered as leader");
         leaderDao.insert(mapper.map(new Leader(id, email, kickstarterId), com.github.kickshare.db.h2.tables.pojos.Leader.class));
         userManager.addUserToGroup(email, GroupConstants.LEADERS);
     }

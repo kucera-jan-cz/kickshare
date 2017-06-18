@@ -15,6 +15,6 @@ public class GroupDetail {
     private Project project;
     private ProjectPhoto photo;
     private Group group;
-    private User leader;
-    private List<User> backers;
+    private Backer leader;
+    private List<Backer> backers;
 }

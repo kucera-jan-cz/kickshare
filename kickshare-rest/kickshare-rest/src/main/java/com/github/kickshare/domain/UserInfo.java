@@ -8,6 +8,6 @@ import lombok.Data;
  */
 @Data
 public class UserInfo {
-    private User backer;
+    private Backer backer;
     private Address address;
 }

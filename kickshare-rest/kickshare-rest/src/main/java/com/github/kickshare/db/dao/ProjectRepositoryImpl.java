@@ -9,8 +9,8 @@ import com.github.kickshare.db.h2.tables.daos.ProjectDao;
 import com.github.kickshare.db.h2.tables.pojos.Project;
 import com.github.kickshare.db.h2.tables.records.ProjectRecord;
 import com.github.kickshare.domain.Address;
+import com.github.kickshare.domain.Backer;
 import com.github.kickshare.domain.BackerInfo;
-import com.github.kickshare.domain.User;
 import org.jooq.Configuration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -38,7 +38,7 @@ public class ProjectRepositoryImpl extends AbstractRepository<ProjectRecord, Pro
                 .join(ADDRESS).on(BACKER.ID.eq(ADDRESS.BACKER_ID))
                 .fetchOne(
                         r -> {
-                            User backer = r.into(BACKER).into(User.class);
+                            Backer backer = r.into(BACKER).into(Backer.class);
                             Address address = r.into(ADDRESS).into(Address.class);
                             return new BackerInfo(backer, address);
                         }

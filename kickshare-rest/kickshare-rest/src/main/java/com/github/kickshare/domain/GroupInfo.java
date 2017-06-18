@@ -38,6 +38,6 @@ public class GroupInfo {
     private Integer numOfParticipants;
 
     private Group group;
-    private User leader;
-    private List<User> backers;
+    private Backer leader;
+    private List<Backer> backers;
 }

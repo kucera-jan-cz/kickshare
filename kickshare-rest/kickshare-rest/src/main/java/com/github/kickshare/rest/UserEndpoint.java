@@ -45,7 +45,7 @@ public class UserEndpoint {
     public UserDetails createUser(@RequestBody UserInfo user) {
         //@TODO create backer
         LOGGER.info("Creating user: {}", user);
-        Long id = backerRepository.createReturningKey(new Backer(null, user.getEmail(), "Testing", "User", new Float(5.0), new Float(5.0)));
+        Long id = backerRepository.createReturningKey(new Backer(null, user.getEmail(), "Testing", "Backer", new Float(5.0), new Float(5.0)));
         BackerDetails userToStore = new BackerDetails(user.getEmail(), encoder.encode("user"), id);
         userManager.createUser(userToStore);
         return userManager.loadUserByUsername(user.getEmail());
