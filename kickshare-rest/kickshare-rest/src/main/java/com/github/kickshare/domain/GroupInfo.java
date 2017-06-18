@@ -13,8 +13,7 @@ import lombok.Data;
 @Data
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class GroupInfo {
-    //@TODO - maybe leave as id?
-    //Project related
+    @Deprecated
     @JsonProperty("group_id")
     private Long id;
 
@@ -24,10 +23,6 @@ public class GroupInfo {
 
     @JsonProperty("is_local")
     private Boolean isLocal;
-
-    @Deprecated
-    //@TODO - check that this is really needed
-    private String url;
 
     @JsonProperty("photo_url")
     private String photoUrl;

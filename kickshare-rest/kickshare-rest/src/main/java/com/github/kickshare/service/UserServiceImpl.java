@@ -44,4 +44,5 @@ public class UserServiceImpl {
         //@TODO insert address
         return userManager.loadUserByUsername(email);
     }
+
 }
