@@ -1,10 +1,10 @@
 package com.github.kickshare.db.dao;
 
-import static com.github.kickshare.db.h2.Tables.BACKER;
-import static com.github.kickshare.db.h2.Tables.BACKER_2_GROUP;
-import static com.github.kickshare.db.h2.Tables.CITY;
-import static com.github.kickshare.db.h2.Tables.GROUP;
-import static com.github.kickshare.db.h2.Tables.PROJECT;
+import static com.github.kickshare.db.jooq.Tables.BACKER;
+import static com.github.kickshare.db.jooq.Tables.BACKER_2_GROUP;
+import static com.github.kickshare.db.jooq.Tables.CITY;
+import static com.github.kickshare.db.jooq.Tables.GROUP;
+import static com.github.kickshare.db.jooq.Tables.PROJECT;
 import static org.jooq.impl.DSL.concat;
 import static org.jooq.impl.DSL.count;
 import static org.jooq.impl.DSL.val;
@@ -15,14 +15,14 @@ import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-import com.github.kickshare.db.h2.tables.Backer;
-import com.github.kickshare.db.h2.tables.Group;
-import com.github.kickshare.db.h2.tables.daos.LeaderDao;
-import com.github.kickshare.db.h2.tables.daos.ProjectDao;
-import com.github.kickshare.db.h2.tables.daos.ProjectPhotoDao;
-import com.github.kickshare.db.h2.tables.pojos.Project;
-import com.github.kickshare.db.h2.tables.pojos.ProjectPhoto;
-import com.github.kickshare.db.h2.tables.records.ProjectRecord;
+import com.github.kickshare.db.jooq.tables.Backer;
+import com.github.kickshare.db.jooq.tables.Group;
+import com.github.kickshare.db.jooq.tables.daos.LeaderDao;
+import com.github.kickshare.db.jooq.tables.daos.ProjectDao;
+import com.github.kickshare.db.jooq.tables.daos.ProjectPhotoDao;
+import com.github.kickshare.db.jooq.tables.pojos.Project;
+import com.github.kickshare.db.jooq.tables.pojos.ProjectPhoto;
+import com.github.kickshare.db.jooq.tables.records.ProjectRecord;
 import com.github.kickshare.domain.City;
 import com.github.kickshare.domain.GroupInfo;
 import com.github.kickshare.domain.ProjectInfo;
@@ -164,11 +164,11 @@ public class KickshareRepositoryImpl implements KickshareRepository {
     }
 
     @Override
-    public List<com.github.kickshare.db.h2.tables.pojos.Group> searchGroups(GroupSearchOptions options) {
-        List<com.github.kickshare.db.h2.tables.pojos.Group> groups = dsl.select()
+    public List<com.github.kickshare.db.jooq.tables.pojos.Group> searchGroups(GroupSearchOptions options) {
+        List<com.github.kickshare.db.jooq.tables.pojos.Group> groups = dsl.select()
                 .from(GROUP)
                 .where(where(options))
-                .fetchInto(com.github.kickshare.db.h2.tables.pojos.Group.class);
+                .fetchInto(com.github.kickshare.db.jooq.tables.pojos.Group.class);
         LOGGER.info("Returning: {}", groups);
         return groups;
     }

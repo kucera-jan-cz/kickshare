@@ -2,8 +2,8 @@ package com.github.kickshare.db.dao;
 
 import java.util.List;
 
-import com.github.kickshare.db.h2.tables.pojos.Project;
-import com.github.kickshare.db.h2.tables.records.ProjectRecord;
+import com.github.kickshare.db.jooq.tables.pojos.Project;
+import com.github.kickshare.db.jooq.tables.records.ProjectRecord;
 import com.github.kickshare.domain.BackerInfo;
 import org.springframework.stereotype.Repository;
 

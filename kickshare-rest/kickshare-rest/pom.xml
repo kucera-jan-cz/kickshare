@@ -47,6 +47,7 @@
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
             <version>${h2.version}</version>
+            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.postgresql</groupId>
@@ -268,8 +269,8 @@
                             <inputSchema>KS</inputSchema>
                         </database>
                         <target>
-                            <packageName>com.github.kickshare.db.h2</packageName>
-                            <directory>target/generated-sources/jooq-h2</directory>
+                            <packageName>com.github.kickshare.db.jooq</packageName>
+                            <directory>target/generated-sources/jooq</directory>
                         </target>
                         <generate>
                             <daos>true</daos>

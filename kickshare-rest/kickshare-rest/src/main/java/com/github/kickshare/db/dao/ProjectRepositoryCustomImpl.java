@@ -33,7 +33,7 @@ public class ProjectRepositoryCustomImpl implements ProjectRepositoryCustom {
 
     @Override
     public List<Group> findAllGroups(final Long projectId) {
-        List<Group> groups = DSL.using(connection, SQLDialect.H2).select().from("GROUP").where("project_id = {0}", projectId).fetchInto(Group.class);
+        List<Group> groups = DSL.using(connection, SQLDialect.POSTGRES).select().from("GROUP").where("project_id = {0}", projectId).fetchInto(Group.class);
         return groups;
     }
 }

@@ -15,8 +15,8 @@ public interface GroupMapper {
 
     @Mappings({
     })
-    GroupInfo toDomain(com.github.kickshare.db.h2.tables.pojos.Group source);
+    GroupInfo toDomain(com.github.kickshare.db.jooq.tables.pojos.Group source);
 
-    com.github.kickshare.db.h2.tables.pojos.Group toDB(GroupInfo source);
+    com.github.kickshare.db.jooq.tables.pojos.Group toDB(GroupInfo source);
 
 }

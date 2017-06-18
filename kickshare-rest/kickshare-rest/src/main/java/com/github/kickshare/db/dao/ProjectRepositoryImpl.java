@@ -1,13 +1,13 @@
 package com.github.kickshare.db.dao;
 
-import static com.github.kickshare.db.h2.Tables.ADDRESS;
-import static com.github.kickshare.db.h2.Tables.BACKER;
+import static com.github.kickshare.db.jooq.Tables.ADDRESS;
+import static com.github.kickshare.db.jooq.Tables.BACKER;
 
 import java.util.List;
 
-import com.github.kickshare.db.h2.tables.daos.ProjectDao;
-import com.github.kickshare.db.h2.tables.pojos.Project;
-import com.github.kickshare.db.h2.tables.records.ProjectRecord;
+import com.github.kickshare.db.jooq.tables.daos.ProjectDao;
+import com.github.kickshare.db.jooq.tables.pojos.Project;
+import com.github.kickshare.db.jooq.tables.records.ProjectRecord;
 import com.github.kickshare.domain.Address;
 import com.github.kickshare.domain.Backer;
 import com.github.kickshare.domain.BackerInfo;

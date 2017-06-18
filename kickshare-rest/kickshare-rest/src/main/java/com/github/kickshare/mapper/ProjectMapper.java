@@ -16,7 +16,7 @@ public interface ProjectMapper {
 
 //    ProjectMapper MAPPER = Mappers.getMapper(ProjectMapper.class);
 
-    Project toDomain(com.github.kickshare.db.h2.tables.pojos.Project source);
+    Project toDomain(com.github.kickshare.db.jooq.tables.pojos.Project source);
 
     @Mappings({
             @Mapping(source = "photo.small", target = "photoUrl"),
@@ -25,7 +25,7 @@ public interface ProjectMapper {
     })
     ProjectInfo toDomain(com.github.kickshare.kickstarter.entity.Project source);
 
-    com.github.kickshare.db.h2.tables.pojos.Project toDB(Project source);
+    com.github.kickshare.db.jooq.tables.pojos.Project toDB(Project source);
 
     @Mapping(target = "photo", ignore = true)
     com.github.kickshare.kickstarter.entity.Project toKS(Project source);

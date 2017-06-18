@@ -7,12 +7,12 @@ import com.github.kickshare.db.dao.BackerRepository;
 import com.github.kickshare.db.dao.GroupRepository;
 import com.github.kickshare.db.dao.KickshareRepository;
 import com.github.kickshare.db.dao.ProjectRepository;
-import com.github.kickshare.db.h2.enums.GroupRequestStatus;
-import com.github.kickshare.db.h2.tables.daos.Backer_2GroupDao;
-import com.github.kickshare.db.h2.tables.daos.CityDao;
-import com.github.kickshare.db.h2.tables.daos.LeaderDao;
-import com.github.kickshare.db.h2.tables.pojos.Backer_2Group;
-import com.github.kickshare.db.h2.tables.pojos.Group;
+import com.github.kickshare.db.jooq.enums.GroupRequestStatus;
+import com.github.kickshare.db.jooq.tables.daos.Backer_2GroupDao;
+import com.github.kickshare.db.jooq.tables.daos.CityDao;
+import com.github.kickshare.db.jooq.tables.daos.LeaderDao;
+import com.github.kickshare.db.jooq.tables.pojos.Backer_2Group;
+import com.github.kickshare.db.jooq.tables.pojos.Group;
 import com.github.kickshare.domain.Backer;
 import com.github.kickshare.domain.City;
 import com.github.kickshare.domain.GroupDetail;
@@ -102,7 +102,7 @@ public class GroupServiceImpl {
     @Transactional
     public void saveLeader(final Long id, final String email, final Long kickstarterId) {
         Validate.isTrue(!leaderDao.existsById(id), "Backer is already registered as leader");
-        leaderDao.insert(mapper.map(new Leader(id, email, kickstarterId), com.github.kickshare.db.h2.tables.pojos.Leader.class));
+        leaderDao.insert(mapper.map(new Leader(id, email, kickstarterId), com.github.kickshare.db.jooq.tables.pojos.Leader.class));
         userManager.addUserToGroup(email, GroupConstants.LEADERS);
     }
 

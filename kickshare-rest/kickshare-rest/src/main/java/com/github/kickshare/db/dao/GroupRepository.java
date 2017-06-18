@@ -2,9 +2,9 @@ package com.github.kickshare.db.dao;
 
 import java.util.List;
 
-import com.github.kickshare.db.h2.tables.pojos.Backer;
-import com.github.kickshare.db.h2.tables.pojos.Group;
-import com.github.kickshare.db.h2.tables.records.GroupRecord;
+import com.github.kickshare.db.jooq.tables.pojos.Backer;
+import com.github.kickshare.db.jooq.tables.pojos.Group;
+import com.github.kickshare.db.jooq.tables.records.GroupRecord;
 import com.github.kickshare.domain.GroupInfo;
 import org.springframework.transaction.annotation.Transactional;
 

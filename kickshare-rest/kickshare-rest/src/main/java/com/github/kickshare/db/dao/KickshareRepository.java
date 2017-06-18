@@ -3,7 +3,7 @@ package com.github.kickshare.db.dao;
 import java.io.IOException;
 import java.util.List;
 
-import com.github.kickshare.db.h2.tables.pojos.Group;
+import com.github.kickshare.db.jooq.tables.pojos.Group;
 import com.github.kickshare.domain.City;
 import com.github.kickshare.domain.GroupInfo;
 import com.github.kickshare.domain.ProjectInfo;

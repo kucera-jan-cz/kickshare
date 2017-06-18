@@ -1,19 +1,19 @@
 package com.github.kickshare.db.dao;
 
-import static com.github.kickshare.db.h2.Tables.BACKER;
-import static com.github.kickshare.db.h2.Tables.BACKER_2_GROUP;
-import static com.github.kickshare.db.h2.Tables.GROUP;
+import static com.github.kickshare.db.jooq.Tables.BACKER;
+import static com.github.kickshare.db.jooq.Tables.BACKER_2_GROUP;
+import static com.github.kickshare.db.jooq.Tables.GROUP;
 
 import java.util.List;
 import java.util.Map;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-import com.github.kickshare.db.h2.enums.GroupRequestStatus;
-import com.github.kickshare.db.h2.tables.daos.GroupDao;
-import com.github.kickshare.db.h2.tables.pojos.Group;
-import com.github.kickshare.db.h2.tables.pojos.Project;
-import com.github.kickshare.db.h2.tables.records.GroupRecord;
+import com.github.kickshare.db.jooq.enums.GroupRequestStatus;
+import com.github.kickshare.db.jooq.tables.daos.GroupDao;
+import com.github.kickshare.db.jooq.tables.pojos.Group;
+import com.github.kickshare.db.jooq.tables.pojos.Project;
+import com.github.kickshare.db.jooq.tables.records.GroupRecord;
 import com.github.kickshare.domain.Backer;
 import com.github.kickshare.domain.GroupInfo;
 import org.jooq.Configuration;
@@ -60,11 +60,11 @@ public class GroupRepositoryImpl extends AbstractRepository<GroupRecord, Group, 
     }
 
     @Override
-    public List<com.github.kickshare.db.h2.tables.pojos.Backer> findAllUsers(final Long groupId) {
+    public List<com.github.kickshare.db.jooq.tables.pojos.Backer> findAllUsers(final Long groupId) {
         return findUsersByStatus(groupId, GroupRequestStatus.APPROVED);
     }
 
-    public List<com.github.kickshare.db.h2.tables.pojos.Backer> findWaitingUsers(final Long groupId) {
+    public List<com.github.kickshare.db.jooq.tables.pojos.Backer> findWaitingUsers(final Long groupId) {
         return findUsersByStatus(groupId, GroupRequestStatus.REQUESTED);
     }
 
@@ -94,13 +94,13 @@ public class GroupRepositoryImpl extends AbstractRepository<GroupRecord, Group, 
         return info;
     }
 
-    private List<com.github.kickshare.db.h2.tables.pojos.Backer> findUsersByStatus(final Long groupId, final GroupRequestStatus status) {
+    private List<com.github.kickshare.db.jooq.tables.pojos.Backer> findUsersByStatus(final Long groupId, final GroupRequestStatus status) {
         return dsl
                 .select()
                 .from(BACKER)
                 .join(BACKER_2_GROUP).on(BACKER.ID.eq(BACKER_2_GROUP.BACKER_ID))
                 .where(BACKER_2_GROUP.GROUP_ID.eq(groupId))
                 .and(BACKER_2_GROUP.STATUS.eq(status))
-                .fetchInto(com.github.kickshare.db.h2.tables.pojos.Backer.class);
+                .fetchInto(com.github.kickshare.db.jooq.tables.pojos.Backer.class);
     }
 }
