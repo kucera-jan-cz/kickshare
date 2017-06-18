@@ -10,6 +10,6 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 public class BackerInfo {
-    private User backer;
+    private Backer backer;
     private Address address;
 }

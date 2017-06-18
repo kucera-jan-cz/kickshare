@@ -1,12 +1,9 @@
 INSERT INTO project (id, name, description, url, deadline) VALUES
-(439380282, 'Quodd Heroes',
-    'A completely unique board game with Amazing minis, scenario-based gameplay, and gorgeous art. Action, Adventure and Mayhem await!',
-    'https://www.kickstarter.com/projects/wondermentgames/quodd-heroes-0?ref=category', CURRENT_DATE),
-(217227567, 'The World of SMOG: Rise of Moloch',
-    'A Victorian, adventure board game taking place in an alternative England where magic and technology have taken an extraordinary turn!',
-    'https://www.kickstarter.com/projects/coolminiornot/the-world-of-smog-rise-of-moloch?ref=category', CURRENT_DATE),
-(1893061183, 'The Edge: Dawnfall', '',
-    'https://www.kickstarter.com/projects/awakenrealms/the-edge-dawnfall?ref=category', CURRENT_DATE);
+(439380282, 'Quodd Heroes', 'A completely unique board game with Amazing minis, scenario-based gameplay, and gorgeous art. Action, Adventure and Mayhem await!', 'https://www.kickstarter.com/projects/wondermentgames/quodd-heroes-0?ref=category', '2017-03-03'),
+(933266637, 'Quodd Heroes - A fast, fun, tumble-powered board game (Canceled)', 'Awesome miniatures, truly unique mechanics, scenario-based gameplay, and gorgeous art.  Action, adventure and Mayhem await!', 'https://www.kickstarter.com/projects/wondermentgames/quodd-heroes?ref=category', '2017-01-03'),
+(217227567, 'The World of SMOG: Rise of Moloch', 'A Victorian, adventure board game taking place in an alternative England where magic and technology have taken an extraordinary turn!', 'https://www.kickstarter.com/projects/cmon/the-world-of-smog-rise-of-moloch?ref=category', '2017-02-03'),
+(1893061183, 'The Edge: Dawnfall', 'Next level competitive miniature Board Game for 1-4 players from creator of Neuroshima Hex and Cry Havoc.', 'https://www.kickstarter.com/projects/awakenrealms/the-edge-dawnfall?ref=category', '2016-11-14')
+;
 
 INSERT INTO backer (id, email, name, surname, leader_rating, backer_rating) VALUES
 (1, 'xatrix101@gmail.com', 'Jan', 'Kučera', 5, NULL),

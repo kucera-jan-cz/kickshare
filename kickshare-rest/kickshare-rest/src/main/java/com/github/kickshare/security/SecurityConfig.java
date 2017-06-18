@@ -73,11 +73,11 @@ public class SecurityConfig {
 //    public UserDetailsService userDetailsService() {
 //        InMemoryUserDetailsManager service = new InMemoryUserDetailsManager();
 //        service.createUser(
-//                new User("user", passwordEncoder().encode("user"),
+//                new Backer("user", passwordEncoder().encode("user"),
 //                        Arrays.asList(new SimpleGrantedAuthority("USER"), new SimpleGrantedAuthority("ACTUATOR")))
 //        );
 //        service.createUser(
-//                new User("admin", "admin",
+//                new Backer("admin", "admin",
 //                        Arrays.asList(new SimpleGrantedAuthority("USER"), new SimpleGrantedAuthority("ADMIN")))
 //        );
 //        return service;

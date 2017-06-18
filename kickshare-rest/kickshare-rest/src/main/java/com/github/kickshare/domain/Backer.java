@@ -7,7 +7,7 @@ import lombok.Data;
  * @since 8.4.2017
  */
 @Data
-public class User {
+public class Backer {
     private final Long id;
     private final String email;
     private final String name;
