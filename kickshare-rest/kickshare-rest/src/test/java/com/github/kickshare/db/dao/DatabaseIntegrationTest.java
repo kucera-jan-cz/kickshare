@@ -8,9 +8,9 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.List;
 
-import com.github.kickshare.db.h2.tables.daos.LeaderDao;
-import com.github.kickshare.db.h2.tables.daos.ProjectDao;
-import com.github.kickshare.db.h2.tables.daos.ProjectPhotoDao;
+import com.github.kickshare.db.jooq.tables.daos.LeaderDao;
+import com.github.kickshare.db.jooq.tables.daos.ProjectDao;
+import com.github.kickshare.db.jooq.tables.daos.ProjectPhotoDao;
 import com.github.kickshare.db.tools.SQLLogging;
 import com.github.kickshare.domain.GroupInfo;
 import com.github.kickshare.mapper.ExtendedMapper;

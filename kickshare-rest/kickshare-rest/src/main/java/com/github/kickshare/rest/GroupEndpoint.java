@@ -8,7 +8,7 @@ import java.util.stream.Collectors;
 import javax.validation.Valid;
 
 import com.github.kickshare.db.dao.KickshareRepository;
-import com.github.kickshare.db.h2.enums.GroupRequestStatus;
+import com.github.kickshare.db.jooq.enums.GroupRequestStatus;
 import com.github.kickshare.domain.Backer;
 import com.github.kickshare.domain.Group;
 import com.github.kickshare.domain.GroupDetail;

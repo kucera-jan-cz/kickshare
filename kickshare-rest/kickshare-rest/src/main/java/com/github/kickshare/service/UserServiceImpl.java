@@ -1,11 +1,11 @@
 package com.github.kickshare.service;
 
 import com.github.kickshare.db.dao.BackerRepository;
-import com.github.kickshare.db.h2.tables.daos.AddressDao;
-import com.github.kickshare.db.h2.tables.daos.BackerDao;
-import com.github.kickshare.db.h2.tables.daos.CityDao;
-import com.github.kickshare.db.h2.tables.pojos.Backer;
-import com.github.kickshare.db.h2.tables.pojos.City;
+import com.github.kickshare.db.jooq.tables.daos.AddressDao;
+import com.github.kickshare.db.jooq.tables.daos.BackerDao;
+import com.github.kickshare.db.jooq.tables.daos.CityDao;
+import com.github.kickshare.db.jooq.tables.pojos.Backer;
+import com.github.kickshare.db.jooq.tables.pojos.City;
 import com.github.kickshare.mapper.ExtendedMapper;
 import com.github.kickshare.security.BackerDetails;
 import lombok.AllArgsConstructor;
@@ -34,7 +34,7 @@ public class UserServiceImpl {
 //        Backer backer = new Backer(null, userInfo.getEmail(), userInfo.getName(), userInfo.getSurname());
 //        Long personId = backerRepository.createReturningKey(backer);
 //        Address address = userInfo.getAddress();
-//        com.github.kickshare.db.h2.tables.pojos.Address dbAddress = new com.github.kickshare.db.h2.tables.pojos.Address(null, personId, address.getStreet(),
+//        com.github.kickshare.db.jooq.tables.pojos.Address dbAddress = new com.github.kickshare.db.jooq.tables.pojos.Address(null, personId, address.getStreet(),
 //                address.getCity(), address.getPostalCode());
 //        addressDao.insert(dbAddress);
         City city = cityDao.fetchOneById(cityId);

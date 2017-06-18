@@ -1,9 +1,9 @@
 package com.github.kickshare.rest;
 
 import com.github.kickshare.db.dao.BackerRepository;
-import com.github.kickshare.db.h2.tables.daos.AddressDao;
-import com.github.kickshare.db.h2.tables.daos.BackerDao;
-import com.github.kickshare.db.h2.tables.pojos.Backer;
+import com.github.kickshare.db.jooq.tables.daos.AddressDao;
+import com.github.kickshare.db.jooq.tables.daos.BackerDao;
+import com.github.kickshare.db.jooq.tables.pojos.Backer;
 import com.github.kickshare.rest.user.domain.UserInfo;
 import com.github.kickshare.security.BackerDetails;
 import lombok.AllArgsConstructor;

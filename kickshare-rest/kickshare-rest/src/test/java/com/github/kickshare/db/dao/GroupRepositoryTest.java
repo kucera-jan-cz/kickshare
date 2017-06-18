@@ -4,8 +4,8 @@ import static org.testng.Assert.assertNotNull;
 
 import java.sql.SQLException;
 
-import com.github.kickshare.db.h2.tables.daos.GroupDao;
-import com.github.kickshare.db.h2.tables.pojos.Group;
+import com.github.kickshare.db.jooq.tables.daos.GroupDao;
+import com.github.kickshare.db.jooq.tables.pojos.Group;
 import org.jooq.DSLContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

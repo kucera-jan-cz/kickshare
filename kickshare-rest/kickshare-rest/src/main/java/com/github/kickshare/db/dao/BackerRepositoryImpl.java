@@ -1,12 +1,12 @@
 package com.github.kickshare.db.dao;
 
-import static com.github.kickshare.db.h2.Tables.BACKER_LOCATIONS;
-import static com.github.kickshare.db.h2.Tables.CITY;
-import static com.github.kickshare.db.h2.Tables.GROUP;
+import static com.github.kickshare.db.jooq.Tables.BACKER_LOCATIONS;
+import static com.github.kickshare.db.jooq.Tables.CITY;
+import static com.github.kickshare.db.jooq.Tables.GROUP;
 
-import com.github.kickshare.db.h2.tables.daos.BackerDao;
-import com.github.kickshare.db.h2.tables.pojos.Backer;
-import com.github.kickshare.db.h2.tables.records.BackerRecord;
+import com.github.kickshare.db.jooq.tables.daos.BackerDao;
+import com.github.kickshare.db.jooq.tables.pojos.Backer;
+import com.github.kickshare.db.jooq.tables.records.BackerRecord;
 import com.github.kickshare.domain.City;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -1,9 +1,9 @@
 package com.github.kickshare.security;
 
-import static com.github.kickshare.db.h2.Tables.USER_AUTH;
+import static com.github.kickshare.db.jooq.Tables.USER_AUTH;
 
-import com.github.kickshare.db.h2.tables.daos.UserAuthDao;
-import com.github.kickshare.db.h2.tables.pojos.UserAuth;
+import com.github.kickshare.db.jooq.tables.daos.UserAuthDao;
+import com.github.kickshare.db.jooq.tables.pojos.UserAuth;
 import lombok.AllArgsConstructor;
 import org.jooq.Configuration;
 import org.springframework.security.core.userdetails.UserDetailsService;

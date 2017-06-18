@@ -1,14 +1,14 @@
 package com.github.kickshare.db;
 
-import com.github.kickshare.db.h2.tables.daos.AddressDao;
-import com.github.kickshare.db.h2.tables.daos.BackerDao;
-import com.github.kickshare.db.h2.tables.daos.BackerLocationsDao;
-import com.github.kickshare.db.h2.tables.daos.Backer_2GroupDao;
-import com.github.kickshare.db.h2.tables.daos.CategoryDao;
-import com.github.kickshare.db.h2.tables.daos.CityDao;
-import com.github.kickshare.db.h2.tables.daos.LeaderDao;
-import com.github.kickshare.db.h2.tables.daos.ProjectDao;
-import com.github.kickshare.db.h2.tables.daos.ProjectPhotoDao;
+import com.github.kickshare.db.jooq.tables.daos.AddressDao;
+import com.github.kickshare.db.jooq.tables.daos.BackerDao;
+import com.github.kickshare.db.jooq.tables.daos.BackerLocationsDao;
+import com.github.kickshare.db.jooq.tables.daos.Backer_2GroupDao;
+import com.github.kickshare.db.jooq.tables.daos.CategoryDao;
+import com.github.kickshare.db.jooq.tables.daos.CityDao;
+import com.github.kickshare.db.jooq.tables.daos.LeaderDao;
+import com.github.kickshare.db.jooq.tables.daos.ProjectDao;
+import com.github.kickshare.db.jooq.tables.daos.ProjectPhotoDao;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 

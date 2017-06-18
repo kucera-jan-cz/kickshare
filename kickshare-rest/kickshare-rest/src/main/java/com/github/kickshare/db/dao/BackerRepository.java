@@ -1,7 +1,7 @@
 package com.github.kickshare.db.dao;
 
-import com.github.kickshare.db.h2.tables.pojos.Backer;
-import com.github.kickshare.db.h2.tables.records.BackerRecord;
+import com.github.kickshare.db.jooq.tables.pojos.Backer;
+import com.github.kickshare.db.jooq.tables.records.BackerRecord;
 import com.github.kickshare.domain.City;
 
 /**

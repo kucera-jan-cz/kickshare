@@ -27,8 +27,8 @@ import org.springframework.transaction.annotation.Transactional;
 public class ProjectServiceImpl implements ProjectService {
     private static final Logger LOGGER = LoggerFactory.getLogger(ProjectServiceImpl.class);
     private static final ScheduledExecutorService EXECUTOR = Executors.newSingleThreadScheduledExecutor();
-    private static final Class<com.github.kickshare.db.h2.tables.pojos.Project> DB_TYPE = com.github.kickshare.db.h2.tables.pojos.Project.class;
-    private static final List<com.github.kickshare.db.h2.tables.pojos.Project> EMPTY = Collections.emptyList();
+    private static final Class<com.github.kickshare.db.jooq.tables.pojos.Project> DB_TYPE = com.github.kickshare.db.jooq.tables.pojos.Project.class;
+    private static final List<com.github.kickshare.db.jooq.tables.pojos.Project> EMPTY = Collections.emptyList();
 
     private ProjectRepository projectRepository;
     private com.github.kickshare.kickstarter.ProjectService ksService;
@@ -58,14 +58,14 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     public List<Project> findProjects(String text) throws ExecutionException, InterruptedException {
-//        List<com.github.kickshare.db.h2.tables.pojos.Project> dbItems = projectRepository.findProjects();
-//        List<Long> dbIds = dbItems.stream().map(com.github.kickshare.db.h2.tables.pojos.Project::getId).collect(Collectors.toList());
-//        CompletableFuture<List<com.github.kickshare.db.h2.tables.pojos.Project>> ks2db
+//        List<com.github.kickshare.db.jooq.tables.pojos.Project> dbItems = projectRepository.findProjects();
+//        List<Long> dbIds = dbItems.stream().map(com.github.kickshare.db.jooq.tables.pojos.Project::getId).collect(Collectors.toList());
+//        CompletableFuture<List<com.github.kickshare.db.jooq.tables.pojos.Project>> ks2db
 //                = CompletableFuture.supplyAsync(() -> ksService.findProjects()).thenApply(this::listTransform);
-//        List<com.github.kickshare.db.h2.tables.pojos.Project> ksItems = withDefault(ks2db, EMPTY, Duration.ofSeconds(1)).get();
+//        List<com.github.kickshare.db.jooq.tables.pojos.Project> ksItems = withDefault(ks2db, EMPTY, Duration.ofSeconds(1)).get();
 //
 //
-//        List<com.github.kickshare.db.h2.tables.pojos.Project> newItems = ksItems.stream().filter(i -> !dbIds.contains(i.getId())).collect(Collectors.toList());
+//        List<com.github.kickshare.db.jooq.tables.pojos.Project> newItems = ksItems.stream().filter(i -> !dbIds.contains(i.getId())).collect(Collectors.toList());
 //        dbItems.addAll(newItems);
 //
 //        CompletableFuture.supplyAsync(() -> projectRepository.save(newItems));
@@ -76,8 +76,8 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
 
-//    private List<com.github.kickshare.db.h2.tables.pojos.Project> listTransform(List<Project> list) {
-//        List<com.github.kickshare.db.h2.tables.pojos.Project> db =
+//    private List<com.github.kickshare.db.jooq.tables.pojos.Project> listTransform(List<Project> list) {
+//        List<com.github.kickshare.db.jooq.tables.pojos.Project> db =
 //                list.stream().map(this::dbTransform)
 //                        .filter(Optional::isPresent)
 //                        .map(Optional::get)
@@ -85,9 +85,9 @@ public class ProjectServiceImpl implements ProjectService {
 //        return db;
 //    }
 //
-//    private Optional<com.github.kickshare.db.h2.tables.pojos.Project> dbTransform(final Project project) {
+//    private Optional<com.github.kickshare.db.jooq.tables.pojos.Project> dbTransform(final Project project) {
 //        try {
-//            com.github.kickshare.db.h2.tables.pojos.Project transformed = mapper.convertValue(project, com.github.kickshare.db.h2.tables.pojos.Project.class);
+//            com.github.kickshare.db.jooq.tables.pojos.Project transformed = mapper.convertValue(project, com.github.kickshare.db.jooq.tables.pojos.Project.class);
 //            return Optional.of(transformed);
 //        } catch (RuntimeException ex) {
 //            LOGGER.warn("Object mapping failed: ", ex);

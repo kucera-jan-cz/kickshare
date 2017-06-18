@@ -2,7 +2,7 @@ package com.github.kickshare.service;
 
 import java.util.List;
 
-import com.github.kickshare.db.h2.tables.daos.CategoryDao;
+import com.github.kickshare.db.jooq.tables.daos.CategoryDao;
 import com.github.kickshare.domain.Category;
 import com.github.kickshare.mapper.ExtendedMapper;
 import lombok.AllArgsConstructor;
