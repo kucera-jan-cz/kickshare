@@ -110,7 +110,7 @@ public class KickshareRepositoryImpl implements KickshareRepository {
     }
 
     @Override
-    //@TODO - make this transactional
+    //@TODO - refactor to service?
     public List<GroupInfo> findAllGroupInfo(final Long projectId) {
         final Project project = projectDao.fetchOneById(projectId);
         final ProjectPhoto projectPhoto = photoDao.fetchOneByProjectId(projectId);
@@ -148,7 +148,6 @@ public class KickshareRepositoryImpl implements KickshareRepository {
 
         for (GroupInfo info : infos) {
             info.setPhotoUrl(projectPhoto.getSmall());
-            info.setUrl(project.getUrl());
         }
         return infos;
     }

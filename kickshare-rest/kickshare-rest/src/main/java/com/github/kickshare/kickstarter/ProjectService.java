@@ -13,6 +13,7 @@ import com.github.kickshare.kickstarter.exception.AuthenticationException;
  * @since 23.3.2017
  */
 
+//@TODO rename to KickstarterSearch
 public interface ProjectService {
 
     List<Project> findProjects() throws IOException;

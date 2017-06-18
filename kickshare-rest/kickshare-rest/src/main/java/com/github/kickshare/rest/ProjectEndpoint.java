@@ -29,11 +29,14 @@ public class ProjectEndpoint {
 
     private final KickshareRepository repository;
     private final ProjectService kickstarter;
+    private final com.github.kickshare.service.ProjectService projectService;
     private final ExtendedMapper dozer;
 
-    public ProjectEndpoint(final KickshareRepository repository, final ProjectService kickstarter, ExtendedMapper dozer) {
+    public ProjectEndpoint(final KickshareRepository repository, final ProjectService kickstarter,
+            final com.github.kickshare.service.ProjectService projectService, ExtendedMapper dozer) {
         this.repository = repository;
         this.kickstarter = kickstarter;
+        this.projectService = projectService;
         this.dozer = dozer;
     }
 
@@ -57,7 +60,7 @@ public class ProjectEndpoint {
 
     @GetMapping("/{projectId}/groupInfos")
     public List<GroupInfo> getGroupInfos(@PathVariable Long projectId) {
-        return repository.findAllGroupInfo(projectId);
+        return projectService.findAllGroupInfo(projectId);
     }
 
     @GetMapping("/{projectId}")
