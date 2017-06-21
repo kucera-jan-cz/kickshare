@@ -6,11 +6,13 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
+import java.util.stream.Collectors;
 
 import com.github.kickshare.db.dao.KickshareRepository;
 import com.github.kickshare.db.dao.ProjectRepository;
 import com.github.kickshare.domain.GroupInfo;
 import com.github.kickshare.domain.Project;
+import com.github.kickshare.domain.ProjectInfo;
 import com.github.kickshare.mapper.ExtendedMapper;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
@@ -107,4 +109,11 @@ public class ProjectServiceImpl implements ProjectService {
 //                delay.toMillis(), TimeUnit.MILLISECONDS);
 //        return result;
 //    }
+
+    @Transactional
+    @Override
+    public List<ProjectInfo> searchGroups(GroupSearchOptions options) throws IOException {
+        List<Project> projects = mapper.map(this.repository.searchProjects(options), Project.class);
+        return projects.stream().map(p -> new ProjectInfo(null, p, null)).collect(Collectors.toList());
+    }
 }

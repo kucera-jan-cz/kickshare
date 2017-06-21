@@ -1,5 +1,7 @@
 package com.github.kickshare.service;
 
+import java.util.Map;
+
 import lombok.Builder;
 import lombok.Data;
 
@@ -11,8 +13,26 @@ import lombok.Data;
 @Builder
 public class GroupSearchOptions {
     private Boolean searchLocalOnly;
+    @Deprecated
     private String projectName;
     private Long projectId;
     private GeoBoundary geoBoundary;
     private Location localCity;
+
+    public static GroupSearchOptions toOptions(Map<String, String> params) {
+        GroupSearchOptions.GroupSearchOptionsBuilder builder = GroupSearchOptions.builder();
+        builder.searchLocalOnly(Boolean.valueOf(params.get("only_local")));
+        builder.projectName(params.get("name"));
+        builder.projectId(Long.valueOf(params.getOrDefault("project_id", "-1")));
+        Location leftTop = new Location(
+                Float.parseFloat(params.get("ne_lat")),
+                Float.parseFloat(params.get("ne_lon"))
+        );
+        Location rightBottom = new Location(
+                Float.parseFloat(params.get("sw_lat")),
+                Float.parseFloat(params.get("sw_lon"))
+        );
+        builder.geoBoundary(new GeoBoundary(leftTop, rightBottom));
+        return builder.build();
+    }
 }

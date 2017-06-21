@@ -14,10 +14,8 @@ import com.github.kickshare.domain.Group;
 import com.github.kickshare.domain.GroupDetail;
 import com.github.kickshare.mapper.ExtendedMapper;
 import com.github.kickshare.security.BackerDetails;
-import com.github.kickshare.service.GeoBoundary;
 import com.github.kickshare.service.GroupSearchOptions;
 import com.github.kickshare.service.GroupServiceImpl;
-import com.github.kickshare.service.Location;
 import com.github.kickshare.service.entity.CityGrid;
 import lombok.AllArgsConstructor;
 import org.apache.commons.lang3.RandomUtils;
@@ -82,7 +80,7 @@ public class GroupEndpoint {
             @RequestParam String callback,
             @RequestParam Map<String, String> params
     ) throws IOException {
-        GroupSearchOptions options = toOptions(params);
+        GroupSearchOptions options = GroupSearchOptions.toOptions(params);
         final List<CityGrid> cityGrids = repository.searchCityGrid(options);
         FeatureCollection collection = new FeatureCollection();
         collection.addAll(cityGrids.stream().map(GroupEndpoint::point).collect(Collectors.toList()));
@@ -91,7 +89,7 @@ public class GroupEndpoint {
 
     @GetMapping("/search")
     public List<GroupDetail> searchGroups(@RequestParam Map<String, String> params) {
-        GroupSearchOptions options = toOptions(params);
+        GroupSearchOptions options = GroupSearchOptions.toOptions(params);
         return groupService.searchGroups(options);
     }
 
@@ -138,37 +136,6 @@ public class GroupEndpoint {
             @AuthenticationPrincipal org.springframework.security.core.userdetails.User customUser) {
         LOGGER.info("{}", customUser);
         return groupService.getGroupUsers(groupId);
-    }
-
-    /**
-     export interface Group {
-     name: string
-     project_id: number
-     group_id: number
-     leader_name: string
-     leader_rating: number
-     is_local: boolean
-     participant_count: number
-     }
-     * @param params
-     * @return
-     */
-
-    private GroupSearchOptions toOptions(Map<String, String> params) {
-        GroupSearchOptions.GroupSearchOptionsBuilder builder = GroupSearchOptions.builder();
-        builder.searchLocalOnly(Boolean.valueOf(params.get("only_local")));
-        builder.projectName(params.get("name"));
-        builder.projectId(Long.valueOf(params.getOrDefault("project_id", "-1")));
-        Location leftTop = new Location(
-                Float.parseFloat(params.get("ne_lat")),
-                Float.parseFloat(params.get("ne_lon"))
-        );
-        Location rightBottom = new Location(
-                Float.parseFloat(params.get("sw_lat")),
-                Float.parseFloat(params.get("sw_lon"))
-        );
-        builder.geoBoundary(new GeoBoundary(leftTop, rightBottom));
-        return builder.build();
     }
 
     public static Feature point(final CityGrid city) {

@@ -2,12 +2,14 @@ package com.github.kickshare.rest;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 import com.github.kickshare.db.dao.KickshareRepository;
 import com.github.kickshare.domain.GroupInfo;
 import com.github.kickshare.domain.ProjectInfo;
 import com.github.kickshare.kickstarter.ProjectService;
 import com.github.kickshare.mapper.ExtendedMapper;
+import com.github.kickshare.service.GroupSearchOptions;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.Validate;
 import org.slf4j.Logger;
@@ -41,7 +43,7 @@ public class ProjectEndpoint {
     }
 
 
-    @GetMapping("/search")
+    @GetMapping
     public List<ProjectInfo> searchProjects(@RequestParam final String name, @RequestParam final Integer categoryId,
             @RequestParam(defaultValue = "false") final Boolean useKickstarter) throws IOException {
         Validate.inclusiveBetween(3, 100, StringUtils.length(name), "Name parameter must be at least 3 characters long");
@@ -51,6 +53,12 @@ public class ProjectEndpoint {
             return searchKickstarter(name, categoryId);
         }
         return projects;
+    }
+
+    @GetMapping("/search")
+    public List<ProjectInfo> searchProjects(@RequestParam Map<String, String> params) throws IOException {
+        final GroupSearchOptions options = GroupSearchOptions.toOptions(params);
+        return projectService.searchGroups(options);
     }
 
     @GetMapping("/{projectId}/projectInfo")

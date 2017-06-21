@@ -7,6 +7,7 @@ import static com.github.kickshare.db.jooq.Tables.GROUP;
 import static com.github.kickshare.db.jooq.Tables.PROJECT;
 import static org.jooq.impl.DSL.concat;
 import static org.jooq.impl.DSL.count;
+import static org.jooq.impl.DSL.exists;
 import static org.jooq.impl.DSL.val;
 
 import java.io.IOException;
@@ -173,6 +174,19 @@ public class KickshareRepositoryImpl implements KickshareRepository {
         return groups;
     }
 
+    @Transactional
+    public List<Project> searchProjects(GroupSearchOptions options) throws IOException {
+        final List<Project> projects = dsl.select()
+                .from(PROJECT)
+                .where(exists(
+                        dsl.selectOne()
+                                .from(GROUP)
+                                .where(where(options)))
+                )
+                .fetchInto(com.github.kickshare.db.jooq.tables.pojos.Project.class);
+        return projects;
+    }
+
     public List<CityGrid> searchCityGrid(GroupSearchOptions options) throws IOException {
         final Function<Record, CityGrid> transformer = (rec) -> {
             CityGrid grid = new CityGrid();
@@ -210,7 +224,7 @@ public class KickshareRepositoryImpl implements KickshareRepository {
         if (StringUtils.isNotBlank(name) && name.length() >= 3) {
             query = query.and(GROUP.NAME.like('%' + name + '%'));
         }
-        if(projectId != null && projectId > 0) {
+        if (projectId != null && projectId > 0) {
             query = query.and(GROUP.PROJECT_ID.eq(ops.getProjectId()));
         }
         return query;
