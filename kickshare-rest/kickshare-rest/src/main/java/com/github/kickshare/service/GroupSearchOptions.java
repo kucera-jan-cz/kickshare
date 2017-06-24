@@ -13,7 +13,7 @@ import lombok.Data;
 @Builder
 public class GroupSearchOptions {
     private Boolean searchLocalOnly;
-    @Deprecated
+    @Deprecated //Will be used projectId
     private String projectName;
     private Long projectId;
     private GeoBoundary geoBoundary;
@@ -25,12 +25,12 @@ public class GroupSearchOptions {
         builder.projectName(params.get("name"));
         builder.projectId(Long.valueOf(params.getOrDefault("project_id", "-1")));
         Location leftTop = new Location(
-                Float.parseFloat(params.get("ne_lat")),
-                Float.parseFloat(params.get("ne_lon"))
+                Float.parseFloat(params.get("nw_lat")),
+                Float.parseFloat(params.get("nw_lon"))
         );
         Location rightBottom = new Location(
-                Float.parseFloat(params.get("sw_lat")),
-                Float.parseFloat(params.get("sw_lon"))
+                Float.parseFloat(params.get("se_lat")),
+                Float.parseFloat(params.get("se_lon"))
         );
         builder.geoBoundary(new GeoBoundary(leftTop, rightBottom));
         return builder.build();

@@ -9,5 +9,5 @@ import com.github.kickshare.domain.Category;
  * @since 24.4.2017
  */
 public interface CategoryService {
-    public List<Category> getCategories();
+    List<Category> getCategories();
 }
