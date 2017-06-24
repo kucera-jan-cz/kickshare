@@ -54,7 +54,7 @@ public class GroupServiceImpl {
         City city = Validate.notNull(backerRepository.getPermanentAddress(leaderId), "Give leader ({0}) does not have permanent address", leaderId);
         Group group = new Group(null, leaderId, projectId, groupName, city.getId(), city.getLat(), city.getLon(), isLocal, limit);
         Long groupId = groupRepository.createReturningKey(group);
-        backer2GroupDao.insert(new Backer_2Group(groupId, leaderId, GroupRequestStatus.APPROVED));
+        backer2GroupDao.insert(new Backer_2Group(groupId, leaderId, GroupRequestStatus.APPROVED, null));
         return groupId;
     }
 
@@ -96,7 +96,8 @@ public class GroupServiceImpl {
 
     @Transactional
     public void registerBacker(Long groupId, Long backerId) {
-        backer2GroupDao.update(new Backer_2Group(groupId, backerId, GroupRequestStatus.REQUESTED));
+        //@TODO - add supporting message
+        backer2GroupDao.update(new Backer_2Group(groupId, backerId, GroupRequestStatus.REQUESTED, null));
     }
 
     @Transactional
@@ -111,6 +112,7 @@ public class GroupServiceImpl {
     }
 
     public void updateGroupRequestStatus(final Long groupId, final Long backerId, GroupRequestStatus status) {
-        backer2GroupDao.update(new Backer_2Group(groupId, backerId, status));
+        //@TODO - add supporting message
+        backer2GroupDao.update(new Backer_2Group(groupId, backerId, status, null));
     }
 }

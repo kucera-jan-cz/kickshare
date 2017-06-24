@@ -4,6 +4,7 @@ import static com.github.kickshare.db.jooq.Tables.BACKER;
 import static com.github.kickshare.db.jooq.Tables.BACKER_2_GROUP;
 import static com.github.kickshare.db.jooq.Tables.CITY;
 import static com.github.kickshare.db.jooq.Tables.GROUP;
+import static com.github.kickshare.db.jooq.Tables.GROUP_POSTS;
 import static com.github.kickshare.db.jooq.Tables.PROJECT;
 import static org.jooq.impl.DSL.concat;
 import static org.jooq.impl.DSL.count;
@@ -21,6 +22,7 @@ import com.github.kickshare.db.jooq.tables.Group;
 import com.github.kickshare.db.jooq.tables.daos.LeaderDao;
 import com.github.kickshare.db.jooq.tables.daos.ProjectDao;
 import com.github.kickshare.db.jooq.tables.daos.ProjectPhotoDao;
+import com.github.kickshare.db.jooq.tables.pojos.GroupPosts;
 import com.github.kickshare.db.jooq.tables.pojos.Project;
 import com.github.kickshare.db.jooq.tables.pojos.ProjectPhoto;
 import com.github.kickshare.db.jooq.tables.records.ProjectRecord;
@@ -43,6 +45,7 @@ import org.jooq.TableLike;
 import org.jooq.impl.DSL;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -174,7 +177,14 @@ public class KickshareRepositoryImpl implements KickshareRepository {
         return groups;
     }
 
-    @Transactional
+    public List<GroupPosts> getGroupPosts(Long groupId, Pageable pageable) {
+        return dsl.select()
+                .from(GROUP_POSTS)
+                .where(GROUP_POSTS.GROUP_ID.eq(groupId))
+                .orderBy(GROUP_POSTS.POST_MODIFIED.desc())
+                .fetchInto(com.github.kickshare.db.jooq.tables.pojos.GroupPosts.class);
+    }
+
     public List<Project> searchProjects(GroupSearchOptions options) throws IOException {
         final List<Project> projects = dsl.select()
                 .from(PROJECT)
@@ -235,8 +245,13 @@ public class KickshareRepositoryImpl implements KickshareRepository {
         Location nw = ops.getGeoBoundary().getLeftTop();
         Location se = ops.getGeoBoundary().getRightBottom();
         Condition latCondition = GROUP.LAT.between(BigDecimal.valueOf(se.getLat()), BigDecimal.valueOf(nw.getLat()));
-        Condition lonCondition = GROUP.LON.between(BigDecimal.valueOf(se.getLon()), BigDecimal.valueOf(nw.getLon()));
-        return latCondition.and(lonCondition);
+        Condition lonCondition = GROUP.LON.between(BigDecimal.valueOf(nw.getLon()), BigDecimal.valueOf(se.getLon()));
+        Condition geoCondition = latCondition.and(lonCondition);
+        if (!ops.getSearchLocalOnly()) {
+            return geoCondition.or(GROUP.IS_LOCAL.eq(false));
+        } else {
+            return geoCondition;
+        }
     }
 
     private List<Project> searchProject(String name) {
