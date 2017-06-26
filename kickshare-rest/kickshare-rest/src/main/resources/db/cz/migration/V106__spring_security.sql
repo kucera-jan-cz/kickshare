@@ -1,5 +1,5 @@
-INSERT INTO users (id, username, password, enabled) VALUES
-(1, 'xatrix101@gmail.com', '$2a$10$zWVlsjiuimbWVE4D4ZrlseB459kSEeB93e8FM58n8QQBiClwV17Pa', true)
+INSERT INTO users (id, username, password, enabled, token) VALUES
+(1, 'xatrix101@gmail.com', '$2a$10$zWVlsjiuimbWVE4D4ZrlseB459kSEeB93e8FM58n8QQBiClwV17Pa', true, 'deadbeef-dead-beef-dead-beef00000057')
 ;
 
 INSERT INTO authorities (username, authority) VALUES

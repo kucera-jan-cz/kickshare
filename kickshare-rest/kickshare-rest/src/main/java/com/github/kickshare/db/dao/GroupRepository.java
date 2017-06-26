@@ -32,4 +32,6 @@ public interface GroupRepository extends EnhancedDAO<GroupRecord, Group, Long> {
 
     GroupInfo getGroupInfo(Long groupId);
 
+    List<Group> findAllByUserId(final Long userId);
+
 }

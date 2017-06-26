@@ -69,6 +69,16 @@ public class GroupRepositoryImpl extends AbstractRepository<GroupRecord, Group, 
     }
 
     @Override
+    public List<Group> findAllByUserId(final Long userId) {
+        return dsl
+                .select()
+                .from(GROUP)
+                .join(BACKER_2_GROUP).on(GROUP.ID.eq(BACKER_2_GROUP.GROUP_ID))
+                .where(BACKER_2_GROUP.BACKER_ID.eq(userId))
+                .fetchInto(Group.class);
+    }
+
+    @Override
     public GroupInfo getGroupInfo(final Long groupId) {
         Map<com.github.kickshare.domain.Group, List<Backer>> usersByGroup = dsl.select()
                 .from(BACKER)

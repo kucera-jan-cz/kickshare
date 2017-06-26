@@ -1,6 +1,7 @@
 package com.github.kickshare.rest.user.domain;
 
 import lombok.Data;
+import org.hibernate.validator.constraints.Email;
 
 /**
  * @author Jan.Kucera
@@ -8,6 +9,7 @@ import lombok.Data;
  */
 @Data
 public class UserInfo {
+    @Email
     private String email;
 
     private String name;

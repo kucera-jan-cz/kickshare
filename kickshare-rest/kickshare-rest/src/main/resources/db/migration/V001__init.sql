@@ -66,3 +66,12 @@ CREATE TABLE category (
     parent_id INTEGER,
     slug VARCHAR (255)
 );
+
+CREATE TABLE private_msg (
+  msg_id BIGSERIAL PRIMARY KEY,
+  subject VARCHAR(255) NOT NULL DEFAULT '',
+  from_user_id BIGSERIAL NOT NULL,
+  to_user_id BIGSERIAL NOT NULL,
+  msg_created TIMESTAMP DEFAULT NOW(),
+  msg_text TEXT
+);

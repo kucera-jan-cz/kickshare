@@ -94,6 +94,11 @@
             <version>${commons-io.version}</version>
         </dependency>
         <dependency>
+            <groupId>commons-validator</groupId>
+            <artifactId>commons-validator</artifactId>
+            <version>${commons-validator.version}</version>
+        </dependency>
+        <dependency>
             <groupId>net.sf.dozer</groupId>
             <artifactId>dozer</artifactId>
             <version>${dozer.version}</version>

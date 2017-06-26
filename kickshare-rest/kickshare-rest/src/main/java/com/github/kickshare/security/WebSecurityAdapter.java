@@ -1,7 +1,5 @@
 package com.github.kickshare.security;
 
-import javax.sql.DataSource;
-
 import com.github.kickshare.db.multischema.SchemaContextHolder;
 import com.github.kickshare.security.session.RestAuthenticationEntryPoint;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,8 +38,8 @@ public class WebSecurityAdapter extends WebSecurityConfigurerAdapter {
     @Autowired
     private AuthenticationFailureHandler restAuthenticationFailureHandler;
 
-    @Autowired
-    private DataSource datasource;
+//    @Autowired
+//    private DataSource datasource;
 
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**");
@@ -88,9 +86,10 @@ public class WebSecurityAdapter extends WebSecurityConfigurerAdapter {
 
     @Autowired
     public void setupUsers(PasswordEncoder encoder, UserDetailsManager manager) {
+        //@TODO - remove this once close to alpha version
         SchemaContextHolder.setSchema("CZ");
         if(!manager.userExists("xatrix101@gmail.com")) {
-            BackerDetails user = new BackerDetails("xatrix101@gmail.com", encoder.encode("user"), 1L);
+            BackerDetails user = new BackerDetails("xatrix101@gmail.com", encoder.encode("user"), 1L, true);
             manager.createUser(user);
         }
     }
