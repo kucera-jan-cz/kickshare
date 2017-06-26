@@ -9,6 +9,7 @@ import com.github.kickshare.db.jooq.tables.daos.CityDao;
 import com.github.kickshare.db.jooq.tables.daos.LeaderDao;
 import com.github.kickshare.db.jooq.tables.daos.ProjectDao;
 import com.github.kickshare.db.jooq.tables.daos.ProjectPhotoDao;
+import com.github.kickshare.db.jooq.tables.daos.UsersDao;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -61,5 +62,10 @@ public class DAOConfiguration {
     @Bean
     public LeaderDao leaderDao(org.jooq.Configuration configuration) {
         return new LeaderDao(configuration);
+    }
+
+    @Bean
+    public UsersDao usersDao(org.jooq.Configuration configuration) {
+        return new UsersDao(configuration);
     }
 }

@@ -62,6 +62,10 @@ public class GroupServiceImpl {
         return mapper.map(groupRepository.findById(groupId), com.github.kickshare.domain.Group.class);
     }
 
+    public List<com.github.kickshare.domain.Group> getUserGroups(final Long backerId) {
+        return mapper.map(groupRepository.findAllByUserId(backerId), com.github.kickshare.domain.Group.class);
+    }
+
     @Transactional
     public GroupInfo getGroupInfo(Long groupId) {
         return groupRepository.getGroupInfo(groupId);

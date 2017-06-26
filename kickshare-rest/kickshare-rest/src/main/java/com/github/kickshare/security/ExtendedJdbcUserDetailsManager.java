@@ -15,8 +15,8 @@ import org.springframework.util.Assert;
  * @since 21.5.2017
  */
 public class ExtendedJdbcUserDetailsManager extends JdbcUserDetailsManager {
-    public static final String DEF_CREATE_USER_SQL = "insert into users (id, username, password, enabled) values (?,?,?,?)";
-    public static final String DEF_USERS_BY_USERNAME_QUERY = "select id, username,password,enabled from users where username = ?";
+    public static final String DEF_CREATE_USER_SQL = "insert into users (id, username, password, enabled, token) values (?,?,?,?,?)";
+    public static final String DEF_USERS_BY_USERNAME_QUERY = "select id, username,password,enabled,token from users where username = ?";
 
     @Override
     public void createUser(final UserDetails userDetails) {
@@ -27,6 +27,7 @@ public class ExtendedJdbcUserDetailsManager extends JdbcUserDetailsManager {
                     ps.setString(2, user.getUsername());
                     ps.setString(3, user.getPassword());
                     ps.setBoolean(4, user.isEnabled());
+                    ps.setString(5, user.getToken());
                 }
         );
 
@@ -43,7 +44,8 @@ public class ExtendedJdbcUserDetailsManager extends JdbcUserDetailsManager {
                     String username = rs.getString(2);
                     String password = rs.getString(3);
                     boolean enabled = rs.getBoolean(4);
-                    return new BackerDetails(id, username, password, enabled, true, true, true, AuthorityUtils.NO_AUTHORITIES);
+                    String token = rs.getString(5);
+                    return new BackerDetails(id, username, password, enabled, true, true, true, AuthorityUtils.NO_AUTHORITIES, token);
                 }
         );
     }
@@ -52,9 +54,11 @@ public class ExtendedJdbcUserDetailsManager extends JdbcUserDetailsManager {
     protected UserDetails createUserDetails(String username,
             UserDetails userFromUserQuery, List<GrantedAuthority> combinedAuthorities) {
         String returnUsername = userFromUserQuery.getUsername();
-        Long id = ((BackerDetails) userFromUserQuery).getId();
+        BackerDetails backerDetails = (BackerDetails) userFromUserQuery;
+        Long id = backerDetails.getId();
+        String token = backerDetails.getToken();
         return new BackerDetails(id, returnUsername, userFromUserQuery.getPassword(),
-                userFromUserQuery.isEnabled(), true, true, true, combinedAuthorities);
+                userFromUserQuery.isEnabled(), true, true, true, combinedAuthorities, token);
     }
 
     private void insertUserAuthorities(UserDetails user) {

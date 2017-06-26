@@ -2,6 +2,7 @@ package com.github.kickshare.security;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.UUID;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -13,21 +14,27 @@ import org.springframework.security.core.userdetails.User;
  */
 public class BackerDetails extends User {
     private final Long id;
+    private final String token;
 
-    public BackerDetails(final String username, final String password, final Long id) {
-        super(username, password,
-                Arrays.asList(new SimpleGrantedAuthority("VIEW_DATA")));
+    public BackerDetails(final String username, final String password, final Long id, final boolean enabled) {
+        super(username, password, enabled, true, true, true, Arrays.asList(new SimpleGrantedAuthority("VIEW_DATA")));
         this.id = id;
+        this.token = UUID.randomUUID().toString();
     }
 
     public BackerDetails(final Long id, final String username, final String password, final boolean enabled, final boolean accountNonExpired,
             final boolean credentialsNonExpired, final boolean accountNonLocked,
-            final Collection<? extends GrantedAuthority> authorities) {
+            final Collection<? extends GrantedAuthority> authorities, final String token) {
         super(username, password, enabled, accountNonExpired, credentialsNonExpired, accountNonLocked, authorities);
         this.id = id;
+        this.token = token;
     }
 
     public Long getId() {
         return id;
+    }
+
+    public String getToken() {
+        return token;
     }
 }

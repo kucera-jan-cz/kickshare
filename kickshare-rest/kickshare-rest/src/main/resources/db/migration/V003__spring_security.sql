@@ -2,6 +2,8 @@ CREATE TABLE users(
     id BIGSERIAL REFERENCES backer (id) ON DELETE CASCADE,
 	username VARCHAR (50) NOT NULL PRIMARY KEY,
 	password VARCHAR (72) NOT NULL,
+	user_created TIMESTAMP DEFAULT NOW(),
+	token CHAR(36) NOT NULL,
 	enabled BOOLEAN NOT NULL
 );
 

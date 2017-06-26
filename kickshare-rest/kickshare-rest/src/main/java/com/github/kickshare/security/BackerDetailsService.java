@@ -22,7 +22,7 @@ public class BackerDetailsService implements UserDetailsService {
         UserAuthDao dao = new UserAuthDao(jooqConfig);
         UserAuth auth = dao.fetchOne(USER_AUTH.NAME, username);
         return new BackerDetails(
-                auth.getName(), auth.getPassword(), auth.getUserId()
+                auth.getName(), auth.getPassword(), auth.getUserId(), true
         );
 
     }
