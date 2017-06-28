@@ -12,6 +12,7 @@ import com.github.kickshare.db.jooq.enums.GroupRequestStatus;
 import com.github.kickshare.domain.Backer;
 import com.github.kickshare.domain.Group;
 import com.github.kickshare.domain.GroupDetail;
+import com.github.kickshare.domain.Post;
 import com.github.kickshare.mapper.ExtendedMapper;
 import com.github.kickshare.security.BackerDetails;
 import com.github.kickshare.service.GroupSearchOptions;
@@ -25,6 +26,8 @@ import org.geojson.FeatureCollection;
 import org.geojson.Point;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -132,10 +135,19 @@ public class GroupEndpoint {
     }
 
     @GetMapping("/{groupId}/users")
-    public List<Backer> getUsers(@PathVariable Long groupId,
-            @AuthenticationPrincipal org.springframework.security.core.userdetails.User customUser) {
-        LOGGER.info("{}", customUser);
+    public List<Backer> getUsers(@PathVariable Long groupId, @AuthenticationPrincipal BackerDetails user) {
+        LOGGER.info("{}", user);
         return groupService.getGroupUsers(groupId);
+    }
+
+    @GetMapping("/{groupId}/posts")
+    public Page<Post> getPosts(@PathVariable Long groupId,
+            //@ModelAttribute final SeekPageRequest<Long> pageInfo,
+            Pageable pageInfo,
+            @AuthenticationPrincipal BackerDetails user) {
+        LOGGER.info("{}", user);
+        LOGGER.info("{}", pageInfo);
+        return this.groupService.getPosts(groupId, pageInfo);
     }
 
     public static Feature point(final CityGrid city) {

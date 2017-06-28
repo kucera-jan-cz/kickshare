@@ -27,4 +27,9 @@
         <class-b>com.github.kickshare.db.jooq.tables.pojos.Leader</class-b>
     </mapping>
 
+    <mapping wildcard="true">
+        <class-a>com.github.kickshare.domain.Post</class-a>
+        <class-b>com.github.kickshare.db.jooq.tables.pojos.GroupPosts</class-b>
+    </mapping>
+
 </mappings>

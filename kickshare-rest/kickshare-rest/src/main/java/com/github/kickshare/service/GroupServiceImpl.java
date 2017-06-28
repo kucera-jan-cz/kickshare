@@ -13,11 +13,13 @@ import com.github.kickshare.db.jooq.tables.daos.CityDao;
 import com.github.kickshare.db.jooq.tables.daos.LeaderDao;
 import com.github.kickshare.db.jooq.tables.pojos.Backer_2Group;
 import com.github.kickshare.db.jooq.tables.pojos.Group;
+import com.github.kickshare.db.jooq.tables.pojos.GroupPosts;
 import com.github.kickshare.domain.Backer;
 import com.github.kickshare.domain.City;
 import com.github.kickshare.domain.GroupDetail;
 import com.github.kickshare.domain.GroupInfo;
 import com.github.kickshare.domain.Leader;
+import com.github.kickshare.domain.Post;
 import com.github.kickshare.domain.ProjectInfo;
 import com.github.kickshare.mapper.ExtendedMapper;
 import com.github.kickshare.security.GroupConstants;
@@ -25,6 +27,9 @@ import lombok.AllArgsConstructor;
 import org.apache.commons.lang3.Validate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -109,6 +114,32 @@ public class GroupServiceImpl {
         Validate.isTrue(!leaderDao.existsById(id), "Backer is already registered as leader");
         leaderDao.insert(mapper.map(new Leader(id, email, kickstarterId), com.github.kickshare.db.jooq.tables.pojos.Leader.class));
         userManager.addUserToGroup(email, GroupConstants.LEADERS);
+    }
+
+    @Transactional
+    public Page<Post> getPosts(final Long groupId, Pageable pageInfo) {
+        List<GroupPosts> groupPosts = groupRepository.getGroupPosts(groupId, pageInfo.getOffset(), pageInfo.getPageSize());
+        List<Post> posts = mapper.map(groupPosts, Post.class);
+        long total = groupRepository.getGroupPostsCount(groupId);
+        Page<Post> postsPage = new PageImpl<>(posts, pageInfo, total);
+        return postsPage;
+//        final List<Post> posts = new ArrayList<>();
+//        posts.add(new Post(1L, 1L, 1L, new Timestamp(System.currentTimeMillis()), new Timestamp(System.currentTimeMillis()), 0, "A"));
+//        posts.add(new Post(1L, 1L, 1L, new Timestamp(System.currentTimeMillis()), new Timestamp(System.currentTimeMillis()), 0, "B"));
+//        posts.add(new Post(1L, 1L, 1L, new Timestamp(System.currentTimeMillis()), new Timestamp(System.currentTimeMillis()), 0, "C"));
+//        posts.add(new Post(1L, 1L, 1L, new Timestamp(System.currentTimeMillis()), new Timestamp(System.currentTimeMillis()), 0, "D"));
+//        final long total = 10L;
+//        Page<Post> postsPage = new PageImpl<>(posts, pageInfo, total);
+//        return postsPage;
+
+//        public Page<GroupPosts> getGroupPosts(final Long groupId, Pageable pageable) {
+//            dsl.select()
+//                    .from(GROUP_POSTS)
+//                    .where(GROUP_POSTS.GROUP_ID.eq(groupId))
+//                    .orderBy(GROUP_POSTS.POST_ID.desc())
+//                    .limit(pageable.getOffset(), pageable.getPageSize());
+//        }
+//        return null;
     }
 
     public boolean ownGroup(final Long leaderId, final Long groupId) {

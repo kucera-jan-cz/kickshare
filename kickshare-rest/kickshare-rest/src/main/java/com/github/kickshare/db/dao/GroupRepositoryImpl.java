@@ -3,6 +3,7 @@ package com.github.kickshare.db.dao;
 import static com.github.kickshare.db.jooq.Tables.BACKER;
 import static com.github.kickshare.db.jooq.Tables.BACKER_2_GROUP;
 import static com.github.kickshare.db.jooq.Tables.GROUP;
+import static com.github.kickshare.db.jooq.Tables.GROUP_POSTS;
 
 import java.util.List;
 import java.util.Map;
@@ -12,6 +13,7 @@ import java.util.stream.Collectors;
 import com.github.kickshare.db.jooq.enums.GroupRequestStatus;
 import com.github.kickshare.db.jooq.tables.daos.GroupDao;
 import com.github.kickshare.db.jooq.tables.pojos.Group;
+import com.github.kickshare.db.jooq.tables.pojos.GroupPosts;
 import com.github.kickshare.db.jooq.tables.pojos.Project;
 import com.github.kickshare.db.jooq.tables.records.GroupRecord;
 import com.github.kickshare.domain.Backer;
@@ -102,6 +104,20 @@ public class GroupRepositoryImpl extends AbstractRepository<GroupRecord, Group, 
         //@TODO - fix an issue with missing leader
         info.setLeader(backersByLeadership.get(true).stream().findFirst().orElse(null));
         return info;
+    }
+
+    public List<GroupPosts> getGroupPosts(final Long groupId, int offset, int size) {
+        return dsl.select()
+                .from(GROUP_POSTS)
+                .where(GROUP_POSTS.GROUP_ID.eq(groupId))
+                .orderBy(GROUP_POSTS.POST_ID.desc())
+                .limit(offset, size)
+                .fetchInto(GroupPosts.class);
+    }
+
+    public long getGroupPostsCount(final Long groupId) {
+        return dsl.fetchCount(GROUP_POSTS, GROUP_POSTS.GROUP_ID.eq(groupId));
+
     }
 
     private List<com.github.kickshare.db.jooq.tables.pojos.Backer> findUsersByStatus(final Long groupId, final GroupRequestStatus status) {
