@@ -4,7 +4,7 @@ import static com.github.kickshare.db.jooq.Tables.BACKER;
 import static com.github.kickshare.db.jooq.Tables.BACKER_2_GROUP;
 import static com.github.kickshare.db.jooq.Tables.CITY;
 import static com.github.kickshare.db.jooq.Tables.GROUP;
-import static com.github.kickshare.db.jooq.Tables.GROUP_POSTS;
+import static com.github.kickshare.db.jooq.Tables.GROUP_POST;
 import static com.github.kickshare.db.jooq.Tables.PROJECT;
 import static org.jooq.impl.DSL.concat;
 import static org.jooq.impl.DSL.count;
@@ -22,7 +22,7 @@ import com.github.kickshare.db.jooq.tables.Group;
 import com.github.kickshare.db.jooq.tables.daos.LeaderDao;
 import com.github.kickshare.db.jooq.tables.daos.ProjectDao;
 import com.github.kickshare.db.jooq.tables.daos.ProjectPhotoDao;
-import com.github.kickshare.db.jooq.tables.pojos.GroupPosts;
+import com.github.kickshare.db.jooq.tables.pojos.GroupPost;
 import com.github.kickshare.db.jooq.tables.pojos.Project;
 import com.github.kickshare.db.jooq.tables.pojos.ProjectPhoto;
 import com.github.kickshare.db.jooq.tables.records.ProjectRecord;
@@ -177,12 +177,12 @@ public class KickshareRepositoryImpl implements KickshareRepository {
         return groups;
     }
 
-    public List<GroupPosts> getGroupPosts(Long groupId, Pageable pageable) {
+    public List<GroupPost> getGroupPost(Long groupId, Pageable pageable) {
         return dsl.select()
-                .from(GROUP_POSTS)
-                .where(GROUP_POSTS.GROUP_ID.eq(groupId))
-                .orderBy(GROUP_POSTS.POST_MODIFIED.desc())
-                .fetchInto(com.github.kickshare.db.jooq.tables.pojos.GroupPosts.class);
+                .from(GROUP_POST)
+                .where(GROUP_POST.GROUP_ID.eq(groupId))
+                .orderBy(GROUP_POST.POST_MODIFIED.desc())
+                .fetchInto(com.github.kickshare.db.jooq.tables.pojos.GroupPost.class);
     }
 
     public List<Project> searchProjects(GroupSearchOptions options) throws IOException {

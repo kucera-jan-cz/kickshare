@@ -2,7 +2,7 @@ package com.github.kickshare.db;
 
 import com.github.kickshare.db.jooq.tables.daos.AddressDao;
 import com.github.kickshare.db.jooq.tables.daos.BackerDao;
-import com.github.kickshare.db.jooq.tables.daos.BackerLocationsDao;
+import com.github.kickshare.db.jooq.tables.daos.BackerLocationDao;
 import com.github.kickshare.db.jooq.tables.daos.Backer_2GroupDao;
 import com.github.kickshare.db.jooq.tables.daos.CategoryDao;
 import com.github.kickshare.db.jooq.tables.daos.CityDao;
@@ -50,8 +50,8 @@ public class DAOConfiguration {
     }
 
     @Bean
-    public BackerLocationsDao locationsDao(org.jooq.Configuration configuration) {
-        return new BackerLocationsDao(configuration);
+    public BackerLocationDao locationsDao(org.jooq.Configuration configuration) {
+        return new BackerLocationDao(configuration);
     }
 
     @Bean
