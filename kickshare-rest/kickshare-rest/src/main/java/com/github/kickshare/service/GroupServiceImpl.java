@@ -13,7 +13,7 @@ import com.github.kickshare.db.jooq.tables.daos.CityDao;
 import com.github.kickshare.db.jooq.tables.daos.LeaderDao;
 import com.github.kickshare.db.jooq.tables.pojos.Backer_2Group;
 import com.github.kickshare.db.jooq.tables.pojos.Group;
-import com.github.kickshare.db.jooq.tables.pojos.GroupPosts;
+import com.github.kickshare.db.jooq.tables.pojos.GroupPost;
 import com.github.kickshare.domain.Backer;
 import com.github.kickshare.domain.City;
 import com.github.kickshare.domain.GroupDetail;
@@ -118,9 +118,9 @@ public class GroupServiceImpl {
 
     @Transactional
     public Page<Post> getPosts(final Long groupId, Pageable pageInfo) {
-        List<GroupPosts> groupPosts = groupRepository.getGroupPosts(groupId, pageInfo.getOffset(), pageInfo.getPageSize());
-        List<Post> posts = mapper.map(groupPosts, Post.class);
-        long total = groupRepository.getGroupPostsCount(groupId);
+        List<GroupPost> GroupPost = groupRepository.getGroupPost(groupId, pageInfo.getOffset(), pageInfo.getPageSize());
+        List<Post> posts = mapper.map(GroupPost, Post.class);
+        long total = groupRepository.getGroupPostCount(groupId);
         Page<Post> postsPage = new PageImpl<>(posts, pageInfo, total);
         return postsPage;
 //        final List<Post> posts = new ArrayList<>();
@@ -132,18 +132,22 @@ public class GroupServiceImpl {
 //        Page<Post> postsPage = new PageImpl<>(posts, pageInfo, total);
 //        return postsPage;
 
-//        public Page<GroupPosts> getGroupPosts(final Long groupId, Pageable pageable) {
+//        public Page<GroupPost> getGroupPost(final Long groupId, Pageable pageable) {
 //            dsl.select()
-//                    .from(GROUP_POSTS)
-//                    .where(GROUP_POSTS.GROUP_ID.eq(groupId))
-//                    .orderBy(GROUP_POSTS.POST_ID.desc())
+//                    .from(GROUP_POST)
+//                    .where(GROUP_POST.GROUP_ID.eq(groupId))
+//                    .orderBy(GROUP_POST.POST_ID.desc())
 //                    .limit(pageable.getOffset(), pageable.getPageSize());
 //        }
 //        return null;
     }
 
-    public boolean ownGroup(final Long leaderId, final Long groupId) {
+    public boolean isGroupOwner(final Long leaderId, final Long groupId) {
         return backerRepository.ownGroup(leaderId, groupId);
+    }
+
+    public boolean isGroupMember(final Long backerId, final Long groupId) {
+        return backerRepository.ownGroup(backerId, groupId);
     }
 
     public void updateGroupRequestStatus(final Long groupId, final Long backerId, GroupRequestStatus status) {

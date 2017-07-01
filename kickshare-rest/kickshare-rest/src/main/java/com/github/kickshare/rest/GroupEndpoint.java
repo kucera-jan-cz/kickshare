@@ -113,13 +113,13 @@ public class GroupEndpoint {
 
     @PostMapping("/{groupId}/users/{backerId}/approve")
     public void approveBacker(@PathVariable Long groupId, @PathVariable Long backerId, @AuthenticationPrincipal BackerDetails user) {
-        Validate.isTrue(groupService.ownGroup(user.getId(), groupId), "Access violation: no rights for altering group");
+        Validate.isTrue(groupService.isGroupOwner(user.getId(), groupId), "Access violation: no rights for altering group");
         groupService.updateGroupRequestStatus(groupId, backerId, GroupRequestStatus.APPROVED);
     }
 
     @PostMapping("/{groupId}/users/{backerId}/decline")
     public void declineBacker(@PathVariable Long groupId, @PathVariable Long backerId, @AuthenticationPrincipal BackerDetails user) {
-        Validate.isTrue(groupService.ownGroup(user.getId(), groupId), "Access violation: no rights for altering group");
+        Validate.isTrue(groupService.isGroupOwner(user.getId(), groupId), "Access violation: no rights for altering group");
         groupService.updateGroupRequestStatus(groupId, backerId, GroupRequestStatus.DECLINED);
     }
 

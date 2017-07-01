@@ -1,0 +1,10 @@
+CREATE TABLE newsletter (
+    id INTEGER PRIMARY KEY,
+    email VARCHAR(256) NOT NULL UNIQUE
+);
+
+CREATE TABLE update_note (
+    id INTEGER PRIMARY KEY,
+    html TEXT NOT NULL,
+    version VARCHAR(255) NOT NULL
+);

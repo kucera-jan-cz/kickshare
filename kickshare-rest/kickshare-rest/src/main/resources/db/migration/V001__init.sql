@@ -46,7 +46,7 @@ CREATE TABLE project_photo (
 --  CONSTRAINT fk_project_photo_project_id foreign key (project_id)
 );
 
-CREATE TABLE backer_locations (
+CREATE TABLE backer_location (
     backer_id BIGSERIAL PRIMARY KEY REFERENCES backer (id),
     city_id INTEGER NOT NULL REFERENCES city (id),
     is_permanent_address BOOLEAN DEFAULT FALSE

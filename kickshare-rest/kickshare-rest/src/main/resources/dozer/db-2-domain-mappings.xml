@@ -29,7 +29,7 @@
 
     <mapping wildcard="true">
         <class-a>com.github.kickshare.domain.Post</class-a>
-        <class-b>com.github.kickshare.db.jooq.tables.pojos.GroupPosts</class-b>
+        <class-b>com.github.kickshare.db.jooq.tables.pojos.GroupPost</class-b>
     </mapping>
 
 </mappings>

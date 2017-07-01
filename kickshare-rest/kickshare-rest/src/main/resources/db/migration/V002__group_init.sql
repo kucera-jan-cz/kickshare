@@ -45,7 +45,7 @@ CREATE TABLE backer_2_group_delivery (
     PRIMARY KEY (group_id, backer_id)
 );
 
-CREATE TABLE group_posts (
+CREATE TABLE group_post (
   post_id BIGSERIAL,
   group_id BIGSERIAL NOT NULL REFERENCES "group" (id) ON DELETE CASCADE,
   backer_id BIGSERIAL NOT NULL,
