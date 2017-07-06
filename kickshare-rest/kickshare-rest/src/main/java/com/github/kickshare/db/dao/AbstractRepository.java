@@ -34,12 +34,12 @@ public abstract class AbstractRepository<R extends UpdatableRecord<R>, P, T> imp
     @Override
     public T createReturningKey(P entity) {
         DSLContext dsl = using(this.configuration());
-        InsertQuery<R> insert = dsl.insertQuery(this.getTable());
-        insert.addRecord(dsl.newRecord(this.getTable(), entity));
-        insert.setReturning();
+        Table<R> table = this.getTable();
+        InsertQuery<R> insert = dsl.insertQuery(table);
+        insert.addRecord(dsl.newRecord(table, entity));
+        insert.setReturning(table.getIdentity().getField());
         insert.execute();
-
-        return (T) insert.getReturnedRecord().get(dao.getTable().getIdentity().getField());
+        return (T) insert.getReturnedRecord().get(table.getIdentity().getField());
     }
 
     @Override

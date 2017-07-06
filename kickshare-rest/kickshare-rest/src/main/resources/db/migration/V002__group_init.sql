@@ -49,8 +49,8 @@ CREATE TABLE group_post (
   post_id BIGSERIAL,
   group_id BIGSERIAL NOT NULL REFERENCES "group" (id) ON DELETE CASCADE,
   backer_id BIGSERIAL NOT NULL,
-  post_created TIMESTAMP DEFAULT NOW(),
-  post_modified TIMESTAMP DEFAULT NOW(),
+  post_created TIMESTAMP NOT NULL DEFAULT NOW(),
+  post_modified TIMESTAMP NOT NULL DEFAULT NOW(),
   post_edit_count INTEGER NOT NULL DEFAULT 0,
   post_text TEXT,
   PRIMARY KEY (post_id)

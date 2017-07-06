@@ -6,6 +6,7 @@ import com.github.kickshare.db.jooq.tables.daos.BackerLocationDao;
 import com.github.kickshare.db.jooq.tables.daos.Backer_2GroupDao;
 import com.github.kickshare.db.jooq.tables.daos.CategoryDao;
 import com.github.kickshare.db.jooq.tables.daos.CityDao;
+import com.github.kickshare.db.jooq.tables.daos.GroupPostDao;
 import com.github.kickshare.db.jooq.tables.daos.LeaderDao;
 import com.github.kickshare.db.jooq.tables.daos.ProjectDao;
 import com.github.kickshare.db.jooq.tables.daos.ProjectPhotoDao;
@@ -67,5 +68,10 @@ public class DAOConfiguration {
     @Bean
     public UsersDao usersDao(org.jooq.Configuration configuration) {
         return new UsersDao(configuration);
+    }
+
+    @Bean
+    public GroupPostDao groupPostDao(org.jooq.Configuration configuration) {
+        return new GroupPostDao(configuration);
     }
 }

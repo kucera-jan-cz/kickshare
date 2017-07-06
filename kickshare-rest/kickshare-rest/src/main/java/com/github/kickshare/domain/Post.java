@@ -2,6 +2,9 @@ package com.github.kickshare.domain;
 
 import java.sql.Timestamp;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -18,7 +21,10 @@ public class Post {
     private Timestamp postCreated;
     private Timestamp postModified;
     private Integer postEditCount;
+    @NotNull
+    @Size(min = 1, max = 5000)
     private String postText;
 
-    public Post() {}
+    public Post() {
+    }
 }

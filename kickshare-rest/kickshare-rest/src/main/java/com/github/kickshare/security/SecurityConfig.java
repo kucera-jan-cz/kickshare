@@ -35,7 +35,7 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
  * @since 28.3.2017
  */
 @Configuration
-@Import({ JooqConfiguration.class })
+@Import({ JooqConfiguration.class, MethodSecurityConfig.class })
 @EnableJdbcHttpSession(maxInactiveIntervalInSeconds = 120)
 @ComponentScan(basePackages = { "com.github.kickshare.security.session" })
 public class SecurityConfig {

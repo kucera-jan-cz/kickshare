@@ -43,7 +43,9 @@ public class GroupRepositoryImpl extends AbstractRepository<GroupRecord, Group, 
         if (groupId < 1) {
             throw new IllegalArgumentException("Failure");
         } else {
-            dsl.insertInto(BACKER_2_GROUP).columns(BACKER_2_GROUP.GROUP_ID, BACKER_2_GROUP.BACKER_ID).values(groupId, group.getLeaderId());
+            dsl.insertInto(BACKER_2_GROUP)
+                    .columns(BACKER_2_GROUP.GROUP_ID, BACKER_2_GROUP.BACKER_ID)
+                    .values(groupId, group.getLeaderId());
             return groupId;
         }
     }
