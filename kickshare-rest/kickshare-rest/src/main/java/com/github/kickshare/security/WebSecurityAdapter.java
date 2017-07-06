@@ -22,7 +22,7 @@ import org.springframework.web.servlet.config.annotation.CorsRegistry;
  * @author Jan.Kucera
  * @since 14.3.2017
  */
-@EnableWebSecurity(debug = true)
+@EnableWebSecurity
 @Configuration
 public class WebSecurityAdapter extends WebSecurityConfigurerAdapter {
 
@@ -88,7 +88,7 @@ public class WebSecurityAdapter extends WebSecurityConfigurerAdapter {
     public void setupUsers(PasswordEncoder encoder, UserDetailsManager manager) {
         //@TODO - remove this once close to alpha version
         SchemaContextHolder.setSchema("CZ");
-        if(!manager.userExists("xatrix101@gmail.com")) {
+        if (!manager.userExists("xatrix101@gmail.com")) {
             BackerDetails user = new BackerDetails("xatrix101@gmail.com", encoder.encode("user"), 1L, true);
             manager.createUser(user);
         }

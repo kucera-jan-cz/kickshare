@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import com.github.kickshare.db.dao.BackerRepository;
+import com.github.kickshare.db.dao.GroupPostRepository;
 import com.github.kickshare.db.dao.GroupRepository;
 import com.github.kickshare.db.dao.KickshareRepository;
 import com.github.kickshare.db.dao.ProjectRepository;
@@ -40,6 +41,7 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Service
 @AllArgsConstructor
+//@TODO - extract interface
 public class GroupServiceImpl {
     private static final Logger LOGGER = LoggerFactory.getLogger(GroupServiceImpl.class);
     private final ProjectRepository projectRepository;
@@ -48,6 +50,7 @@ public class GroupServiceImpl {
     private final BackerRepository backerRepository;
     private final Backer_2GroupDao backer2GroupDao;
     private final KickshareRepository kickshareRepository;
+    private final GroupPostRepository groupPostRepository;
 
     private final LeaderDao leaderDao;
     private ExtendedMapper mapper;
@@ -117,29 +120,24 @@ public class GroupServiceImpl {
     }
 
     @Transactional
+    public Post insertPost(Post post) {
+        GroupPost dbPost = mapper.map(post, GroupPost.class);
+        Long id = groupPostRepository.createReturningKey(dbPost);
+        dbPost = groupPostRepository.findById(id);
+        return mapper.map(dbPost, Post.class);
+    }
+
+    public void updatePost(Post post) {
+        groupPostRepository.updatePost(mapper.map(post, GroupPost.class));
+    }
+
+    @Transactional
     public Page<Post> getPosts(final Long groupId, Pageable pageInfo) {
         List<GroupPost> GroupPost = groupRepository.getGroupPost(groupId, pageInfo.getOffset(), pageInfo.getPageSize());
         List<Post> posts = mapper.map(GroupPost, Post.class);
         long total = groupRepository.getGroupPostCount(groupId);
         Page<Post> postsPage = new PageImpl<>(posts, pageInfo, total);
         return postsPage;
-//        final List<Post> posts = new ArrayList<>();
-//        posts.add(new Post(1L, 1L, 1L, new Timestamp(System.currentTimeMillis()), new Timestamp(System.currentTimeMillis()), 0, "A"));
-//        posts.add(new Post(1L, 1L, 1L, new Timestamp(System.currentTimeMillis()), new Timestamp(System.currentTimeMillis()), 0, "B"));
-//        posts.add(new Post(1L, 1L, 1L, new Timestamp(System.currentTimeMillis()), new Timestamp(System.currentTimeMillis()), 0, "C"));
-//        posts.add(new Post(1L, 1L, 1L, new Timestamp(System.currentTimeMillis()), new Timestamp(System.currentTimeMillis()), 0, "D"));
-//        final long total = 10L;
-//        Page<Post> postsPage = new PageImpl<>(posts, pageInfo, total);
-//        return postsPage;
-
-//        public Page<GroupPost> getGroupPost(final Long groupId, Pageable pageable) {
-//            dsl.select()
-//                    .from(GROUP_POST)
-//                    .where(GROUP_POST.GROUP_ID.eq(groupId))
-//                    .orderBy(GROUP_POST.POST_ID.desc())
-//                    .limit(pageable.getOffset(), pageable.getPageSize());
-//        }
-//        return null;
     }
 
     public boolean isGroupOwner(final Long leaderId, final Long groupId) {

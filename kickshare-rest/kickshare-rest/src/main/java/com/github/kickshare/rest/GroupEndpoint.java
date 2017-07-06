@@ -15,6 +15,7 @@ import com.github.kickshare.domain.GroupDetail;
 import com.github.kickshare.domain.Post;
 import com.github.kickshare.mapper.ExtendedMapper;
 import com.github.kickshare.security.BackerDetails;
+import com.github.kickshare.security.permission.GroupMember;
 import com.github.kickshare.service.GroupSearchOptions;
 import com.github.kickshare.service.GroupServiceImpl;
 import com.github.kickshare.service.entity.CityGrid;
@@ -28,9 +29,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -134,12 +138,14 @@ public class GroupEndpoint {
         return groupService.getGroupDetail(groupId);
     }
 
+    @GroupMember
     @GetMapping("/{groupId}/users")
     public List<Backer> getUsers(@PathVariable Long groupId, @AuthenticationPrincipal BackerDetails user) {
         LOGGER.info("{}", user);
         return groupService.getGroupUsers(groupId);
     }
 
+    @GroupMember
     @GetMapping("/{groupId}/posts")
     public Page<Post> getPosts(@PathVariable Long groupId,
             //@ModelAttribute final SeekPageRequest<Long> pageInfo,
@@ -148,6 +154,22 @@ public class GroupEndpoint {
         LOGGER.info("{}", user);
         LOGGER.info("{}", pageInfo);
         return this.groupService.getPosts(groupId, pageInfo);
+    }
+
+    @GroupMember
+    @PostMapping("/{groupId}/posts")
+    public Post createPost(@PathVariable Long groupId, @AuthenticationPrincipal BackerDetails user, @RequestBody @Valid Post post) {
+        post.setBackerId(user.getId());
+        post.setGroupId(groupId);
+        return this.groupService.insertPost(post);
+    }
+
+    @GroupMember
+    @PatchMapping("/{groupId}/posts/{postId}")
+    public ResponseEntity<?> update(@PathVariable Long groupId, @PathVariable Long postId, @RequestBody @Valid Post post) {
+        post.setPostId(postId);
+        this.groupService.updatePost(post);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     public static Feature point(final CityGrid city) {
