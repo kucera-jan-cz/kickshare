@@ -13,9 +13,9 @@ import com.github.kickshare.domain.Backer;
 import com.github.kickshare.domain.Group;
 import com.github.kickshare.domain.GroupDetail;
 import com.github.kickshare.domain.Post;
-import com.github.kickshare.mapper.ExtendedMapper;
 import com.github.kickshare.security.BackerDetails;
 import com.github.kickshare.security.permission.GroupMember;
+import com.github.kickshare.security.permission.GroupOwner;
 import com.github.kickshare.service.GroupSearchOptions;
 import com.github.kickshare.service.GroupServiceImpl;
 import com.github.kickshare.service.entity.CityGrid;
@@ -65,7 +65,6 @@ public class GroupEndpoint {
     public static final long USER_ID = 1L;
     //Search for groups using user's location, using distance near (slider), tags, potentially campaign's name
     private KickshareRepository repository;
-    private ExtendedMapper dozer;
     private GroupServiceImpl groupService;
 
     @RequestMapping(value = "/search/jsonp", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -115,22 +114,18 @@ public class GroupEndpoint {
         groupService.registerBacker(groupId, user.getId());
     }
 
+    @GroupOwner
     @PostMapping("/{groupId}/users/{backerId}/approve")
     public void approveBacker(@PathVariable Long groupId, @PathVariable Long backerId, @AuthenticationPrincipal BackerDetails user) {
         Validate.isTrue(groupService.isGroupOwner(user.getId(), groupId), "Access violation: no rights for altering group");
         groupService.updateGroupRequestStatus(groupId, backerId, GroupRequestStatus.APPROVED);
     }
 
+    @GroupOwner
     @PostMapping("/{groupId}/users/{backerId}/decline")
     public void declineBacker(@PathVariable Long groupId, @PathVariable Long backerId, @AuthenticationPrincipal BackerDetails user) {
         Validate.isTrue(groupService.isGroupOwner(user.getId(), groupId), "Access violation: no rights for altering group");
         groupService.updateGroupRequestStatus(groupId, backerId, GroupRequestStatus.DECLINED);
-    }
-
-    @GetMapping
-    public List<Group> getByProjectId(@RequestParam("project_id") Long projectId) {
-//        return dozer.map(groupRepository.findAllByProjectId(projectId), ;
-        return null;
     }
 
     @GetMapping("/{groupId}")
