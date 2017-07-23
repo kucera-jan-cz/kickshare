@@ -10,6 +10,8 @@ import com.github.kickshare.db.jooq.tables.daos.GroupPostDao;
 import com.github.kickshare.db.jooq.tables.daos.LeaderDao;
 import com.github.kickshare.db.jooq.tables.daos.ProjectDao;
 import com.github.kickshare.db.jooq.tables.daos.ProjectPhotoDao;
+import com.github.kickshare.db.jooq.tables.daos.TagDao;
+import com.github.kickshare.db.jooq.tables.daos.Tag_2CategoryDao;
 import com.github.kickshare.db.jooq.tables.daos.UsersDao;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -74,4 +76,15 @@ public class DAOConfiguration {
     public GroupPostDao groupPostDao(org.jooq.Configuration configuration) {
         return new GroupPostDao(configuration);
     }
+
+    @Bean
+    public TagDao tagDao(org.jooq.Configuration configuration) {
+        return new TagDao(configuration);
+    }
+
+    @Bean
+    public Tag_2CategoryDao tag2CategoryDao(org.jooq.Configuration configuration) {
+        return new Tag_2CategoryDao(configuration);
+    }
+
 }

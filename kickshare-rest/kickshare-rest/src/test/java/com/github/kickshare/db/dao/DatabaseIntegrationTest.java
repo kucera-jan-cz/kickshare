@@ -42,9 +42,10 @@ public class DatabaseIntegrationTest {
     }
 
     private static DSLContext createFileDSL() throws SQLException {
-        Connection connection = DriverManager.getConnection("jdbc:h2:file:~/target/h2test.db;MODE=PostgreSQL;AUTO_SERVER=TRUE", "test", "test");
+        Connection connection = DriverManager.getConnection("jdbc:h2:mem:~/target/h2test.db;MODE=PostgreSQL;INIT=CREATE DOMAIN IF NOT EXISTS enum as VARCHAR(255);AUTO_SERVER=FALSE", "test", "test");
         Settings settings = new Settings()
                 .withRenderSchema(false);
+
         DSLContext context = DSL.using(connection, settings);
         context.configuration().set(new SQLLogging());
         return context;
