@@ -21,7 +21,8 @@ INSERT INTO group_authorities (group_id, authority) VALUES
 --admins
 (3, 'VIEW_DATA'),
 (3, 'CREATE_GROUP'),
-(3, 'ACTUATOR')
+(3, 'ACTUATOR'),
+(3, 'ADMIN')
 ;
 
 INSERT INTO group_members (id, username, group_id) VALUES

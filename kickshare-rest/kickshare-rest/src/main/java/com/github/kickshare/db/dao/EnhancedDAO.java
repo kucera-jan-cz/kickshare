@@ -9,4 +9,6 @@ import org.jooq.TableRecord;
  */
 public interface EnhancedDAO<R extends TableRecord<R>, P, T> extends DAO<R, P, T> {
     T createReturningKey(P entity);
+
+    R createReturning(P entity);
 }

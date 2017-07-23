@@ -1,3 +1,5 @@
+--@TODO move this logic to migration instead of CZ
+
 INSERT INTO category (id, name, is_root, parent_id, slug) VALUES
 (1, 'Art', FALSE, -1, 'art'),
 (3, 'Comics', FALSE, -1, 'comics'),

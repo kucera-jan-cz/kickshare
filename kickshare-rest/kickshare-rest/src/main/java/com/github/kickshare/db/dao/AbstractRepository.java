@@ -25,21 +25,30 @@ import org.jooq.exception.DataAccessException;
 public abstract class AbstractRepository<R extends UpdatableRecord<R>, P, T> implements EnhancedDAO<R, P, T> {
     protected DAO<R, P, T> dao;
     protected DSLContext dsl;
+    protected Table<R> table;
 
     public AbstractRepository(DAO<R, P, T> dao) {
         this.dao = dao;
         this.dsl = using(this.configuration());
+        this.table = this.getTable();
     }
 
     @Override
     public T createReturningKey(P entity) {
-        DSLContext dsl = using(this.configuration());
-        Table<R> table = this.getTable();
         InsertQuery<R> insert = dsl.insertQuery(table);
         insert.addRecord(dsl.newRecord(table, entity));
         insert.setReturning(table.getIdentity().getField());
         insert.execute();
         return (T) insert.getReturnedRecord().get(table.getIdentity().getField());
+    }
+
+    @Override
+    public R createReturning(P entity) {
+        InsertQuery<R> insert = dsl.insertQuery(table);
+        insert.addRecord(dsl.newRecord(table, entity));
+        insert.setReturning();
+        insert.execute();
+        return insert.getReturnedRecord();
     }
 
     @Override

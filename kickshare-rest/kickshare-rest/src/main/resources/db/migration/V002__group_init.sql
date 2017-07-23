@@ -4,7 +4,7 @@ CREATE TABLE group_status (
     "name" VARCHAR(64)
 );
 
-INSERT INTO group_status (id, name) VALUES
+INSERT INTO group_status (id, "name") VALUES
 (100, 'OPEN'),
 (200, 'BACKED'),
 (300, 'BACKERS_PAYING'),
