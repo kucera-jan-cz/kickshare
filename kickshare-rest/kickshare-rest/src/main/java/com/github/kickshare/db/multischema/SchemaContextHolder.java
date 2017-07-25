@@ -1,7 +1,6 @@
 package com.github.kickshare.db.multischema;
 
 import org.apache.commons.lang3.ObjectUtils;
-import org.springframework.util.Assert;
 
 /**
  * @author Jan.Kucera
@@ -11,9 +10,10 @@ public class SchemaContextHolder {
     private static final String DEFAULT_SCHEMA = "KS";
     private static final ThreadLocal<String> contextHolder = new ThreadLocal<String>();
 
-    public static void setSchema(String schema) {
-        Assert.notNull(schema, "Schema cannot be null");
+    public static String setSchema(String schema) {
+        String previous = contextHolder.get();
         contextHolder.set(schema);
+        return previous;
     }
 
     public static String getSchema() {

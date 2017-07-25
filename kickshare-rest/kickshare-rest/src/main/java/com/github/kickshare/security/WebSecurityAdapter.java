@@ -1,6 +1,5 @@
 package com.github.kickshare.security;
 
-import com.github.kickshare.db.multischema.SchemaContextHolder;
 import com.github.kickshare.security.session.RestAuthenticationEntryPoint;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
@@ -10,7 +9,6 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
@@ -82,16 +80,6 @@ public class WebSecurityAdapter extends WebSecurityConfigurerAdapter {
                     .permitAll();
         // @formatter:on
         http.addFilterBefore(new SchemaHttpFilter(), UsernamePasswordAuthenticationFilter.class);
-    }
-
-    @Autowired
-    public void setupUsers(PasswordEncoder encoder, UserDetailsManager manager) {
-        //@TODO - remove this once close to alpha version
-        SchemaContextHolder.setSchema("CZ");
-        if (!manager.userExists("xatrix101@gmail.com")) {
-            BackerDetails user = new BackerDetails("xatrix101@gmail.com", encoder.encode("user"), 1L, true);
-            manager.createUser(user);
-        }
     }
 
 //    @Bean

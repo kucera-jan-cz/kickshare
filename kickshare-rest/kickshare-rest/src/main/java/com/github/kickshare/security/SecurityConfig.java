@@ -7,11 +7,7 @@ import javax.sql.DataSource;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.github.kickshare.db.JooqConfiguration;
-import com.github.kickshare.db.jooq.tables.daos.UserAuthDao;
-import com.github.kickshare.db.jooq.tables.pojos.UserAuth;
-import com.github.kickshare.db.multischema.FlywayMultiTenantMigration;
 import com.github.kickshare.db.multischema.MultiSchemaDataSource;
-import com.github.kickshare.db.multischema.SchemaContextHolder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -92,21 +88,6 @@ public class SecurityConfig {
 ////                .getUserDetailsService();
 //    }
 
-    @Autowired
-    public void setupUsers(PasswordEncoder encoder, org.jooq.Configuration configuration, FlywayMultiTenantMigration migration) {
-        //@TODO - get rid of this and move it to data
-        LOGGER.info("{}", migration);
-        SchemaContextHolder.setSchema("CZ");
-        UserAuthDao dao = new UserAuthDao(configuration);
-        if (dao.fetchByName("user").isEmpty()) {
-            dao.insert(new UserAuth(1L, "user", encoder.encode("user")));
-        }
-//                .insertInto(USER_AUTH)
-//                .columns(USER_AUTH.NAME, USER_AUTH.PASSWORD, USER_AUTH.USER_ID)
-//                .values(, 1L)
-//                .execute();
-    }
-
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
@@ -131,6 +112,8 @@ public class SecurityConfig {
     @Autowired
     public JdbcUserDetailsManager udm(DataSource dataSource) {
         ExtendedJdbcUserDetailsManager udm = new ExtendedJdbcUserDetailsManager();
+        udm.setEnableAuthorities(true);
+        udm.setEnableGroups(true);
         udm.setDataSource(new MultiSchemaDataSource(dataSource));
         return udm;
     }
