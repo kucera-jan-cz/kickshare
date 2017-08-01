@@ -94,7 +94,7 @@ public class GroupServiceImpl {
     }
 
     @Transactional
-    public List<GroupDetail> searchGroups(GroupSearchOptions options) {
+    public List<GroupDetail> searchGroups(SearchOptions options) {
         //@TODO - implement this temporal properly
         return kickshareRepository.searchGroups(options).stream()
                 .map(g -> getGroupDetail(g.getId()))

@@ -9,7 +9,7 @@ import com.github.kickshare.domain.GroupInfo;
 import com.github.kickshare.domain.ProjectInfo;
 import com.github.kickshare.kickstarter.ProjectService;
 import com.github.kickshare.mapper.ExtendedMapper;
-import com.github.kickshare.service.GroupSearchOptions;
+import com.github.kickshare.service.SearchOptions;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.Validate;
 import org.slf4j.Logger;
@@ -57,7 +57,7 @@ public class ProjectEndpoint {
 
     @GetMapping("/search")
     public List<ProjectInfo> searchProjects(@RequestParam Map<String, String> params) throws IOException {
-        final GroupSearchOptions options = GroupSearchOptions.toOptions(params);
+        final SearchOptions options = SearchOptions.toOptions(params);
         return projectService.searchGroups(options);
     }
 

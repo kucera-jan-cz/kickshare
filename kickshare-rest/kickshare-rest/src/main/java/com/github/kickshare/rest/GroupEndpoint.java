@@ -16,8 +16,8 @@ import com.github.kickshare.domain.Post;
 import com.github.kickshare.security.BackerDetails;
 import com.github.kickshare.security.permission.GroupMember;
 import com.github.kickshare.security.permission.GroupOwner;
-import com.github.kickshare.service.GroupSearchOptions;
 import com.github.kickshare.service.GroupServiceImpl;
+import com.github.kickshare.service.SearchOptions;
 import com.github.kickshare.service.entity.CityGrid;
 import lombok.AllArgsConstructor;
 import org.apache.commons.lang3.RandomUtils;
@@ -86,7 +86,7 @@ public class GroupEndpoint {
             @RequestParam String callback,
             @RequestParam Map<String, String> params
     ) throws IOException {
-        GroupSearchOptions options = GroupSearchOptions.toOptions(params);
+        SearchOptions options = SearchOptions.toOptions(params);
         final List<CityGrid> cityGrids = repository.searchCityGrid(options);
         FeatureCollection collection = new FeatureCollection();
         collection.addAll(cityGrids.stream().map(GroupEndpoint::point).collect(Collectors.toList()));
@@ -95,7 +95,7 @@ public class GroupEndpoint {
 
     @GetMapping("/search")
     public List<GroupDetail> searchGroups(@RequestParam Map<String, String> params) {
-        GroupSearchOptions options = GroupSearchOptions.toOptions(params);
+        SearchOptions options = SearchOptions.toOptions(params);
         return groupService.searchGroups(options);
     }
 
