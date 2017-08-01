@@ -16,6 +16,6 @@ public interface ProjectService {
 
     List<GroupInfo> findAllGroupInfo(Long projectId);
 
-    List<ProjectInfo> searchGroups(GroupSearchOptions options) throws IOException;
+    List<ProjectInfo> searchGroups(SearchOptions options) throws IOException;
 }
 

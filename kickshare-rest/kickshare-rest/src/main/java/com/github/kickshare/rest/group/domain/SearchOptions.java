@@ -1,6 +1,5 @@
 package com.github.kickshare.rest.group.domain;
 
-import com.github.kickshare.service.GroupSearchOptions;
 import lombok.Data;
 
 /**
@@ -11,5 +10,5 @@ import lombok.Data;
 public class SearchOptions {
     private String userId;
     private String categoryId;
-    private GroupSearchOptions options;
+    private com.github.kickshare.service.SearchOptions options;
 }

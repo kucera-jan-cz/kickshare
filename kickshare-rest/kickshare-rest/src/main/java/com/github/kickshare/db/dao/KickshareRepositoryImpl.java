@@ -30,8 +30,8 @@ import com.github.kickshare.domain.City;
 import com.github.kickshare.domain.GroupInfo;
 import com.github.kickshare.domain.ProjectInfo;
 import com.github.kickshare.mapper.ExtendedMapper;
-import com.github.kickshare.service.GroupSearchOptions;
 import com.github.kickshare.service.Location;
+import com.github.kickshare.service.SearchOptions;
 import com.github.kickshare.service.entity.CityGrid;
 import lombok.AllArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
@@ -168,7 +168,7 @@ public class KickshareRepositoryImpl implements KickshareRepository {
     }
 
     @Override
-    public List<com.github.kickshare.db.jooq.tables.pojos.Group> searchGroups(GroupSearchOptions options) {
+    public List<com.github.kickshare.db.jooq.tables.pojos.Group> searchGroups(SearchOptions options) {
         List<com.github.kickshare.db.jooq.tables.pojos.Group> groups = dsl.select()
                 .from(GROUP)
                 .where(where(options))
@@ -185,7 +185,7 @@ public class KickshareRepositoryImpl implements KickshareRepository {
                 .fetchInto(com.github.kickshare.db.jooq.tables.pojos.GroupPost.class);
     }
 
-    public List<Project> searchProjects(GroupSearchOptions options) throws IOException {
+    public List<Project> searchProjects(SearchOptions options) throws IOException {
         final List<Project> projects = dsl.select()
                 .from(PROJECT)
                 .where(exists(
@@ -197,7 +197,7 @@ public class KickshareRepositoryImpl implements KickshareRepository {
         return projects;
     }
 
-    public List<CityGrid> searchCityGrid(GroupSearchOptions options) throws IOException {
+    public List<CityGrid> searchCityGrid(SearchOptions options) throws IOException {
         final Function<Record, CityGrid> transformer = (rec) -> {
             CityGrid grid = new CityGrid();
             final Integer total = rec.get("count", Integer.class);
@@ -227,7 +227,7 @@ public class KickshareRepositoryImpl implements KickshareRepository {
         return cities;
     }
 
-    private Condition where(GroupSearchOptions ops) {
+    private Condition where(SearchOptions ops) {
         Condition query = mapViewCondition(ops);
         String name = ops.getProjectName();
         Long projectId = ops.getProjectId();
@@ -241,7 +241,7 @@ public class KickshareRepositoryImpl implements KickshareRepository {
     }
 
 
-    private Condition mapViewCondition(GroupSearchOptions ops) {
+    private Condition mapViewCondition(SearchOptions ops) {
         Location nw = ops.getGeoBoundary().getLeftTop();
         Location se = ops.getGeoBoundary().getRightBottom();
         Condition latCondition = GROUP.LAT.between(BigDecimal.valueOf(se.getLat()), BigDecimal.valueOf(nw.getLat()));

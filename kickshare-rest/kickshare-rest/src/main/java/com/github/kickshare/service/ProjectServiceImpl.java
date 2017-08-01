@@ -112,7 +112,7 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Transactional
     @Override
-    public List<ProjectInfo> searchGroups(GroupSearchOptions options) throws IOException {
+    public List<ProjectInfo> searchGroups(SearchOptions options) throws IOException {
         List<Project> projects = mapper.map(this.repository.searchProjects(options), Project.class);
         return projects.stream().map(p -> new ProjectInfo(null, p, null)).collect(Collectors.toList());
     }

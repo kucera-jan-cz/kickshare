@@ -11,7 +11,7 @@ import lombok.Data;
  */
 @Data
 @Builder
-public class GroupSearchOptions {
+public class SearchOptions {
     private Boolean searchLocalOnly;
     @Deprecated //Will be used projectId
     private String projectName;
@@ -19,8 +19,8 @@ public class GroupSearchOptions {
     private GeoBoundary geoBoundary;
     private Location localCity;
 
-    public static GroupSearchOptions toOptions(Map<String, String> params) {
-        GroupSearchOptions.GroupSearchOptionsBuilder builder = GroupSearchOptions.builder();
+    public static SearchOptions toOptions(Map<String, String> params) {
+        SearchOptions.SearchOptionsBuilder builder = SearchOptions.builder();
         builder.searchLocalOnly(Boolean.valueOf(params.get("only_local")));
         builder.projectName(params.get("name"));
         builder.projectId(Long.valueOf(params.getOrDefault("project_id", "-1")));

@@ -12,9 +12,9 @@ import com.github.kickshare.service.entity.Group;
  * @since 19.3.2017
  */
 public interface SearchService {
-    public List<Group> searchGroups(GroupSearchOptions options) throws IOException;
+    public List<Group> searchGroups(SearchOptions options) throws IOException;
 
-    public List<CityGrid> searchCityGrid(GroupSearchOptions options) throws IOException;
+    public List<CityGrid> searchCityGrid(SearchOptions options) throws IOException;
 
     public List<Object> searchGroups();
 
