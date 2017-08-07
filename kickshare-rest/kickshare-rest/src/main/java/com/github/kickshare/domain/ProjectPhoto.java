@@ -13,4 +13,8 @@ public class ProjectPhoto {
     private Long   projectId;
     private String thumb;
     private String small;
+    private String little;
+    private String ed;
+    private String med;
+    private String full;
 }

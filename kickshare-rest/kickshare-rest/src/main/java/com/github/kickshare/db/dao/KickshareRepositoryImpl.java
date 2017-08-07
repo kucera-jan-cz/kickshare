@@ -19,7 +19,6 @@ import java.util.stream.Collectors;
 
 import com.github.kickshare.db.jooq.tables.Backer;
 import com.github.kickshare.db.jooq.tables.Group;
-import com.github.kickshare.db.jooq.tables.daos.LeaderDao;
 import com.github.kickshare.db.jooq.tables.daos.ProjectDao;
 import com.github.kickshare.db.jooq.tables.daos.ProjectPhotoDao;
 import com.github.kickshare.db.jooq.tables.pojos.GroupPost;
@@ -30,6 +29,7 @@ import com.github.kickshare.domain.City;
 import com.github.kickshare.domain.GroupInfo;
 import com.github.kickshare.domain.ProjectInfo;
 import com.github.kickshare.mapper.ExtendedMapper;
+import com.github.kickshare.mapper.ProjectPhotoMapper;
 import com.github.kickshare.service.Location;
 import com.github.kickshare.service.SearchOptions;
 import com.github.kickshare.service.entity.CityGrid;
@@ -64,9 +64,7 @@ public class KickshareRepositoryImpl implements KickshareRepository {
     private DSLContext dsl;
     private ProjectDao projectDao;
     private ProjectPhotoDao photoDao;
-    private final LeaderDao leaderDao;
     private ExtendedMapper mapper;
-//    private JdbcUserDetailsManager userManager;
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
@@ -89,7 +87,7 @@ public class KickshareRepositoryImpl implements KickshareRepository {
             ProjectInfo info = new ProjectInfo();
             info.setProject(mapper.map(project, com.github.kickshare.domain.Project.class));
             info.setPhotoUrl(projectPhoto.getThumb());
-            info.setPhoto(mapper.map(projectPhoto, com.github.kickshare.domain.ProjectPhoto.class));
+            info.setPhoto(ProjectPhotoMapper.INSTANCE.toDomain(projectPhoto));
             return info;
         }).collect(Collectors.toList());
         return infos;
@@ -98,15 +96,12 @@ public class KickshareRepositoryImpl implements KickshareRepository {
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
     public void saveProjects(final List<ProjectInfo> projects) {
-//        projects.stream()
-//                .map(p -> mapper.map(p, Project.class))
-//                .forEach(p -> dsl.insertInto(PROJECT).values(p).onDuplicateKeyIgnore().execute());
         for (ProjectInfo info : projects) {
             Project project = mapper.map(info, Project.class);
             ProjectRecord record = dsl.newRecord(PROJECT, project);
             int count = dsl.insertInto(PROJECT, record.fields()).values(record.valuesRow().fields()).onConflictDoNothing().execute();
             if (count > 0) {
-                ProjectPhoto photo = mapper.map(info.getPhoto(), ProjectPhoto.class);
+                ProjectPhoto photo = ProjectPhotoMapper.INSTANCE.toDB(info.getPhoto());
                 photo.setProjectId(info.getId());
                 photoDao.insert(photo);
             }
@@ -149,10 +144,6 @@ public class KickshareRepositoryImpl implements KickshareRepository {
                 .where(g.PROJECT_ID.eq(projectId))
                 .fetch();
         List<GroupInfo> infos = records.into(GroupInfo.class);
-
-        for (GroupInfo info : infos) {
-            info.setPhotoUrl(projectPhoto.getSmall());
-        }
         return infos;
     }
 

@@ -8,7 +8,6 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.List;
 
-import com.github.kickshare.db.jooq.tables.daos.LeaderDao;
 import com.github.kickshare.db.jooq.tables.daos.ProjectDao;
 import com.github.kickshare.db.jooq.tables.daos.ProjectPhotoDao;
 import com.github.kickshare.db.tools.SQLLogging;
@@ -34,7 +33,7 @@ public class DatabaseIntegrationTest {
         DSLContext context = createFileDSL();
         Configuration config = context.configuration();
         ExtendedMapper mapper = null;
-        KickshareRepository repository = new KickshareRepositoryImpl(context, new ProjectDao(config), new ProjectPhotoDao(config), new LeaderDao(config), mapper);
+        KickshareRepository repository = new KickshareRepositoryImpl(context, new ProjectDao(config), new ProjectPhotoDao(config), mapper);
         List<GroupInfo> infos = repository.findAllGroupInfo(217227567L);
         assertNotNull(infos);
         assertEquals(infos.size(), 2);

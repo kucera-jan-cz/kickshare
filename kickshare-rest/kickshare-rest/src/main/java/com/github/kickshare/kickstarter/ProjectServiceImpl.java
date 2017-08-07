@@ -68,7 +68,7 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     public Long verify(String user, String password) throws IOException, AuthenticationException {
         ClientHttpResponse response = post(xauthUri, new User(user, password));
-        if(!response.getStatusCode().is2xxSuccessful()) {
+        if (!response.getStatusCode().is2xxSuccessful()) {
             throw new AuthenticationException();
         }
         JsonNode responseRoot = mapper.readTree(response.getBody());
@@ -103,7 +103,14 @@ public class ProjectServiceImpl implements ProjectService {
     private Project parseProject(ObjectNode projectNode) {
         JsonNode photoNode = projectNode.get("photo");
         Long id = projectNode.get("id").longValue();
-        ProjectPhoto photo = new ProjectPhoto(id, photoNode.get("thumb").textValue(), photoNode.get("small").textValue());
+        ProjectPhoto photo = new ProjectPhoto(id,
+                photoNode.path("thumb").asText(null),
+                photoNode.path("small").asText(null),
+                photoNode.path("little").asText(null),
+                photoNode.path("ed").asText(null),
+                photoNode.path("med").asText(null),
+                photoNode.path("full").asText(null)
+        );
         return new Project(
                 id,
                 projectNode.get("name").textValue(),
