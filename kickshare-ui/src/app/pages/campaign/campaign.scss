@@ -1,0 +1,36 @@
+#searchOptions {
+  width: 100%;
+  margin-top: -10px;
+}
+
+.form-control {
+  width:auto;
+  display:inline-block;
+}
+
+label {
+  width:auto;
+  display:inline-block;
+  height: 33px;
+}
+
+#searchInput {
+  width: 95%;
+  height: 33px;
+}
+
+#category_group select {
+  height: 33px;
+  margin: 0px;
+  padding: 0px;
+}
+
+#legend {
+  font-family: Arial, sans-serif;
+  background: #fff;
+  color: black;
+  padding: 10px;
+  margin: 10px;
+  border: 3px solid #000;
+}
+

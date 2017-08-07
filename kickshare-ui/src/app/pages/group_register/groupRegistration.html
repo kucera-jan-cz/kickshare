@@ -1,0 +1,106 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-3"></div>
+        <form id="group_registration_form" class="col-md-6" (submit)="saveGroup()">
+            <!--<form id="user_registration_form" class="col-md-6" [formGroup]="form">-->
+            <!--<form id="group_registration_form" [formGroup]="form" class="col-md-6" novalidate (ngSubmit)="save(form.value, form.valid)">-->
+            <!--<div class="form-group">-->
+            <!--<label for="name">Kickstarter campaign name</label>-->
+            <!--<input type="text" class="form-control" formControlName="name" id="name">-->
+            <!--</div>-->
+            <!--  input-field col s12  -->
+            <div class="form-group">
+                <label>Kickstarter project</label>
+                <!---->
+                <div class="input-group row">
+                    <input type="text" class="form-control" [value]="name" disabled>
+                    <!--<input #proj_name id="proj_name" type="text" list="projects" class="form-control" [value]="name" (keyup)="nameTyped($event)"-->
+                    <!--(select)="selectProjectEvent($event)"-->
+                    <!--autocomplete="off" aria-describedby="inputStatus">-->
+                    <!---->
+                    <!--<span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>-->
+                    <!--<span id="inputStatus" class="sr-only">(success)</span>-->
+                    <!--<i class="icon ion-search" style="font-size: 35px" (click)="searchProject(proj_name.value)"></i>-->
+                    <!--<button class="btn btn-lg btn-outline-primary" (click)="open(content)">Launch demo modal</button>-->
+                    <span class="fa-stack fa-lg" (click)="open(content)">
+                        <i class="fa fa-square-o fa-stack-2x"></i>
+                        <i class="fa fa-search-plus fa-flip-horizontal fa-stack-1x"></i>
+                    </span>
+                    <!--<datalist #projects id="projects" style="display: compact">-->
+                    <!--<option *ngFor="let item of filteredList">-->
+                    <!--{{item.name}}-->
+                    <!--</option>-->
+                    <!--</datalist>-->
+                </div>
+            </div>
+            <!--<p>ITEMS: {{filteredList.length}}</p>-->
+            <!--<div class="suggestions" *ngIf="filteredList.length > 0">-->
+            <!--<ul *ngFor="let item of filteredList">-->
+            <!--<li>-->
+            <!--<a (click)="selectProject(item)">{{item.name}}</a>-->
+            <!--</li>-->
+            <!--</ul>-->
+            <!--</div>-->
+
+            <div class="form-group row">
+                <label for="groupName">Group Name</label>
+                <input type="text" class="form-control" id="groupName" [(ngModel)]="groupName" name="groupName" disabled>
+            </div>
+
+            <label class="radio-inline">
+                <input type="radio" name="isLocal" id="local" [(ngModel)]="isLocal" [value]="true" [checked]="isLocal">
+                <span translate data-toggle="tooltip" data-placement="bottom" title="Backers of this project should live in your city">Local</span>
+            </label>
+            <label class="radio-inline">
+                <input type="radio" name="isLocal" id="global" [(ngModel)]="isLocal" [value]="false" [checked]="isLocal">
+                <span translate data-toggle="tooltip" data-placement="bottom" title="Backers of this project can live anywhere in your country. ">Global</span>
+            </label>
+
+            <div class="form-group">
+                <label for="groupLimit">Group member limit:</label>
+
+                <input id="groupLimit" type="range" min="2" max="15" step="1" name="groupLimit" [(ngModel)]="groupLimit" name="groupLimit"/>
+                {{ (' ' + groupLimit).slice(-2) }}
+                <!--<input type="number" class="form-control" id="groupLimit" name="groupLimit" [(ngModel)]="groupLimit">-->
+            </div>
+            <ul>
+                <li>Name: {{name}}</li>
+                <li>Group: {{groupName}}</li>
+                <li>Local: {{isLocal}}</li>
+                <li> Limit: {{groupLimit}}</li>
+                <li> Country: {{country}}</li>
+            </ul>
+
+            <button class="btn-primary btn" type="button" (click)="submit()">Submit</button>
+        </form>
+        <div class="col-md-3"></div>
+    </div>
+
+    <!-- Modal -->
+    <ng-template #content let-c="close" let-d="dismiss" size="lg">
+        <div class="modal-header">
+            <div class="row container col-md-12">
+                <h5 class="col-sm-3 m-0 vertical-align" id="exampleModalLabel">Find projects:</h5>
+                <input class="col-sm-9 input-block-level search-query" [value]="name" (keyup)="nameTyped($event)"/>
+            </div>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="d('Cross click')">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <div class="suggestions" *ngIf="filteredList.length > 0">
+                <div *ngFor="let item of filteredList; let i=index" class="row justify-content-around">
+                    <img src="{{ item?.photo?.small }}" (click)="selectProjectByIndex(i)" data-dismiss="modal" class="img-circle">
+                    <div class="media-body">
+                        <h4 class="media-heading" (click)="selectProjectByIndex(i) && d('Cross click')">{{item.name}}</h4>
+                        {{item.description}}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" (click)="c('Close click')">Close</button>
+        </div>
+    </ng-template>
+
+</div>

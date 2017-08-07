@@ -1,0 +1,104 @@
+<div class="container-fluid">
+    <div class="row m-1">
+        <div class="col-md-8">
+            <div class="row">
+                <h3>{{ group?.name }}</h3>
+            </div>
+            <div class="row">
+                <h5>Leader: {{ leader?.name + ' ' + leader?.surname}}</h5>
+            </div>
+            <div class="row">
+                <!--<a href = "{{ project?.url }}" >Link</a>-->
+                <h5>Kickstarter :
+                    <a href="{{ project?.url }}"><span class="glyphicon glyphicon-envelope">{{project?.name}}</span></a>
+                </h5>
+            </div>
+            <div class="row">
+                <h5>Kickstarter deadline: {{ project?.deadline | date}}</h5>
+            </div>
+            <div class="row">
+                <h5>My ID: {{my_id}}</h5>
+            </div>
+            <div class="row">
+                <h5>My group: {{my_group}}</h5>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <img src="{{ photo?.small }}" width="100%" height="100%">
+        </div>
+    </div>
+    <ngb-tabset>
+        <ngb-tab title="Members">
+            <ng-template ngbTabContent>
+                <group_members [(backers)]="backers"></group_members>
+            </ng-template>
+        </ngb-tab>
+        <ngb-tab title="Discussion">
+            <ng-template ngbTabContent>
+                <group_discussion></group_discussion>
+            </ng-template>
+        </ngb-tab>
+        <ngb-tab *ngIf="my_group" title="Requests (*)">
+            <ng-template ngbTabContent>
+                <table class="table table-hover">
+                    <thead>
+                    <tr class="black-muted-bg">
+                        <th class="align-left">Name</th>
+                        <th class="align-left">Email</th>
+                        <th class="align-right">Rating</th>
+                        <th class="align-right">City</th>
+                        <th>Action</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr *ngFor="let item of backers" class="no-top-border">
+                        <td class="align-left">{{item.name + ' ' + item.surname}}</td>
+                        <td>{{item.email}}</td>
+                        <td>{{item.backer_rating}}</td>
+                        <td>{{item.address?.city}}</td>
+                        <td>
+                            <button type="button" class="btn btn-success">OK</button>
+                            <button type="button" class="btn btn-danger">NOK</button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </ng-template>
+        </ngb-tab>
+    </ngb-tabset>
+    <!--<md-tab-group>-->
+    <!--<md-tab label="Members">-->
+    <!--<group_members [(backers)]="backers"></group_members>-->
+    <!--</md-tab>-->
+    <!--<md-tab label="Discussion">-->
+    <!--<group_discussion></group_discussion>-->
+    <!--</md-tab>-->
+    <!--<div *ngIf="my_group">-->
+    <!--<md-tab label="Requests (1)">-->
+    <!--<table class="table table-hover">-->
+    <!--<thead>-->
+    <!--<tr class="black-muted-bg">-->
+    <!--<th class="align-left">Name</th>-->
+    <!--<th class="align-left">Email</th>-->
+    <!--<th class="align-right">Rating</th>-->
+    <!--<th class="align-right">City</th>-->
+    <!--<th>Action</th>-->
+    <!--</tr>-->
+    <!--</thead>-->
+    <!--<tbody>-->
+    <!--<tr *ngFor="let item of backers" class="no-top-border">-->
+    <!--<td class="align-left">{{item.name + ' ' + item.surname}}</td>-->
+    <!--<td>{{item.email}}</td>-->
+    <!--<td>{{item.backer_rating}}</td>-->
+    <!--<td>{{item.address?.city}}</td>-->
+    <!--<td>-->
+    <!--<button type="button" class="btn btn-success">OK</button>-->
+    <!--<button type="button" class="btn btn-danger">NOK</button>-->
+    <!--</td>-->
+    <!--</tr>-->
+    <!--</tbody>-->
+    <!--</table>-->
+    <!--</md-tab>-->
+    <!--</div>-->
+    <!--</md-tab-group>-->
+</div>

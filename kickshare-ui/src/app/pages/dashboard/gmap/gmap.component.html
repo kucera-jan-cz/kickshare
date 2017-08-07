@@ -1,0 +1,44 @@
+<div id="searchOptions" class="container">
+    <div id="search" class="row">
+        <div class="col-12 col-sm-auto row" id="category_group">
+            <label class="align-middle" for="category_select">Category: </label>
+            <select class="form-control" id="category_select">
+                <option *ngFor="let item of categories">
+                    {{item.name}}
+                </option>
+            </select>
+        </div>
+        <div class="clearfix hidden-up"></div>
+        <div class="col-12 col-sm-auto m-1 row">
+            <!--<div>-->
+                <ng2-completer id="gmap_complete" [(ngModel)]="searchTerm" [datasource]="dataService" [minSearchLength]="3"
+                               name="projectComplete" (keyup)="nameTyped($event)" clearUnselected="true"
+                               (selected)="itemSelected($event)">
+                </ng2-completer>
+            <!--</div>-->
+            <!--<div>-->
+                <span class="fa-stack fa-lg" (click)="searchGroups()">
+                        <i class="fa fa-square-o fa-stack-2x"></i>
+                        <i class="fa fa-search-plus fa-flip-horizontal fa-stack-1x"></i>
+                </span>
+            <!--</div>-->
+        </div>
+        <div class="clearfix hidden-up"></div>
+        <div class="col-12 col-sm-auto p-1 inline row">
+            <label>
+                <input type="checkbox" name="search_only_near_by" [(ngModel)]="settings.onlyNearBy">
+                Only near by
+            </label>
+            <label>
+                <input type="checkbox" name="search_use_tags" [(ngModel)]="settings.withTags">
+                Contains tags:
+                <!--<tag-input [(ngModel)]='tags' [maxItems]='5'></tag-input>-->
+            </label>
+        </div>
+    </div>
+
+</div>
+<div class="m-1" style="height: 70%">
+    <div id="map"></div>
+    <div id="legend"><h3>Legend</h3></div>
+</div>

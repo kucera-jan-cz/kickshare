@@ -1,0 +1,27 @@
+/*@import '../../theme/sass/auth';*/
+
+/*icon.ion-search {*/
+  /**/
+/*}*/
+
+#proj_name {
+  width: 80%;
+  margin-right: 10px;
+}
+
+label[for="groupLimit"] {
+  margin-bottom: 0;
+}
+
+#myModal {
+  color: #222222;
+}
+
+#projects_modal {
+  background: white;
+}
+
+.vertical-align {
+  display: flex;
+  align-items: center;
+}
