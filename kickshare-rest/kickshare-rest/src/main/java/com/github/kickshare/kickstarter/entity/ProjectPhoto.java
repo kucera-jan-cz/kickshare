@@ -14,6 +14,10 @@ public class ProjectPhoto {
     private Long id;
     private String thumb;
     private String small;
+    private String little;
+    private String ed;
+    private String med;
+    private String full;
 
     public ProjectPhoto() {
     }

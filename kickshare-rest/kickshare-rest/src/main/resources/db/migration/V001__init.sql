@@ -41,9 +41,11 @@ CREATE TABLE address (
 CREATE TABLE project_photo (
     project_id bigserial PRIMARY KEY REFERENCES project (id) ON DELETE CASCADE,
     thumb varchar(512),
-	small varchar(512)
---	FOREIGN KEY (project_id) REFERENCES project (id)
---  CONSTRAINT fk_project_photo_project_id foreign key (project_id)
+	small varchar(512),
+	little VARCHAR(512),
+    ed VARCHAR(512),
+    med VARCHAR(512),
+    "full" VARCHAR(512)
 );
 
 CREATE TABLE backer_location (

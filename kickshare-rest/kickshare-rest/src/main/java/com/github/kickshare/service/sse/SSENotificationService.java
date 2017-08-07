@@ -13,7 +13,6 @@ import com.github.kickshare.service.NotificationService;
 import lombok.NonNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 /**
@@ -49,7 +48,8 @@ public class SSENotificationService {
         return emitter;
     }
 
-    @Scheduled(initialDelay = 2000, fixedRate = 5_000)
+    //@TODO - enable it once needed
+//    @Scheduled(initialDelay = 2000, fixedRate = 5_000)
     private void checkNewNotifications() throws IOException {
         for (String country : countries) {
             Map<Long, SseEmitter> emittersPerCountry = emittersMap.get(country);

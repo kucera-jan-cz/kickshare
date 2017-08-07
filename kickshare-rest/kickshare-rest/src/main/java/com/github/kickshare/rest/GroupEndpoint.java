@@ -72,7 +72,6 @@ public class GroupEndpoint {
             @RequestParam String callback,
             @RequestParam(required = false) Float lat,
             @RequestParam(required = false) Float lon) {
-        LOGGER.warn("{}: {}", lat, lon);
         int items = RandomUtils.nextInt(1, POINTS.length);
         FeatureCollection collection = new FeatureCollection();
         for (int i = 0; i < items; i++) {

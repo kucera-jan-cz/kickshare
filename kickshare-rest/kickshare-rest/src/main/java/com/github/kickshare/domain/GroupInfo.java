@@ -12,6 +12,7 @@ import lombok.Data;
  */
 @Data
 @JsonInclude(JsonInclude.Include.NON_NULL)
+//@TODO consider sending groupDetail instead
 public class GroupInfo {
     @Deprecated
     @JsonProperty("group_id")

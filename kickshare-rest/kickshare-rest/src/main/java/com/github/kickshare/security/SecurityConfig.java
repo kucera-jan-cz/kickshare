@@ -1,6 +1,7 @@
 package com.github.kickshare.security;
 
 import java.util.Arrays;
+import java.util.concurrent.TimeUnit;
 
 import javax.sql.DataSource;
 
@@ -8,20 +9,27 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.github.kickshare.db.JooqConfiguration;
 import com.github.kickshare.db.multischema.MultiSchemaDataSource;
+import com.github.kickshare.security.session.MultiSchemaSessionRepository;
+import org.jooq.impl.DataSourceConnectionProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
+import org.springframework.core.convert.support.GenericConversionService;
+import org.springframework.core.serializer.support.DeserializingConverter;
+import org.springframework.core.serializer.support.SerializingConverter;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.security.web.csrf.CsrfTokenRepository;
-import org.springframework.session.jdbc.config.annotation.web.http.EnableJdbcHttpSession;
+import org.springframework.session.jdbc.JdbcOperationsSessionRepository;
+import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -32,7 +40,7 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
  */
 @Configuration
 @Import({ JooqConfiguration.class, MethodSecurityConfig.class })
-@EnableJdbcHttpSession(maxInactiveIntervalInSeconds = 120)
+//@EnableJdbcHttpSession(maxInactiveIntervalInSeconds = 120)
 @ComponentScan(basePackages = { "com.github.kickshare.security.session" })
 public class SecurityConfig {
     private static final Logger LOGGER = LoggerFactory.getLogger(SecurityConfig.class);
@@ -56,6 +64,27 @@ public class SecurityConfig {
     public void configureJackson(@Autowired Jackson2ObjectMapperBuilder jackson2ObjectMapperBuilder) {
         jackson2ObjectMapperBuilder.serializationInclusion(JsonInclude.Include.NON_NULL);
         jackson2ObjectMapperBuilder.modulesToInstall(new JavaTimeModule());
+    }
+
+    @Bean
+    public JdbcOperationsSessionRepository sessionRepository(
+            @Value("${kickshare.flyway.schemas}") String schemas,
+            DataSourceConnectionProvider provider,
+            PlatformTransactionManager transactionManager) {
+        MultiSchemaSessionRepository sessionRepository = new MultiSchemaSessionRepository(schemas.split(","), provider.dataSource(), transactionManager);
+        sessionRepository.setDefaultMaxInactiveInterval(120);
+
+        GenericConversionService conversionService = this.createConversionServiceWithBeanClassLoader();
+        sessionRepository.setConversionService(conversionService);
+
+        return sessionRepository;
+    }
+
+    private GenericConversionService createConversionServiceWithBeanClassLoader() {
+        GenericConversionService conversionService = new GenericConversionService();
+        conversionService.addConverter(Object.class, byte[].class, new SerializingConverter());
+        conversionService.addConverter(byte[].class, Object.class, new DeserializingConverter());
+        return conversionService;
     }
 
 //    @Bean
@@ -130,6 +159,7 @@ public class SecurityConfig {
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PATCH", "HEAD", "PUT"));
         configuration.setAllowCredentials(false);
         configuration.setAllowedHeaders(Arrays.asList("*"));
+        configuration.setMaxAge(TimeUnit.HOURS.toSeconds(1));
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
         return source;
