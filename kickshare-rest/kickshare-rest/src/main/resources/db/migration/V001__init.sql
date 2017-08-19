@@ -1,9 +1,9 @@
---@TODO deal with roles (reader, writer/admin)?
-CREATE TABLE city (
+CREATE TABLE category (
     id INTEGER PRIMARY KEY,
-    name varchar (255),
-    lat NUMERIC(10,6),
-    lon NUMERIC(10,6)
+    name VARCHAR (255) NOT NULL,
+    is_root BOOLEAN NOT NULL,
+    parent_id INTEGER,
+    slug VARCHAR (255)
 );
 
 CREATE TABLE project (
@@ -29,13 +29,20 @@ CREATE TABLE leader (
     kickstarter_id BIGINT UNIQUE
 );
 
+CREATE TABLE city (
+    id INTEGER PRIMARY KEY,
+    name varchar (255),
+    lat NUMERIC(10,6),
+    lon NUMERIC(10,6)
+);
+
 CREATE TABLE address (
     id BIGSERIAL PRIMARY KEY,
     backer_id BIGSERIAL NOT NULL REFERENCES backer(id),
     street VARCHAR (100),
     city VARCHAR (100),
     city_id INTEGER REFERENCES city(id),
-    postal_code VARCHAR (100)
+    postal_code VARCHAR (16)
 );
 
 CREATE TABLE project_photo (
@@ -48,10 +55,15 @@ CREATE TABLE project_photo (
     "full" VARCHAR(512)
 );
 
+-- @TODO - consider usage of address or backer_location
 CREATE TABLE backer_location (
     backer_id BIGSERIAL PRIMARY KEY REFERENCES backer (id),
-    city_id INTEGER NOT NULL REFERENCES city (id),
-    is_permanent_address BOOLEAN DEFAULT FALSE
+    city_id INTEGER NOT NULL REFERENCES city (id)
+);
+
+CREATE TABLE backer_setting (
+    backer_id BIGSERIAL PRIMARY KEY REFERENCES backer (id),
+    category_id INTEGER NOT NULL REFERENCES category (id)
 );
 
 -- @TODO remove once it's moved to Spring table
@@ -59,14 +71,6 @@ CREATE TABLE user_auth (
     user_id BIGSERIAL PRIMARY KEY REFERENCES backer(id),
     name VARCHAR (255),
     password VARCHAR (255)
-);
-
-CREATE TABLE category (
-    id INTEGER PRIMARY KEY,
-    name VARCHAR (255) NOT NULL,
-    is_root BOOLEAN NOT NULL,
-    parent_id INTEGER,
-    slug VARCHAR (255)
 );
 
 CREATE TABLE private_msg (

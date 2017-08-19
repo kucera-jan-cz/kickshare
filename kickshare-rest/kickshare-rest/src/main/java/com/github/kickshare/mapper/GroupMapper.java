@@ -1,6 +1,6 @@
 package com.github.kickshare.mapper;
 
-import com.github.kickshare.domain.GroupInfo;
+import com.github.kickshare.domain.GroupSummary;
 import org.mapstruct.Mappings;
 import org.mapstruct.factory.Mappers;
 
@@ -15,8 +15,8 @@ public interface GroupMapper {
 
     @Mappings({
     })
-    GroupInfo toDomain(com.github.kickshare.db.jooq.tables.pojos.Group source);
+    GroupSummary toDomain(com.github.kickshare.db.jooq.tables.pojos.Group source);
 
-    com.github.kickshare.db.jooq.tables.pojos.Group toDB(GroupInfo source);
+    com.github.kickshare.db.jooq.tables.pojos.Group toDB(GroupSummary source);
 
 }

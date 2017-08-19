@@ -49,7 +49,7 @@ class BackerIndexerTest extends FunSuite with Slf4jLogging {
     val id: Long =
       SQL(s"""INSERT INTO backer (id, name, surname, email) VALUES (DEFAULT, ?, ?, ? ) RETURNING id""")
         .batchAndReturnGeneratedKey(Seq(leader.name, leader.surname, leader.email)).apply[Seq]().apply(0)
-    SQL(s"""INSERT INTO backer_locations (backer_id, city_id, is_permanent_address) VALUES (?, ?, true)""")
+    SQL(s"""INSERT INTO backer_locations (backer_id, city_id) VALUES (?, ?)""")
       .batch(Seq(id, city.id))
     SQL(s"""INSERT INTO address (backer_id, street, city, postal_code) VALUES ({id}, {street}, {city}, {postal_code})""")
       .batchByName(Seq('id -> city.id, 'city -> city.name, 'street -> faker.address().streetAddress(), 'postal_code -> faker.address().zipCode()))

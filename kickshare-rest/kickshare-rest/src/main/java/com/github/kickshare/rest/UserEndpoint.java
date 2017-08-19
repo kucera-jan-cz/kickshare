@@ -4,8 +4,8 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
 
-import com.github.kickshare.db.dao.BackerRepository;
 import com.github.kickshare.db.multischema.SchemaContextHolder;
+import com.github.kickshare.domain.Backer;
 import com.github.kickshare.domain.Group;
 import com.github.kickshare.domain.Notification;
 import com.github.kickshare.rest.user.domain.UserInfo;
@@ -20,8 +20,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -42,9 +40,6 @@ public class UserEndpoint {
     private static final Logger LOGGER = LoggerFactory.getLogger(UserEndpoint.class);
     private SSENotificationService sseNotificationService;
     private NotificationService notificationService;
-    private BackerRepository backerRepository;
-    private UserDetailsManager userManager;
-    private PasswordEncoder encoder;
     private GroupServiceImpl groupService;
     private UserService userService;
 
@@ -63,14 +58,6 @@ public class UserEndpoint {
         }
     }
 
-    @Deprecated
-    @GetMapping("/{userId}/info")
-    public UserInfo getInfo(@PathVariable final String userId) {
-//        Backer backer = backerDao.fetchOneById(userId);
-//        addressDao.fetchOneById(backer.)
-        return null;
-    }
-
     @RequestMapping(path = "/{userId}/notifications/stream", method = RequestMethod.GET)
     @PreAuthorize("isAuthenticated()")
     public SseEmitter stream(@AuthenticationPrincipal BackerDetails user) {
@@ -85,9 +72,9 @@ public class UserEndpoint {
     }
 
     @PostMapping
-    //@TODO - insert validation
     public UserDetails createUser(@RequestBody UserInfo user) {
-        return userService.createUser(user.getEmail(), 1);
+        Backer backer = new Backer(null, user.getEmail(), user.getName(), user.getSurname(), null, null);
+        return userService.createUser(backer, user.getPassword(), user.getAddress());
     }
 
 

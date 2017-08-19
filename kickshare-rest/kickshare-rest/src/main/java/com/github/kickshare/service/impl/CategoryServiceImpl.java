@@ -1,10 +1,11 @@
-package com.github.kickshare.service;
+package com.github.kickshare.service.impl;
 
 import java.util.List;
 
 import com.github.kickshare.db.jooq.tables.daos.CategoryDao;
 import com.github.kickshare.domain.Category;
 import com.github.kickshare.mapper.ExtendedMapper;
+import com.github.kickshare.service.CategoryService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 

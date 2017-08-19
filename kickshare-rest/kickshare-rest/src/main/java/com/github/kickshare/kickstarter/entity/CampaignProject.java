@@ -15,7 +15,7 @@ import lombok.Data;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Data
 @AllArgsConstructor
-public class Project {
+public class CampaignProject {
     @NotNull
     private Long id;
     @NotNull
@@ -27,9 +27,9 @@ public class Project {
     @NotNull
     private Instant deadline;
 
-    private ProjectPhoto photo;
+    private CampaignProjectPhoto photo;
 
-    public Project() {
+    public CampaignProject() {
 
     }
 }

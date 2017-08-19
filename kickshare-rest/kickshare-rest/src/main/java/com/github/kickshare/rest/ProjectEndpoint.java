@@ -4,12 +4,13 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
-import com.github.kickshare.db.dao.KickshareRepository;
-import com.github.kickshare.domain.GroupInfo;
+import com.github.kickshare.domain.GroupSummary;
 import com.github.kickshare.domain.ProjectInfo;
-import com.github.kickshare.kickstarter.ProjectService;
+import com.github.kickshare.kickstarter.KickstarterCampaignService;
 import com.github.kickshare.mapper.ExtendedMapper;
-import com.github.kickshare.service.SearchOptions;
+import com.github.kickshare.service.GroupServiceImpl;
+import com.github.kickshare.service.entity.SearchOptions;
+import lombok.AllArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.Validate;
 import org.slf4j.Logger;
@@ -26,28 +27,21 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("/projects")
+@AllArgsConstructor
 public class ProjectEndpoint {
     private static final Logger LOGGER = LoggerFactory.getLogger(ProjectEndpoint.class);
 
-    private final KickshareRepository repository;
-    private final ProjectService kickstarter;
+    private final KickstarterCampaignService kickstarter;
     private final com.github.kickshare.service.ProjectService projectService;
+    private final GroupServiceImpl groupService;
     private final ExtendedMapper dozer;
-
-    public ProjectEndpoint(final KickshareRepository repository, final ProjectService kickstarter,
-            final com.github.kickshare.service.ProjectService projectService, ExtendedMapper dozer) {
-        this.repository = repository;
-        this.kickstarter = kickstarter;
-        this.projectService = projectService;
-        this.dozer = dozer;
-    }
 
 
     @GetMapping
     public List<ProjectInfo> searchProjects(@RequestParam final String name, @RequestParam final Integer categoryId,
             @RequestParam(defaultValue = "false") final Boolean useKickstarter) throws IOException {
         Validate.inclusiveBetween(3, 100, StringUtils.length(name), "Name parameter must be at least 3 characters long");
-        List<ProjectInfo> projects = repository.findProjectInfoByName(name);
+        List<ProjectInfo> projects = projectService.findProjectInfoByName(name);
         LOGGER.debug("Found projects: {}", projects);
         if (useKickstarter && projects.isEmpty()) {
             return searchKickstarter(name, categoryId);
@@ -61,24 +55,14 @@ public class ProjectEndpoint {
         return projectService.searchGroups(options);
     }
 
-    @GetMapping("/{projectId}/projectInfo")
-    public ProjectInfo getProjectInfo(@PathVariable Long projectId) {
-        return repository.findProjectInfo(projectId);
-    }
-
-    @GetMapping("/{projectId}/groupInfos")
-    public List<GroupInfo> getGroupInfos(@PathVariable Long projectId) {
-        return projectService.findAllGroupInfo(projectId);
-    }
-
     @GetMapping("/{projectId}")
     public ProjectInfo getProject(@PathVariable Long projectId) {
-        return repository.findProjectInfo(projectId);
+        return projectService.findProjectInfo(projectId);
     }
 
     @GetMapping("/{projectId}/groups")
-    public List<GroupInfo> getGroups(@PathVariable Long projectId) {
-        return repository.findAllGroupInfo(projectId);
+    public List<GroupSummary> getGroups(@PathVariable Long projectId) {
+        return groupService.findAllGroupInfo(projectId);
     }
 
     private List<ProjectInfo> searchKickstarter(final String name, @RequestParam final Integer categoryId) throws IOException {

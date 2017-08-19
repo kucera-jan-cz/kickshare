@@ -3,9 +3,12 @@ package com.github.kickshare.mapper;
 import com.github.kickshare.domain.Project;
 import com.github.kickshare.domain.ProjectInfo;
 import com.github.kickshare.domain.ProjectPhoto;
+import com.github.kickshare.kickstarter.entity.CampaignProject;
+import com.github.kickshare.kickstarter.entity.CampaignProjectPhoto;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
+import org.mapstruct.factory.Mappers;
 
 /**
  * @author Jan.Kucera
@@ -14,7 +17,7 @@ import org.mapstruct.Mappings;
 @Mapper(config = CentralConfig.class)
 public interface ProjectMapper {
 
-//    ProjectMapper MAPPER = Mappers.getMapper(ProjectMapper.class);
+    ProjectMapper MAPPER = Mappers.getMapper(ProjectMapper.class);
 
     Project toDomain(com.github.kickshare.db.jooq.tables.pojos.Project source);
 
@@ -23,13 +26,13 @@ public interface ProjectMapper {
             @Mapping(source = "photo", target = "photo"),
             @Mapping(target = "project", ignore = true)
     })
-    ProjectInfo toDomain(com.github.kickshare.kickstarter.entity.Project source);
+    ProjectInfo toDomain(CampaignProject source);
 
     com.github.kickshare.db.jooq.tables.pojos.Project toDB(Project source);
 
     @Mapping(target = "photo", ignore = true)
-    com.github.kickshare.kickstarter.entity.Project toKS(Project source);
+    CampaignProject toKS(Project source);
 
     @Mapping(source = "id", target = "projectId")
-    ProjectPhoto toDomain(com.github.kickshare.kickstarter.entity.ProjectPhoto photo);
+    ProjectPhoto toDomain(CampaignProjectPhoto photo);
 }

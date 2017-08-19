@@ -1,6 +1,10 @@
 package com.github.kickshare.rest.user.domain;
 
+import javax.validation.constraints.Size;
+
+import com.github.kickshare.domain.Address;
 import lombok.Data;
+import lombok.NonNull;
 import org.hibernate.validator.constraints.Email;
 
 /**
@@ -10,14 +14,19 @@ import org.hibernate.validator.constraints.Email;
 @Data
 public class UserInfo {
     @Email
+    @NonNull
     private String email;
 
+    @NonNull
     private String name;
+    @NonNull
     private String surname;
 
-    private String ksLogin;
+    @NonNull
+    @Size(min = 8)
+    private String password;
 
+    @NonNull
     private Address address;
-
 
 }

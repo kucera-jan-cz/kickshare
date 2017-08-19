@@ -7,7 +7,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.github.kickshare.common.io.ResourceUtil;
 import com.github.kickshare.domain.ProjectInfo;
-import com.github.kickshare.kickstarter.entity.Project;
+import com.github.kickshare.kickstarter.entity.CampaignProject;
 import org.dozer.DozerBeanMapper;
 import org.dozer.Mapper;
 import org.json.JSONException;
@@ -35,7 +35,7 @@ public class ProjectMapperTest {
         final Mapper dozer = new DozerBeanMapper(
                 Arrays.asList("dozer/db-2-domain-mappings.xml", "dozer/ks-2-domain-mappings.xml")
         );
-        Project ksProject = mapper.readValue(ResourceUtil.toString("data/mapper/ks/project.json"), Project.class);
+        CampaignProject ksProject = mapper.readValue(ResourceUtil.toString("data/mapper/ks/project.json"), CampaignProject.class);
         ProjectInfo domainProject = dozer.map(ksProject, com.github.kickshare.domain.ProjectInfo.class);
         String domain = mapper.writeValueAsString(domainProject);
         String expected = ResourceUtil.toString("data/mapper/domain/project_info.json");
@@ -45,7 +45,7 @@ public class ProjectMapperTest {
 
     @Test
     public void projectMapStruct() throws IOException, JSONException {
-        Project ksProject = mapper.readValue(ResourceUtil.toString("data/mapper/ks/project.json"), Project.class);
+        CampaignProject ksProject = mapper.readValue(ResourceUtil.toString("data/mapper/ks/project.json"), CampaignProject.class);
         ProjectMapper msMapper = Mappers.getMapper(ProjectMapper.class);
 //        ProjectInfo domainProject = ProjectMapper.MAPPER.toDomain(ksProject);
         ProjectInfo domainProject = msMapper.toDomain(ksProject);

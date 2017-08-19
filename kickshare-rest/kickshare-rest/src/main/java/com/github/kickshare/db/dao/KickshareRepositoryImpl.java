@@ -1,48 +1,35 @@
 package com.github.kickshare.db.dao;
 
-import static com.github.kickshare.db.jooq.Tables.BACKER;
-import static com.github.kickshare.db.jooq.Tables.BACKER_2_GROUP;
 import static com.github.kickshare.db.jooq.Tables.CITY;
 import static com.github.kickshare.db.jooq.Tables.GROUP;
 import static com.github.kickshare.db.jooq.Tables.GROUP_POST;
 import static com.github.kickshare.db.jooq.Tables.PROJECT;
-import static org.jooq.impl.DSL.concat;
 import static org.jooq.impl.DSL.count;
 import static org.jooq.impl.DSL.exists;
-import static org.jooq.impl.DSL.val;
 
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.function.Function;
-import java.util.stream.Collectors;
 
-import com.github.kickshare.db.jooq.tables.Backer;
-import com.github.kickshare.db.jooq.tables.Group;
-import com.github.kickshare.db.jooq.tables.daos.ProjectDao;
 import com.github.kickshare.db.jooq.tables.daos.ProjectPhotoDao;
 import com.github.kickshare.db.jooq.tables.pojos.GroupPost;
 import com.github.kickshare.db.jooq.tables.pojos.Project;
 import com.github.kickshare.db.jooq.tables.pojos.ProjectPhoto;
 import com.github.kickshare.db.jooq.tables.records.ProjectRecord;
 import com.github.kickshare.domain.City;
-import com.github.kickshare.domain.GroupInfo;
 import com.github.kickshare.domain.ProjectInfo;
 import com.github.kickshare.mapper.ExtendedMapper;
 import com.github.kickshare.mapper.ProjectPhotoMapper;
-import com.github.kickshare.service.Location;
-import com.github.kickshare.service.SearchOptions;
 import com.github.kickshare.service.entity.CityGrid;
+import com.github.kickshare.service.entity.Location;
+import com.github.kickshare.service.entity.SearchOptions;
 import lombok.AllArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.jooq.Condition;
 import org.jooq.DSLContext;
 import org.jooq.Field;
 import org.jooq.Record;
-import org.jooq.Result;
-import org.jooq.SelectField;
-import org.jooq.TableLike;
-import org.jooq.impl.DSL;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Pageable;
@@ -58,40 +45,11 @@ import org.springframework.transaction.annotation.Transactional;
 @AllArgsConstructor
 public class KickshareRepositoryImpl implements KickshareRepository {
     private static final Logger LOGGER = LoggerFactory.getLogger(KickshareRepositoryImpl.class);
-    private static final String PARTICIPANT_COUNT = "num_of_participants";
-    private static final String LEADER_NAME = "leader_name";
 
     private DSLContext dsl;
-    private ProjectDao projectDao;
     private ProjectPhotoDao photoDao;
     private ExtendedMapper mapper;
 
-    @Override
-    @Transactional(propagation = Propagation.REQUIRED)
-    public ProjectInfo findProjectInfo(final Long projectId) {
-        final Project project = projectDao.fetchOneById(projectId);
-        final ProjectPhoto projectPhoto = photoDao.fetchOneByProjectId(projectId);
-        ProjectInfo info = new ProjectInfo();
-        info.setProject(mapper.map(project, com.github.kickshare.domain.Project.class));
-        info.setPhotoUrl(projectPhoto.getThumb());
-        info.setPhoto(mapper.map(projectPhoto, com.github.kickshare.domain.ProjectPhoto.class));
-        return info;
-    }
-
-    @Override
-    @Transactional(propagation = Propagation.REQUIRED)
-    public List<ProjectInfo> findProjectInfoByName(final String name) {
-        final List<Project> projects = searchProject(name);
-        final List<ProjectInfo> infos = projects.stream().map(project -> {
-            final ProjectPhoto projectPhoto = photoDao.fetchOneByProjectId(project.getId());
-            ProjectInfo info = new ProjectInfo();
-            info.setProject(mapper.map(project, com.github.kickshare.domain.Project.class));
-            info.setPhotoUrl(projectPhoto.getThumb());
-            info.setPhoto(ProjectPhotoMapper.INSTANCE.toDomain(projectPhoto));
-            return info;
-        }).collect(Collectors.toList());
-        return infos;
-    }
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
@@ -106,45 +64,6 @@ public class KickshareRepositoryImpl implements KickshareRepository {
                 photoDao.insert(photo);
             }
         }
-    }
-
-    @Override
-    //@TODO - refactor to service?
-    public List<GroupInfo> findAllGroupInfo(final Long projectId) {
-        final Project project = projectDao.fetchOneById(projectId);
-        final ProjectPhoto projectPhoto = photoDao.fetchOneByProjectId(projectId);
-        Backer u = BACKER.as("u");
-        Group g = GROUP.as("g");
-        /**
-         * SELECT *
-         FROM "GROUP" AS g
-         JOIN USER AS u ON g.LEADER_ID = u.ID
-         INNER JOIN (
-         SELECT COUNT(*), GROUP_ID
-         FROM BACKER_2_GROUP
-         GROUP BY (GROUP_ID)
-         ) AS c ON c.GROUP_ID = g.ID
-         WHERE project_id = 217227567;
-         */
-        TableLike<?> c = dsl
-                .select(BACKER_2_GROUP.GROUP_ID.as("GROUP_ID"), DSL.count().as(PARTICIPANT_COUNT))
-                .from(BACKER_2_GROUP)
-                .groupBy(BACKER_2_GROUP.GROUP_ID).asTable("c");
-
-        SelectField<?>[] fields = {
-                g.ID, g.NAME, g.PROJECT_ID, val(true).as("is_local"),
-                concat(u.NAME, val(" "), u.SURNAME).as(LEADER_NAME), val(4).as("leader_rating"),
-                c.field(PARTICIPANT_COUNT)
-        };
-        Result<?> records = dsl
-                .select(fields)
-                .from(g)
-                .join(u).on(u.ID.eq(g.LEADER_ID))
-                .join(c).on(g.ID.eq(c.field("GROUP_ID", Long.class)))
-                .where(g.PROJECT_ID.eq(projectId))
-                .fetch();
-        List<GroupInfo> infos = records.into(GroupInfo.class);
-        return infos;
     }
 
     @Override
@@ -244,10 +163,5 @@ public class KickshareRepositoryImpl implements KickshareRepository {
             return geoCondition;
         }
     }
-
-    private List<Project> searchProject(String name) {
-        return dsl.select().from(PROJECT).where(PROJECT.NAME.like('%' + name + '%')).fetchInto(Project.class);
-    }
-
 
 }

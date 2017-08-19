@@ -1,4 +1,4 @@
-package com.github.kickshare.service;
+package com.github.kickshare.service.impl;
 
 import java.util.List;
 
@@ -6,6 +6,7 @@ import com.github.kickshare.db.dao.TagRepository;
 import com.github.kickshare.db.jooq.tables.daos.Tag_2CategoryDao;
 import com.github.kickshare.db.jooq.tables.pojos.Tag_2Category;
 import com.github.kickshare.domain.Tag;
+import com.github.kickshare.service.TagService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

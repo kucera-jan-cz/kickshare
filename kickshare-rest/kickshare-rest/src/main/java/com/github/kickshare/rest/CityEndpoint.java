@@ -6,7 +6,7 @@ import java.util.stream.Collectors;
 
 import com.github.kickshare.db.dao.KickshareRepository;
 import com.github.kickshare.domain.City;
-import com.github.kickshare.service.Location;
+import com.github.kickshare.service.entity.Location;
 import lombok.AllArgsConstructor;
 import org.geojson.Feature;
 import org.geojson.FeatureCollection;

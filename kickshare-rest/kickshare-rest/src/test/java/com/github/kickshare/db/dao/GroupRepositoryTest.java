@@ -27,12 +27,6 @@ public class GroupRepositoryTest {
         dsl = DSLUtil.create();
     }
 
-    @Test
-    public void testGroupInfo() {
-        GroupRepository repository = new GroupRepositoryImpl(dsl.configuration());
-        LOGGER.info("{}", repository.getGroupInfo(1L));
-    }
-
     @Test(enabled = false)
     public void load() throws SQLException {
 //        GroupRepositoryImpl repository = new GroupRepositoryImpl(dsl);

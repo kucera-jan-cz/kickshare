@@ -1,4 +1,4 @@
-package com.github.kickshare.service;
+package com.github.kickshare.service.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
