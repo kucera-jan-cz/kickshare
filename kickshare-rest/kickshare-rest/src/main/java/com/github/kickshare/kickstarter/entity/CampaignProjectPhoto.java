@@ -9,7 +9,7 @@ import lombok.Data;
  */
 @Data
 @AllArgsConstructor
-public class ProjectPhoto {
+public class CampaignProjectPhoto {
 
     private Long id;
     private String thumb;
@@ -19,6 +19,6 @@ public class ProjectPhoto {
     private String med;
     private String full;
 
-    public ProjectPhoto() {
+    public CampaignProjectPhoto() {
     }
 }

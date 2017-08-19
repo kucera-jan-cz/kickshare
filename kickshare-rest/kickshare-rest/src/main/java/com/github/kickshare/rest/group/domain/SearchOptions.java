@@ -10,5 +10,5 @@ import lombok.Data;
 public class SearchOptions {
     private String userId;
     private String categoryId;
-    private com.github.kickshare.service.SearchOptions options;
+    private com.github.kickshare.service.entity.SearchOptions options;
 }

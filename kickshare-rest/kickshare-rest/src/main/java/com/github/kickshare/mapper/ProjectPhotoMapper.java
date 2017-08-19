@@ -1,6 +1,7 @@
 package com.github.kickshare.mapper;
 
 import com.github.kickshare.domain.ProjectPhoto;
+import com.github.kickshare.kickstarter.entity.CampaignProjectPhoto;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
@@ -18,8 +19,8 @@ public interface ProjectPhotoMapper {
     com.github.kickshare.db.jooq.tables.pojos.ProjectPhoto toDB(ProjectPhoto source);
 
     @Mapping(source = "id", target = "projectId")
-    ProjectPhoto toDomain(com.github.kickshare.kickstarter.entity.ProjectPhoto source);
+    ProjectPhoto toDomain(CampaignProjectPhoto source);
 
     @Mapping(source = "projectId", target = "id")
-    com.github.kickshare.kickstarter.entity.ProjectPhoto toKS(ProjectPhoto source);
+    CampaignProjectPhoto toKS(ProjectPhoto source);
 }

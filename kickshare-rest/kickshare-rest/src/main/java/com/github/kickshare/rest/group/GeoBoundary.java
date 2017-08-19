@@ -1,6 +1,6 @@
 package com.github.kickshare.rest.group;
 
-import com.github.kickshare.service.Location;
+import com.github.kickshare.service.entity.Location;
 import lombok.Data;
 
 /**

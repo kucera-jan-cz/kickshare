@@ -1,7 +1,6 @@
 package com.github.kickshare.service.entity;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.github.kickshare.service.Location;
 import lombok.Data;
 
 /**

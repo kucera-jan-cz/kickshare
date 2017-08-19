@@ -13,6 +13,13 @@ INSERT INTO backer (id, email, name, surname, leader_rating, backer_rating) VALU
 ;
 ALTER SEQUENCE backer_id_seq RESTART WITH 100;
 
+INSERT INTO backer_setting (backer_id, category_id) VALUES
+(1, 34),
+(2, 34),
+(3, 12),
+(4, 12)
+;
+
 INSERT INTO leader (backer_id, email, kickstarter_id) VALUES
 (1, 'kickshare.eu@gmail.com', 1564258620);
 
@@ -43,13 +50,14 @@ INSERT INTO backer_2_group (group_id, backer_id, status) VALUES (5, 3, 'APPROVED
 INSERT INTO "group" (id, leader_id, name, project_id, lat, lon) VALUES
 (6, 2, 'The Edge CZ Praha', 1893061183, 50.0833, 14.4666 );
 INSERT INTO backer_2_group (group_id, backer_id, status) VALUES (6, 1, 'APPROVED');
-INSERT INTO backer_2_group (group_id, backer_id, status) VALUES (6, 3, 'APPROVED');
+INSERT INTO backer_2_group (group_id, backer_id, status) VALUES (6, 2, 'APPROVED');
 
 INSERT INTO "group" (id, leader_id, name, project_id, lat, lon, is_local) VALUES
 (7, 4, 'The Edge CZ Ostrava', 1893061183, 49.83332, 18.25, true );
-INSERT INTO backer_2_group (group_id, backer_id, status) VALUES (7, 3, 'APPROVED');
+INSERT INTO backer_2_group (group_id, backer_id, status) VALUES (7, 4, 'APPROVED');
 
-INSERT INTO "group" (id, leader_id, name, project_id, lat, lon, is_local) VALUES (8, 4, 'The Edge CZ České Budějovice', 1893061183, 49.0520, 15.8086, true );
-INSERT INTO backer_2_group (group_id, backer_id, status) VALUES (8, 3, 'APPROVED');
+INSERT INTO "group" (id, leader_id, name, project_id, lat, lon, is_local) VALUES
+(8, 4, 'The Edge CZ České Budějovice', 1893061183, 49.0520, 15.8086, true );
+INSERT INTO backer_2_group (group_id, backer_id, status) VALUES (8, 4, 'APPROVED');
 
 ALTER SEQUENCE group_id_seq RESTART WITH 100;

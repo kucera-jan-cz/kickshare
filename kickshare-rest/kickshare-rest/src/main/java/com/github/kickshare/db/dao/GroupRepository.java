@@ -6,7 +6,6 @@ import com.github.kickshare.db.jooq.tables.pojos.Backer;
 import com.github.kickshare.db.jooq.tables.pojos.Group;
 import com.github.kickshare.db.jooq.tables.pojos.GroupPost;
 import com.github.kickshare.db.jooq.tables.records.GroupRecord;
-import com.github.kickshare.domain.GroupInfo;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -30,8 +29,6 @@ public interface GroupRepository extends EnhancedDAO<GroupRecord, Group, Long> {
      * @return list of backers waiting for approval
      */
     List<Backer> findWaitingUsers(final Long groupId);
-
-    GroupInfo getGroupInfo(Long groupId);
 
     List<Group> findAllByUserId(final Long userId);
 

@@ -3,9 +3,9 @@ package com.github.kickshare.service;
 import java.io.IOException;
 import java.util.List;
 
-import com.github.kickshare.domain.GroupInfo;
 import com.github.kickshare.domain.Project;
 import com.github.kickshare.domain.ProjectInfo;
+import com.github.kickshare.service.entity.SearchOptions;
 
 /**
  * @author Jan.Kucera
@@ -14,8 +14,12 @@ import com.github.kickshare.domain.ProjectInfo;
 public interface ProjectService {
     Long registerProject(Project project) throws IOException;
 
-    List<GroupInfo> findAllGroupInfo(Long projectId);
+    ProjectInfo findProjectInfo(Long projectId);
+
+    void saveProjects(final List<ProjectInfo> projects);
 
     List<ProjectInfo> searchGroups(SearchOptions options) throws IOException;
+
+    List<ProjectInfo> findProjectInfoByName(final String name);
 }
 

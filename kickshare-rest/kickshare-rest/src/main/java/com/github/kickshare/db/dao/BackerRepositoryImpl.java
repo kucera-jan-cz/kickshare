@@ -1,7 +1,7 @@
 package com.github.kickshare.db.dao;
 
+import static com.github.kickshare.db.jooq.Tables.ADDRESS;
 import static com.github.kickshare.db.jooq.Tables.BACKER_2_GROUP;
-import static com.github.kickshare.db.jooq.Tables.BACKER_LOCATION;
 import static com.github.kickshare.db.jooq.Tables.CITY;
 import static com.github.kickshare.db.jooq.Tables.GROUP;
 
@@ -29,14 +29,20 @@ public class BackerRepositoryImpl extends AbstractRepository<BackerRecord, Backe
     }
 
     public City getPermanentAddress(Long backerId) {
+//        City city = this.dsl.select()
+//                .from(CITY)
+//                .join(BACKER_LOCATION).on(CITY.ID.eq(BACKER_LOCATION.CITY_ID))
+//                .where(BACKER_LOCATION.BACKER_ID.eq(backerId))
+//                .fetchOneInto(City.class);
+
         City city = this.dsl.select()
                 .from(CITY)
-                .join(BACKER_LOCATION).on(CITY.ID.eq(BACKER_LOCATION.CITY_ID))
-                .where(BACKER_LOCATION.BACKER_ID.eq(backerId))
-                    .and(BACKER_LOCATION.IS_PERMANENT_ADDRESS.isTrue())
+                .join(ADDRESS).on(CITY.ID.eq(ADDRESS.CITY_ID))
+                .where(ADDRESS.BACKER_ID.eq(backerId))
                 .fetchOneInto(City.class);
         LOGGER.info("Retrieved permanent city for backer ({}): {}", backerId, city);
         return city;
+
     }
 
     public boolean ownGroup(Long leaderId, Long groupId) {

@@ -1,10 +1,11 @@
-package com.github.kickshare.service;
+package com.github.kickshare.service.impl;
 
 import java.util.List;
 
 import com.github.kickshare.db.dao.NotificationRepository;
 import com.github.kickshare.domain.Notification;
 import com.github.kickshare.mapper.NotificationMapper;
+import com.github.kickshare.service.NotificationService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 

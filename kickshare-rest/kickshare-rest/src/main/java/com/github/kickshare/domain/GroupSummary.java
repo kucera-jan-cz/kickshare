@@ -1,7 +1,5 @@
 package com.github.kickshare.domain;
 
-import java.util.List;
-
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
@@ -12,8 +10,7 @@ import lombok.Data;
  */
 @Data
 @JsonInclude(JsonInclude.Include.NON_NULL)
-//@TODO consider sending groupDetail instead
-public class GroupInfo {
+public class GroupSummary {
     @Deprecated
     @JsonProperty("group_id")
     private Long id;
@@ -29,6 +26,9 @@ public class GroupInfo {
     private String photoUrl;
 
     //Group related
+    @JsonProperty("leader_id")
+    private Long leaderId;
+
     @JsonProperty("leader_name")
     private String leaderName;
 
@@ -39,6 +39,7 @@ public class GroupInfo {
     private Integer numOfParticipants;
 
     private Group group;
-    private Backer leader;
-    private List<Backer> backers;
+    private Project project;
+    //@TODO - consider whether it's really needed
+    private ProjectPhoto photo;
 }

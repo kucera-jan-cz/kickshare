@@ -6,9 +6,6 @@ import static com.github.kickshare.db.jooq.Tables.GROUP;
 import static com.github.kickshare.db.jooq.Tables.GROUP_POST;
 
 import java.util.List;
-import java.util.Map;
-import java.util.function.Predicate;
-import java.util.stream.Collectors;
 
 import com.github.kickshare.db.jooq.enums.GroupRequestStatus;
 import com.github.kickshare.db.jooq.tables.daos.GroupDao;
@@ -16,8 +13,6 @@ import com.github.kickshare.db.jooq.tables.pojos.Group;
 import com.github.kickshare.db.jooq.tables.pojos.GroupPost;
 import com.github.kickshare.db.jooq.tables.pojos.Project;
 import com.github.kickshare.db.jooq.tables.records.GroupRecord;
-import com.github.kickshare.domain.Backer;
-import com.github.kickshare.domain.GroupInfo;
 import org.jooq.Configuration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -82,31 +77,31 @@ public class GroupRepositoryImpl extends AbstractRepository<GroupRecord, Group, 
                 .fetchInto(Group.class);
     }
 
-    @Override
-    public GroupInfo getGroupInfo(final Long groupId) {
-        Map<com.github.kickshare.domain.Group, List<Backer>> usersByGroup = dsl.select()
-                .from(BACKER)
-                .join(BACKER_2_GROUP).on(BACKER.ID.eq(BACKER_2_GROUP.BACKER_ID))
-                .join(GROUP).on(GROUP.ID.eq(BACKER_2_GROUP.GROUP_ID))
-                .where(BACKER_2_GROUP.GROUP_ID.eq(groupId))
-                .and(BACKER_2_GROUP.STATUS.eq(GroupRequestStatus.APPROVED))
-                .fetchGroups(
-                        r -> r.into(GROUP).into(com.github.kickshare.domain.Group.class),
-                        r -> r.into(BACKER).into(Backer.class)
-                );
-        GroupInfo info = new GroupInfo();
-        //@TODO figure out miss
-        Map.Entry<com.github.kickshare.domain.Group, List<Backer>> entry = usersByGroup.entrySet().iterator().next();
-        com.github.kickshare.domain.Group group = entry.getKey();
-        List<Backer> backers = entry.getValue();
-        Predicate<Backer> isLeader = (Backer b) -> b.getId().equals(group.getLeaderId());
-        Map<Boolean, List<Backer>> backersByLeadership = backers.stream().collect(Collectors.partitioningBy(isLeader));
-        info.setGroup(group);
-        info.setBackers(backersByLeadership.get(false));
-        //@TODO - fix an issue with missing leader
-        info.setLeader(backersByLeadership.get(true).stream().findFirst().orElse(null));
-        return info;
-    }
+//    @Override
+//    public GroupSummary getGroupInfo(final Long groupId) {
+//        Map<com.github.kickshare.domain.Group, List<Backer>> usersByGroup = dsl.select()
+//                .from(BACKER)
+//                .join(BACKER_2_GROUP).on(BACKER.ID.eq(BACKER_2_GROUP.BACKER_ID))
+//                .join(GROUP).on(GROUP.ID.eq(BACKER_2_GROUP.GROUP_ID))
+//                .where(BACKER_2_GROUP.GROUP_ID.eq(groupId))
+//                .and(BACKER_2_GROUP.STATUS.eq(GroupRequestStatus.APPROVED))
+//                .fetchGroups(
+//                        r -> r.into(GROUP).into(com.github.kickshare.domain.Group.class),
+//                        r -> r.into(BACKER).into(Backer.class)
+//                );
+//        GroupSummary info = new GroupSummary();
+//        //@TODO figure out miss
+//        Map.Entry<com.github.kickshare.domain.Group, List<Backer>> entry = usersByGroup.entrySet().iterator().next();
+//        com.github.kickshare.domain.Group group = entry.getKey();
+//        info.setGroup(group);
+////        List<Backer> backers = entry.getValue();
+////        Predicate<Backer> isLeader = (Backer b) -> b.getId().equals(group.getLeaderId());
+////        Map<Boolean, List<Backer>> backersByLeadership = backers.stream().collect(Collectors.partitioningBy(isLeader));
+////        info.setBackers(backersByLeadership.get(false));
+////        //@TODO - fix an issue with missing leader
+////        info.setLeader(backersByLeadership.get(true).stream().findFirst().orElse(null));
+//        return info;
+//    }
 
     public List<GroupPost> getGroupPost(final Long groupId, int offset, int size) {
         return dsl.select()

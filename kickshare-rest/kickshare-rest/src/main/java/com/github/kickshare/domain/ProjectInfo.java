@@ -26,4 +26,9 @@ public class ProjectInfo {
     public ProjectInfo() {
         this.project = new Project();
     }
+
+    @JsonIgnore
+    public Project getProject() {
+        return project;
+    }
 }

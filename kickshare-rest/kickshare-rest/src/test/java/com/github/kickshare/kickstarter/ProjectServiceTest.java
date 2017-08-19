@@ -7,7 +7,7 @@ import java.io.InputStream;
 import java.util.List;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.github.kickshare.kickstarter.entity.Project;
+import com.github.kickshare.kickstarter.entity.CampaignProject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.client.ClientHttpRequestFactory;
@@ -25,8 +25,8 @@ public class ProjectServiceTest {
         InputStream stream = this.getClass().getClassLoader().getResourceAsStream("data/kickstarter/discover_advanced.json");
         final ClientHttpRequestFactory requestFactory = new MockMvcClientHttpRequestFactory(stream);
         final ObjectMapper mapper = new ObjectMapper();
-        ProjectService service = new ProjectServiceImpl(requestFactory, mapper);
-        List<Project> projects = service.findProjects("Quodd Heroes", 34);
+        KickstarterCampaignService service = new KickstarterCampaignServiceImpl(requestFactory, mapper);
+        List<CampaignProject> projects = service.findProjects("Quodd Heroes", 34);
         LOGGER.info("{}", mapper.writeValueAsString(projects));
         assertNull(projects);
     }

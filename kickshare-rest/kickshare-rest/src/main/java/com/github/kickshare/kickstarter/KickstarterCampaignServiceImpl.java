@@ -14,8 +14,8 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.github.kickshare.kickstarter.entity.Project;
-import com.github.kickshare.kickstarter.entity.ProjectPhoto;
+import com.github.kickshare.kickstarter.entity.CampaignProject;
+import com.github.kickshare.kickstarter.entity.CampaignProjectPhoto;
 import com.github.kickshare.kickstarter.entity.User;
 import com.github.kickshare.kickstarter.exception.AuthenticationException;
 import lombok.AllArgsConstructor;
@@ -35,29 +35,29 @@ import org.springframework.web.util.UriComponentsBuilder;
  */
 @AllArgsConstructor
 @Service
-@Component("ks.kickstarter.projectService")
-public class ProjectServiceImpl implements ProjectService {
-    private static final Logger LOGGER = LoggerFactory.getLogger(ProjectServiceImpl.class);
+@Component
+public class KickstarterCampaignServiceImpl implements KickstarterCampaignService {
+    private static final Logger LOGGER = LoggerFactory.getLogger(KickstarterCampaignServiceImpl.class);
     public static final String KS_PRODUCTION_ID = "2II5GGBZLOOZAA5XBU1U0Y44BU57Q58L8KOGM7H0E0YFHP3KTG";
     private ClientHttpRequestFactory requestFactory;
     private ObjectMapper mapper;
-    private final UriComponentsBuilder termUriBuilder = ProjectServiceImpl.createTermSearchBuilder();
-    private final URI xauthUri = ProjectServiceImpl.createXAuthBuilder().build().toUri();
+    private final UriComponentsBuilder termUriBuilder = KickstarterCampaignServiceImpl.createTermSearchBuilder();
+    private final URI xauthUri = KickstarterCampaignServiceImpl.createXAuthBuilder().build().toUri();
 
     @Override
     @Deprecated
-    public List<Project> findProjects() throws IOException {
+    public List<CampaignProject> findProjects() throws IOException {
         return Collections.emptyList();
     }
 
     @Override
     @Deprecated
-    public Optional<Project> findById(final Long id) throws IOException {
+    public Optional<CampaignProject> findById(final Long id) throws IOException {
         return Optional.empty();
     }
 
     //@TODO - better include whole Category object
-    public List<Project> findProjects(String term, Integer category) throws IOException {
+    public List<CampaignProject> findProjects(String term, Integer category) throws IOException {
         URI uri = termUriBuilder.buildAndExpand(term, category).toUri();
 
         InputStream jsonAsStream = executeGet(uri);
@@ -75,11 +75,11 @@ public class ProjectServiceImpl implements ProjectService {
         return responseRoot.path("user").path("id").asLong();
     }
 
-    private List<Project> parseProjects(JsonNode root) {
+    private List<CampaignProject> parseProjects(JsonNode root) {
         ArrayNode projectsNode = (ArrayNode) root.get("projects");
-        List<Project> projects = new ArrayList<>();
+        List<CampaignProject> projects = new ArrayList<>();
         for (Iterator<JsonNode> it = projectsNode.elements(); it.hasNext(); ) {
-            Project project = parseProject((ObjectNode) it.next());
+            CampaignProject project = parseProject((ObjectNode) it.next());
             LOGGER.info("{}", project);
             projects.add(project);
         }
@@ -100,10 +100,10 @@ public class ProjectServiceImpl implements ProjectService {
         return response;
     }
 
-    private Project parseProject(ObjectNode projectNode) {
+    private CampaignProject parseProject(ObjectNode projectNode) {
         JsonNode photoNode = projectNode.get("photo");
         Long id = projectNode.get("id").longValue();
-        ProjectPhoto photo = new ProjectPhoto(id,
+        CampaignProjectPhoto photo = new CampaignProjectPhoto(id,
                 photoNode.path("thumb").asText(null),
                 photoNode.path("small").asText(null),
                 photoNode.path("little").asText(null),
@@ -111,7 +111,7 @@ public class ProjectServiceImpl implements ProjectService {
                 photoNode.path("med").asText(null),
                 photoNode.path("full").asText(null)
         );
-        return new Project(
+        return new CampaignProject(
                 id,
                 projectNode.get("name").textValue(),
                 projectNode.get("blurb").textValue(),

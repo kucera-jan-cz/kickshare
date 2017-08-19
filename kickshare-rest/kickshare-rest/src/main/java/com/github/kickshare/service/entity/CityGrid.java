@@ -1,6 +1,5 @@
 package com.github.kickshare.service.entity;
 
-import com.github.kickshare.service.Location;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
