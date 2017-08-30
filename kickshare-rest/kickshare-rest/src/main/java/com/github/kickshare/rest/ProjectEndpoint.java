@@ -52,7 +52,7 @@ public class ProjectEndpoint {
     @GetMapping("/search")
     public List<ProjectInfo> searchProjects(@RequestParam Map<String, String> params) throws IOException {
         final SearchOptions options = SearchOptions.toOptions(params);
-        return projectService.searchGroups(options);
+        return projectService.searchProjects(options);
     }
 
     @GetMapping("/{projectId}")
