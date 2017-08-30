@@ -5,7 +5,6 @@ import static com.github.kickshare.db.jooq.Tables.GROUP;
 import static com.github.kickshare.db.jooq.Tables.GROUP_POST;
 import static com.github.kickshare.db.jooq.Tables.PROJECT;
 import static org.jooq.impl.DSL.count;
-import static org.jooq.impl.DSL.exists;
 
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -98,10 +97,11 @@ public class KickshareRepositoryImpl implements KickshareRepository {
     public List<Project> searchProjects(SearchOptions options) throws IOException {
         final List<Project> projects = dsl.select()
                 .from(PROJECT)
-                .where(exists(
+                .whereExists(
                         dsl.selectOne()
                                 .from(GROUP)
-                                .where(where(options)))
+                                .where(where(options))
+                                .and(GROUP.PROJECT_ID.eq(PROJECT.ID))
                 )
                 .fetchInto(com.github.kickshare.db.jooq.tables.pojos.Project.class);
         return projects;

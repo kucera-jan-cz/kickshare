@@ -80,7 +80,7 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Transactional
     @Override
-    public List<ProjectInfo> searchGroups(SearchOptions options) throws IOException {
+    public List<ProjectInfo> searchProjects(SearchOptions options) throws IOException {
         final List<com.github.kickshare.db.jooq.tables.pojos.Project> projects = repository.searchProjects(options);
         final List<ProjectInfo> infos = projects.stream().map(this::toProjectInfo).collect(Collectors.toList());
         return infos;

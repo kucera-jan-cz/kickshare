@@ -18,7 +18,7 @@ public interface ProjectService {
 
     void saveProjects(final List<ProjectInfo> projects);
 
-    List<ProjectInfo> searchGroups(SearchOptions options) throws IOException;
+    List<ProjectInfo> searchProjects(SearchOptions options) throws IOException;
 
     List<ProjectInfo> findProjectInfoByName(final String name);
 }
