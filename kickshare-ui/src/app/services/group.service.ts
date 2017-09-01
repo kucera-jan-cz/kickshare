@@ -3,7 +3,7 @@
  */
 import {Injectable} from "@angular/core";
 import {AuthHttp} from "./auth-http.service";
-import {Group, GroupInfo, SearchOptions} from "./domain";
+import {Group, GroupInfo, Post, SearchOptions} from "./domain";
 import {stringify} from "query-string";
 
 @Injectable()
@@ -52,6 +52,31 @@ export class GroupService {
                 res => {
                     console.info("Search group result: " + JSON.stringify(res));
                     return res.json() as GroupInfo[];
+                }
+            )
+    }
+
+    public createPost(groupId: number, text: string): Promise<Post> {
+        const post = new Post();
+        post.postText = text;
+        post.postCreated = new Date();
+        return this.http.post("/groups/" + groupId + "/posts", post)
+            .then(
+                res => {
+                    return res.json() as Post;
+                }
+            )
+    }
+
+    public updatePost(groupId: number, post: Post): void {
+        this.http.patch("/groups/" + groupId + "/posts", post);
+    }
+
+    public readPosts(groupId: number): Promise<Post[]> {
+        return this.http.get("/groups/" + groupId + "/posts")
+            .then(
+                res => {
+                    return res.json() as Post[];
                 }
             )
     }

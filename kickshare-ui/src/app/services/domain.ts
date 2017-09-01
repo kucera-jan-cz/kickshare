@@ -66,6 +66,16 @@ export interface Address {
     postal_code: string
 }
 
+export class Post {
+    postId: number;
+    groupId: number;
+    backerId: number;
+    postCreated: Date;
+    postModified: Date;
+    postEditCount: number;
+    postText: string
+}
+
 export interface Project {
     id: number,
     name: string,

@@ -8,5 +8,5 @@ import com.github.kickshare.db.jooq.tables.records.GroupPostRecord;
  * @since 17.5.2017
  */
 public interface GroupPostRepository extends EnhancedDAO<GroupPostRecord, GroupPost, Long> {
-    public void updatePost(GroupPost entity);
+    void updatePost(GroupPost entity);
 }

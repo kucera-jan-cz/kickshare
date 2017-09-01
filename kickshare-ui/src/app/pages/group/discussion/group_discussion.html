@@ -2,41 +2,54 @@
   <div class="col-md-2"></div>
   <div class="col-md-8">
     <ul id="comments-list" class="comments-list">
-      <li>
-        <div class="comment-main-level row">
-          <div class="comment-avatar"><img src="assets/face_avatars/user-00.png" alt=""></div>
-          <div class="comment-box m-2">
-            <div class="comment-head row">
-              <h6 class="comment-name by-author"><a href="http://creaticode.com/blog">Agustin Ortiz</a>
-                <span>hace 20 minutos</span>
-              </h6>
+        <li *ngFor="let post of posts">
+            <div class="comment-main-level row">
+                <div class="comment-avatar"><img src="assets/face_avatars/user-00.png" alt=""></div>
+                <div class="comment-box m-2">
+                    <div class="comment-head row">
+                        <h6 class="comment-name by-author"><a href="http://creaticode.com/blog">Agustin Ortiz</a>
+                            <span>{{post.postModified}}</span>
+                        </h6>
+                    </div>
+                    <div class="comment-content">{{post.postText}}</div>
+                </div>
             </div>
-            <div class="comment-content">
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Velit omnis animi et iure laudantium vitae, praesentium optio, sapiente
-              distinctio
-              illo?
-            </div>
-          </div>
-        </div>
-      </li>
-      <li>
-        <div class="comment-main-level row">
-          <div class="comment-avatar"><img src="assets/face_avatars/user-10.png" alt=""></div>
-          <div class="comment-box m-2">
-            <div class="comment-head">
-              <h6 class="comment-name by-author"><a href="http://creaticode.com/blog">Agustin Ortiz</a></h6>
-              <span>hace 20 minutos</span>
-              <i class="fa fa-reply"></i>
-              <i class="fa fa-heart"></i>
-            </div>
-            <div class="comment-content">
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Velit omnis animi et iure laudantium vitae, praesentium optio, sapiente
-              distinctio
-              illo?
-            </div>
-          </div>
-        </div>
-      </li>
+        </li>
+      <!--<li>-->
+        <!--<div class="comment-main-level row">-->
+          <!--<div class="comment-avatar"><img src="assets/face_avatars/user-00.png" alt=""></div>-->
+          <!--<div class="comment-box m-2">-->
+            <!--<div class="comment-head row">-->
+              <!--<h6 class="comment-name by-author"><a href="http://creaticode.com/blog">Agustin Ortiz</a>-->
+                <!--<span>hace 20 minutos</span>-->
+              <!--</h6>-->
+            <!--</div>-->
+            <!--<div class="comment-content">-->
+              <!--Lorem ipsum dolor sit amet, consectetur adipisicing elit. Velit omnis animi et iure laudantium vitae, praesentium optio, sapiente-->
+              <!--distinctio-->
+              <!--illo?-->
+            <!--</div>-->
+          <!--</div>-->
+        <!--</div>-->
+      <!--</li>-->
+      <!--<li>-->
+        <!--<div class="comment-main-level row">-->
+          <!--<div class="comment-avatar"><img src="assets/face_avatars/user-10.png" alt=""></div>-->
+          <!--<div class="comment-box m-2">-->
+            <!--<div class="comment-head">-->
+              <!--<h6 class="comment-name by-author"><a href="http://creaticode.com/blog">Agustin Ortiz</a></h6>-->
+              <!--<span>hace 20 minutos</span>-->
+              <!--<i class="fa fa-reply"></i>-->
+              <!--<i class="fa fa-heart"></i>-->
+            <!--</div>-->
+            <!--<div class="comment-content">-->
+              <!--Lorem ipsum dolor sit amet, consectetur adipisicing elit. Velit omnis animi et iure laudantium vitae, praesentium optio, sapiente-->
+              <!--distinctio-->
+              <!--illo?-->
+            <!--</div>-->
+          <!--</div>-->
+        <!--</div>-->
+      <!--</li>-->
     </ul>
   </div>
   <div class="col-md-2"></div>
