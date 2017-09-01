@@ -12,7 +12,8 @@ import lombok.Data;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class GroupSummary {
     @Deprecated
-    @JsonProperty("group_id")
+    @JsonProperty("id")
+    //@TODO - currently summary is used as group, need to be changeg
     private Long id;
 
     private String name;
