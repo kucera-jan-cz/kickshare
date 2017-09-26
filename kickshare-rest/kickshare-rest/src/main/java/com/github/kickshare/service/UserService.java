@@ -2,6 +2,7 @@ package com.github.kickshare.service;
 
 import com.github.kickshare.domain.Address;
 import com.github.kickshare.domain.Backer;
+import com.github.kickshare.security.BackerDetails;
 import org.springframework.security.core.userdetails.UserDetails;
 
 /**
@@ -11,7 +12,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 public interface UserService {
     UserDetails createUser(String email, Integer cityId);
 
-    UserDetails createUser(Backer backer, String password, Address address);
+    BackerDetails createUser(Backer backer, String password, Address address);
 
     boolean verifyUser(String token);
 }

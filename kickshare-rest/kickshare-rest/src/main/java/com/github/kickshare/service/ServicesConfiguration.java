@@ -12,7 +12,7 @@ import org.springframework.context.annotation.Configuration;
  * @since 24.7.2017
  */
 @Configuration
-@ComponentScan(basePackages = { "com.github.kickshare.service"})
+@ComponentScan(basePackages = { "com.github.kickshare.service", "com.github.kickshare.gmail"})
 public class ServicesConfiguration {
     @Bean
     public SSENotificationService sseNotificationService(@Autowired final NotificationService service, @Value("${kickshare.flyway.schemas}") final String schemas) {

@@ -49,6 +49,7 @@ public class UserEndpoint {
     }
 
     @GetMapping("/verify/{token}")
+    @Deprecated
     public void verifyUser(@PathVariable final String token, final HttpServletResponse response) {
         if (userService.verifyUser(token)) {
             response.setStatus(HttpServletResponse.SC_OK);
@@ -72,9 +73,13 @@ public class UserEndpoint {
     }
 
     @PostMapping
+    //@TODO - consider moving this to account
+    @Deprecated
     public UserDetails createUser(@RequestBody UserInfo user) {
         Backer backer = new Backer(null, user.getEmail(), user.getName(), user.getSurname(), null, null);
-        return userService.createUser(backer, user.getPassword(), user.getAddress());
+        BackerDetails userDetail = userService.createUser(backer, user.getPassword(), user.getAddress());
+        //@TODO - figure out whether to risk failed mail or rather persist the activation
+        return userDetail;
     }
 
 

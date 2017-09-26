@@ -33,6 +33,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -111,6 +112,13 @@ public class GroupEndpoint {
     @PostMapping("/{groupId}/users")
     public void registerParticipant(@PathVariable Long groupId, @AuthenticationPrincipal BackerDetails user) {
         groupService.registerBacker(groupId, user.getId());
+    }
+
+    @GroupOwner
+    @DeleteMapping("/{groupId}/users/{backerId]")
+    public void deleteParticipant(@PathVariable Long groupId, @PathVariable Long backerId, @AuthenticationPrincipal BackerDetails user) {
+        Validate.isTrue(!user.getId().equals(backerId), "Leader can't be removed from owning group");
+        groupService.removeBacker(groupId, backerId);
     }
 
     @GroupOwner

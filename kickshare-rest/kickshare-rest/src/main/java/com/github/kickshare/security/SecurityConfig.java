@@ -19,6 +19,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
+import org.springframework.context.annotation.Primary;
 import org.springframework.core.convert.support.GenericConversionService;
 import org.springframework.core.serializer.support.DeserializingConverter;
 import org.springframework.core.serializer.support.SerializingConverter;
@@ -29,6 +30,10 @@ import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.security.web.csrf.CsrfTokenRepository;
 import org.springframework.session.jdbc.JdbcOperationsSessionRepository;
+import org.springframework.session.jdbc.config.annotation.web.http.EnableJdbcHttpSession;
+import org.springframework.session.web.http.CookieHttpSessionStrategy;
+import org.springframework.session.web.http.DefaultCookieSerializer;
+import org.springframework.session.web.http.HttpSessionStrategy;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
@@ -40,7 +45,7 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
  */
 @Configuration
 @Import({ JooqConfiguration.class, MethodSecurityConfig.class })
-//@EnableJdbcHttpSession(maxInactiveIntervalInSeconds = 120)
+@EnableJdbcHttpSession(maxInactiveIntervalInSeconds = 600)
 @ComponentScan(basePackages = { "com.github.kickshare.security.session" })
 public class SecurityConfig {
     private static final Logger LOGGER = LoggerFactory.getLogger(SecurityConfig.class);
@@ -67,6 +72,7 @@ public class SecurityConfig {
     }
 
     @Bean
+    @Primary
     public JdbcOperationsSessionRepository sessionRepository(
             @Value("${kickshare.flyway.schemas}") String schemas,
             DataSourceConnectionProvider provider,
@@ -78,6 +84,16 @@ public class SecurityConfig {
         sessionRepository.setConversionService(conversionService);
 
         return sessionRepository;
+    }
+
+    @Bean
+    public HttpSessionStrategy httpSessionStrategy() {
+        CookieHttpSessionStrategy strategy = new CookieHttpSessionStrategy();
+        final DefaultCookieSerializer serializer = new DefaultCookieSerializer();
+        serializer.setDomainName("local.kickshare.eu");
+        serializer.setUseSecureCookie(true);
+        strategy.setCookieSerializer(serializer);
+        return strategy;
     }
 
     private GenericConversionService createConversionServiceWithBeanClassLoader() {
@@ -138,6 +154,11 @@ public class SecurityConfig {
 //    }
 
     @Bean
+    public WebSecurityAdapter securityConfig() {
+        return new WebSecurityAdapter();
+    }
+
+    @Bean
     @Autowired
     public JdbcUserDetailsManager udm(DataSource dataSource) {
         ExtendedJdbcUserDetailsManager udm = new ExtendedJdbcUserDetailsManager();
@@ -148,16 +169,11 @@ public class SecurityConfig {
     }
 
     @Bean
-    public WebSecurityAdapter securityConfig() {
-        return new WebSecurityAdapter();
-    }
-
-    @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList("http://localhost:3000", "http://localhost:4200"));
+        configuration.setAllowedOrigins(Arrays.asList("http://localhost:3000", "http://localhost:4200","https://localhost:4200"));
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PATCH", "HEAD", "PUT"));
-        configuration.setAllowCredentials(false);
+        configuration.setAllowCredentials(true);
         configuration.setAllowedHeaders(Arrays.asList("*"));
         configuration.setMaxAge(TimeUnit.HOURS.toSeconds(1));
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
