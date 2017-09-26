@@ -163,6 +163,11 @@ public class GroupServiceImpl {
     }
 
     @Transactional
+    public void removeBacker(Long groupId, Long backerId) {
+        backer2GroupDao.delete(new Backer_2Group(groupId, backerId, GroupRequestStatus.REQUESTED, null));
+    }
+
+    @Transactional
     public void saveLeader(final Long id, final String email, final Long kickstarterId) {
         Validate.isTrue(!leaderDao.existsById(id), "Backer is already registered as leader");
         leaderDao.insert(mapper.map(new Leader(id, email, kickstarterId), com.github.kickshare.db.jooq.tables.pojos.Leader.class));
