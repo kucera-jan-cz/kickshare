@@ -7,9 +7,10 @@
     overflow-y: scroll;
     position: relative;
     overflow: hidden;
-    height: 90vh;
-
+    height: auto;
+    min-height: 90vh;
 }
+
 @media screen and (max-width: 992px) {
 /*@media screen {*/
     .main-container {

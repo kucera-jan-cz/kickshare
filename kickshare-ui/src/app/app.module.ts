@@ -6,8 +6,11 @@ import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {AppRoutingModule} from "./app-routing.module";
 import {AppComponent} from "./app.component";
 import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
-import {AuthHttp} from "./services/auth-http.service";
 import {AuthGuardService} from "./services/auth-guard.service";
+import {BasicAuthHttp} from "./services/auth-basic.service";
+import {AuthHttp} from "./services/auth-http.service";
+import {OAuthModule} from "angular-oauth2-oidc";
+
 @NgModule({
     declarations: [
         AppComponent
@@ -19,11 +22,13 @@ import {AuthGuardService} from "./services/auth-guard.service";
         HttpModule,
         AppRoutingModule,
         NgbModule.forRoot(),
+        OAuthModule.forRoot(),
         JsonpModule
     ],
     providers : [
         AuthGuardService,
-        AuthHttp
+        {provide: AuthHttp, useClass: BasicAuthHttp}
+        // {provide: AuthHttp, useClass: OauthHttp}
     ],
     bootstrap: [AppComponent]
 })

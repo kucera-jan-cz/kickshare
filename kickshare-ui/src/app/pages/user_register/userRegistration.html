@@ -1,0 +1,58 @@
+<div class="container">
+    <div class="row">
+        <div class="col"></div>
+        <div class="col-md-offset-3 col-md-6">
+            <form name="form" [formGroup]="form">
+                <div class="form-login">
+                    <h4>User registration</h4>
+                    <div class="input-group mb-1">
+                        <span class="input-group-addon"><i class="fa fa-envelope"></i></span>
+                        <input id="login-username" class="form-control" [formControl]="email" placeholder="email">
+                    </div>
+                    <div class="input-group mb-1">
+                        <span class="input-group-addon"><i class="fa fa-key"></i></span>
+                        <input id="login-password" type="password" class="form-control" [formControl]="password" placeholder="password">
+                    </div>
+                    <div class="input-group mb-1">
+                        <span class="input-group-addon"><i class="fa fa-user-circle"></i></span>
+                        <input id="name" class="form-control" [formControl]="name" placeholder="name">
+                    </div>
+                    <div class="input-group mb-1">
+                        <span class="input-group-addon"><i class="fa fa-user-circle"></i></span>
+                        <input id="surname" class="form-control" [formControl]="surname" placeholder="surname">
+                    </div>
+                    <hr>
+                    <!--<label class="align-middle" for="category_select">Country: </label>-->
+                    <!--<select class="form-control" id="category_select">-->
+                        <!--<option *ngFor="let item of categories">-->
+                            <!--{{item.name}}-->
+                        <!--</option>-->
+                    <!--</select>-->
+                    <div class="input-group mb-1">
+                        <span class="input-group-addon"><i class="fa fa-globe"></i></span>
+                        <ng2-completer id="country_complete" [(ngModel)]="searchCountry" [minSearchLength]="1"
+                                       name="countryComplete" clearUnselected="true" placeholder="country">
+                        </ng2-completer>
+                    </div>
+
+                    <div class="input-group mb-1">
+                        <span class="input-group-addon"><i class="fa fa-globe"></i></span>
+                        <input id="city" class="form-control" [formControl]="city" placeholder="city">
+                    </div>
+                    <div class="input-group mb-1">
+                        <span class="input-group-addon"><i class="fa fa-globe"></i></span>
+                        <input id="street" class="form-control" [formControl]="street" placeholder="street">
+                    </div>
+                    <div class="input-group mb-1">
+                        <span class="input-group-addon"><i class="fa fa-globe"></i></span>
+                        <input id="postalCode" class="form-control" [formControl]="postalCode" placeholder="postal code">
+                    </div>
+                    <div class="wrapper mt-2">
+                        <button [disabled]="!form.valid" class="btn btn-primary btn-md">Submit <i class="fa fa-send"></i></button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="col"></div>
+    </div>
+</div>

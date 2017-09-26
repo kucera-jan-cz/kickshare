@@ -14,14 +14,17 @@
         <a [routerLink]="['./dashboard']" [routerLinkActive]="['router-link-active']" class="list-group-item">
             <i class="fa fa-home"></i>&nbsp;{{ 'Dashboard' }}
         </a>
-        <a [routerLink]="['./blank-page']" [routerLinkActive]="['router-link-active']" class="list-group-item">
-            <i class="fa fa-fw fa-bar-chart-o"></i>&nbsp;{{ 'charts' }}
-        </a>
         <a [routerLink]="['./account/group']" [routerLinkActive]="['router-link-active']" class="list-group-item">
-            <i class="fa fa-user-plus"></i>&nbsp;{{ 'Register new group' }}
+            <i class="fa fa-user-plus"></i>&nbsp;{{ 'New group' }}
         </a>
         <a [routerLink]="['./cities']" [routerLinkActive]="['router-link-active']" class="list-group-item">
             <i class="fa fa-globe"></i>&nbsp;{{ 'Cities' }}
+        </a>
+        <a [routerLink]="['./blank-page']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+            <i class="fa fa-fw fa-bar-chart-o"></i>&nbsp;{{ 'Blank' }}
+        </a>
+        <a [routerLink]="['./login']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+            <i class="fa fa-fw fa-sign-in"></i>&nbsp;{{ 'Login' }}
         </a>
     </ul>
 </nav>
