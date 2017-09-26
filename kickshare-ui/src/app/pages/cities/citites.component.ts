@@ -7,7 +7,6 @@ import "rxjs/add/operator/toPromise";
 import {MapFactory} from "../../components/google_map/mapFactory.component";
 import {ProjectService} from "../../services/project.service";
 import {AuthHttp} from "../../services/auth-http.service";
-import LatLngBounds = google.maps.LatLngBounds;
 // declare var initCityMap: any;
 
 @Component({
@@ -27,7 +26,9 @@ export class Cities implements OnInit, OnDestroy {
 
     ngOnInit(): void {
         var readDataCallback = this.readCities.bind(this);
-        this.cityMap = this.factory.createCityMap('city-map', null, readDataCallback);
+        //49.3333	14.8833	4
+        const center = new google.maps.LatLng(49.333,14.8833);
+        this.cityMap = this.factory.createCityMap('city-map', center, readDataCallback);
         console.info("Map: " + this.cityMap == null);
         google.maps.event.addListenerOnce(this.cityMap, 'tilesloaded', () => this.readCities());
     }

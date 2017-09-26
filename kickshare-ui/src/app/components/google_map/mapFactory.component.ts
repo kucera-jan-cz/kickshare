@@ -1,9 +1,4 @@
-// import {MapTypeId, StyleOptions} = require('@types/googlemaps');
-// import {Component} from "@angular/core";
-// import * as gm from 'googlemaps';
-// import * as gm from 'googlemaps';
-import MapTypeId = google.maps.MapTypeId;
-import StyleOptions = google.maps.Data.StyleOptions;
+
 /**
  * Created by KuceraJan on 21.6.2017.
  */
@@ -16,9 +11,12 @@ export class MapFactory {
 
   public createCityMap(mapId: string, center: google.maps.LatLng, readDataCallback: (...args: any[]) => void): google.maps.Map {
     if (center == null) {
-      const current_lat = geoplugin_latitude();
-      const current_lon = geoplugin_longitude();
-      center = new google.maps.LatLng(current_lat, current_lon);
+      navigator.geolocation.getCurrentPosition(position => {
+          console.info("Google found current position: " + JSON.stringify(position));
+          const current_lat = position.coords.latitude;
+          const current_lon = position.coords.longitude;
+          center = new google.maps.LatLng(current_lat, current_lon);
+      });
     }
     const mapOptions: google.maps.MapOptions = {
       zoom: 8,

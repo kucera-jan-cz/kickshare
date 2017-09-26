@@ -183,6 +183,7 @@ export class GMap implements OnInit, OnDestroy {
         const params = this.searchOptions.toParams()+"&callback=JSONP_CALLBACK";;
 
         console.info("Searching with params: " + params);
+        //@TODO - prefix is missing
         const url = `groups/search/data.jsonp?${params}`;
         this.http.getJsonp(url, response => this.readCoordinates(response));
     }

@@ -4,6 +4,9 @@ import {Observable} from "rxjs";
 import "rxjs/Rx";
 import {UserService} from "../../services/user.service";
 import {Notification} from "../../services/domain";
+import {AuthHttp} from "../../services/auth-http.service";
+import {SystemService} from "../../services/system.service";
+
 @Component({
     selector: 'application-header',
     templateUrl: './header.component.html',
@@ -15,14 +18,16 @@ export class HeaderComponent implements OnInit, OnDestroy {
     private timer: Observable<number>;
     private alive: boolean = true;
     private notifications: Notification[] = [];
+    public country: string;
 
-    constructor(private userService: UserService, public router: Router) {
+    constructor(private userService: UserService, private authHttp: AuthHttp, public router: Router, private system: SystemService) {
         this.timer = Observable.timer(0, 5000);
         this.router.events.subscribe((val) => {
             if (val instanceof NavigationEnd && window.innerWidth <= 992) {
                 this.toggleSidebar();
             }
         });
+        this.country = this.system.countryCode;
     }
 
     ngOnInit() {
@@ -57,7 +62,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     }
 
     onLoggedout() {
-        localStorage.removeItem('isLoggedin');
+        this.authHttp.logout();
     }
 
     changeLang(language: string) {

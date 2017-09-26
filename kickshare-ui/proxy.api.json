@@ -1,0 +1,8 @@
+{
+  "/authorize": {
+    "target": "http://local.kickshare.eu:9000",
+    "secure": false,
+    "changeOrigin": true,
+    "logLevel": "debug"
+  }
+}

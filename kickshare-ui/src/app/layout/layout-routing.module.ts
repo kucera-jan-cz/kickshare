@@ -1,6 +1,7 @@
 import {NgModule} from "@angular/core";
 import {RouterModule, Routes} from "@angular/router";
 import {LayoutComponent} from "./layout.component";
+import {AuthGuardService} from "../services/auth-guard.service";
 
 const routes: Routes = [
     {
@@ -10,9 +11,11 @@ const routes: Routes = [
             {path: 'blank-page', loadChildren: './blank-page/blank-page.module#BlankPageModule'},
             {path: 'account/group', loadChildren: '../pages/group_register/groupRegistration.module#GroupRegistrationModule'},
             {path: 'group', loadChildren: '../pages/group/group.module#GroupModule'},
-            {path: 'cities', loadChildren: 'app/pages/cities/cities.module#CitiesModule'//, canActivate: [AuthGuardService]
+            {path: 'cities', loadChildren: 'app/pages/cities/cities.module#CitiesModule', canActivate: [AuthGuardService]
             },
             {path: 'campaign', loadChildren: 'app/pages/campaign/campaign.module#CampaignModule'},
+            {path: 'login', loadChildren: 'app/pages/login/login.module#LoginModule'},
+            {path: 'sign-in', loadChildren: 'app/pages/user_register/userRegistration.module#UserRegistrationModule'},
         ]
     }
 ];
