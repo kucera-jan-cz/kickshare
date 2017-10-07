@@ -56,6 +56,7 @@ public class WebSecurityAdapter extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests()
                     .antMatchers("/authenticate").anonymous()
+                    .antMatchers("/accounts/**").anonymous()
 //                    .antMatchers("/groups/search/jsonp").anonymous()
 //                    .antMatchers("/cities/search/jsonp").anonymous()
 //                    .antMatchers("/groups/search/data.jsonp").anonymous()

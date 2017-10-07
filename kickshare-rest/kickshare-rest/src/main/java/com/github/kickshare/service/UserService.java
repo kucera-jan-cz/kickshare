@@ -14,5 +14,9 @@ public interface UserService {
 
     BackerDetails createUser(Backer backer, String password, Address address);
 
+    Backer getUserByEmail(String email);
+
+    void changePassword(BackerDetails backer, String password);
+
     boolean verifyUser(String token);
 }

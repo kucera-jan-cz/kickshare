@@ -1,1 +1,6 @@
-//@TODO
+Dear {0},
+
+To complete your Kickshare account, you must click the link included below to confirm your email address is valid:
+<a href="{}">Click here to activate your account</a>
+
+Thank you and welcome in Kickshare community!

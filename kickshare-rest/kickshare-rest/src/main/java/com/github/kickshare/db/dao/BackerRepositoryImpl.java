@@ -1,6 +1,7 @@
 package com.github.kickshare.db.dao;
 
 import static com.github.kickshare.db.jooq.Tables.ADDRESS;
+import static com.github.kickshare.db.jooq.Tables.BACKER;
 import static com.github.kickshare.db.jooq.Tables.BACKER_2_GROUP;
 import static com.github.kickshare.db.jooq.Tables.CITY;
 import static com.github.kickshare.db.jooq.Tables.GROUP;
@@ -50,7 +51,7 @@ public class BackerRepositoryImpl extends AbstractRepository<BackerRecord, Backe
                 this.dsl.selectOne()
                         .from(GROUP)
                         .where(GROUP.LEADER_ID.eq(leaderId))
-                            .and(GROUP.ID.eq(groupId))
+                        .and(GROUP.ID.eq(groupId))
         );
     }
 
@@ -62,5 +63,13 @@ public class BackerRepositoryImpl extends AbstractRepository<BackerRecord, Backe
                         .and(BACKER_2_GROUP.STATUS.eq(GroupRequestStatus.APPROVED))
                         .and(GROUP.ID.eq(groupId))
         );
+    }
+
+    public Backer findByEmail(final String email) {
+        return this.dsl
+                .select()
+                .from(BACKER)
+                .where(BACKER.EMAIL.eq(email))
+                .fetchOneInto(Backer.class);
     }
 }

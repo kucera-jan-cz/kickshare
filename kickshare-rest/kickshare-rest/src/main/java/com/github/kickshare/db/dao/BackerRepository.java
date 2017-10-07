@@ -14,4 +14,6 @@ public interface BackerRepository extends EnhancedDAO<BackerRecord, Backer, Long
     boolean ownGroup(Long leaderId, Long groupId);
 
     boolean isGroupMember(final Long backerId, final Long groupId);
+
+    Backer findByEmail(final String email);
 }
