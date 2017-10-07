@@ -16,12 +16,14 @@ import com.github.kickshare.db.jooq.tables.daos.TokenRequestDao;
 import com.github.kickshare.db.jooq.tables.daos.UsersDao;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 
 /**
  * @author Jan.Kucera
  * @since 10.4.2017
  */
 @Configuration
+@Import(JooqConfiguration.class)
 public class DAOConfiguration {
     @Bean
     public ProjectDao projectDao(org.jooq.Configuration configuration) {

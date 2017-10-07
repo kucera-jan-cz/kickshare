@@ -14,6 +14,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 import org.springframework.jdbc.datasource.TransactionAwareDataSourceProxy;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
@@ -22,13 +23,15 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
  * @since 7.4.2017
  */
 @Configuration
+@Import(DatasourceConfiguration.class)
 @EnableTransactionManagement
 public class JooqConfiguration {
     private static final Logger LOGGER = LoggerFactory.getLogger(JooqConfiguration.class);
 
     @Bean
     public DataSourceConnectionProvider dataSourceConnectionProvider(DataSource dataSource) {
-        return new DataSourceConnectionProvider(new TransactionAwareDataSourceProxy(new MultiSchemaDataSource(dataSource)));
+        assert(MultiSchemaDataSource.class.isInstance(dataSource));
+        return new DataSourceConnectionProvider(new TransactionAwareDataSourceProxy(dataSource));
     }
 
     @Bean
