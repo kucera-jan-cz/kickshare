@@ -12,6 +12,7 @@ import com.github.kickshare.db.jooq.tables.daos.ProjectDao;
 import com.github.kickshare.db.jooq.tables.daos.ProjectPhotoDao;
 import com.github.kickshare.db.jooq.tables.daos.TagDao;
 import com.github.kickshare.db.jooq.tables.daos.Tag_2CategoryDao;
+import com.github.kickshare.db.jooq.tables.daos.TokenRequestDao;
 import com.github.kickshare.db.jooq.tables.daos.UsersDao;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -85,6 +86,11 @@ public class DAOConfiguration {
     @Bean
     public Tag_2CategoryDao tag2CategoryDao(org.jooq.Configuration configuration) {
         return new Tag_2CategoryDao(configuration);
+    }
+
+    @Bean
+    public TokenRequestDao tokenRequestDao(org.jooq.Configuration configuration) {
+        return new TokenRequestDao(configuration);
     }
 
 }

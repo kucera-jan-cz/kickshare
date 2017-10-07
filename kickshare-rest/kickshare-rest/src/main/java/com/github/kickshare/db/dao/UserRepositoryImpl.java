@@ -13,7 +13,7 @@ import org.springframework.stereotype.Repository;
  * @since 26.6.2017
  */
 @Repository
-public class UserRepositoryImpl extends AbstractRepository<UsersRecord, Users, String> implements UserRepository {
+public class UserRepositoryImpl extends AbstractRepository<UsersRecord, Users, Long> implements UserRepository {
     @Autowired
     public UserRepositoryImpl(final UsersDao dao) {
         super(dao);

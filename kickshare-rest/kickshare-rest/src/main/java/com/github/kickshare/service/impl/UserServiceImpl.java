@@ -34,6 +34,7 @@ public class UserServiceImpl implements UserService {
     private AddressDao addressDao;
     private CityDao cityDao;
     private UserRepositoryImpl userRepository;
+    private final BackerMapper backerMapper = BackerMapper.MAPPER;
 
     @Override
     public UserDetails createUser(String email, Integer cityId) {
@@ -64,8 +65,14 @@ public class UserServiceImpl implements UserService {
         return userDetails;
     }
 
-    public void changePassword(com.github.kickshare.domain.Backer backer, String password) {
-        BackerDetails userToStore = new BackerDetails(backer.getEmail(), encoder.encode(password), backer.getId(), false);
+    @Override
+    public Backer getUserByEmail(final String email) {
+        return backerMapper.toDomain(backerRepository.findByEmail(email));
+    }
+
+    @Override
+    public void changePassword(BackerDetails backer, String password){
+        BackerDetails userToStore = new BackerDetails(backer.getUsername(), encoder.encode(password), backer.getId(), true);
         userManager.updateUser(userToStore);
     }
 

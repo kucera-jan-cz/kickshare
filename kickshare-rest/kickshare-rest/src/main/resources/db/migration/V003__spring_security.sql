@@ -1,6 +1,6 @@
 CREATE TABLE users (
-    id BIGSERIAL UNIQUE REFERENCES backer (id) ON DELETE CASCADE,
-	username VARCHAR (50) NOT NULL PRIMARY KEY,
+    id BIGSERIAL PRIMARY KEY REFERENCES backer(id) ON DELETE CASCADE,
+	username VARCHAR (50) UNIQUE NOT NULL,
 	password VARCHAR (72) NOT NULL,
 	user_created TIMESTAMP DEFAULT NOW(),
 	token CHAR(36) NOT NULL,
@@ -30,4 +30,12 @@ CREATE TABLE group_members (
 	username VARCHAR(50) NOT NULL,
 	group_id BIGSERIAL NOT NULL,
 	constraint fk_group_members_group FOREIGN KEY(group_id) REFERENCES groups(id)
+);
+
+CREATE TYPE token_type AS ENUM ('ACTIVATION_MAIL', 'ACTIVATION', 'PASSWORD_MAIL', 'PASSWORD_REST');
+
+CREATE TABLE token_request (
+    token CHAR(36) PRIMARY KEY,
+    user_id BIGSERIAL NOT NULL REFERENCES backer (id) ON DELETE CASCADE,
+    token_type token_type NOT NULL
 );
