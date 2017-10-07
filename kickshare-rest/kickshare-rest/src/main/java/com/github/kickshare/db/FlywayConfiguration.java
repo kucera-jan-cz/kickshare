@@ -13,6 +13,7 @@ import org.springframework.boot.autoconfigure.flyway.FlywayProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 import org.springframework.core.io.ResourceLoader;
 
 /**
@@ -20,6 +21,7 @@ import org.springframework.core.io.ResourceLoader;
  * @since 19.5.2017
  */
 @Configuration
+@Import(DatasourceConfiguration.class)
 @EnableConfigurationProperties(FlywayProperties.class)
 public class FlywayConfiguration {
     @Bean
