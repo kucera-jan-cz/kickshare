@@ -14,6 +14,7 @@ import org.springframework.security.core.userdetails.User;
  */
 public class BackerDetails extends User {
     private final Long id;
+    //@TODO - token will be probably deleted in favor of password generation
     private final String token;
 
     public BackerDetails(final String username, final String password, final Long id, final boolean enabled) {
@@ -28,6 +29,13 @@ public class BackerDetails extends User {
         super(username, password, enabled, accountNonExpired, credentialsNonExpired, accountNonLocked, authorities);
         this.id = id;
         this.token = token;
+    }
+
+    public BackerDetails(final BackerDetails orig, final String password) {
+        super(orig.getUsername(), password, orig.isEnabled(), orig.isAccountNonExpired(), orig.isCredentialsNonExpired(), orig.isAccountNonLocked(),
+                orig.getAuthorities());
+        this.id = orig.id;
+        this.token = orig.token;
     }
 
     public Long getId() {

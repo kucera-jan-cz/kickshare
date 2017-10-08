@@ -1,52 +1,18 @@
 package com.github.kickshare.security;
 
-import java.util.Arrays;
-import java.util.concurrent.TimeUnit;
-
-import javax.sql.DataSource;
-
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.github.kickshare.db.JooqConfiguration;
-import com.github.kickshare.db.multischema.MultiSchemaDataSource;
-import com.github.kickshare.security.session.MultiSchemaSessionRepository;
-import org.jooq.impl.DataSourceConnectionProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
-import org.springframework.context.annotation.Primary;
-import org.springframework.core.convert.support.GenericConversionService;
-import org.springframework.core.serializer.support.DeserializingConverter;
-import org.springframework.core.serializer.support.SerializingConverter;
-import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.provisioning.JdbcUserDetailsManager;
-import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
-import org.springframework.security.web.csrf.CsrfTokenRepository;
-import org.springframework.session.jdbc.JdbcOperationsSessionRepository;
-import org.springframework.session.jdbc.config.annotation.web.http.EnableJdbcHttpSession;
-import org.springframework.session.web.http.CookieHttpSessionStrategy;
-import org.springframework.session.web.http.DefaultCookieSerializer;
-import org.springframework.session.web.http.HttpSessionStrategy;
-import org.springframework.transaction.PlatformTransactionManager;
-import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.CorsConfigurationSource;
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 /**
  * @author Jan.Kucera
  * @since 28.3.2017
  */
 @Configuration
-@Import({ JooqConfiguration.class, MethodSecurityConfig.class })
-@EnableJdbcHttpSession(maxInactiveIntervalInSeconds = 600)
-@ComponentScan(basePackages = { "com.github.kickshare.security.session" })
+
+@Import({ JooqConfiguration.class, MethodSecurityConfig.class, CoreSecurityConfig.class, Oauth2ServerConfig.class })
 public class SecurityConfig {
     private static final Logger LOGGER = LoggerFactory.getLogger(SecurityConfig.class);
 //    @Bean
@@ -64,44 +30,7 @@ public class SecurityConfig {
 //
 //        return halObjectMapper
 //    }
-    //@TODO - figure out usage of this ObjectMapper instead of default one
-    @Autowired
-    public void configureJackson(@Autowired Jackson2ObjectMapperBuilder jackson2ObjectMapperBuilder) {
-        jackson2ObjectMapperBuilder.serializationInclusion(JsonInclude.Include.NON_NULL);
-        jackson2ObjectMapperBuilder.modulesToInstall(new JavaTimeModule());
-    }
 
-    @Bean
-    @Primary
-    public JdbcOperationsSessionRepository sessionRepository(
-            @Value("${kickshare.flyway.schemas}") String schemas,
-            DataSourceConnectionProvider provider,
-            PlatformTransactionManager transactionManager) {
-        MultiSchemaSessionRepository sessionRepository = new MultiSchemaSessionRepository(schemas.split(","), provider.dataSource(), transactionManager);
-        sessionRepository.setDefaultMaxInactiveInterval(120);
-
-        GenericConversionService conversionService = this.createConversionServiceWithBeanClassLoader();
-        sessionRepository.setConversionService(conversionService);
-
-        return sessionRepository;
-    }
-
-    @Bean
-    public HttpSessionStrategy httpSessionStrategy() {
-        CookieHttpSessionStrategy strategy = new CookieHttpSessionStrategy();
-        final DefaultCookieSerializer serializer = new DefaultCookieSerializer();
-        serializer.setDomainName("local.kickshare.eu");
-        serializer.setUseSecureCookie(true);
-        strategy.setCookieSerializer(serializer);
-        return strategy;
-    }
-
-    private GenericConversionService createConversionServiceWithBeanClassLoader() {
-        GenericConversionService conversionService = new GenericConversionService();
-        conversionService.addConverter(Object.class, byte[].class, new SerializingConverter());
-        conversionService.addConverter(byte[].class, Object.class, new DeserializingConverter());
-        return conversionService;
-    }
 
 //    @Bean
 //    public MappingJackson2HttpMessageConverter messageConverter(final ObjectMapper mapper) {
@@ -132,11 +61,6 @@ public class SecurityConfig {
 ////                .withUser("admin").password(enc.encode("password")).roles("USER", "ADMIN").and()
 ////                .getUserDetailsService();
 //    }
-
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
 //
 //    @Bean
 //    public JwtAuthenticationTokenFilter authenticationTokenFilterBean() throws Exception {
@@ -153,36 +77,8 @@ public class SecurityConfig {
 //        return new SessionBasedSecurityConfig();
 //    }
 
-    @Bean
-    public WebSecurityAdapter securityConfig() {
-        return new WebSecurityAdapter();
-    }
-
-    @Bean
-    @Autowired
-    public JdbcUserDetailsManager udm(DataSource dataSource) {
-        ExtendedJdbcUserDetailsManager udm = new ExtendedJdbcUserDetailsManager();
-        udm.setEnableAuthorities(true);
-        udm.setEnableGroups(true);
-        udm.setDataSource(new MultiSchemaDataSource(dataSource));
-        return udm;
-    }
-
-    @Bean
-    public CorsConfigurationSource corsConfigurationSource() {
-        CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList("http://localhost:3000", "http://localhost:4200","https://localhost:4200"));
-        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PATCH", "HEAD", "PUT"));
-        configuration.setAllowCredentials(true);
-        configuration.setAllowedHeaders(Arrays.asList("*"));
-        configuration.setMaxAge(TimeUnit.HOURS.toSeconds(1));
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", configuration);
-        return source;
-    }
-
-    @Bean
-    public CsrfTokenRepository csrfTokenRepository() {
-        return new CookieCsrfTokenRepository();
-    }
+//    @Bean
+//    public WebSecurityAdapter securityConfig() {
+//        return new WebSecurityAdapter();
+//    }
 }

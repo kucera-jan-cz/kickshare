@@ -2,10 +2,8 @@ package com.github.kickshare.security;
 
 import com.github.kickshare.security.session.RestAuthenticationEntryPoint;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -20,8 +18,8 @@ import org.springframework.web.servlet.config.annotation.CorsRegistry;
  * @author Jan.Kucera
  * @since 14.3.2017
  */
-@EnableWebSecurity
-@Configuration
+//@EnableWebSecurity
+//@Configuration
 public class WebSecurityAdapter extends WebSecurityConfigurerAdapter {
 
     @Autowired

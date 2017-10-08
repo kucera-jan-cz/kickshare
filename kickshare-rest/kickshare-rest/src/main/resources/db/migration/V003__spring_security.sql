@@ -32,7 +32,7 @@ CREATE TABLE group_members (
 	constraint fk_group_members_group FOREIGN KEY(group_id) REFERENCES groups(id)
 );
 
-CREATE TYPE token_type AS ENUM ('ACTIVATION_MAIL', 'ACTIVATION', 'PASSWORD_MAIL', 'PASSWORD_REST');
+CREATE TYPE token_type AS ENUM ('ACTIVATION_MAIL', 'ACTIVATION', 'PASSWORD_MAIL', 'PASSWORD_MAIL_WAITING', 'PASSWORD_RESET');
 
 CREATE TABLE token_request (
     token CHAR(36) PRIMARY KEY,
