@@ -9,8 +9,9 @@ import {OAuthService} from "angular-oauth2-oidc";
 
 @Injectable()
 export class OauthHttp implements AuthHttp {
-    // private host = "http://localhost:9000";
-    private host = "https://local.kickshare.eu";
+    private host = "http://localhost:9000";
+    // private host = "http://localhost:8080";
+    // private host = "https://local.kickshare.eu";
     private authenticatedSubject: BehaviorSubject<boolean> = new BehaviorSubject(null);
     private userIdSubject: BehaviorSubject<number> = new BehaviorSubject(null);
     authenticateEmitter: Observable<boolean>;
@@ -19,18 +20,33 @@ export class OauthHttp implements AuthHttp {
     constructor(private http: Http, private jsonp: Jsonp, private router: Router, private oauthService: OAuthService) {
         this.authenticateEmitter = this.authenticatedSubject.asObservable();
         this.userIdEmitter = this.userIdSubject.asObservable();
-        this.oauthService.loginUrl = '';
-        this.oauthService.scope = '';
-        this.oauthService.clientId = '';
+        // this.oauthService.loginUrl = 'http://localhost:8080/oauth/token';
+        this.oauthService.scope = 'read';
+        this.oauthService.clientId = 'user';
+        this.oauthService.dummyClientSecret = 'user';
+        this.oauthService.tokenEndpoint = this.host +'/oauth/token';
         this.oauthService.setStorage(sessionStorage);
+        //@TODO - figure out whether this is valid approach
+        this.oauthService.logoutUrl = this.host + '';
+        // this.oauthService.setupAutomaticSilentRefresh();
+        // this.oauthService.restartSessionChecksIfStillLoggedIn();
     }
 
     public async authenticate(username: string, password: string): Promise<Number> {
-        let token = await this.oauthService.fetchTokenUsingPasswordFlow(username, password);
-        console.info("Authentication OAuth");
+        var headers = Headers.fromResponseHeaderString("Authorization:Basic dXNlcjp1c2Vy");
+        let token = await this.oauthService.fetchTokenUsingPasswordFlow(username, password, headers);
+        console.info("Authentication OAuth: " + token['access_token']);
+        console.info("Is authenticated: " + this.isAuthenticated());
+        console.info("Token: " + this.oauthService.getAccessToken());
+        let user = await this.get("/accounts/user");
+        console.info("User: " + user.json()['name']);
         console.info(JSON.stringify(token));
+        //@TODO - extract also country
+
+        this.userIdSubject.next(user.json()['name'].length);
+        this.authenticatedSubject.next(true);
         // const userId = token.json()['id'] as number;
-        return Promise.apply(1);
+        return Promise.resolve(user.json()['name'].length);
     }
 
     public isAuthenticated(): boolean {
@@ -43,6 +59,7 @@ export class OauthHttp implements AuthHttp {
 
     public logout(): void {
         this.oauthService.logOut();
+        //@TODO - consider redirect to dashboard
         location.reload()
     }
 
@@ -74,11 +91,15 @@ export class OauthHttp implements AuthHttp {
     private createRequestArgs(params?: URLSearchParams): RequestOptionsArgs {
         let headers: Headers = new Headers();
         headers.append('Content-Type', 'application/json');
-        headers.append('Authorization', 'Bearer ' + this.oauthService.getAccessToken());
+        if(this.oauthService.hasValidAccessToken()) {
+            console.info("Including token: "+ this.oauthService.getAccessToken());
+            headers.append('Authorization', 'Bearer ' + this.oauthService.getAccessToken());
+        }
         const urlTree = this.router.parseUrl(this.router.url);
         const country = urlTree.root.children[PRIMARY_OUTLET].segments[0].toString().toUpperCase();
         console.info("URL: " + this.router.url);
         console.info("URL PATH: " + country);
+        //@TODO - start using valid country schema, once this logic is stable (maybe after checking supported codes?)
         headers.append('country', 'CZ');
 
         var args: RequestOptionsArgs = {

@@ -4,6 +4,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.List;
 
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -17,6 +18,15 @@ import org.springframework.util.Assert;
 public class ExtendedJdbcUserDetailsManager extends JdbcUserDetailsManager {
     public static final String DEF_CREATE_USER_SQL = "insert into users (id, username, password, enabled, token) values (?,?,?,?,?)";
     public static final String DEF_USERS_BY_USERNAME_QUERY = "select id, username,password,enabled,token from users where username = ?";
+    public static final String DEF_USER_BY_ID_QUERY = "select id, username,password,enabled,token from users where id = ?";
+    private static final RowMapper<UserDetails> backerMapper = (ResultSet rs, int rowNum) -> {
+        Long id = rs.getLong(1);
+        String username = rs.getString(2);
+        String password = rs.getString(3);
+        boolean enabled = rs.getBoolean(4);
+        String token = rs.getString(5);
+        return new BackerDetails(id, username, password, enabled, true, true, true, AuthorityUtils.NO_AUTHORITIES, token);
+    };
 
     @Override
     public void createUser(final UserDetails userDetails) {
@@ -38,16 +48,13 @@ public class ExtendedJdbcUserDetailsManager extends JdbcUserDetailsManager {
 
     @Override
     protected List<UserDetails> loadUsersByUsername(String email) {
-        return getJdbcTemplate().query(DEF_USERS_BY_USERNAME_QUERY, new String[]{ email },
-                (ResultSet rs, int rowNum) -> {
-                    Long id = rs.getLong(1);
-                    String username = rs.getString(2);
-                    String password = rs.getString(3);
-                    boolean enabled = rs.getBoolean(4);
-                    String token = rs.getString(5);
-                    return new BackerDetails(id, username, password, enabled, true, true, true, AuthorityUtils.NO_AUTHORITIES, token);
-                }
-        );
+        final List<UserDetails> backers = getJdbcTemplate().query(DEF_USERS_BY_USERNAME_QUERY, new String[]{ email }, backerMapper);
+        return backers;
+    }
+
+    public UserDetails loadUserById(Long id) {
+        final UserDetails backer = getJdbcTemplate().queryForObject(DEF_USER_BY_ID_QUERY, new Long[]{ id }, backerMapper);
+        return backer;
     }
 
     @Override

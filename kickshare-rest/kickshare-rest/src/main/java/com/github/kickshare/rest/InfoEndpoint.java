@@ -1,8 +1,11 @@
 package com.github.kickshare.rest;
 
+import java.security.Principal;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -17,5 +20,10 @@ public class InfoEndpoint {
     @RequestMapping("/system/info")
     public ResponseEntity<String> info() {
         return ResponseEntity.ok("0.1-SNAPSHOT");
+    }
+
+    @GetMapping("/user")
+    public Principal user(Principal principal) {
+        return principal;
     }
 }

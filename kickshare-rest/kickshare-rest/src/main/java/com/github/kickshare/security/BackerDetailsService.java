@@ -4,7 +4,6 @@ import java.util.List;
 
 import com.github.kickshare.common.io.Lists;
 import lombok.AllArgsConstructor;
-import org.jooq.Configuration;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -15,8 +14,12 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
  */
 @AllArgsConstructor
 public class BackerDetailsService implements UserDetailsService {
-    private Configuration jooqConfig;
     private ExtendedJdbcUserDetailsManager extendedManager;
+
+    public BackerDetails loadUserById(final Long id) throws UsernameNotFoundException {
+        final BackerDetails backer = (BackerDetails) extendedManager.loadUserById(id);
+        return backer;
+    }
 
     @Override
     public BackerDetails loadUserByUsername(final String username) throws UsernameNotFoundException {

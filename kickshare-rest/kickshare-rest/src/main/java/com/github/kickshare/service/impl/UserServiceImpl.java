@@ -71,8 +71,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void changePassword(BackerDetails backer, String password){
-        BackerDetails userToStore = new BackerDetails(backer.getUsername(), encoder.encode(password), backer.getId(), true);
+    public void changePassword(BackerDetails backer, String password) {
+        BackerDetails userToStore = new BackerDetails(backer, encoder.encode(password));
         userManager.updateUser(userToStore);
     }
 

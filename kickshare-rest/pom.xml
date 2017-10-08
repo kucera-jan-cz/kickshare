@@ -44,6 +44,7 @@
         <spring-session.version>1.3.0.RELEASE</spring-session.version>
         <google.api-client.version>1.22.0</google.api-client.version>
         <google.apis.version>v1-rev70-1.22.0</google.apis.version>
+        <greenmail.version>1.5.0</greenmail.version>
     </properties>
 
 </project>

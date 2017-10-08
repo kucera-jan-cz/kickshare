@@ -7,9 +7,9 @@ import {AppRoutingModule} from "./app-routing.module";
 import {AppComponent} from "./app.component";
 import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
 import {AuthGuardService} from "./services/auth-guard.service";
-import {BasicAuthHttp} from "./services/auth-basic.service";
 import {AuthHttp} from "./services/auth-http.service";
 import {OAuthModule} from "angular-oauth2-oidc";
+import {OauthHttp} from "./services/auth-oauth.service";
 
 @NgModule({
     declarations: [
@@ -27,8 +27,8 @@ import {OAuthModule} from "angular-oauth2-oidc";
     ],
     providers : [
         AuthGuardService,
-        {provide: AuthHttp, useClass: BasicAuthHttp}
-        // {provide: AuthHttp, useClass: OauthHttp}
+        // {provide: AuthHttp, useClass: BasicAuthHttp}
+        {provide: AuthHttp, useClass: OauthHttp}
     ],
     bootstrap: [AppComponent]
 })

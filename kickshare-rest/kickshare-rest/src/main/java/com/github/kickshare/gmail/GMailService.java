@@ -4,6 +4,7 @@ package com.github.kickshare.gmail;
 import java.io.IOException;
 import java.text.MessageFormat;
 
+import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 
@@ -14,7 +15,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Component;
 
 /**
@@ -33,19 +33,19 @@ public class GMailService {
 
     public void sendActivationMail(final String email, final String token) {
         final String text = createAccountActivationTextMessage(email, token);
-        final SimpleMailMessage message = message(email, REGISTRATION_SUBJECT, text);
+        final MimeMessage message = htmlMessage(email, REGISTRATION_SUBJECT, text);
         this.send(message);
     }
 
     public void sendPasswordResetMail(final String email, final String token) {
         final String text = createPasswordResetTextMessage(email, token);
-        final SimpleMailMessage message = message(email, PASSWORD_RESET_SUBJECT, text);
+        final MimeMessage message = htmlMessage(email, PASSWORD_RESET_SUBJECT, text);
         this.send(message);
     }
 
     public void sendPasswordGeneratedMail(final String email, final String password) {
-        final String text = createPasswordResetTextMessage(email, password);
-        final SimpleMailMessage message = message(email, NEW_PASSWORD_SUBJECT, text);
+        final String text = createPasswordGeneratedTextMessage(email, password);
+        final MimeMessage message = htmlMessage(email, NEW_PASSWORD_SUBJECT, text);
         this.send(message);
     }
 
@@ -60,10 +60,9 @@ public class GMailService {
     private MimeMessage htmlMessage(String email, String subject, String html) {
         MimeMessage mimeMessage = mailSender.createMimeMessage();
         try {
-            MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, false, "utf-8");
             mimeMessage.setContent(html, "text/html");
-            helper.setTo(email);
-            helper.setSubject(subject);
+            mimeMessage.setRecipients(Message.RecipientType.TO, email);
+            mimeMessage.setSubject(subject);
         } catch (MessagingException e) {
             throw new IllegalStateException("Failed to create mime message");
         }
@@ -72,19 +71,19 @@ public class GMailService {
 
     private String createPasswordResetTextMessage(String email, String token) {
         final String url = MessageFormat.format(DOMAIN + "/accounts/reset?email={0}&token={1}", email, token);
-        final String text = template("email/password_reset.txt", email, url);
+        final String text = template("email/password_reset.html", email, url);
         return text;
     }
 
     private String createPasswordGeneratedTextMessage(String userName, String password) {
         final String url = DOMAIN + "/login";
-        final String text = template("email/password_generated.txt", userName, password, url);
+        final String text = template("email/password_generated.html", userName, password, url);
         return text;
     }
 
     private String createAccountActivationTextMessage(String userName, String token) {
         final String url = MessageFormat.format(DOMAIN + "/accounts/activate/{0}", token);
-        final String text = template("email/account_activation.txt", userName, url);
+        final String text = template("email/account_activation.html", userName, url);
         return text;
     }
 
