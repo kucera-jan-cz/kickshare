@@ -6,6 +6,7 @@ CREATE TABLE group_status (
 
 INSERT INTO group_status (id, "name") VALUES
 (100, 'OPEN'),
+--(150, 'LOCKED'),
 (200, 'BACKED'),
 (300, 'BACKERS_PAYING'),
 (400, 'KICKSTARTER_WAITING'),

@@ -15,6 +15,7 @@ import org.springframework.security.core.userdetails.User;
 public class BackerDetails extends User {
     private final Long id;
     //@TODO - token will be probably deleted in favor of password generation
+    @Deprecated
     private final String token;
 
     public BackerDetails(final String username, final String password, final Long id, final boolean enabled) {

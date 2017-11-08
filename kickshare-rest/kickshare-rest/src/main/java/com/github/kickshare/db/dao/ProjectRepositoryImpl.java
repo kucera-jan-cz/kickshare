@@ -1,17 +1,16 @@
 package com.github.kickshare.db.dao;
 
-import static com.github.kickshare.db.jooq.Tables.ADDRESS;
-import static com.github.kickshare.db.jooq.Tables.BACKER;
+import static com.github.kickshare.db.jooq.Tables.GROUP;
+import static com.github.kickshare.db.jooq.Tables.PROJECT;
 
+import java.io.IOException;
 import java.util.List;
 
 import com.github.kickshare.db.jooq.tables.daos.ProjectDao;
 import com.github.kickshare.db.jooq.tables.pojos.Project;
 import com.github.kickshare.db.jooq.tables.records.ProjectRecord;
-import com.github.kickshare.domain.Address;
-import com.github.kickshare.domain.Backer;
-import com.github.kickshare.domain.BackerInfo;
-import org.jooq.Configuration;
+import com.github.kickshare.db.query.GroupQueryBuilder;
+import com.github.kickshare.service.entity.SearchOptions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -21,9 +20,11 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public class ProjectRepositoryImpl extends AbstractRepository<ProjectRecord, Project, Long> implements ProjectRepository {
+    private final GroupQueryBuilder groupQuery = new GroupQueryBuilder();
+
     @Autowired
-    public ProjectRepositoryImpl(Configuration jooqConfig) {
-        super(new ProjectDao(jooqConfig));
+    public ProjectRepositoryImpl(ProjectDao projectDao) {
+        super(projectDao);
     }
 
     @Override
@@ -31,17 +32,16 @@ public class ProjectRepositoryImpl extends AbstractRepository<ProjectRecord, Pro
         return dao.findAll();
     }
 
-    @Override
-    public BackerInfo getBacker(final Long id) {
-        return dsl.select()
-                .from(BACKER)
-                .join(ADDRESS).on(BACKER.ID.eq(ADDRESS.BACKER_ID))
-                .fetchOne(
-                        r -> {
-                            Backer backer = r.into(BACKER).into(Backer.class);
-                            Address address = r.into(ADDRESS).into(Address.class);
-                            return new BackerInfo(backer, address);
-                        }
-                );
+    public List<Project> searchProjects(SearchOptions options) throws IOException {
+        final List<Project> projects = dsl.select()
+                .from(PROJECT)
+                .whereExists(
+                        dsl.selectOne()
+                                .from(GROUP)
+                                .where(groupQuery.apply(options))
+                                .and(GROUP.PROJECT_ID.eq(PROJECT.ID))
+                )
+                .fetchInto(com.github.kickshare.db.jooq.tables.pojos.Project.class);
+        return projects;
     }
 }

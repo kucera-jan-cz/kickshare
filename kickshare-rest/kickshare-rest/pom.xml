@@ -73,6 +73,18 @@
             <version>${jooq.version}</version>
         </dependency>
 
+        <dependency>
+            <groupId>org.jooq</groupId>
+            <artifactId>jooq-meta</artifactId>
+            <version>${jooq.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.jooq</groupId>
+            <artifactId>jooq-codegen</artifactId>
+            <version>${jooq.version}</version>
+        </dependency>
+
         <!-- Security -->
         <dependency>
             <groupId>org.springframework.session</groupId>
@@ -280,6 +292,27 @@
                     </locations>
                 </configuration>
             </plugin>
+            <!-- Following plugin is for setting System.property, it's needed for JOOQ generated class suffix -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>properties-maven-plugin</artifactId>
+                <version>1.0.0</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>set-system-properties</goal>
+                        </goals>
+                        <configuration>
+                            <properties>
+                                <property>
+                                    <name>org.jooq.util.example.java-class-name-suffix</name>
+                                    <value></value>
+                                </property>
+                            </properties>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
             <plugin>
                 <groupId>org.jooq</groupId>
                 <artifactId>jooq-codegen-maven</artifactId>
@@ -312,13 +345,16 @@
                             <inputSchema>KS</inputSchema>
                         </database>
                         <target>
-                            <packageName>com.github.kickshare.db.jooq</packageName>
+                            <packageName>com.github.kickshare.db.java</packageName>
                             <directory>target/generated-sources/jooq</directory>
                         </target>
                         <generate>
                             <daos>true</daos>
                             <relations>true</relations>
                         </generate>
+                        <strategy>
+                            <name>org.jooq.util.example.JVMArgsGeneratorStrategy</name>
+                        </strategy>
                     </generator>
                 </configuration>
                 <dependencies>

@@ -1,6 +1,8 @@
 package com.github.kickshare.service.impl;
 
 import static com.github.kickshare.db.jooq.Tables.PROJECT;
+import static com.github.kickshare.mapper.EntityMapper.photo;
+import static com.github.kickshare.mapper.EntityMapper.project;
 
 import java.io.IOException;
 import java.util.List;
@@ -12,8 +14,6 @@ import com.github.kickshare.db.jooq.tables.daos.ProjectPhotoDao;
 import com.github.kickshare.db.jooq.tables.pojos.ProjectPhoto;
 import com.github.kickshare.domain.Project;
 import com.github.kickshare.domain.ProjectInfo;
-import com.github.kickshare.mapper.ExtendedMapper;
-import com.github.kickshare.mapper.ProjectPhotoMapper;
 import com.github.kickshare.service.ProjectService;
 import com.github.kickshare.service.entity.SearchOptions;
 import lombok.AllArgsConstructor;
@@ -34,7 +34,7 @@ public class ProjectServiceImpl implements ProjectService {
 
     private ProjectRepository projectRepository;
     private ProjectPhotoDao photoDao;
-    private ExtendedMapper mapper;
+//    private ExtendedMapper mapper;
     private DSLContext dsl;
     private KickshareRepository repository;
 
@@ -60,9 +60,9 @@ public class ProjectServiceImpl implements ProjectService {
         final com.github.kickshare.db.jooq.tables.pojos.Project project = projectRepository.findById(projectId);
         final ProjectPhoto projectPhoto = photoDao.fetchOneByProjectId(projectId);
         ProjectInfo info = new ProjectInfo();
-        info.setProject(mapper.map(project, com.github.kickshare.domain.Project.class));
+        info.setProject(project().toDomain(project));
         info.setPhotoUrl(projectPhoto.getThumb());
-        info.setPhoto(mapper.map(projectPhoto, com.github.kickshare.domain.ProjectPhoto.class));
+        info.setPhoto(photo().toDomain(projectPhoto));
         return info;
     }
 
@@ -70,9 +70,8 @@ public class ProjectServiceImpl implements ProjectService {
     @Transactional
     public void saveProjects(final List<ProjectInfo> projects) {
         for (ProjectInfo info : projects) {
-            com.github.kickshare.db.jooq.tables.pojos.Project project = mapper.map(info.getProject(), com.github.kickshare.db.jooq.tables.pojos.Project.class);
-            Long id = projectRepository.createReturningKey(project);
-            com.github.kickshare.db.jooq.tables.pojos.ProjectPhoto photo = ProjectPhotoMapper.INSTANCE.toDB(info.getPhoto());
+            Long id = projectRepository.createReturningKey(project().toDB(info.getProject()));
+            com.github.kickshare.db.jooq.tables.pojos.ProjectPhoto photo = photo().toDB(info.getPhoto());
             photo.setProjectId(id);
             photoDao.insert(photo);
         }
@@ -81,7 +80,7 @@ public class ProjectServiceImpl implements ProjectService {
     @Transactional
     @Override
     public List<ProjectInfo> searchProjects(SearchOptions options) throws IOException {
-        final List<com.github.kickshare.db.jooq.tables.pojos.Project> projects = repository.searchProjects(options);
+        final List<com.github.kickshare.db.jooq.tables.pojos.Project> projects = projectRepository.searchProjects(options);
         final List<ProjectInfo> infos = projects.stream().map(this::toProjectInfo).collect(Collectors.toList());
         return infos;
     }
@@ -97,9 +96,9 @@ public class ProjectServiceImpl implements ProjectService {
     private ProjectInfo toProjectInfo(com.github.kickshare.db.jooq.tables.pojos.Project project) {
         final ProjectPhoto projectPhoto = photoDao.fetchOneByProjectId(project.getId());
         ProjectInfo info = new ProjectInfo();
-        info.setProject(mapper.map(project, com.github.kickshare.domain.Project.class));
+        info.setProject(project().toDomain(project));
         info.setPhotoUrl(projectPhoto.getThumb());
-        info.setPhoto(ProjectPhotoMapper.INSTANCE.toDomain(projectPhoto));
+        info.setPhoto(photo().toDomain(projectPhoto));
         return info;
     }
 

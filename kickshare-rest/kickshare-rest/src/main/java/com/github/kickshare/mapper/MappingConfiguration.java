@@ -27,4 +27,9 @@ public class MappingConfiguration {
     public ExtendedMapper extendedMapper(@Autowired Mapper mapper) {
         return new ExtendedMapper(mapper);
     }
+
+    @Bean
+    public EntityMapper entityMapper() {
+        return new EntityMapper();
+    }
 }

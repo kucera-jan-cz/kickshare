@@ -4,6 +4,8 @@ import static com.github.kickshare.db.jooq.Tables.BACKER;
 import static com.github.kickshare.db.jooq.Tables.BACKER_2_GROUP;
 import static com.github.kickshare.db.jooq.Tables.GROUP;
 import static com.github.kickshare.db.jooq.Tables.GROUP_POST;
+import static com.github.kickshare.db.jooq.Tables.PROJECT;
+import static com.github.kickshare.db.jooq.Tables.PROJECT_PHOTO;
 
 import java.util.List;
 
@@ -13,7 +15,14 @@ import com.github.kickshare.db.jooq.tables.pojos.Group;
 import com.github.kickshare.db.jooq.tables.pojos.GroupPost;
 import com.github.kickshare.db.jooq.tables.pojos.Project;
 import com.github.kickshare.db.jooq.tables.records.GroupRecord;
+import com.github.kickshare.db.query.GroupQueryBuilder;
+import com.github.kickshare.domain.GroupSummary;
+import com.github.kickshare.service.entity.SearchOptions;
 import org.jooq.Configuration;
+import org.jooq.Record;
+import org.jooq.RecordMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Propagation;
@@ -25,6 +34,8 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Repository
 public class GroupRepositoryImpl extends AbstractRepository<GroupRecord, Group, Long> implements GroupRepository {
+    private static final Logger LOGGER = LoggerFactory.getLogger(GroupRepositoryImpl.class);
+    private final GroupQueryBuilder groupQuery = new GroupQueryBuilder();
 
     @Autowired
     public GroupRepositoryImpl(Configuration jooqConfig) {
@@ -75,6 +86,33 @@ public class GroupRepositoryImpl extends AbstractRepository<GroupRecord, Group, 
                 .join(BACKER_2_GROUP).on(GROUP.ID.eq(BACKER_2_GROUP.GROUP_ID))
                 .where(BACKER_2_GROUP.BACKER_ID.eq(userId))
                 .fetchInto(Group.class);
+    }
+
+    @Override
+    public List<Group> searchGroups(SearchOptions options) {
+        List<com.github.kickshare.db.jooq.tables.pojos.Group> groups = dsl.select()
+                .from(GROUP)
+                .where(groupQuery.apply(options))
+                .fetchInto(com.github.kickshare.db.jooq.tables.pojos.Group.class);
+        LOGGER.info("Returning: {}", groups);
+        return groups;
+    }
+
+    @Override
+    public List<GroupSummary> searchGroupDetails(SearchOptions options) {
+        RecordMapper<Record, GroupSummary> mapper = (record -> {
+            GroupSummary summary = new GroupSummary();
+//            record.into()
+            return null;
+        });
+        List<GroupSummary> groups = dsl.select()
+                .from(GROUP)
+                .join(PROJECT).on(GROUP.PROJECT_ID.eq(PROJECT.ID))
+                .join(PROJECT_PHOTO).on(PROJECT_PHOTO.PROJECT_ID.eq(PROJECT.ID))
+                .join(BACKER).on(GROUP.LEADER_ID.eq(BACKER.ID))
+                .where(groupQuery.apply(options))
+                .fetch(mapper);
+        return groups;
     }
 
 //    @Override

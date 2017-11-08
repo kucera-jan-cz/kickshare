@@ -8,7 +8,6 @@ import com.github.kickshare.kickstarter.entity.CampaignProjectPhoto;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
-import org.mapstruct.factory.Mappers;
 
 /**
  * @author Jan.Kucera
@@ -16,9 +15,6 @@ import org.mapstruct.factory.Mappers;
  */
 @Mapper(config = CentralConfig.class)
 public interface ProjectMapper {
-
-    ProjectMapper MAPPER = Mappers.getMapper(ProjectMapper.class);
-
     Project toDomain(com.github.kickshare.db.jooq.tables.pojos.Project source);
 
     @Mappings({

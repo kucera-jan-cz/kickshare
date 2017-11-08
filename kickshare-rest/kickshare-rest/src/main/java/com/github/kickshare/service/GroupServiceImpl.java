@@ -14,7 +14,6 @@ import java.util.stream.Collectors;
 import com.github.kickshare.db.dao.BackerRepository;
 import com.github.kickshare.db.dao.GroupPostRepository;
 import com.github.kickshare.db.dao.GroupRepository;
-import com.github.kickshare.db.dao.KickshareRepository;
 import com.github.kickshare.db.jooq.enums.GroupRequestStatus;
 import com.github.kickshare.db.jooq.tables.daos.Backer_2GroupDao;
 import com.github.kickshare.db.jooq.tables.daos.LeaderDao;
@@ -61,7 +60,6 @@ public class GroupServiceImpl {
     private final GroupRepository groupRepository;
     private final BackerRepository backerRepository;
     private final Backer_2GroupDao backer2GroupDao;
-    private final KickshareRepository kickshareRepository;
     private final GroupPostRepository groupPostRepository;
     private final ProjectService projectService;
 
@@ -73,7 +71,6 @@ public class GroupServiceImpl {
     @Transactional
     public Long createGroup(Long projectId, String groupName, Long leaderId, boolean isLocal, Integer limit) {
         City city = Validate.notNull(backerRepository.getPermanentAddress(leaderId), "Give leader ({0}) does not have permanent address", leaderId);
-        //@TODO - push down this logic into transaction
         Long groupId = groupRepository.createReturningKey(
                 new com.github.kickshare.db.jooq.tables.pojos.Group(
                         null, leaderId, projectId, groupName, city.getId(), city.getLat(), city.getLon(), isLocal, limit)
@@ -146,7 +143,7 @@ public class GroupServiceImpl {
     @Transactional
     public List<GroupDetail> searchGroups(SearchOptions options) {
         //@TODO - implement this temporal properly
-        return kickshareRepository.searchGroups(options).stream()
+        return groupRepository.searchGroups(options).stream()
                 .map(g -> getGroupDetail(g.getId()))
                 .collect(Collectors.toList());
     }

@@ -1,10 +1,11 @@
 package com.github.kickshare.db.dao;
 
+import java.io.IOException;
 import java.util.List;
 
 import com.github.kickshare.db.jooq.tables.pojos.Project;
 import com.github.kickshare.db.jooq.tables.records.ProjectRecord;
-import com.github.kickshare.domain.BackerInfo;
+import com.github.kickshare.service.entity.SearchOptions;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -16,5 +17,5 @@ public interface ProjectRepository extends EnhancedDAO<ProjectRecord, Project, L
 
     List<Project> findProjects();
 
-    BackerInfo getBacker(Long id);
+    List<Project> searchProjects(SearchOptions options) throws IOException;
 }
