@@ -1,5 +1,8 @@
 package com.github.kickshare.mapper;
 
+import java.util.List;
+
+import com.github.kickshare.db.jooq.tables.pojos.ProjectDB;
 import com.github.kickshare.domain.Project;
 import com.github.kickshare.domain.ProjectInfo;
 import com.github.kickshare.domain.ProjectPhoto;
@@ -14,8 +17,8 @@ import org.mapstruct.Mappings;
  * @since 6.6.2017
  */
 @Mapper(config = CentralConfig.class)
-public interface ProjectMapper {
-    Project toDomain(com.github.kickshare.db.jooq.tables.pojos.Project source);
+public interface ProjectMapper extends DomainToDB<ProjectDB, Project>  {
+    Project toDomain(com.github.kickshare.db.jooq.tables.pojos.ProjectDB source);
 
     @Mappings({
             @Mapping(source = "photo.small", target = "photoUrl"),
@@ -24,7 +27,9 @@ public interface ProjectMapper {
     })
     ProjectInfo toDomain(CampaignProject source);
 
-    com.github.kickshare.db.jooq.tables.pojos.Project toDB(Project source);
+    List<ProjectInfo> toDomain(List<CampaignProject> source);
+
+    com.github.kickshare.db.jooq.tables.pojos.ProjectDB toDB(Project source);
 
     @Mapping(target = "photo", ignore = true)
     CampaignProject toKS(Project source);

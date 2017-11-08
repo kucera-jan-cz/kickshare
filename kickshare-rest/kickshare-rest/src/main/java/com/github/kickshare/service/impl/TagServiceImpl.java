@@ -3,8 +3,8 @@ package com.github.kickshare.service.impl;
 import java.util.List;
 
 import com.github.kickshare.db.dao.TagRepository;
-import com.github.kickshare.db.jooq.tables.daos.Tag_2CategoryDao;
-import com.github.kickshare.db.jooq.tables.pojos.Tag_2Category;
+import com.github.kickshare.db.jooq.tables.daos.Tag_2CategoryDaoDB;
+import com.github.kickshare.db.jooq.tables.pojos.Tag_2CategoryDB;
 import com.github.kickshare.domain.Tag;
 import com.github.kickshare.service.TagService;
 import lombok.AllArgsConstructor;
@@ -19,7 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 @AllArgsConstructor
 public class TagServiceImpl implements TagService {
     private final TagRepository tagRepository;
-    private final Tag_2CategoryDao tag2CategoryDao;
+    private final Tag_2CategoryDaoDB tag2CategoryDao;
 
     @Override
     public List<Tag> getTags(final int categoryId) {
@@ -29,8 +29,8 @@ public class TagServiceImpl implements TagService {
     @Override
     @Transactional
     public Tag createTag(final String name, final int categoryId) {
-        Short id = tagRepository.createReturningKey(new com.github.kickshare.db.jooq.tables.pojos.Tag(null, name));
-        tag2CategoryDao.insert(new Tag_2Category(categoryId, id));
+        Short id = tagRepository.createReturningKey(new com.github.kickshare.db.jooq.tables.pojos.TagDB(null, name));
+        tag2CategoryDao.insert(new Tag_2CategoryDB(categoryId, id));
         return new Tag(id, name);
     }
 }

@@ -1,5 +1,8 @@
 package com.github.kickshare.mapper;
 
+import java.util.List;
+
+import com.github.kickshare.db.jooq.tables.pojos.GroupDB;
 import com.github.kickshare.domain.Group;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -10,9 +13,11 @@ import org.mapstruct.Mappings;
  * @since 6.6.2017
  */
 @Mapper(config = CentralConfig.class)
-public interface GroupMapper {
+public interface GroupMapper extends DomainToDB<GroupDB, Group> {
 
-    Group toDomain(com.github.kickshare.db.jooq.tables.pojos.Group source);
+    Group toDomain(GroupDB source);
+
+    List<Group> toDomain(List<GroupDB> source);
 
     @Mappings({
             @Mapping(target = "lat", ignore = true),
@@ -20,6 +25,8 @@ public interface GroupMapper {
             @Mapping(target = "lon", ignore = true),
             @Mapping(target = "isLocal", ignore = true)
     })
-    com.github.kickshare.db.jooq.tables.pojos.Group toDB(Group source);
+    GroupDB toDB(Group source);
+
+    List<GroupDB> toDB(List<Group> source);
 
 }

@@ -3,7 +3,6 @@ package com.github.kickshare.service;
 import java.io.IOException;
 import java.util.List;
 
-import com.github.kickshare.domain.Project;
 import com.github.kickshare.domain.ProjectInfo;
 import com.github.kickshare.service.entity.SearchOptions;
 
@@ -12,7 +11,6 @@ import com.github.kickshare.service.entity.SearchOptions;
  * @since 7.4.2017
  */
 public interface ProjectService {
-    Long registerProject(Project project) throws IOException;
 
     ProjectInfo findProjectInfo(Long projectId);
 

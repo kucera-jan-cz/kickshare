@@ -11,9 +11,9 @@ import org.mapstruct.Mapping;
  */
 @Mapper(config = CentralConfig.class)
 public interface ProjectPhotoMapper {
-    ProjectPhoto toDomain(com.github.kickshare.db.jooq.tables.pojos.ProjectPhoto source);
+    ProjectPhoto toDomain(com.github.kickshare.db.jooq.tables.pojos.ProjectPhotoDB source);
 
-    com.github.kickshare.db.jooq.tables.pojos.ProjectPhoto toDB(ProjectPhoto source);
+    com.github.kickshare.db.jooq.tables.pojos.ProjectPhotoDB toDB(ProjectPhoto source);
 
     @Mapping(source = "id", target = "projectId")
     ProjectPhoto toDomain(CampaignProjectPhoto source);

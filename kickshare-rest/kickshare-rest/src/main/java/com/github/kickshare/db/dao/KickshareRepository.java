@@ -3,7 +3,7 @@ package com.github.kickshare.db.dao;
 import java.io.IOException;
 import java.util.List;
 
-import com.github.kickshare.db.jooq.tables.pojos.Group;
+import com.github.kickshare.db.jooq.tables.pojos.GroupDB;
 import com.github.kickshare.domain.City;
 import com.github.kickshare.domain.ProjectInfo;
 import com.github.kickshare.service.entity.CityGrid;
@@ -53,7 +53,7 @@ public interface KickshareRepository {
 
     List<City> findCitiesWithing(Location ne, Location sw);
 
-    List<Group> searchGroups(SearchOptions options);
+    List<GroupDB> searchGroups(SearchOptions options);
 
     List<CityGrid> searchCityGrid(SearchOptions options) throws IOException;
 

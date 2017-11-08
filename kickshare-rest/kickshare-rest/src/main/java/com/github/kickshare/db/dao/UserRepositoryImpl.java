@@ -2,9 +2,9 @@ package com.github.kickshare.db.dao;
 
 import static com.github.kickshare.db.jooq.Tables.USERS;
 
-import com.github.kickshare.db.jooq.tables.daos.UsersDao;
-import com.github.kickshare.db.jooq.tables.pojos.Users;
-import com.github.kickshare.db.jooq.tables.records.UsersRecord;
+import com.github.kickshare.db.jooq.tables.daos.UsersDaoDB;
+import com.github.kickshare.db.jooq.tables.pojos.UsersDB;
+import com.github.kickshare.db.jooq.tables.records.UsersRecordDB;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -13,14 +13,14 @@ import org.springframework.stereotype.Repository;
  * @since 26.6.2017
  */
 @Repository
-public class UserRepositoryImpl extends AbstractRepository<UsersRecord, Users, Long> implements UserRepository {
+public class UserRepositoryImpl extends AbstractRepository<UsersRecordDB, UsersDB, Long> implements UserRepository {
     @Autowired
-    public UserRepositoryImpl(final UsersDao dao) {
+    public UserRepositoryImpl(final UsersDaoDB dao) {
         super(dao);
     }
 
     @Override
-    public Users getUserByToken(String token) {
-        return this.dsl.select().from(USERS).where(USERS.TOKEN.eq(token)).fetchOneInto(Users.class);
+    public UsersDB getUserByToken(String token) {
+        return this.dsl.select().from(USERS).where(USERS.TOKEN.eq(token)).fetchOneInto(UsersDB.class);
     }
 }

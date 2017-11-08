@@ -2,10 +2,10 @@ package com.github.kickshare.db.dao;
 
 import java.util.List;
 
-import com.github.kickshare.db.jooq.tables.pojos.Backer;
-import com.github.kickshare.db.jooq.tables.pojos.Group;
-import com.github.kickshare.db.jooq.tables.pojos.GroupPost;
-import com.github.kickshare.db.jooq.tables.records.GroupRecord;
+import com.github.kickshare.db.jooq.tables.pojos.BackerDB;
+import com.github.kickshare.db.jooq.tables.pojos.GroupDB;
+import com.github.kickshare.db.jooq.tables.pojos.GroupPostDB;
+import com.github.kickshare.db.jooq.tables.records.GroupRecordDB;
 import com.github.kickshare.domain.GroupSummary;
 import com.github.kickshare.service.entity.SearchOptions;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,30 +15,30 @@ import org.springframework.transaction.annotation.Transactional;
  * @since 6.4.2017
  */
 @Transactional
-public interface GroupRepository extends EnhancedDAO<GroupRecord, Group, Long> {
+public interface GroupRepository extends EnhancedDAO<GroupRecordDB, GroupDB, Long> {
 
-    List<Group> findAllByProjectId(Long projectId);
+    List<GroupDB> findAllByProjectId(Long projectId);
 
     /**
      *
      * @param groupId
      * @return list of approved backers
      */
-    List<Backer> findAllUsers(Long groupId);
+    List<BackerDB> findAllUsers(Long groupId);
 
     /**
      * @param groupId
      * @return list of backers waiting for approval
      */
-    List<Backer> findWaitingUsers(final Long groupId);
+    List<BackerDB> findWaitingUsers(final Long groupId);
 
-    List<Group> findAllByUserId(final Long userId);
+    List<GroupDB> findAllByUserId(final Long userId);
 
-    List<GroupPost> getGroupPost(final Long groupId, int offset, int size);
+    List<GroupPostDB> getGroupPost(final Long groupId, int offset, int size);
 
     long getGroupPostCount(final Long groupId);
 
-    List<Group> searchGroups(SearchOptions options);
+    List<GroupDB> searchGroups(SearchOptions options);
 
     List<GroupSummary> searchGroupDetails(SearchOptions options);
 }

@@ -9,7 +9,7 @@ import org.mapstruct.Mapper;
  */
 @Mapper(config = CentralConfig.class)
 public interface AddressMapper {
-    Address toDomain(com.github.kickshare.db.jooq.tables.pojos.Address source);
+    Address toDomain(com.github.kickshare.db.jooq.tables.pojos.AddressDB source);
 
-    com.github.kickshare.db.jooq.tables.pojos.Address toDB(Address source);
+    com.github.kickshare.db.jooq.tables.pojos.AddressDB toDB(Address source);
 }

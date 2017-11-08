@@ -6,10 +6,10 @@ import static com.github.kickshare.db.jooq.Tables.BACKER_2_GROUP;
 import static com.github.kickshare.db.jooq.Tables.CITY;
 import static com.github.kickshare.db.jooq.Tables.GROUP;
 
-import com.github.kickshare.db.jooq.enums.GroupRequestStatus;
-import com.github.kickshare.db.jooq.tables.daos.BackerDao;
-import com.github.kickshare.db.jooq.tables.pojos.Backer;
-import com.github.kickshare.db.jooq.tables.records.BackerRecord;
+import com.github.kickshare.db.jooq.enums.GroupRequestStatusDB;
+import com.github.kickshare.db.jooq.tables.daos.BackerDaoDB;
+import com.github.kickshare.db.jooq.tables.pojos.BackerDB;
+import com.github.kickshare.db.jooq.tables.records.BackerRecordDB;
 import com.github.kickshare.domain.City;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,11 +21,11 @@ import org.springframework.stereotype.Repository;
  * @since 26.4.2017
  */
 @Repository
-public class BackerRepositoryImpl extends AbstractRepository<BackerRecord, Backer, Long> implements BackerRepository {
+public class BackerRepositoryImpl extends AbstractRepository<BackerRecordDB, BackerDB, Long> implements BackerRepository {
     private static final Logger LOGGER = LoggerFactory.getLogger(BackerRepositoryImpl.class);
 
     @Autowired
-    public BackerRepositoryImpl(final BackerDao dao) {
+    public BackerRepositoryImpl(final BackerDaoDB dao) {
         super(dao);
     }
 
@@ -60,16 +60,16 @@ public class BackerRepositoryImpl extends AbstractRepository<BackerRecord, Backe
                 this.dsl.selectOne()
                         .from(BACKER_2_GROUP)
                         .where(BACKER_2_GROUP.BACKER_ID.eq(backerId))
-                        .and(BACKER_2_GROUP.STATUS.eq(GroupRequestStatus.APPROVED))
+                        .and(BACKER_2_GROUP.STATUS.eq(GroupRequestStatusDB.APPROVED))
                         .and(GROUP.ID.eq(groupId))
         );
     }
 
-    public Backer findByEmail(final String email) {
+    public BackerDB findByEmail(final String email) {
         return this.dsl
                 .select()
                 .from(BACKER)
                 .where(BACKER.EMAIL.eq(email))
-                .fetchOneInto(Backer.class);
+                .fetchOneInto(BackerDB.class);
     }
 }

@@ -5,10 +5,10 @@ import static com.github.kickshare.mapper.EntityMapper.backer;
 
 import com.github.kickshare.db.dao.BackerRepository;
 import com.github.kickshare.db.dao.UserRepositoryImpl;
-import com.github.kickshare.db.jooq.tables.daos.AddressDao;
-import com.github.kickshare.db.jooq.tables.daos.CityDao;
-import com.github.kickshare.db.jooq.tables.pojos.City;
-import com.github.kickshare.db.jooq.tables.pojos.Users;
+import com.github.kickshare.db.jooq.tables.daos.AddressDaoDB;
+import com.github.kickshare.db.jooq.tables.daos.CityDaoDB;
+import com.github.kickshare.db.jooq.tables.pojos.CityDB;
+import com.github.kickshare.db.jooq.tables.pojos.UsersDB;
 import com.github.kickshare.domain.Address;
 import com.github.kickshare.domain.Backer;
 import com.github.kickshare.security.BackerDetails;
@@ -32,8 +32,8 @@ public class UserServiceImpl implements UserService {
     private BackerRepository backerRepository;
     private UserDetailsManager userManager;
     private PasswordEncoder encoder;
-    private AddressDao addressDao;
-    private CityDao cityDao;
+    private AddressDaoDB addressDao;
+    private CityDaoDB cityDao;
     private UserRepositoryImpl userRepository;
 
     @Override
@@ -42,7 +42,7 @@ public class UserServiceImpl implements UserService {
         BackerDetails userToStore = new BackerDetails(email, encoder.encode("user"), id, false);
         userManager.createUser(userToStore);
 
-        final City city = cityDao.fetchOneById(cityId);
+        final CityDB city = cityDao.fetchOneByIdDB(cityId);
         Address address = new Address(null, id, null, null, city.getId(), null);
         addressDao.insert(address().toDB(address));
 
@@ -78,7 +78,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean verifyUser(String token) {
-        final Users user = userRepository.getUserByToken(token);
+        final UsersDB user = userRepository.getUserByToken(token);
         if (user == null) {
             return false;
         }

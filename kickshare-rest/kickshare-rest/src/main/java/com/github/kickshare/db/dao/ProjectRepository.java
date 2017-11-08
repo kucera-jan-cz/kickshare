@@ -3,8 +3,8 @@ package com.github.kickshare.db.dao;
 import java.io.IOException;
 import java.util.List;
 
-import com.github.kickshare.db.jooq.tables.pojos.Project;
-import com.github.kickshare.db.jooq.tables.records.ProjectRecord;
+import com.github.kickshare.db.jooq.tables.pojos.ProjectDB;
+import com.github.kickshare.db.jooq.tables.records.ProjectRecordDB;
 import com.github.kickshare.service.entity.SearchOptions;
 import org.springframework.stereotype.Repository;
 
@@ -13,9 +13,9 @@ import org.springframework.stereotype.Repository;
  * @since 30.3.2017
  */
 @Repository
-public interface ProjectRepository extends EnhancedDAO<ProjectRecord, Project, Long> {
+public interface ProjectRepository extends EnhancedDAO<ProjectRecordDB, ProjectDB, Long> {
 
-    List<Project> findProjects();
+    List<ProjectDB> findProjects();
 
-    List<Project> searchProjects(SearchOptions options) throws IOException;
+    List<ProjectDB> searchProjects(SearchOptions options) throws IOException;
 }

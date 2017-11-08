@@ -12,7 +12,7 @@ import org.mapstruct.factory.Mappers;
 public interface TagMapper {
     TagMapper INSTANCE = Mappers.getMapper(TagMapper.class);
 
-    Tag toDomain(com.github.kickshare.db.jooq.tables.pojos.Tag source);
+    Tag toDomain(com.github.kickshare.db.jooq.tables.pojos.TagDB source);
 
-    com.github.kickshare.db.jooq.tables.pojos.Tag toDB(Tag source);
+    com.github.kickshare.db.jooq.tables.pojos.TagDB toDB(Tag source);
 }

@@ -3,6 +3,8 @@ package com.github.kickshare.service;
 import static com.github.kickshare.db.jooq.Tables.BACKER;
 import static com.github.kickshare.db.jooq.Tables.BACKER_2_GROUP;
 import static com.github.kickshare.db.jooq.Tables.GROUP;
+import static com.github.kickshare.mapper.EntityMapper.backer;
+import static com.github.kickshare.mapper.EntityMapper.group;
 import static org.jooq.impl.DSL.concat;
 import static org.jooq.impl.DSL.val;
 
@@ -14,11 +16,11 @@ import java.util.stream.Collectors;
 import com.github.kickshare.db.dao.BackerRepository;
 import com.github.kickshare.db.dao.GroupPostRepository;
 import com.github.kickshare.db.dao.GroupRepository;
-import com.github.kickshare.db.jooq.enums.GroupRequestStatus;
-import com.github.kickshare.db.jooq.tables.daos.Backer_2GroupDao;
-import com.github.kickshare.db.jooq.tables.daos.LeaderDao;
-import com.github.kickshare.db.jooq.tables.pojos.Backer_2Group;
-import com.github.kickshare.db.jooq.tables.pojos.GroupPost;
+import com.github.kickshare.db.jooq.enums.GroupRequestStatusDB;
+import com.github.kickshare.db.jooq.tables.daos.Backer_2GroupDaoDB;
+import com.github.kickshare.db.jooq.tables.daos.LeaderDaoDB;
+import com.github.kickshare.db.jooq.tables.pojos.Backer_2GroupDB;
+import com.github.kickshare.db.jooq.tables.pojos.GroupPostDB;
 import com.github.kickshare.domain.Backer;
 import com.github.kickshare.domain.City;
 import com.github.kickshare.domain.Group;
@@ -59,12 +61,13 @@ public class GroupServiceImpl {
     private static final String LEADER_NAME = "leader_name";
     private final GroupRepository groupRepository;
     private final BackerRepository backerRepository;
-    private final Backer_2GroupDao backer2GroupDao;
+    private final Backer_2GroupDaoDB backer2GroupDao;
     private final GroupPostRepository groupPostRepository;
     private final ProjectService projectService;
 
-    private final LeaderDao leaderDao;
+    private final LeaderDaoDB leaderDao;
     private ExtendedMapper mapper;
+
     private JdbcUserDetailsManager userManager;
     private DSLContext dsl;
 
@@ -72,28 +75,28 @@ public class GroupServiceImpl {
     public Long createGroup(Long projectId, String groupName, Long leaderId, boolean isLocal, Integer limit) {
         City city = Validate.notNull(backerRepository.getPermanentAddress(leaderId), "Give leader ({0}) does not have permanent address", leaderId);
         Long groupId = groupRepository.createReturningKey(
-                new com.github.kickshare.db.jooq.tables.pojos.Group(
+                new com.github.kickshare.db.jooq.tables.pojos.GroupDB(
                         null, leaderId, projectId, groupName, city.getId(), city.getLat(), city.getLon(), isLocal, limit)
         );
-        backer2GroupDao.insert(new Backer_2Group(groupId, leaderId, GroupRequestStatus.APPROVED, null));
+        backer2GroupDao.insert(new Backer_2GroupDB(groupId, leaderId, GroupRequestStatusDB.APPROVED, null));
         return groupId;
     }
 
     public com.github.kickshare.domain.Group getGroup(Long groupId) {
-        return mapper.map(groupRepository.findById(groupId), com.github.kickshare.domain.Group.class);
+        return group().toDomain(groupRepository.findById(groupId));
     }
 
     public List<com.github.kickshare.domain.Group> getUserGroups(final Long backerId) {
-        return mapper.map(groupRepository.findAllByUserId(backerId), com.github.kickshare.domain.Group.class);
+        return group().toDomain(groupRepository.findAllByUserId(backerId));
     }
 
     @Transactional
     public GroupDetail getGroupDetail(Long groupId) {
-        Group group = mapper.map(groupRepository.fetchOne(GROUP.ID, groupId), Group.class);
+        Group group = group().toDomain(groupRepository.fetchOne(GROUP.ID, groupId));
         Long projectId = group.getProjectId();
         ProjectInfo projectInfo = projectService.findProjectInfo(projectId);
         GroupDetail detail = new GroupDetail();
-        List<Backer> backers = mapper.map(groupRepository.findAllUsers(groupId), Backer.class);
+        List<Backer> backers = backer().toDomain(groupRepository.findAllUsers(groupId));
         Predicate<Backer> isLeader = (Backer b) -> b.getId().equals(group.getLeaderId());
         Map<Boolean, List<Backer>> backersByLeadership = backers.stream().collect(Collectors.partitioningBy(isLeader));
         detail.setGroup(group);
@@ -106,8 +109,8 @@ public class GroupServiceImpl {
 
     @Transactional
     public List<GroupSummary> findAllGroupInfo(final Long projectId) {
-        com.github.kickshare.db.jooq.tables.Backer u = BACKER.as("u");
-        com.github.kickshare.db.jooq.tables.Group g = GROUP.as("g");
+        com.github.kickshare.db.jooq.tables.BackerDB u = BACKER.as("u");
+        com.github.kickshare.db.jooq.tables.GroupDB g = GROUP.as("g");
         /**
          * SELECT *
          FROM "GROUP" AS g
@@ -150,42 +153,42 @@ public class GroupServiceImpl {
 
     //    @TODO - decide whether user type should stay or completely rewrite to Backer
     public List<Backer> getGroupUsers(Long groupId) {
-        return mapper.map(groupRepository.findAllUsers(groupId), Backer.class);
+        return backer().toDomain(groupRepository.findAllUsers(groupId));
     }
 
     @Transactional
     public void registerBacker(Long groupId, Long backerId) {
         //@TODO - add supporting message
-        backer2GroupDao.update(new Backer_2Group(groupId, backerId, GroupRequestStatus.REQUESTED, null));
+        backer2GroupDao.update(new Backer_2GroupDB(groupId, backerId, GroupRequestStatusDB.REQUESTED, null));
     }
 
     @Transactional
     public void removeBacker(Long groupId, Long backerId) {
-        backer2GroupDao.delete(new Backer_2Group(groupId, backerId, GroupRequestStatus.REQUESTED, null));
+        backer2GroupDao.delete(new Backer_2GroupDB(groupId, backerId, GroupRequestStatusDB.REQUESTED, null));
     }
 
     @Transactional
     public void saveLeader(final Long id, final String email, final Long kickstarterId) {
         Validate.isTrue(!leaderDao.existsById(id), "Backer is already registered as leader");
-        leaderDao.insert(mapper.map(new Leader(id, email, kickstarterId), com.github.kickshare.db.jooq.tables.pojos.Leader.class));
+        leaderDao.insert(mapper.map(new Leader(id, email, kickstarterId), com.github.kickshare.db.jooq.tables.pojos.LeaderDB.class));
         userManager.addUserToGroup(email, GroupConstants.LEADERS);
     }
 
     @Transactional
     public Post insertPost(Post post) {
-        GroupPost dbPost = mapper.map(post, GroupPost.class);
+        GroupPostDB dbPost = mapper.map(post, GroupPostDB.class);
         Long id = groupPostRepository.createReturningKey(dbPost);
         dbPost = groupPostRepository.findById(id);
         return mapper.map(dbPost, Post.class);
     }
 
     public void updatePost(Post post) {
-        groupPostRepository.updatePost(mapper.map(post, GroupPost.class));
+        groupPostRepository.updatePost(mapper.map(post, GroupPostDB.class));
     }
 
     @Transactional
     public Page<Post> getPosts(final Long groupId, Pageable pageInfo) {
-        List<GroupPost> GroupPost = groupRepository.getGroupPost(groupId, pageInfo.getOffset(), pageInfo.getPageSize());
+        List<GroupPostDB> GroupPost = groupRepository.getGroupPost(groupId, pageInfo.getOffset(), pageInfo.getPageSize());
         List<Post> posts = mapper.map(GroupPost, Post.class);
         long total = groupRepository.getGroupPostCount(groupId);
         Page<Post> postsPage = new PageImpl<>(posts, pageInfo, total);
@@ -200,8 +203,8 @@ public class GroupServiceImpl {
         return backerRepository.ownGroup(backerId, groupId);
     }
 
-    public void updateGroupRequestStatus(final Long groupId, final Long backerId, GroupRequestStatus status) {
+    public void updateGroupRequestStatus(final Long groupId, final Long backerId, GroupRequestStatusDB status) {
         //@TODO - add supporting message
-        backer2GroupDao.update(new Backer_2Group(groupId, backerId, status, null));
+        backer2GroupDao.update(new Backer_2GroupDB(groupId, backerId, status, null));
     }
 }

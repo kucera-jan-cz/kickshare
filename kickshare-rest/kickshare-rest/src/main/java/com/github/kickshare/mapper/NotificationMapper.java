@@ -15,12 +15,12 @@ public interface NotificationMapper {
 
     NotificationMapper MAPPER = Mappers.getMapper(NotificationMapper.class);
 
-    Notification toDomain(com.github.kickshare.db.jooq.tables.pojos.Notification source);
+    Notification toDomain(com.github.kickshare.db.jooq.tables.pojos.NotificationDB source);
 
-    List<Notification> toDomain(List<com.github.kickshare.db.jooq.tables.pojos.Notification> source);
+    List<Notification> toDomain(List<com.github.kickshare.db.jooq.tables.pojos.NotificationDB> source);
 
-    com.github.kickshare.db.jooq.tables.pojos.Notification toDB(Notification source);
+    com.github.kickshare.db.jooq.tables.pojos.NotificationDB toDB(Notification source);
 
-    List<com.github.kickshare.db.jooq.tables.pojos.Notification> toDB(List<Notification> source);
+    List<com.github.kickshare.db.jooq.tables.pojos.NotificationDB> toDB(List<Notification> source);
 
 }

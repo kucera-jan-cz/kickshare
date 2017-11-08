@@ -8,11 +8,9 @@ import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import com.github.kickshare.db.dao.KickshareRepository;
 import com.github.kickshare.db.dao.ProjectRepository;
-import com.github.kickshare.db.jooq.tables.daos.ProjectPhotoDao;
-import com.github.kickshare.db.jooq.tables.pojos.ProjectPhoto;
-import com.github.kickshare.domain.Project;
+import com.github.kickshare.db.jooq.tables.daos.ProjectPhotoDaoDB;
+import com.github.kickshare.db.jooq.tables.pojos.ProjectPhotoDB;
 import com.github.kickshare.domain.ProjectInfo;
 import com.github.kickshare.service.ProjectService;
 import com.github.kickshare.service.entity.SearchOptions;
@@ -33,32 +31,14 @@ public class ProjectServiceImpl implements ProjectService {
     private static final Logger LOGGER = LoggerFactory.getLogger(ProjectServiceImpl.class);
 
     private ProjectRepository projectRepository;
-    private ProjectPhotoDao photoDao;
-//    private ExtendedMapper mapper;
+    private ProjectPhotoDaoDB photoDao;
     private DSLContext dsl;
-    private KickshareRepository repository;
-
-
-    @Override
-    public Long registerProject(Project project) throws IOException {
-//        Predicate<CampaignProject> equalFilter = p -> p.getId().equals(project.getId()) && p.getName()
-//                .equals(project.getName());
-//        if (projectRepository.existsById(project.getId())) {
-//            LOGGER.debug("CampaignProject {} with ID {} exists", project.getName(), project.getId());
-//            return project.getId();
-//        } else {
-//            CampaignProject ksProject = ksService.findProjects(project.getName(), "Games").stream().filter(equalFilter)
-//                    .findAny().get();
-//            return projectRepository.createReturningKey(mapper.map(ksProject, DB_TYPE));
-//        }
-        return 1L;
-    }
 
     @Override
     @Transactional
     public ProjectInfo findProjectInfo(Long projectId) {
-        final com.github.kickshare.db.jooq.tables.pojos.Project project = projectRepository.findById(projectId);
-        final ProjectPhoto projectPhoto = photoDao.fetchOneByProjectId(projectId);
+        final com.github.kickshare.db.jooq.tables.pojos.ProjectDB project = projectRepository.findById(projectId);
+        final ProjectPhotoDB projectPhoto = photoDao.fetchOneByProjectIdDB(projectId);
         ProjectInfo info = new ProjectInfo();
         info.setProject(project().toDomain(project));
         info.setPhotoUrl(projectPhoto.getThumb());
@@ -71,7 +51,7 @@ public class ProjectServiceImpl implements ProjectService {
     public void saveProjects(final List<ProjectInfo> projects) {
         for (ProjectInfo info : projects) {
             Long id = projectRepository.createReturningKey(project().toDB(info.getProject()));
-            com.github.kickshare.db.jooq.tables.pojos.ProjectPhoto photo = photo().toDB(info.getPhoto());
+            com.github.kickshare.db.jooq.tables.pojos.ProjectPhotoDB photo = photo().toDB(info.getPhoto());
             photo.setProjectId(id);
             photoDao.insert(photo);
         }
@@ -80,7 +60,7 @@ public class ProjectServiceImpl implements ProjectService {
     @Transactional
     @Override
     public List<ProjectInfo> searchProjects(SearchOptions options) throws IOException {
-        final List<com.github.kickshare.db.jooq.tables.pojos.Project> projects = projectRepository.searchProjects(options);
+        final List<com.github.kickshare.db.jooq.tables.pojos.ProjectDB> projects = projectRepository.searchProjects(options);
         final List<ProjectInfo> infos = projects.stream().map(this::toProjectInfo).collect(Collectors.toList());
         return infos;
     }
@@ -88,13 +68,13 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     @Transactional
     public List<ProjectInfo> findProjectInfoByName(final String name) {
-        final List<com.github.kickshare.db.jooq.tables.pojos.Project> projects = searchProjectsByName(name);
+        final List<com.github.kickshare.db.jooq.tables.pojos.ProjectDB> projects = searchProjectsByName(name);
         final List<ProjectInfo> infos = projects.stream().map(this::toProjectInfo).collect(Collectors.toList());
         return infos;
     }
 
-    private ProjectInfo toProjectInfo(com.github.kickshare.db.jooq.tables.pojos.Project project) {
-        final ProjectPhoto projectPhoto = photoDao.fetchOneByProjectId(project.getId());
+    private ProjectInfo toProjectInfo(com.github.kickshare.db.jooq.tables.pojos.ProjectDB project) {
+        final ProjectPhotoDB projectPhoto = photoDao.fetchOneByProjectIdDB(project.getId());
         ProjectInfo info = new ProjectInfo();
         info.setProject(project().toDomain(project));
         info.setPhotoUrl(projectPhoto.getThumb());
@@ -103,7 +83,7 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
 
-    private List<com.github.kickshare.db.jooq.tables.pojos.Project> searchProjectsByName(String name) {
-        return dsl.select().from(PROJECT).where(PROJECT.NAME.like('%' + name + '%')).fetchInto(com.github.kickshare.db.jooq.tables.pojos.Project.class);
+    private List<com.github.kickshare.db.jooq.tables.pojos.ProjectDB> searchProjectsByName(String name) {
+        return dsl.select().from(PROJECT).where(PROJECT.NAME.like('%' + name + '%')).fetchInto(com.github.kickshare.db.jooq.tables.pojos.ProjectDB.class);
     }
 }

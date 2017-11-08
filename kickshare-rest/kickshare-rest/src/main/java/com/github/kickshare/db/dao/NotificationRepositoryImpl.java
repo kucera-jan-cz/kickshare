@@ -4,7 +4,7 @@ import static com.github.kickshare.db.jooq.Tables.NOTIFICATION;
 
 import java.util.List;
 
-import com.github.kickshare.db.jooq.tables.pojos.Notification;
+import com.github.kickshare.db.jooq.tables.pojos.NotificationDB;
 import lombok.AllArgsConstructor;
 import org.jooq.DSLContext;
 import org.jooq.Record;
@@ -21,27 +21,27 @@ public class NotificationRepositoryImpl implements NotificationRepository {
     private DSLContext dsl;
 
     @Override
-    public List<Notification> getUserNotification(final Long backerId, final int size) {
+    public List<NotificationDB> getUserNotification(final Long backerId, final int size) {
         return dsl.select()
                 .from(NOTIFICATION)
                 .where(NOTIFICATION.BACKER_ID.eq(backerId))
                 .orderBy(NOTIFICATION.ID.desc())
                 .limit(size)
-                .fetchInto(Notification.class);
+                .fetchInto(NotificationDB.class);
     }
 
     @Override
-    public List<Notification> getNotifications(final Long notificationId, final int size) {
+    public List<NotificationDB> getNotifications(final Long notificationId, final int size) {
         SelectSeekStep1<Record, Long> select = dsl.select()
                 .from(NOTIFICATION)
                 .orderBy(NOTIFICATION.ID.asc());
         if (notificationId > 0) {
             return select.seekAfter(notificationId)
                     .limit(size)
-                    .fetchInto(Notification.class);
+                    .fetchInto(NotificationDB.class);
         } else {
             return select.limit(size)
-                    .fetchInto(Notification.class);
+                    .fetchInto(NotificationDB.class);
         }
     }
 }

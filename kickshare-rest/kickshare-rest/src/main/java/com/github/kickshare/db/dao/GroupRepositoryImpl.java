@@ -9,12 +9,12 @@ import static com.github.kickshare.db.jooq.Tables.PROJECT_PHOTO;
 
 import java.util.List;
 
-import com.github.kickshare.db.jooq.enums.GroupRequestStatus;
-import com.github.kickshare.db.jooq.tables.daos.GroupDao;
-import com.github.kickshare.db.jooq.tables.pojos.Group;
-import com.github.kickshare.db.jooq.tables.pojos.GroupPost;
-import com.github.kickshare.db.jooq.tables.pojos.Project;
-import com.github.kickshare.db.jooq.tables.records.GroupRecord;
+import com.github.kickshare.db.jooq.enums.GroupRequestStatusDB;
+import com.github.kickshare.db.jooq.tables.daos.GroupDaoDB;
+import com.github.kickshare.db.jooq.tables.pojos.GroupDB;
+import com.github.kickshare.db.jooq.tables.pojos.GroupPostDB;
+import com.github.kickshare.db.jooq.tables.pojos.ProjectDB;
+import com.github.kickshare.db.jooq.tables.records.GroupRecordDB;
 import com.github.kickshare.db.query.GroupQueryBuilder;
 import com.github.kickshare.domain.GroupSummary;
 import com.github.kickshare.service.entity.SearchOptions;
@@ -33,18 +33,18 @@ import org.springframework.transaction.annotation.Transactional;
  * @since 6.4.2017
  */
 @Repository
-public class GroupRepositoryImpl extends AbstractRepository<GroupRecord, Group, Long> implements GroupRepository {
+public class GroupRepositoryImpl extends AbstractRepository<GroupRecordDB, GroupDB, Long> implements GroupRepository {
     private static final Logger LOGGER = LoggerFactory.getLogger(GroupRepositoryImpl.class);
     private final GroupQueryBuilder groupQuery = new GroupQueryBuilder();
 
     @Autowired
     public GroupRepositoryImpl(Configuration jooqConfig) {
-        super(new GroupDao(jooqConfig));
+        super(new GroupDaoDB(jooqConfig));
     }
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
-    public Long createReturningKey(final Group group) {
+    public Long createReturningKey(final GroupDB group) {
         Long groupId = super.createReturningKey(group);
         if (groupId < 1) {
             throw new IllegalArgumentException("Failure");
@@ -56,44 +56,44 @@ public class GroupRepositoryImpl extends AbstractRepository<GroupRecord, Group, 
         }
     }
 
-    public List<Group> findAllByProjectId(final Project project) {
+    public List<GroupDB> findAllByProjectId(final ProjectDB project) {
         return findAllByProjectId(project.getId());
     }
 
     @Override
-    public List<Group> findAllByProjectId(final Long projectId) {
+    public List<GroupDB> findAllByProjectId(final Long projectId) {
         return dsl
                 .select()
                 .from(GROUP)
                 .where(GROUP.PROJECT_ID.eq(projectId))
-                .fetchInto(Group.class);
+                .fetchInto(GroupDB.class);
     }
 
     @Override
-    public List<com.github.kickshare.db.jooq.tables.pojos.Backer> findAllUsers(final Long groupId) {
-        return findUsersByStatus(groupId, GroupRequestStatus.APPROVED);
+    public List<com.github.kickshare.db.jooq.tables.pojos.BackerDB> findAllUsers(final Long groupId) {
+        return findUsersByStatus(groupId, GroupRequestStatusDB.APPROVED);
     }
 
-    public List<com.github.kickshare.db.jooq.tables.pojos.Backer> findWaitingUsers(final Long groupId) {
-        return findUsersByStatus(groupId, GroupRequestStatus.REQUESTED);
+    public List<com.github.kickshare.db.jooq.tables.pojos.BackerDB> findWaitingUsers(final Long groupId) {
+        return findUsersByStatus(groupId, GroupRequestStatusDB.REQUESTED);
     }
 
     @Override
-    public List<Group> findAllByUserId(final Long userId) {
+    public List<GroupDB> findAllByUserId(final Long userId) {
         return dsl
                 .select()
                 .from(GROUP)
                 .join(BACKER_2_GROUP).on(GROUP.ID.eq(BACKER_2_GROUP.GROUP_ID))
                 .where(BACKER_2_GROUP.BACKER_ID.eq(userId))
-                .fetchInto(Group.class);
+                .fetchInto(GroupDB.class);
     }
 
     @Override
-    public List<Group> searchGroups(SearchOptions options) {
-        List<com.github.kickshare.db.jooq.tables.pojos.Group> groups = dsl.select()
+    public List<GroupDB> searchGroups(SearchOptions options) {
+        List<com.github.kickshare.db.jooq.tables.pojos.GroupDB> groups = dsl.select()
                 .from(GROUP)
                 .where(groupQuery.apply(options))
-                .fetchInto(com.github.kickshare.db.jooq.tables.pojos.Group.class);
+                .fetchInto(com.github.kickshare.db.jooq.tables.pojos.GroupDB.class);
         LOGGER.info("Returning: {}", groups);
         return groups;
     }
@@ -141,13 +141,13 @@ public class GroupRepositoryImpl extends AbstractRepository<GroupRecord, Group, 
 //        return info;
 //    }
 
-    public List<GroupPost> getGroupPost(final Long groupId, int offset, int size) {
+    public List<GroupPostDB> getGroupPost(final Long groupId, int offset, int size) {
         return dsl.select()
                 .from(GROUP_POST)
                 .where(GROUP_POST.GROUP_ID.eq(groupId))
                 .orderBy(GROUP_POST.POST_ID.desc())
                 .limit(offset, size)
-                .fetchInto(GroupPost.class);
+                .fetchInto(GroupPostDB.class);
     }
 
     public long getGroupPostCount(final Long groupId) {
@@ -155,13 +155,13 @@ public class GroupRepositoryImpl extends AbstractRepository<GroupRecord, Group, 
 
     }
 
-    private List<com.github.kickshare.db.jooq.tables.pojos.Backer> findUsersByStatus(final Long groupId, final GroupRequestStatus status) {
+    private List<com.github.kickshare.db.jooq.tables.pojos.BackerDB> findUsersByStatus(final Long groupId, final GroupRequestStatusDB status) {
         return dsl
                 .select()
                 .from(BACKER)
                 .join(BACKER_2_GROUP).on(BACKER.ID.eq(BACKER_2_GROUP.BACKER_ID))
                 .where(BACKER_2_GROUP.GROUP_ID.eq(groupId))
                 .and(BACKER_2_GROUP.STATUS.eq(status))
-                .fetchInto(com.github.kickshare.db.jooq.tables.pojos.Backer.class);
+                .fetchInto(com.github.kickshare.db.jooq.tables.pojos.BackerDB.class);
     }
 }

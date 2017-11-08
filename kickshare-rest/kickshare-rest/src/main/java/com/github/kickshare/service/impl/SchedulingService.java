@@ -3,8 +3,8 @@ package com.github.kickshare.service.impl;
 import java.util.List;
 
 import com.github.kickshare.db.jooq.Tables;
-import com.github.kickshare.db.jooq.enums.TokenType;
-import com.github.kickshare.db.jooq.tables.TokenRequest;
+import com.github.kickshare.db.jooq.enums.TokenTypeDB;
+import com.github.kickshare.db.jooq.tables.TokenRequestDB;
 import com.github.kickshare.gmail.GMailService;
 import org.jooq.DSLContext;
 import org.jooq.Record1;
@@ -21,13 +21,13 @@ public class SchedulingService {
     private MailService mailService;
 
     private ResultQuery<Record1<String>> generatedPasswordQuery = dsl.select(Tables.TOKEN_REQUEST.TOKEN)
-            .from(TokenRequest.TOKEN_REQUEST)
-            .where(TokenRequest.TOKEN_REQUEST.TOKEN_TYPE.eq(TokenType.PASSWORD_RESET))
+            .from(TokenRequestDB.TOKEN_REQUEST)
+            .where(TokenRequestDB.TOKEN_REQUEST.TOKEN_TYPE.eq(TokenTypeDB.PASSWORD_RESET))
             .keepStatement(true);
 
     private ResultQuery<Record1<String>> generatedPasswordResetQuery = dsl.select(Tables.TOKEN_REQUEST.TOKEN)
-            .from(TokenRequest.TOKEN_REQUEST)
-            .where(TokenRequest.TOKEN_REQUEST.TOKEN_TYPE.eq(TokenType.PASSWORD_MAIL))
+            .from(TokenRequestDB.TOKEN_REQUEST)
+            .where(TokenRequestDB.TOKEN_REQUEST.TOKEN_TYPE.eq(TokenTypeDB.PASSWORD_MAIL))
             .keepStatement(true);
 
     @Scheduled(cron = "* * * * * *")

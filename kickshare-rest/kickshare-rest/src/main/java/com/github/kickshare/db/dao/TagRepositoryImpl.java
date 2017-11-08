@@ -5,9 +5,9 @@ import static com.github.kickshare.db.jooq.Tables.TAG_2_CATEGORY;
 
 import java.util.List;
 
-import com.github.kickshare.db.jooq.tables.daos.TagDao;
-import com.github.kickshare.db.jooq.tables.pojos.Tag;
-import com.github.kickshare.db.jooq.tables.records.TagRecord;
+import com.github.kickshare.db.jooq.tables.daos.TagDaoDB;
+import com.github.kickshare.db.jooq.tables.pojos.TagDB;
+import com.github.kickshare.db.jooq.tables.records.TagRecordDB;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -16,10 +16,10 @@ import org.springframework.stereotype.Repository;
  * @since 18.7.2017
  */
 @Repository
-public class TagRepositoryImpl extends AbstractRepository<TagRecord, Tag, Short> implements TagRepository {
+public class TagRepositoryImpl extends AbstractRepository<TagRecordDB, TagDB, Short> implements TagRepository {
 
     @Autowired
-    public TagRepositoryImpl(TagDao dao) {
+    public TagRepositoryImpl(TagDaoDB dao) {
         super(dao);
     }
 
