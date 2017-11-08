@@ -43,4 +43,5 @@ public class GroupSummary {
     private Project project;
     //@TODO - consider whether it's really needed
     private ProjectPhoto photo;
+    private Backer leader;
 }

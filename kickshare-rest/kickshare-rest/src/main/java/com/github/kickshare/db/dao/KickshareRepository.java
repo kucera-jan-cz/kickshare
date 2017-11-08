@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.List;
 
 import com.github.kickshare.db.jooq.tables.pojos.Group;
-import com.github.kickshare.db.jooq.tables.pojos.Project;
 import com.github.kickshare.domain.City;
 import com.github.kickshare.domain.ProjectInfo;
 import com.github.kickshare.service.entity.CityGrid;
@@ -58,5 +57,4 @@ public interface KickshareRepository {
 
     List<CityGrid> searchCityGrid(SearchOptions options) throws IOException;
 
-    List<Project> searchProjects(SearchOptions options) throws IOException;
 }

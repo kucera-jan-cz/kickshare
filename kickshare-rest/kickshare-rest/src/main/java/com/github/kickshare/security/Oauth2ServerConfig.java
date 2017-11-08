@@ -1,5 +1,7 @@
 package com.github.kickshare.security;
 
+import javax.sql.DataSource;
+
 import com.github.kickshare.security.oauth2.LogoutSuccessHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
@@ -23,7 +25,7 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Aut
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.ResourceServerSecurityConfigurer;
 import org.springframework.security.oauth2.provider.token.TokenStore;
-import org.springframework.security.oauth2.provider.token.store.InMemoryTokenStore;
+import org.springframework.security.oauth2.provider.token.store.JdbcTokenStore;
 import org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -47,8 +49,8 @@ public class Oauth2ServerConfig extends GlobalAuthenticationConfigurerAdapter {
 
 
     @Bean
-    public TokenStore tokenStore() {
-        return new InMemoryTokenStore();
+    public TokenStore tokenStore(final DataSource datasource) {
+        return new JdbcTokenStore(datasource);
     }
 
     @Override

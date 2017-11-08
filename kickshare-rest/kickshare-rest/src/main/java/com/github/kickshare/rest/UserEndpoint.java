@@ -73,8 +73,7 @@ public class UserEndpoint {
     }
 
     @PostMapping
-    //@TODO - consider moving this to account
-    @Deprecated
+    @Deprecated //Moved to AccountEndpoint
     public UserDetails createUser(@RequestBody UserInfo user) {
         Backer backer = new Backer(null, user.getEmail(), user.getName(), user.getSurname(), null, null);
         BackerDetails userDetail = userService.createUser(backer, user.getPassword(), user.getAddress());

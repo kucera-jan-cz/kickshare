@@ -4,7 +4,6 @@ import com.github.kickshare.domain.ProjectPhoto;
 import com.github.kickshare.kickstarter.entity.CampaignProjectPhoto;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-import org.mapstruct.factory.Mappers;
 
 /**
  * @author Jan.Kucera
@@ -12,8 +11,6 @@ import org.mapstruct.factory.Mappers;
  */
 @Mapper(config = CentralConfig.class)
 public interface ProjectPhotoMapper {
-    ProjectPhotoMapper INSTANCE = Mappers.getMapper(ProjectPhotoMapper.class);
-
     ProjectPhoto toDomain(com.github.kickshare.db.jooq.tables.pojos.ProjectPhoto source);
 
     com.github.kickshare.db.jooq.tables.pojos.ProjectPhoto toDB(ProjectPhoto source);
