@@ -1,8 +1,8 @@
 package com.github.kickshare.service.impl;
 
 import com.github.kickshare.db.dao.TokenRepository;
-import com.github.kickshare.db.jooq.enums.TokenType;
-import com.github.kickshare.db.jooq.tables.pojos.TokenRequest;
+import com.github.kickshare.db.jooq.enums.TokenTypeDB;
+import com.github.kickshare.db.jooq.tables.pojos.TokenRequestDB;
 import com.github.kickshare.gmail.GMailService;
 import com.github.kickshare.security.BackerDetails;
 import com.github.kickshare.security.ExtendedJdbcUserDetailsManager;
@@ -31,16 +31,16 @@ public class MailService {
     public void sendPasswordResetMail(String token) {
         //2. send email
         //3. change request token to pending token (PASSWORD_MAIL_WAITING)
-        final TokenRequest tokenRequest = tokenRepository.findById(token);
+        final TokenRequestDB tokenRequest = tokenRepository.findById(token);
         BackerDetails user = (BackerDetails) userDetailsManager.loadUserById(tokenRequest.getUserId());
         gmail.sendPasswordResetMail(user.getUsername(), tokenRequest.getToken());
-        tokenRequest.setTokenType(TokenType.PASSWORD_MAIL_WAITING);
+        tokenRequest.setTokenType(TokenTypeDB.PASSWORD_MAIL_WAITING);
         tokenRepository.update(tokenRequest);
     }
 
     @Transactional
     public void resetPassword(String token) {
-        final TokenRequest tokenRequest = tokenRepository.findById(token);
+        final TokenRequestDB tokenRequest = tokenRepository.findById(token);
         BackerDetails user = (BackerDetails) userDetailsManager.loadUserById(tokenRequest.getUserId());
         final String temporaryPassword = RandomStringUtils.randomAlphanumeric(16);
         userService.changePassword(user, temporaryPassword);

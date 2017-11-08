@@ -1,8 +1,8 @@
 package com.github.kickshare.db.dao;
 
-import com.github.kickshare.db.jooq.tables.daos.TokenRequestDao;
-import com.github.kickshare.db.jooq.tables.pojos.TokenRequest;
-import com.github.kickshare.db.jooq.tables.records.TokenRequestRecord;
+import com.github.kickshare.db.jooq.tables.daos.TokenRequestDaoDB;
+import com.github.kickshare.db.jooq.tables.pojos.TokenRequestDB;
+import com.github.kickshare.db.jooq.tables.records.TokenRequestRecordDB;
 import org.springframework.stereotype.Service;
 
 /**
@@ -10,9 +10,9 @@ import org.springframework.stereotype.Service;
  * @since 29.9.2017
  */
 @Service
-public class TokenRepositoryImpl extends AbstractRepository<TokenRequestRecord, TokenRequest, String> implements TokenRepository {
+public class TokenRepositoryImpl extends AbstractRepository<TokenRequestRecordDB, TokenRequestDB, String> implements TokenRepository {
 
-    public TokenRepositoryImpl(TokenRequestDao dao) {
+    public TokenRepositoryImpl(TokenRequestDaoDB dao) {
         super(dao);
     }
 }

@@ -1,5 +1,7 @@
 package com.github.kickshare.rest;
 
+import static com.github.kickshare.mapper.EntityMapper.project;
+
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
@@ -7,7 +9,6 @@ import java.util.Map;
 import com.github.kickshare.domain.GroupSummary;
 import com.github.kickshare.domain.ProjectInfo;
 import com.github.kickshare.kickstarter.KickstarterCampaignService;
-import com.github.kickshare.mapper.ExtendedMapper;
 import com.github.kickshare.service.GroupServiceImpl;
 import com.github.kickshare.service.entity.SearchOptions;
 import lombok.AllArgsConstructor;
@@ -34,7 +35,6 @@ public class ProjectEndpoint {
     private final KickstarterCampaignService kickstarter;
     private final com.github.kickshare.service.ProjectService projectService;
     private final GroupServiceImpl groupService;
-    private final ExtendedMapper dozer;
 
 
     @GetMapping
@@ -66,7 +66,7 @@ public class ProjectEndpoint {
     }
 
     private List<ProjectInfo> searchKickstarter(final String name, @RequestParam final Integer categoryId) throws IOException {
-        final List<ProjectInfo> projects = dozer.map(kickstarter.findProjects(name, categoryId), ProjectInfo.class);
+        final List<ProjectInfo> projects = project().toDomain(kickstarter.findProjects(name, categoryId));
         LOGGER.debug("Found kickstarter projects: \n{}", projects);
         return projects;
     }

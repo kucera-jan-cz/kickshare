@@ -1,45 +1,60 @@
 package com.github.kickshare.mapper;
 
-import org.mapstruct.factory.Mappers;
+import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Component;
 
 /**
  * @author Jan.Kucera
  * @since 7.11.2017
  */
+@AllArgsConstructor
+@Component
 public class EntityMapper {
-    private static AddressMapper address = Mappers.getMapper(AddressMapper.class);
-    private static BackerMapper backer = Mappers.getMapper(BackerMapper.class);
-    private static GroupMapper group = Mappers.getMapper(GroupMapper.class);
-    private static ProjectMapper project = Mappers.getMapper(ProjectMapper.class);
-    private static ProjectPhotoMapper photo = Mappers.getMapper(ProjectPhotoMapper.class);
-    private static TagMapper tag = Mappers.getMapper(TagMapper.class);
-    private static NotificationMapper notification = Mappers.getMapper(NotificationMapper.class);
+    private static EntityMapper INSTANCE;
+
+    private AddressMapper address;
+    private CategoryMapper category;
+    private BackerMapper backer;
+    private GroupMapper group;
+    private ProjectMapper project;
+    private ProjectPhotoMapper photo;
+    private TagMapper tag;
+    private NotificationMapper notification;
+
 
     public static AddressMapper address() {
-        return address;
+        return INSTANCE.address;
+    }
+
+    public static CategoryMapper category() {
+        return INSTANCE.category;
     }
 
     public static BackerMapper backer() {
-        return backer;
+        return INSTANCE.backer;
     }
 
     public static GroupMapper group() {
-        return group;
+        return INSTANCE.group;
     }
 
     public static ProjectMapper project() {
-        return project;
+        return INSTANCE.project;
     }
 
     public static ProjectPhotoMapper photo() {
-        return photo;
+        return INSTANCE.photo;
     }
 
     public static TagMapper tag() {
-        return tag;
+        return INSTANCE.tag;
     }
 
     public static NotificationMapper notification() {
-        return notification;
+        return INSTANCE.notification;
+    }
+
+    public static void setInstance(final EntityMapper instance) {
+        EntityMapper.INSTANCE = instance;
     }
 }

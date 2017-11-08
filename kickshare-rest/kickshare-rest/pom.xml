@@ -249,6 +249,12 @@
             <scope>test</scope>
         </dependency>
         <dependency>
+            <groupId>io.github.benas</groupId>
+            <artifactId>random-beans</artifactId>
+            <version>${random-beans.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
             <groupId>com.icegreen</groupId>
             <artifactId>greenmail</artifactId>
             <version>${greenmail.version}</version>
@@ -306,7 +312,7 @@
                             <properties>
                                 <property>
                                     <name>org.jooq.util.example.java-class-name-suffix</name>
-                                    <value></value>
+                                    <value>DB</value>
                                 </property>
                             </properties>
                         </configuration>
@@ -345,7 +351,7 @@
                             <inputSchema>KS</inputSchema>
                         </database>
                         <target>
-                            <packageName>com.github.kickshare.db.java</packageName>
+                            <packageName>com.github.kickshare.db.jooq</packageName>
                             <directory>target/generated-sources/jooq</directory>
                         </target>
                         <generate>

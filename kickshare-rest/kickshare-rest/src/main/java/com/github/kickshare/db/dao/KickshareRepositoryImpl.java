@@ -5,6 +5,7 @@ import static com.github.kickshare.db.jooq.Tables.GROUP;
 import static com.github.kickshare.db.jooq.Tables.GROUP_POST;
 import static com.github.kickshare.db.jooq.Tables.PROJECT;
 import static com.github.kickshare.mapper.EntityMapper.photo;
+import static com.github.kickshare.mapper.EntityMapper.project;
 import static org.jooq.impl.DSL.count;
 
 import java.io.IOException;
@@ -12,15 +13,14 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.function.Function;
 
-import com.github.kickshare.db.jooq.tables.daos.ProjectPhotoDao;
-import com.github.kickshare.db.jooq.tables.pojos.GroupPost;
-import com.github.kickshare.db.jooq.tables.pojos.Project;
-import com.github.kickshare.db.jooq.tables.pojos.ProjectPhoto;
-import com.github.kickshare.db.jooq.tables.records.ProjectRecord;
+import com.github.kickshare.db.jooq.tables.daos.ProjectPhotoDaoDB;
+import com.github.kickshare.db.jooq.tables.pojos.GroupPostDB;
+import com.github.kickshare.db.jooq.tables.pojos.ProjectDB;
+import com.github.kickshare.db.jooq.tables.pojos.ProjectPhotoDB;
+import com.github.kickshare.db.jooq.tables.records.ProjectRecordDB;
 import com.github.kickshare.db.query.GroupQueryBuilder;
 import com.github.kickshare.domain.City;
 import com.github.kickshare.domain.ProjectInfo;
-import com.github.kickshare.mapper.ExtendedMapper;
 import com.github.kickshare.service.entity.CityGrid;
 import com.github.kickshare.service.entity.Location;
 import com.github.kickshare.service.entity.SearchOptions;
@@ -45,8 +45,7 @@ public class KickshareRepositoryImpl implements KickshareRepository {
     private static final Logger LOGGER = LoggerFactory.getLogger(KickshareRepositoryImpl.class);
 
     private DSLContext dsl;
-    private ProjectPhotoDao photoDao;
-    private ExtendedMapper mapper;
+    private ProjectPhotoDaoDB photoDao;
     private final GroupQueryBuilder groupQuery = new GroupQueryBuilder();
 
 
@@ -54,11 +53,11 @@ public class KickshareRepositoryImpl implements KickshareRepository {
     @Transactional(propagation = Propagation.REQUIRED)
     public void saveProjects(final List<ProjectInfo> projects) {
         for (ProjectInfo info : projects) {
-            Project project = mapper.map(info, Project.class);
-            ProjectRecord record = dsl.newRecord(PROJECT, project);
+            ProjectDB project = project().toDB(info.getProject());
+            ProjectRecordDB record = dsl.newRecord(PROJECT, project);
             int count = dsl.insertInto(PROJECT, record.fields()).values(record.valuesRow().fields()).onConflictDoNothing().execute();
             if (count > 0) {
-                ProjectPhoto photo = photo().toDB(info.getPhoto());
+                ProjectPhotoDB photo = photo().toDB(info.getPhoto());
                 photo.setProjectId(info.getId());
                 photoDao.insert(photo);
             }
@@ -77,21 +76,21 @@ public class KickshareRepositoryImpl implements KickshareRepository {
     }
 
     @Override
-    public List<com.github.kickshare.db.jooq.tables.pojos.Group> searchGroups(SearchOptions options) {
-        List<com.github.kickshare.db.jooq.tables.pojos.Group> groups = dsl.select()
+    public List<com.github.kickshare.db.jooq.tables.pojos.GroupDB> searchGroups(SearchOptions options) {
+        List<com.github.kickshare.db.jooq.tables.pojos.GroupDB> groups = dsl.select()
                 .from(GROUP)
                 .where(groupQuery.apply(options))
-                .fetchInto(com.github.kickshare.db.jooq.tables.pojos.Group.class);
+                .fetchInto(com.github.kickshare.db.jooq.tables.pojos.GroupDB.class);
         LOGGER.info("Returning: {}", groups);
         return groups;
     }
 
-    public List<GroupPost> getGroupPost(Long groupId, Pageable pageable) {
+    public List<GroupPostDB> getGroupPost(Long groupId, Pageable pageable) {
         return dsl.select()
                 .from(GROUP_POST)
                 .where(GROUP_POST.GROUP_ID.eq(groupId))
                 .orderBy(GROUP_POST.POST_MODIFIED.desc())
-                .fetchInto(com.github.kickshare.db.jooq.tables.pojos.GroupPost.class);
+                .fetchInto(com.github.kickshare.db.jooq.tables.pojos.GroupPostDB.class);
     }
 
     public List<CityGrid> searchCityGrid(SearchOptions options) throws IOException {

@@ -1,19 +1,19 @@
 package com.github.kickshare.db;
 
-import com.github.kickshare.db.jooq.tables.daos.AddressDao;
-import com.github.kickshare.db.jooq.tables.daos.BackerDao;
-import com.github.kickshare.db.jooq.tables.daos.BackerLocationDao;
-import com.github.kickshare.db.jooq.tables.daos.Backer_2GroupDao;
-import com.github.kickshare.db.jooq.tables.daos.CategoryDao;
-import com.github.kickshare.db.jooq.tables.daos.CityDao;
-import com.github.kickshare.db.jooq.tables.daos.GroupPostDao;
-import com.github.kickshare.db.jooq.tables.daos.LeaderDao;
-import com.github.kickshare.db.jooq.tables.daos.ProjectDao;
-import com.github.kickshare.db.jooq.tables.daos.ProjectPhotoDao;
-import com.github.kickshare.db.jooq.tables.daos.TagDao;
-import com.github.kickshare.db.jooq.tables.daos.Tag_2CategoryDao;
-import com.github.kickshare.db.jooq.tables.daos.TokenRequestDao;
-import com.github.kickshare.db.jooq.tables.daos.UsersDao;
+import com.github.kickshare.db.jooq.tables.daos.AddressDaoDB;
+import com.github.kickshare.db.jooq.tables.daos.BackerDaoDB;
+import com.github.kickshare.db.jooq.tables.daos.BackerLocationDaoDB;
+import com.github.kickshare.db.jooq.tables.daos.Backer_2GroupDaoDB;
+import com.github.kickshare.db.jooq.tables.daos.CategoryDaoDB;
+import com.github.kickshare.db.jooq.tables.daos.CityDaoDB;
+import com.github.kickshare.db.jooq.tables.daos.GroupPostDaoDB;
+import com.github.kickshare.db.jooq.tables.daos.LeaderDaoDB;
+import com.github.kickshare.db.jooq.tables.daos.ProjectDaoDB;
+import com.github.kickshare.db.jooq.tables.daos.ProjectPhotoDaoDB;
+import com.github.kickshare.db.jooq.tables.daos.TagDaoDB;
+import com.github.kickshare.db.jooq.tables.daos.Tag_2CategoryDaoDB;
+import com.github.kickshare.db.jooq.tables.daos.TokenRequestDaoDB;
+import com.github.kickshare.db.jooq.tables.daos.UsersDaoDB;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
@@ -26,73 +26,73 @@ import org.springframework.context.annotation.Import;
 @Import(JooqConfiguration.class)
 public class DAOConfiguration {
     @Bean
-    public ProjectDao projectDao(org.jooq.Configuration configuration) {
-        return new ProjectDao(configuration);
+    public ProjectDaoDB projectDao(org.jooq.Configuration configuration) {
+        return new ProjectDaoDB(configuration);
     }
 
     @Bean
-    public ProjectPhotoDao projectPhotoDao(org.jooq.Configuration configuration) {
-        return new ProjectPhotoDao(configuration);
+    public ProjectPhotoDaoDB projectPhotoDao(org.jooq.Configuration configuration) {
+        return new ProjectPhotoDaoDB(configuration);
     }
 
     @Bean
-    public CategoryDao categoryDao(org.jooq.Configuration configuration) {
-        return new CategoryDao(configuration);
+    public CategoryDaoDB categoryDao(org.jooq.Configuration configuration) {
+        return new CategoryDaoDB(configuration);
     }
 
     @Bean
-    public BackerDao backerDao(org.jooq.Configuration configuration) {
-        return new BackerDao(configuration);
+    public BackerDaoDB backerDao(org.jooq.Configuration configuration) {
+        return new BackerDaoDB(configuration);
     }
 
     @Bean
-    public CityDao cityDao(org.jooq.Configuration configuration) {
-        return new CityDao(configuration);
+    public CityDaoDB cityDao(org.jooq.Configuration configuration) {
+        return new CityDaoDB(configuration);
     }
 
     @Bean
-    public AddressDao addressDao(org.jooq.Configuration configuration) {
-        return new AddressDao(configuration);
+    public AddressDaoDB addressDao(org.jooq.Configuration configuration) {
+        return new AddressDaoDB(configuration);
     }
 
     @Bean
-    public BackerLocationDao locationsDao(org.jooq.Configuration configuration) {
-        return new BackerLocationDao(configuration);
+    public BackerLocationDaoDB locationsDao(org.jooq.Configuration configuration) {
+        return new BackerLocationDaoDB(configuration);
     }
 
     @Bean
-    public Backer_2GroupDao backerToGroupDao(org.jooq.Configuration configuration) {
-        return new Backer_2GroupDao(configuration);
+    public Backer_2GroupDaoDB backerToGroupDao(org.jooq.Configuration configuration) {
+        return new Backer_2GroupDaoDB(configuration);
     }
 
     @Bean
-    public LeaderDao leaderDao(org.jooq.Configuration configuration) {
-        return new LeaderDao(configuration);
+    public LeaderDaoDB leaderDao(org.jooq.Configuration configuration) {
+        return new LeaderDaoDB(configuration);
     }
 
     @Bean
-    public UsersDao usersDao(org.jooq.Configuration configuration) {
-        return new UsersDao(configuration);
+    public UsersDaoDB usersDao(org.jooq.Configuration configuration) {
+        return new UsersDaoDB(configuration);
     }
 
     @Bean
-    public GroupPostDao groupPostDao(org.jooq.Configuration configuration) {
-        return new GroupPostDao(configuration);
+    public GroupPostDaoDB groupPostDao(org.jooq.Configuration configuration) {
+        return new GroupPostDaoDB(configuration);
     }
 
     @Bean
-    public TagDao tagDao(org.jooq.Configuration configuration) {
-        return new TagDao(configuration);
+    public TagDaoDB tagDao(org.jooq.Configuration configuration) {
+        return new TagDaoDB(configuration);
     }
 
     @Bean
-    public Tag_2CategoryDao tag2CategoryDao(org.jooq.Configuration configuration) {
-        return new Tag_2CategoryDao(configuration);
+    public Tag_2CategoryDaoDB tag2CategoryDao(org.jooq.Configuration configuration) {
+        return new Tag_2CategoryDaoDB(configuration);
     }
 
     @Bean
-    public TokenRequestDao tokenRequestDao(org.jooq.Configuration configuration) {
-        return new TokenRequestDao(configuration);
+    public TokenRequestDaoDB tokenRequestDao(org.jooq.Configuration configuration) {
+        return new TokenRequestDaoDB(configuration);
     }
 
 }

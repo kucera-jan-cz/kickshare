@@ -8,7 +8,7 @@ import java.util.stream.Collectors;
 import javax.validation.Valid;
 
 import com.github.kickshare.db.dao.KickshareRepository;
-import com.github.kickshare.db.jooq.enums.GroupRequestStatus;
+import com.github.kickshare.db.jooq.enums.GroupRequestStatusDB;
 import com.github.kickshare.domain.Backer;
 import com.github.kickshare.domain.Group;
 import com.github.kickshare.domain.GroupDetail;
@@ -125,14 +125,14 @@ public class GroupEndpoint {
     @PostMapping("/{groupId}/users/{backerId}/approve")
     public void approveBacker(@PathVariable Long groupId, @PathVariable Long backerId, @AuthenticationPrincipal BackerDetails user) {
         Validate.isTrue(groupService.isGroupOwner(user.getId(), groupId), "Access violation: no rights for altering group");
-        groupService.updateGroupRequestStatus(groupId, backerId, GroupRequestStatus.APPROVED);
+        groupService.updateGroupRequestStatus(groupId, backerId, GroupRequestStatusDB.APPROVED);
     }
 
     @GroupOwner
     @PostMapping("/{groupId}/users/{backerId}/decline")
     public void declineBacker(@PathVariable Long groupId, @PathVariable Long backerId, @AuthenticationPrincipal BackerDetails user) {
         Validate.isTrue(groupService.isGroupOwner(user.getId(), groupId), "Access violation: no rights for altering group");
-        groupService.updateGroupRequestStatus(groupId, backerId, GroupRequestStatus.DECLINED);
+        groupService.updateGroupRequestStatus(groupId, backerId, GroupRequestStatusDB.DECLINED);
     }
 
     @GetMapping("/{groupId}")

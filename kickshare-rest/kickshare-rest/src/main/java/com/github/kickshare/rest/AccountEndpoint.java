@@ -8,8 +8,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.github.kickshare.db.dao.TokenRepository;
-import com.github.kickshare.db.jooq.enums.TokenType;
-import com.github.kickshare.db.jooq.tables.pojos.TokenRequest;
+import com.github.kickshare.db.jooq.enums.TokenTypeDB;
+import com.github.kickshare.db.jooq.tables.pojos.TokenRequestDB;
 import com.github.kickshare.domain.Backer;
 import com.github.kickshare.gmail.GMailService;
 import com.github.kickshare.rest.user.domain.UserInfo;
@@ -69,7 +69,7 @@ public class AccountEndpoint {
         //3. change request token to pending token (PASSWORD_MAIL_WAITING)
         String token = UUID.randomUUID().toString();
         Backer backer = userService.getUserByEmail(userEmail);
-        TokenRequest request = new TokenRequest(token, backer.getId(), TokenType.PASSWORD_MAIL);
+        TokenRequestDB request = new TokenRequestDB(token, backer.getId(), TokenTypeDB.PASSWORD_MAIL);
         tokenRepository.insert(request);
     }
 
@@ -82,9 +82,9 @@ public class AccountEndpoint {
         //3. change the password
         //4. send mail
         //5. delete token
-        TokenRequest request = tokenRepository.findById(token);
-        if (TokenType.PASSWORD_MAIL.equals(request.getTokenType())) {
-            request.setTokenType(TokenType.PASSWORD_RESET);
+        TokenRequestDB request = tokenRepository.findById(token);
+        if (TokenTypeDB.PASSWORD_MAIL.equals(request.getTokenType())) {
+            request.setTokenType(TokenTypeDB.PASSWORD_RESET);
             tokenRepository.update(request);
         } else {
             LOGGER.warn("Invalid type type ({}) for token: {}, mail: {}", request.getTokenType(), token, userEmail);
