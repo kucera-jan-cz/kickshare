@@ -72,7 +72,7 @@ public abstract class AbstractRepository<R extends UpdatableRecord<R>, P, T> imp
     }
 
     @Override
-    public RecordMapper mapper() {
+    public RecordMapper<R,P> mapper() {
         return dao.mapper();
     }
 
@@ -84,7 +84,7 @@ public abstract class AbstractRepository<R extends UpdatableRecord<R>, P, T> imp
         dao.insert(objects);
     }
 
-    public void insert(final Collection objects) throws DataAccessException {
+    public void insert(final Collection<P> objects) throws DataAccessException {
         dao.insert(objects);
     }
 
@@ -96,7 +96,7 @@ public abstract class AbstractRepository<R extends UpdatableRecord<R>, P, T> imp
         dao.update(objects);
     }
 
-    public void update(final Collection objects) throws DataAccessException {
+    public void update(final Collection<P> objects) throws DataAccessException {
         dao.update(objects);
     }
 
@@ -108,7 +108,7 @@ public abstract class AbstractRepository<R extends UpdatableRecord<R>, P, T> imp
         dao.delete(objects);
     }
 
-    public void delete(final Collection objects) throws DataAccessException {
+    public void delete(final Collection<P> objects) throws DataAccessException {
         dao.delete(objects);
     }
 
@@ -116,7 +116,7 @@ public abstract class AbstractRepository<R extends UpdatableRecord<R>, P, T> imp
         dao.deleteById(ids);
     }
 
-    public void deleteById(final Collection ids) throws DataAccessException {
+    public void deleteById(final Collection<T> ids) throws DataAccessException {
         dao.deleteById(ids);
     }
 

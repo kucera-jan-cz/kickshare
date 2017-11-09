@@ -5,6 +5,7 @@ import javax.validation.constraints.Size;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * @author Jan.Kucera
@@ -12,13 +13,11 @@ import lombok.Data;
  */
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 public class Tag {
     private Short id;
 
     @NotNull
     @Size(min = 1, max = 32)
     private String name;
-
-    public Tag() {
-    }
 }

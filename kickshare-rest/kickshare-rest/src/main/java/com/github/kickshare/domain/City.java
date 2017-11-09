@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * @author Jan.Kucera
@@ -11,13 +12,10 @@ import lombok.Data;
  */
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 public class City {
     private Integer    id;
     private String     name;
     private BigDecimal lat;
     private BigDecimal lon;
-
-    public City() {
-
-    }
 }

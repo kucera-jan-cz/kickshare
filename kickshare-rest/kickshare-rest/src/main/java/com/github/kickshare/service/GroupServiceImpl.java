@@ -29,7 +29,6 @@ import com.github.kickshare.domain.GroupSummary;
 import com.github.kickshare.domain.Leader;
 import com.github.kickshare.domain.Post;
 import com.github.kickshare.domain.ProjectInfo;
-import com.github.kickshare.mapper.ExtendedMapper;
 import com.github.kickshare.security.GroupConstants;
 import com.github.kickshare.service.entity.SearchOptions;
 import lombok.AllArgsConstructor;
@@ -66,8 +65,6 @@ public class GroupServiceImpl {
     private final ProjectService projectService;
 
     private final LeaderDaoDB leaderDao;
-    private ExtendedMapper mapper;
-
     private JdbcUserDetailsManager userManager;
     private DSLContext dsl;
 
@@ -170,26 +167,26 @@ public class GroupServiceImpl {
     @Transactional
     public void saveLeader(final Long id, final String email, final Long kickstarterId) {
         Validate.isTrue(!leaderDao.existsById(id), "Backer is already registered as leader");
-        leaderDao.insert(mapper.map(new Leader(id, email, kickstarterId), com.github.kickshare.db.jooq.tables.pojos.LeaderDB.class));
+        leaderDao.insert(backer().toDB(new Leader(id, email, kickstarterId)));
         userManager.addUserToGroup(email, GroupConstants.LEADERS);
     }
 
     @Transactional
     public Post insertPost(Post post) {
-        GroupPostDB dbPost = mapper.map(post, GroupPostDB.class);
+        GroupPostDB dbPost = group().toDB(post);
         Long id = groupPostRepository.createReturningKey(dbPost);
         dbPost = groupPostRepository.findById(id);
-        return mapper.map(dbPost, Post.class);
+        return group().toDomain(dbPost);
     }
 
     public void updatePost(Post post) {
-        groupPostRepository.updatePost(mapper.map(post, GroupPostDB.class));
+        groupPostRepository.updatePost(group().toDB(post));
     }
 
     @Transactional
     public Page<Post> getPosts(final Long groupId, Pageable pageInfo) {
-        List<GroupPostDB> GroupPost = groupRepository.getGroupPost(groupId, pageInfo.getOffset(), pageInfo.getPageSize());
-        List<Post> posts = mapper.map(GroupPost, Post.class);
+        List<GroupPostDB> groupPost = groupRepository.getGroupPost(groupId, pageInfo.getOffset(), pageInfo.getPageSize());
+        List<Post> posts = group().postsToDomain(groupPost);
         long total = groupRepository.getGroupPostCount(groupId);
         Page<Post> postsPage = new PageImpl<>(posts, pageInfo, total);
         return postsPage;

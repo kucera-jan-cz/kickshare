@@ -1,5 +1,7 @@
 package com.github.kickshare.rest;
 
+import static com.github.kickshare.mapper.EntityMapper.project;
+
 import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
@@ -8,7 +10,6 @@ import com.github.kickshare.db.multischema.SchemaContextHolder;
 import com.github.kickshare.domain.ProjectInfo;
 import com.github.kickshare.kickstarter.KickstarterCampaignService;
 import com.github.kickshare.kickstarter.exception.AuthenticationException;
-import com.github.kickshare.mapper.ExtendedMapper;
 import com.github.kickshare.security.BackerDetails;
 import com.github.kickshare.service.GroupServiceImpl;
 import com.github.kickshare.service.ProjectService;
@@ -37,7 +38,7 @@ public class KickstarterEndpoint {
     private final KickstarterCampaignService kickstarter;
     private final GroupServiceImpl groupService;
     private final ProjectService projectService;
-    private final ExtendedMapper dozer;
+//    private final ExtendedMapper dozer;
 
     @GetMapping("/search")
     public List<ProjectInfo> searchKickstarterProjects(
@@ -46,7 +47,7 @@ public class KickstarterEndpoint {
             @RequestParam(defaultValue = "false") final boolean store) throws IOException {
         Validate.inclusiveBetween(3, 100, StringUtils.length(name), "Name parameter must be at least 3 characters long");
         List<ProjectInfo> projects = searchKickstarter(name, categoryId);
-        if(!projects.isEmpty() && store) {
+        if (!projects.isEmpty() && store) {
             saveProjectsToDB(projects);
         }
         LOGGER.debug("Found projects: {}", projects);
@@ -75,7 +76,7 @@ public class KickstarterEndpoint {
     }
 
     private List<ProjectInfo> searchKickstarter(final String name, @RequestParam final Integer categoryId) throws IOException {
-        final List<ProjectInfo> projects = dozer.map(kickstarter.findProjects(name, categoryId), ProjectInfo.class);
+        final List<ProjectInfo> projects = project().toDomain(kickstarter.findProjects(name, categoryId));
         LOGGER.debug("Found kickstarter projects: \n{}", projects);
         return projects;
     }

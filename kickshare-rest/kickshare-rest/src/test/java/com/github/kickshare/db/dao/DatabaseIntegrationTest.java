@@ -10,7 +10,6 @@ import java.util.List;
 
 import com.github.kickshare.db.tools.SQLLogging;
 import com.github.kickshare.domain.GroupSummary;
-import com.github.kickshare.mapper.ExtendedMapper;
 import com.github.kickshare.service.GroupServiceImpl;
 import org.jooq.Configuration;
 import org.jooq.DSLContext;
@@ -31,7 +30,6 @@ public class DatabaseIntegrationTest {
     public void groupInfo() throws SQLException {
         DSLContext context = createFileDSL();
         Configuration config = context.configuration();
-        ExtendedMapper mapper = null;
         GroupServiceImpl repository = null;
         List<GroupSummary> infos = repository.findAllGroupInfo(217227567L);
         assertNotNull(infos);

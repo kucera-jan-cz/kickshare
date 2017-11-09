@@ -5,7 +5,6 @@ import java.sql.Timestamp;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 
 /**
@@ -13,7 +12,8 @@ import lombok.Data;
  * @since 27.6.2017
  */
 @Data
-@AllArgsConstructor
+//@AllArgsConstructor
+//@NoArgsConstructor
 public class Post {
     private Long postId;
     private Long groupId;
@@ -24,7 +24,4 @@ public class Post {
     @NotNull
     @Size(min = 1, max = 5000)
     private String postText;
-
-    public Post() {
-    }
 }

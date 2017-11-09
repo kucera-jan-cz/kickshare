@@ -2,6 +2,7 @@ package com.github.kickshare.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * @author Jan.Kucera
@@ -9,6 +10,7 @@ import lombok.Data;
  */
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 public class Category {
     private Long id;
     private String name;
@@ -16,5 +18,4 @@ public class Category {
     private Long parentId;
     private String slug;
 
-    public Category() {}
 }
