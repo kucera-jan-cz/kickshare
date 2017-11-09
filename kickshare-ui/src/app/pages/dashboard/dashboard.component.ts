@@ -1,5 +1,5 @@
 import {Component} from "@angular/core";
-import {GroupInfo, ProjectInfo, SearchOptions} from "../../services/domain";
+import {GroupSummary, ProjectInfo, SearchOptions} from "../../services/domain";
 import {SearchMetadata} from "./searchMetadata.component";
 import {GroupService} from "../../services/group.service";
 import {ProjectService} from "../../services/project.service";
@@ -11,7 +11,7 @@ import {ProjectService} from "../../services/project.service";
 })
 export class Dashboard {
     projects: ProjectInfo[] = [];
-    groups: GroupInfo[] = [];
+    groups: GroupSummary[] = [];
     displayProjects: boolean = true;
     searchMeta: SearchMetadata = new SearchMetadata();
 

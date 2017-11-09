@@ -48,6 +48,13 @@ export interface GroupInfo {
     backers: Backer[],
 }
 
+export interface GroupSummary {
+    project: Project,
+    photo: CampaignPhoto,
+    group: Group,
+    leader: Backer
+}
+
 export interface Backer {
     id: number,
     name: string,

@@ -3,7 +3,7 @@
  */
 import {Injectable} from "@angular/core";
 import {AuthHttp} from "./auth-http.service";
-import {Group, GroupInfo, Post, SearchOptions} from "./domain";
+import {Group, GroupInfo, GroupSummary, Post, SearchOptions} from "./domain";
 import {stringify} from "query-string";
 
 @Injectable()
@@ -44,14 +44,14 @@ export class GroupService {
             );
     }
 
-    public searchGroups(options: SearchOptions): Promise<GroupInfo[]> {
+    public searchGroups(options: SearchOptions): Promise<GroupSummary[]> {
         const params = stringify(options);
         console.info("Searching groups with: " + params);
         return this.http.get("/groups/search?" + params)
             .then(
                 res => {
                     console.info("Search group result: " + JSON.stringify(res));
-                    return res.json() as GroupInfo[];
+                    return res.json() as GroupSummary[];
                 }
             )
     }
