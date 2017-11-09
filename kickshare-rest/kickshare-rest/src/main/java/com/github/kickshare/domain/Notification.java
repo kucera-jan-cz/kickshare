@@ -4,6 +4,7 @@ import java.sql.Timestamp;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * @author Jan.Kucera
@@ -11,6 +12,7 @@ import lombok.Data;
  */
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 public class Notification {
     private Long      id;
     private Long      backerId;
@@ -19,7 +21,4 @@ public class Notification {
     private Boolean   isRead;
     private String    postText;
 
-    public Notification() {
-
-    }
 }

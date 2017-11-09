@@ -2,6 +2,7 @@ package com.github.kickshare.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * @author Jan.Kucera
@@ -9,6 +10,7 @@ import lombok.Data;
  */
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 public class Backer {
     private Long id;
     private String email;
@@ -16,8 +18,4 @@ public class Backer {
     private String surname;
     private Float leaderRating;
     private Float backerRating;
-
-    public Backer() {
-        //JSON constructor
-    }
 }

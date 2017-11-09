@@ -17,8 +17,8 @@ import org.mapstruct.Mappings;
  * @since 6.6.2017
  */
 @Mapper(config = CentralConfig.class)
-public interface ProjectMapper extends DomainToDB<ProjectDB, Project>  {
-    Project toDomain(com.github.kickshare.db.jooq.tables.pojos.ProjectDB source);
+public interface ProjectMapper {
+    Project toDomain(ProjectDB source);
 
     @Mappings({
             @Mapping(source = "photo.small", target = "photoUrl"),
@@ -29,7 +29,7 @@ public interface ProjectMapper extends DomainToDB<ProjectDB, Project>  {
 
     List<ProjectInfo> toDomain(List<CampaignProject> source);
 
-    com.github.kickshare.db.jooq.tables.pojos.ProjectDB toDB(Project source);
+    ProjectDB toDB(Project source);
 
     @Mapping(target = "photo", ignore = true)
     CampaignProject toKS(Project source);

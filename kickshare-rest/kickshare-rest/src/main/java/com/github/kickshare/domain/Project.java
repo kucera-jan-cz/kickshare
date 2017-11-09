@@ -7,6 +7,7 @@ import javax.validation.constraints.NotNull;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * @author Jan.Kucera
@@ -15,6 +16,7 @@ import lombok.Data;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 public class Project {
     @NotNull
     private Long id;
@@ -26,8 +28,4 @@ public class Project {
     private String url;
     @NotNull
     private Instant deadline;
-
-    public Project() {
-
-    }
 }
