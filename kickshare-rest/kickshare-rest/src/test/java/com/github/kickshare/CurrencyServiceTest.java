@@ -10,6 +10,8 @@ import java.util.regex.Pattern;
 
 import javax.xml.parsers.ParserConfigurationException;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.dom4j.Document;
 import org.dom4j.io.DOMReader;
 import org.dom4j.tree.DefaultElement;
@@ -31,8 +33,9 @@ public class CurrencyServiceTest {
     private static final Pattern CURRENCY_PATTERN = Pattern.compile("((\\d+\\.?)+)\\s+(\\w+)");
 
     @Test
-    public void parseCurrency() throws IOException, ParserConfigurationException {
-        InputStream html = this.getClass().getClassLoader().getResourceAsStream("data/currency/usd_to_czk.html");
+    public void parseGoogleCurrency() throws IOException, ParserConfigurationException {
+        //https://finance.google.com/finance/converter?a=1&from=USD&to=CZK
+        InputStream html = this.getClass().getClassLoader().getResourceAsStream("data/currency/google_usd_to_czk.html");
         TagNode tagNode = new HtmlCleaner().clean(html);
         DomSerializer serializer = new DomSerializer(new CleanerProperties());
         Document dom4j = new DOMReader().read(serializer.createDOM(tagNode));
@@ -43,5 +46,18 @@ public class CurrencyServiceTest {
         assertTrue(matcher.matches());
         Double value = Double.parseDouble(matcher.group(1));
         LOGGER.info("{}", value);
+    }
+
+    @Test
+    public void parseApiFixerCurrency() throws IOException {
+        //https://api.fixer.io/latest?from=GBP&to=CZK&amount=1
+        ObjectMapper mapper = new ObjectMapper();
+        try (InputStream inputStream = this.getClass().getClassLoader().getResourceAsStream("data/currency/api_fixer_usd_to_czk.json")) {
+            JsonNode root = mapper.readTree(inputStream);
+            final Double rate = root.path("rates").path("CZK").asDouble(Double.MIN_VALUE);
+            LOGGER.info("USD -> CZK: {}", rate);
+        }
+
+
     }
 }

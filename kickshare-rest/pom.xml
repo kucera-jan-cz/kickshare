@@ -20,6 +20,7 @@
 
     <modules>
         <module>kickshare-rest</module>
+        <module>kickshare-ext-service</module>
     </modules>
 
     <properties>
@@ -36,6 +37,7 @@
         <jsurfer-core.version>1.2.8</jsurfer-core.version>
         <commons-io.version>2.5</commons-io.version>
         <commons-validator.version>1.6</commons-validator.version>
+        <commons-lang3.version>3.5</commons-lang3.version>
         <poi.version>3.16</poi.version>
         <mapstruct.version>1.2.0.Final</mapstruct.version>
         <unitils.version>3.4.2</unitils.version>
