@@ -1,6 +1,7 @@
 package com.github.kickshare.ext.service.kickstarter.reward;
 
 import lombok.AllArgsConstructor;
+import lombok.ToString;
 
 /**
  * @author Jan.Kucera
@@ -8,6 +9,7 @@ import lombok.AllArgsConstructor;
  */
 
 @AllArgsConstructor
+@ToString
 public class Reward {
     private String title;
     private Price price;
