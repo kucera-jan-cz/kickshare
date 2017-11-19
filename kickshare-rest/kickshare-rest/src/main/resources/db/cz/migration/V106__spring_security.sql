@@ -1,6 +1,8 @@
 INSERT INTO users (id, username, password, enabled, token) VALUES
+--test user# pwd: user
 (1, 'xatrix101@gmail.com', '$2a$10$zWVlsjiuimbWVE4D4ZrlseB459kSEeB93e8FM58n8QQBiClwV17Pa', true, 'deadbeef-dead-beef-dead-beef00000057'),
-(2, 'bruce.wayne@gmail.com', '$2a$10$dG0.tCsriLNRpsJZvoDRauH7zrvEA1QT9SUAKZeP5PN9O.w5bkzE6', true, 'deadbeef-dead-beef-dead-beef00000058')
+--test user# pwd: user
+(2, 'bruce.wayne@gmail.com', '$2a$10$irs87L9Y5ZSuzy4aK1ibbeXOYXYLMtGHwfWLQoQI.T.ueVX./YE7i', true, 'deadbeef-dead-beef-dead-beef00000058')
 ;
 
 INSERT INTO authorities (username, authority) VALUES

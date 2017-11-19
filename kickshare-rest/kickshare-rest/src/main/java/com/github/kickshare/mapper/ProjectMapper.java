@@ -23,16 +23,17 @@ public interface ProjectMapper {
     @Mappings({
             @Mapping(source = "photo.small", target = "photoUrl"),
             @Mapping(source = "photo", target = "photo"),
-            @Mapping(target = "project", ignore = true)
+            @Mapping(source = "id", target = "project.id"),
+            @Mapping(source = "name", target = "project.name"),
+            @Mapping(source = "description", target = "project.description"),
+            @Mapping(source = "url", target = "project.url"),
+            @Mapping(source = "deadline", target = "project.deadline"),
     })
     ProjectInfo toDomain(CampaignProject source);
 
     List<ProjectInfo> toDomain(List<CampaignProject> source);
 
     ProjectDB toDB(Project source);
-
-    @Mapping(target = "photo", ignore = true)
-    CampaignProject toKS(Project source);
 
     @Mapping(source = "id", target = "projectId")
     ProjectPhoto toDomain(CampaignProjectPhoto photo);

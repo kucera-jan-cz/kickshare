@@ -15,7 +15,7 @@ public class BcryptTest {
     @Test
     public void test() {
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-        String encoded = encoder.encode("newpassword");
+        String encoded = encoder.encode("user");
         LOGGER.info("{}", encoded);
     }
 }
