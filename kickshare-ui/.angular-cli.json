@@ -19,7 +19,7 @@
       "prefix": "app",
       "styles": [
         "../node_modules/font-awesome/css/font-awesome.css",
-        "styles/styles.scss"
+        "styles/override.scss"
       ],
       "scripts": [
 	  ],
