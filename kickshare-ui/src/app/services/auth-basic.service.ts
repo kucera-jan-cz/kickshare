@@ -56,6 +56,10 @@ export class BasicAuthHttp implements AuthHttp {
         return this.authenticateEmitter;
     }
 
+    public getUserIdEmitter(): Observable<number> {
+        return this.userIdEmitter;
+    }
+
     public logout(): void {
         localStorage.removeItem('authorization');
         this.userIdSubject.next(null);

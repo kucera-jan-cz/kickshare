@@ -1,4 +1,8 @@
 import {Injectable} from "@angular/core";
+import {AuthHttp} from "./auth-http.service";
+import "rxjs/Rx";
+import "rxjs/add/operator/take";
+
 /**
  * Created by KuceraJan on 2.5.2017.
  */
@@ -15,7 +19,7 @@ export class SystemService {
     private _current_lat: number;
     private _current_lon: number;
 
-    constructor() {
+    constructor(private auth: AuthHttp) {
         try {
             this.country = geoplugin_countryName();
             this.countryCode = geoplugin_countryCode();
@@ -28,6 +32,11 @@ export class SystemService {
             this._current_lat = 	50.05;
             this._current_lon = 	14.22;
         }
+        this.auth.getUserIdEmitter().subscribe(userId => {
+                console.info("ID from emmiter " + userId);
+                this.backerId = userId;
+            }
+        );
         // this.init();
         // this.country = 'Czech republic';
     }

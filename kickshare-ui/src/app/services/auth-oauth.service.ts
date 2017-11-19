@@ -40,10 +40,13 @@ export class OauthHttp implements AuthHttp {
         console.info("Token: " + this.oauthService.getAccessToken());
         let user = await this.get("/accounts/user");
         console.info("User: " + user.json()['name']);
+        console.info("Response: " + JSON.stringify(user.json()));
         console.info(JSON.stringify(token));
         //@TODO - extract also country
 
-        this.userIdSubject.next(user.json()['name'].length);
+        let id = user.json()['principal']['id'] as number;
+        console.info("Emitting ID: " + id);
+        this.userIdSubject.next(id);
         this.authenticatedSubject.next(true);
         // const userId = token.json()['id'] as number;
         return Promise.resolve(user.json()['name'].length);
@@ -55,6 +58,10 @@ export class OauthHttp implements AuthHttp {
 
     public getAuthEmitter(): Observable<boolean> {
         return this.authenticateEmitter;
+    }
+
+    public getUserIdEmitter(): Observable<number> {
+        return this.userIdEmitter;
     }
 
     public logout(): void {
