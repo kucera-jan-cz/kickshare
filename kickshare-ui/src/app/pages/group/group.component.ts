@@ -7,6 +7,7 @@ import "rxjs/add/operator/switchMap";
 import {ProjectService} from "../../services/project.service";
 import {GroupService} from "../../services/group.service";
 import {Backer, CampaignPhoto, Group as GroupDomain, Project} from "../../services/domain";
+import {SystemService} from "../../services/system.service";
 
 @Component({
     selector: 'group',
@@ -23,7 +24,8 @@ export class Group implements OnInit{
     leader: Backer;
     backers: Backer[];
 
-    constructor(private route: ActivatedRoute, private groupService: GroupService, private projectService: ProjectService) {
+    constructor(private route: ActivatedRoute, private groupService: GroupService, private projectService: ProjectService,
+                private system: SystemService) {
     }
 
     async ngOnInit() {
@@ -37,6 +39,8 @@ export class Group implements OnInit{
         this.leader = info.leader;
         this.backers = info.backers;
         this.backers.unshift(info.leader);
+        console.info("System Backer ID: " + this.system.getId());
+        this.my_group = this.system.getId() == this.leader.id;
         // this.my_group = this.my_id == info.leader.id;
     }
 }

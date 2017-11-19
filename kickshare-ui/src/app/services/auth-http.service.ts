@@ -9,6 +9,8 @@ export abstract class AuthHttp {
 
     abstract getAuthEmitter() : Observable<boolean>;
 
+    abstract getUserIdEmitter(): Observable<number>;
+
     abstract logout(): void ;
 
     abstract getJsonp(path, handler: (...args: any[]) => void): void;
