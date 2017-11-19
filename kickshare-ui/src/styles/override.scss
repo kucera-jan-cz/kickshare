@@ -1,0 +1,21 @@
+/*Global override for bootstrap 4*/
+$black: #000 !default;
+$pink: #e83e8c !default;
+
+$kinfo: #1818A9 !default;
+
+$theme-colors: (
+    "info": $kinfo
+);
+
+.nav-link {
+    color: $black;
+    &:hover {
+        color: $black;
+    }
+}
+
+$nav-tabs-link-active-color : $black;
+$nav-tabs-link-hover-border-color : $black;
+
+@import "../../node_modules/bootstrap/scss/bootstrap";

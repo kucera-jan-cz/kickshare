@@ -9,6 +9,7 @@
     overflow: hidden;
     height: auto;
     min-height: 90vh;
+    background-color: #448cc8;
 }
 
 @media screen and (max-width: 992px) {
@@ -63,7 +64,6 @@ $topnav-background-color: #222;
     -ms-transition: all 0.2s ease-in-out;
     -o-transition: all 0.2s ease-in-out;
     transition: all 0.2s ease-in-out;
-// border-top: 1px solid rgba(255,255,255,0.3);
 .list-group{
 a.list-group-item {
     background: $topnav-background-color;
@@ -166,8 +166,4 @@ a {
     .sidebar {
         top: 56px;
     }
-}
-
-section {
-    background-color: #448cc8;
 }
