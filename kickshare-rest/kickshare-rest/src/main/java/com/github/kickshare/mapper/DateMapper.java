@@ -10,11 +10,20 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class DateMapper {
-    public java.sql.Date toSQLDate(Instant instant) {
-        return new java.sql.Date(instant.toEpochMilli());
+    public java.sql.Date toSQLDate(Instant source) {
+        if(source == null) {
+            return null;
+        } else {
+            return new java.sql.Date(source.toEpochMilli());
+        }
     }
 
-    public Instant toInstant(java.sql.Date date) {
-        return Instant.ofEpochMilli(date.getTime());
+    public Instant toInstant(java.sql.Date source) {
+        if(source == null) {
+            return null;
+        } else {
+            return Instant.ofEpochMilli(source.getTime());
+        }
+
     }
 }

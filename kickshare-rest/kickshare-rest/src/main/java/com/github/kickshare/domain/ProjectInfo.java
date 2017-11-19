@@ -19,6 +19,8 @@ public class ProjectInfo {
 
     @lombok.experimental.Delegate
     @JsonIgnore
+    //@TODO - decide whether this is desired approach, maybe switch to
+    //@TODO - group/groupDetail/groupSummary?
     private Project project;
 
     private ProjectPhoto photo;
