@@ -1,5 +1,6 @@
 package com.github.kickshare.common.io;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.collections4.CollectionUtils;
@@ -10,6 +11,14 @@ import org.apache.commons.collections4.CollectionUtils;
  */
 public final class Lists {
     private Lists() {}
+
+    public static <T> List<T> of(T... items) {
+        List<T> list = new ArrayList<>(items.length);
+        for(T item : items) {
+            list.add(item);
+        }
+        return list;
+    }
 
     public static <T> T first(List<T> list) {
         if(CollectionUtils.isEmpty(list)) {
