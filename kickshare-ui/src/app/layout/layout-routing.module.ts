@@ -8,7 +8,7 @@ const routes: Routes = [
         path: '', component: LayoutComponent,
         children: [
             {path: 'dashboard', loadChildren: '../pages/dashboard/dashboard.module#DashboardModule'},
-            {path: 'blank-page', loadChildren: './blank-page/blank-page.module#BlankPageModule'},
+            {path: 'blank-page', loadChildren: '../pages/blank-page/blank-page.module#BlankPageModule'},
             {path: 'account/group', loadChildren: '../pages/group_register/groupRegistration.module#GroupRegistrationModule', canActivate: [AuthGuardService]},
             {path: 'group', loadChildren: '../pages/group/group.module#GroupModule'},
             {path: 'cities', loadChildren: 'app/pages/cities/cities.module#CitiesModule', canActivate: [AuthGuardService]
