@@ -13,7 +13,10 @@ import {Post} from "../../../services/domain";
     templateUrl: './group_discussion.html'
 })
 export class GroupDiscussion {
-    posts: Post[];
+    posts: Post[] = [
+        new Post(1, 1, 1, new Date(), new Date(), 0, "Lorem ipsum dolor sit amet"),
+        new Post(2, 1, 1, new Date(), new Date(), 0, "Lorem ipsum dolor sit amet")
+    ];
 
     constructor(private route: ActivatedRoute, private groupService: GroupService) {
     }
