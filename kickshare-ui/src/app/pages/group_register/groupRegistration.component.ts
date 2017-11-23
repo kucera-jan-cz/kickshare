@@ -3,12 +3,16 @@ import {Component, ElementRef, OnInit} from "@angular/core";
 import "style-loader!./groupRegistration.scss";
 import {FormGroup} from "@angular/forms";
 import {ProjectService} from "../../services/project.service";
-import {Group, ProjectInfo} from "../../services/domain";
+import {City, Group, ProjectInfo} from "../../services/domain";
 import {SystemService} from "../../services/system.service";
 import {KickstarterService} from "../../services/kickstarter.service";
 import {GroupService} from "../../services/group.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
+import {CompleterData, CompleterItem, CompleterService} from "ng2-completer";
+import {CityService} from "../../services/city.service";
+import {Observable} from "rxjs/Observable";
+
 declare var $: any;
 
 @Component({
@@ -26,27 +30,42 @@ export class GroupRegistration implements OnInit {
     public nameElement: ElementRef;
 
     public selected: ProjectInfo;
-    public isLocal = true;
+    public isLocal = false;
+    public cityId = -1;
+    public cityText: string;
+    public cityDatasource: CompleterData;
     public groupName = '';
     public groupLimit = 10;
     public country: string;
 
-    constructor(element: ElementRef, projectService: ProjectService, systemService: SystemService,
-                private kickstarter: KickstarterService, private groupService: GroupService, private modalService: NgbModal,
-                private router: Router, private route: ActivatedRoute) {
+    constructor(element: ElementRef, projectService: ProjectService, systemService: SystemService, private completerService: CompleterService,
+                private kickstarter: KickstarterService, private groupService: GroupService, private cityService: CityService,
+                private modalService: NgbModal, private router: Router, private route: ActivatedRoute) {
         this.nameElement = element;
         this.projectService = projectService;
         console.info("System service " + systemService);
         this.systemService = systemService;
+        // this.cityDatasource = new CityCompleter(this.cityService);
     }
 
-    ngOnInit() {
+    async ngOnInit() {
         console.info("Loading country");
         this.country = this.systemService.countryCode;
+        const cities = Observable.fromPromise(this.cityService.getUsersCities(this.systemService.getId()));
+        this.cityDatasource = this.completerService.local(cities, "name", "name");
     }
 
-    open(content) {
-        this.modalService.open(content, { backdrop: 'static', size: 'lg' });
+    citySelected(selected: CompleterItem) {
+        if (selected != null) {
+            const city = selected.originalObject as City
+            this.cityId = city.id;
+            this.cityText = city.name;
+        }
+        this.renderGroupName();
+    }
+
+    scopeChanged() {
+        this.renderGroupName();
     }
 
     async nameTyped(event: KeyboardEvent) {
@@ -80,20 +99,41 @@ export class GroupRegistration implements OnInit {
         this.selectProject(this.filteredList[index]);
     }
 
-    selectProject(project: ProjectInfo) {
+    async selectProject(project: ProjectInfo) {
         console.info("Project selected :" + project.name);
         if (project != null) {
             console.info("Selected id: " + project.id);
-            const countryCode = this.systemService.countryCode;
-            var groupName = `${project.name} ${countryCode}`;
             this.selected = project;
-            this.groupName = groupName;
+            this.renderGroupName();
             this.name = project.name;
         } else {
             console.warn("Item not selected");
         }
     }
 
+    private async renderGroupName() {
+        if (this.selected != null) {
+            const cityId = this.isLocal ? this.cityId : -1;
+            var groupName = await this.groupService.suggestName(this.selected.id, cityId);
+            console.info("Suggested group name: " + groupName);
+            this.groupName = groupName;
+        } else {
+            console.warn("Project is not selected skipping");
+        }
+    }
+
+    /**
+     * Open modal windows.
+     * @param content
+     */
+    open(content) {
+        this.modalService.open(content, {backdrop: 'static', size: 'lg'});
+    }
+
+    /**
+     * Submit configuration of group
+     * @returns {Promise<void>}
+     */
     async submit() {
         console.info("Submitting group");
         var groupRequest: Group = {

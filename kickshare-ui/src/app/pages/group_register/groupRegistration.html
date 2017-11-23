@@ -47,14 +47,25 @@
                 <input type="text" class="form-control" id="groupName" [(ngModel)]="groupName" name="groupName" disabled>
             </div>
 
-            <label class="radio-inline">
-                <input type="radio" name="isLocal" id="local" [(ngModel)]="isLocal" [value]="true" [checked]="isLocal">
-                <span translate data-toggle="tooltip" data-placement="bottom" title="Backers of this project should live in your city">Local</span>
-            </label>
-            <label class="radio-inline">
-                <input type="radio" name="isLocal" id="global" [(ngModel)]="isLocal" [value]="false" [checked]="isLocal">
-                <span translate data-toggle="tooltip" data-placement="bottom" title="Backers of this project can live anywhere in your country. ">Global</span>
-            </label>
+            <div class="form-group row">
+                <label class="radio-inline">
+                    <input type="radio" name="isLocal" id="global" [(ngModel)]="isLocal" [value]="false" [checked]="isLocal" (change)="scopeChanged()">
+                    <span translate data-toggle="tooltip" data-placement="bottom" title="Backers of this project can live anywhere in your country. ">Global</span>
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" name="isLocal" id="local" [(ngModel)]="isLocal" [value]="true" [checked]="isLocal" (change)="scopeChanged()">
+                    <span translate data-toggle="tooltip" data-placement="bottom" title="Backers of this project should live in your city">Local</span>
+                </label>
+                <ng2-completer class="completer-limit" [fieldTabindex]="1" [clearUnselected]="true" [openOnFocus]="true"
+                               (focus)="openCloseFocused = true"
+                               (blur)="openCloseFocused = false"
+                               [autoHighlight]="true"
+                               [selectOnFocus]="true"
+                               [fillHighlighted]="false"
+                               name="localCity" [datasource]="cityDatasource" [minSearchLength]="0"
+                               (selected)="citySelected($event)"  [disableInput]="!isLocal">
+                </ng2-completer>
+            </div>
 
             <div class="form-group">
                 <label for="groupLimit">Group member limit:</label>
@@ -68,6 +79,7 @@
                 <li>Group: {{groupName}}</li>
                 <li>Local: {{isLocal}}</li>
                 <li> Limit: {{groupLimit}}</li>
+                <li> City: {{cityText}} - {{cityId}}</li>
                 <li> Country: {{country}}</li>
             </ul>
 
