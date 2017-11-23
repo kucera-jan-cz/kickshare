@@ -1,6 +1,6 @@
 <gmap [(projects)]="projects" (dataChange)="projectsUpdated($event)" (mapChange)="mapUpdated($event)"></gmap>
 
-<div class="row-fluent">
+<div id="dashboard_div" class="row-fluent">
   <div id="projectTable" *ngIf="displayProjects" class="horizontal-scroll">
     <ba-card title="Found projects" baCardClass="with-scroll table-panel">
       <div class="horizontal-scroll">
