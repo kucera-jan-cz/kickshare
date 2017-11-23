@@ -18,9 +18,11 @@ import com.github.kickshare.db.dao.GroupPostRepository;
 import com.github.kickshare.db.dao.GroupRepository;
 import com.github.kickshare.db.jooq.enums.GroupRequestStatusDB;
 import com.github.kickshare.db.jooq.tables.daos.Backer_2GroupDaoDB;
+import com.github.kickshare.db.jooq.tables.daos.CityDaoDB;
 import com.github.kickshare.db.jooq.tables.daos.LeaderDaoDB;
 import com.github.kickshare.db.jooq.tables.pojos.Backer_2GroupDB;
 import com.github.kickshare.db.jooq.tables.pojos.GroupPostDB;
+import com.github.kickshare.db.multischema.SchemaContextHolder;
 import com.github.kickshare.domain.Backer;
 import com.github.kickshare.domain.City;
 import com.github.kickshare.domain.Group;
@@ -31,6 +33,7 @@ import com.github.kickshare.domain.Post;
 import com.github.kickshare.domain.ProjectInfo;
 import com.github.kickshare.security.GroupConstants;
 import com.github.kickshare.service.entity.SearchOptions;
+import com.github.kickshare.service.util.GroupNameFactory;
 import lombok.AllArgsConstructor;
 import org.apache.commons.lang3.Validate;
 import org.jooq.DSLContext;
@@ -64,9 +67,12 @@ public class GroupServiceImpl {
     private final GroupPostRepository groupPostRepository;
     private final ProjectService projectService;
 
+
+    private final CityDaoDB cityDao;
     private final LeaderDaoDB leaderDao;
     private JdbcUserDetailsManager userManager;
     private DSLContext dsl;
+    private final GroupNameFactory groupNameFactory = new GroupNameFactory();
 
     @Transactional
     public Long createGroup(Long projectId, String groupName, Long leaderId, boolean isLocal, Integer limit) {
@@ -138,6 +144,14 @@ public class GroupServiceImpl {
                 .fetch();
         List<GroupSummary> infos = records.into(GroupSummary.class);
         return infos;
+    }
+
+    @Transactional
+    public String suggestGroupName(final Long projectId, final Integer cityId) {
+        ProjectInfo projectInfo = this.projectService.findProjectInfo(projectId);
+        List<GroupSummary> groups = this.findAllGroupInfo(projectId);
+        String location = cityId > 0 ? cityDao.fetchOneByIdDB(cityId).getName() : SchemaContextHolder.getSchema();
+        return groupNameFactory.nextName(projectInfo.getName(), location, groups);
     }
 
     @Transactional

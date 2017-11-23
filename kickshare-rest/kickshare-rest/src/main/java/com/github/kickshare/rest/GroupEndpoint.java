@@ -99,6 +99,10 @@ public class GroupEndpoint {
         return groupService.searchGroups(options);
     }
 
+    @GetMapping("/suggest")
+    public String suggestGroupName(@RequestParam Long projectId, @RequestParam Integer cityId, @AuthenticationPrincipal BackerDetails user) {
+        return groupService.suggestGroupName(projectId, cityId);
+    }
 
     @PostMapping
     public Group create(@RequestBody @Valid Group group, @AuthenticationPrincipal BackerDetails user) throws IOException {

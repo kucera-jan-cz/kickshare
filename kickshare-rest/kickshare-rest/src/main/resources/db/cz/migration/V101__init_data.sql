@@ -24,40 +24,40 @@ INSERT INTO leader (backer_id, email, kickstarter_id) VALUES
 (1, 'kickshare.eu@gmail.com', 1564258620);
 
 INSERT INTO "group" (id, leader_id, name, project_id, lat, lon, is_local) VALUES
-(1, 1, 'Quodd Heroes CZ Brno', 439380282, 49.1951, 16.6068, false);
+(1, 1, 'Quodd Heroes - CZ', 439380282, 49.1951, 16.6068, false);
 INSERT INTO backer_2_group (group_id, backer_id, status) VALUES
 (1, 1, 'APPROVED'), (1, 2, 'APPROVED');
 
 INSERT INTO "group" (id, leader_id, name, project_id, lat, lon) VALUES
-(2, 1, 'The Edge CZ Brno', 1893061183, 49.1951, 16.6068 );
+(2, 1, 'The Edge - Brno', 1893061183, 49.1951, 16.6068 );
 INSERT INTO backer_2_group (group_id, backer_id, status) VALUES
 (2, 1, 'APPROVED'), (2, 3, 'APPROVED');
 
 INSERT INTO "group" (id, leader_id, name, project_id, lat, lon) VALUES
-(3, 1, 'Rise of Moloch CZ Brno', 217227567, 49.1951, 16.6068 );
+(3, 1, 'Rise of Moloch - Brno', 217227567, 49.1951, 16.6068 );
 INSERT INTO backer_2_group (group_id, backer_id, status) VALUES (3, 1, 'APPROVED');
 
 INSERT INTO "group" (id, leader_id, name, project_id, lat, lon) VALUES
-(4, 2, 'Rise of Moloch US Gotham', 217227567, 49.1951, 16.6068);
+(4, 2, 'Rise of Moloch - Gotham', 217227567, 49.1951, 16.6068);
 INSERT INTO backer_2_group (group_id, backer_id, status) VALUES (4, 2, 'APPROVED');
 INSERT INTO backer_2_group (group_id, backer_id, status) VALUES (4, 3, 'APPROVED');
 
 INSERT INTO "group" (id, leader_id, name, project_id, lat, lon, is_local) VALUES
-(5, 3, 'Quodd Heroes CZ Praha', 439380282, 50.0833, 14.4666, false );
+(5, 3, 'Quodd Heroes - Praha', 439380282, 50.0833, 14.4666, false );
 INSERT INTO backer_2_group (group_id, backer_id, status) VALUES (5, 2, 'APPROVED');
 INSERT INTO backer_2_group (group_id, backer_id, status) VALUES (5, 3, 'APPROVED');
 
 INSERT INTO "group" (id, leader_id, name, project_id, lat, lon) VALUES
-(6, 2, 'The Edge CZ Praha', 1893061183, 50.0833, 14.4666 );
+(6, 2, 'The Edge - Praha', 1893061183, 50.0833, 14.4666 );
 INSERT INTO backer_2_group (group_id, backer_id, status) VALUES (6, 1, 'APPROVED');
 INSERT INTO backer_2_group (group_id, backer_id, status) VALUES (6, 2, 'APPROVED');
 
 INSERT INTO "group" (id, leader_id, name, project_id, lat, lon, is_local) VALUES
-(7, 4, 'The Edge CZ Ostrava', 1893061183, 49.83332, 18.25, true );
+(7, 4, 'The Edge - CZ', 1893061183, 49.83332, 18.25, true );
 INSERT INTO backer_2_group (group_id, backer_id, status) VALUES (7, 4, 'APPROVED');
 
 INSERT INTO "group" (id, leader_id, name, project_id, lat, lon, is_local) VALUES
-(8, 4, 'The Edge CZ České Budějovice', 1893061183, 49.0520, 15.8086, true );
+(8, 4, 'The Edge - CZ', 1893061183, 49.0520, 15.8086, true );
 INSERT INTO backer_2_group (group_id, backer_id, status) VALUES (8, 4, 'APPROVED');
 
 ALTER SEQUENCE group_id_seq RESTART WITH 100;

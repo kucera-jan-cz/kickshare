@@ -19,6 +19,7 @@ public class EntityMapper {
     private ProjectMapper project;
     private ProjectPhotoMapper photo;
     private TagMapper tag;
+    private CityMapper city;
     private NotificationMapper notification;
 
 
@@ -48,6 +49,10 @@ public class EntityMapper {
 
     public static TagMapper tag() {
         return INSTANCE.tag;
+    }
+
+    public static CityMapper city() {
+        return INSTANCE.city;
     }
 
     public static NotificationMapper notification() {

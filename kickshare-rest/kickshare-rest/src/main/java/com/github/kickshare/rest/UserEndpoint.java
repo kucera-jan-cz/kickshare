@@ -1,11 +1,15 @@
 package com.github.kickshare.rest;
 
+import static com.github.kickshare.mapper.EntityMapper.city;
+
 import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
 
+import com.github.kickshare.db.dao.CityRepository;
 import com.github.kickshare.db.multischema.SchemaContextHolder;
 import com.github.kickshare.domain.Backer;
+import com.github.kickshare.domain.City;
 import com.github.kickshare.domain.Group;
 import com.github.kickshare.domain.Notification;
 import com.github.kickshare.rest.user.domain.UserInfo;
@@ -42,10 +46,16 @@ public class UserEndpoint {
     private NotificationService notificationService;
     private GroupServiceImpl groupService;
     private UserService userService;
+    private CityRepository cityRepository;
 
     @GetMapping("/{userId}/groups")
     public List<Group> getUserGroups(@PathVariable final Long userId) {
         return groupService.getUserGroups(userId);
+    }
+
+    @GetMapping("/{userId}/cities")
+    public List<City> usersCity(@AuthenticationPrincipal BackerDetails user) {
+        return city().toDomain(cityRepository.getCityByBackerId(user.getId()));
     }
 
     @GetMapping("/verify/{token}")

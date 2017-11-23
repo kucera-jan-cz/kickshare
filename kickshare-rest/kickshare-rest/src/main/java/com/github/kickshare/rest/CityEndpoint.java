@@ -1,9 +1,13 @@
 package com.github.kickshare.rest;
 
+import static com.github.kickshare.mapper.EntityMapper.city;
+
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import com.github.kickshare.db.dao.CityRepository;
 import com.github.kickshare.db.dao.KickshareRepository;
 import com.github.kickshare.domain.City;
 import com.github.kickshare.service.entity.Location;
@@ -14,6 +18,7 @@ import org.geojson.Point;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -28,6 +33,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class CityEndpoint {
     private static final Logger LOGGER = LoggerFactory.getLogger(CityEndpoint.class);
     private KickshareRepository repository;
+    private CityRepository cityRepository;
 
     @RequestMapping(value = "/search/jsonp", produces = MediaType.APPLICATION_JSON_VALUE)
     public FeatureCollection getData(
@@ -47,6 +53,11 @@ public class CityEndpoint {
                 repository.findCitiesWithing(rightTop, leftBottom).stream().map(CityEndpoint::point).collect(Collectors.toList())
         );
         return collection;
+    }
+
+    @GetMapping("/search")
+    public List<City> searchByName(@RequestParam String name) {
+        return city().toDomain(cityRepository.searchCitiesByName(name));
     }
 
     public static Feature point(final City city) {
