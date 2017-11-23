@@ -1,5 +1,6 @@
 //@TODO remove this since loading campaig from browser is probably not possible
 import {stringify} from "query-string";
+
 export interface Campaign {
     id: number
     name: string
@@ -40,6 +41,11 @@ export interface Group {
     limit?: number
 }
 
+export interface City {
+    id : number;
+    name : string;
+}
+
 export interface GroupInfo {
     project: Project,
     photo: CampaignPhoto,
@@ -74,13 +80,14 @@ export interface Address {
 }
 
 export class Post {
-    postId: number;
-    groupId: number;
-    backerId: number;
-    postCreated: Date;
-    postModified: Date;
-    postEditCount: number;
-    postText: string
+    constructor(postId: number,
+                groupId: number,
+                backerId: number,
+                postCreated: Date,
+                public postModified: Date,
+                postEditCount: number,
+                public postText: string) {
+    }
 }
 
 export interface Project {
@@ -124,7 +131,7 @@ export class SearchOptions {
     }
 }
 
-export class JSONPSearchOptions extends SearchOptions{
+export class JSONPSearchOptions extends SearchOptions {
     // callback = 'JSONP_CALLBACK';
 }
 

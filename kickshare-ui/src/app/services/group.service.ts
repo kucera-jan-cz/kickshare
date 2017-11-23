@@ -56,10 +56,18 @@ export class GroupService {
             )
     }
 
+    public suggestName(projectId: number, cityId: number) : Promise<string> {
+        const params = stringify({projectId: projectId, cityId : cityId});
+        return this.http.get("/groups/suggest?" + params)
+            .then(
+                res => {
+                    return res.text();
+                }
+            )
+    }
+
     public createPost(groupId: number, text: string): Promise<Post> {
-        const post = new Post();
-        post.postText = text;
-        post.postCreated = new Date();
+        const post = new Post(-1, groupId, -1, new Date(), null, 0, text);
         return this.http.post("/groups/" + groupId + "/posts", post)
             .then(
                 res => {
