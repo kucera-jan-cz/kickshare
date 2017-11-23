@@ -83,6 +83,10 @@ export class OauthHttp implements AuthHttp {
         return this.http.get(url, args).toPromise();
     }
 
+    public getJson<T>(path, params?: URLSearchParams): Promise<T> {
+        return this.get(path, params).then(res => res.json() as T);
+    }
+
     public post(path, data): Promise<Response> {
         const url: string = `${this.host}/${path}`;
         var args = this.createRequestArgs();

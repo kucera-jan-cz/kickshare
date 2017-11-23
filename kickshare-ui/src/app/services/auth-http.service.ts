@@ -15,7 +15,10 @@ export abstract class AuthHttp {
 
     abstract getJsonp(path, handler: (...args: any[]) => void): void;
 
+    //@TODO - rewrite all services to getJson and rename to get and this name getResponse/httpGet
     abstract get(path, params?: URLSearchParams): Promise<Response>;
+
+    abstract getJson<T>(path, params?: URLSearchParams): Promise<T>;
 
     abstract post(path, data): Promise<Response>;
 
