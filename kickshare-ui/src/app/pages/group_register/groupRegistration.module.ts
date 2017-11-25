@@ -7,7 +7,6 @@ import {ProjectService} from "../../services/project.service";
 import {SystemService} from "../../services/system.service";
 import {KickstarterService} from "../../services/kickstarter.service";
 import {GroupService} from "../../services/group.service";
-import {Ng2CompleterModule} from "ng2-completer";
 import {CityService} from "../../services/city.service";
 
 @NgModule({
@@ -15,13 +14,10 @@ import {CityService} from "../../services/city.service";
         CommonModule,
         ReactiveFormsModule,
         FormsModule,
-        Ng2CompleterModule,
-        // NgaModule,
         routing
     ],
     declarations: [
         GroupRegistration,
-        // ModalComponent
     ],
     providers: [
         ProjectService,

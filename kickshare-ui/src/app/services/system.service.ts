@@ -15,7 +15,7 @@ declare var geoplugin_longitude: any;
 export class SystemService {
     country: string;
     public countryCode: string;
-    backerId: number;
+    backerId: number = -1;
     private _current_lat: number;
     private _current_lon: number;
 

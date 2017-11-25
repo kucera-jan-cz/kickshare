@@ -9,9 +9,7 @@ import {KickstarterService} from "../../services/kickstarter.service";
 import {GroupService} from "../../services/group.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
-import {CompleterData, CompleterItem, CompleterService} from "ng2-completer";
 import {CityService} from "../../services/city.service";
-import {Observable} from "rxjs/Observable";
 
 declare var $: any;
 
@@ -23,7 +21,6 @@ export class GroupRegistration implements OnInit {
     private projectService: ProjectService;
     private systemService: SystemService;
     public form: FormGroup = new FormGroup({}); // our model driven form
-    public events: any[] = []; // use later to display form changes
 
     public name = "";
     public filteredList = [];
@@ -31,41 +28,26 @@ export class GroupRegistration implements OnInit {
 
     public selected: ProjectInfo;
     public isLocal = false;
-    public cityId = -1;
-    public cityText: string;
-    public cityDatasource: CompleterData;
     public groupName = '';
     public groupLimit = 10;
     public country: string;
+    public cities: City[];
+    public selectedCity: City;
 
-    constructor(element: ElementRef, projectService: ProjectService, systemService: SystemService, private completerService: CompleterService,
+    constructor(element: ElementRef, projectService: ProjectService, systemService: SystemService,
                 private kickstarter: KickstarterService, private groupService: GroupService, private cityService: CityService,
                 private modalService: NgbModal, private router: Router, private route: ActivatedRoute) {
         this.nameElement = element;
         this.projectService = projectService;
         console.info("System service " + systemService);
         this.systemService = systemService;
-        // this.cityDatasource = new CityCompleter(this.cityService);
     }
 
     async ngOnInit() {
         console.info("Loading country");
         this.country = this.systemService.countryCode;
-        const cities = Observable.fromPromise(this.cityService.getUsersCities(this.systemService.getId()));
-        this.cityDatasource = this.completerService.local(cities, "name", "name");
-    }
-
-    citySelected(selected: CompleterItem) {
-        if (selected != null) {
-            const city = selected.originalObject as City
-            this.cityId = city.id;
-            this.cityText = city.name;
-        }
-        this.renderGroupName();
-    }
-
-    scopeChanged() {
-        this.renderGroupName();
+        this.cities = await this.cityService.getUsersCities(this.systemService.getId());
+        this.selectedCity = this.cities[0];
     }
 
     async nameTyped(event: KeyboardEvent) {
@@ -110,10 +92,19 @@ export class GroupRegistration implements OnInit {
             console.warn("Item not selected");
         }
     }
+    citySelected() {
+        console.info("City selected");
+        this.renderGroupName();
+    }
+
+    scopeChanged() {
+        console.info("Scope changed");
+        this.renderGroupName();
+    }
 
     private async renderGroupName() {
         if (this.selected != null) {
-            const cityId = this.isLocal ? this.cityId : -1;
+            const cityId = this.isLocal ? this.selectedCity.id : -1;
             var groupName = await this.groupService.suggestName(this.selected.id, cityId);
             console.info("Suggested group name: " + groupName);
             this.groupName = groupName;
