@@ -1,24 +1,16 @@
 import {Injectable} from "@angular/core";
 import {Headers, Http, Jsonp, RequestOptionsArgs, Response, URLSearchParams} from "@angular/http";
 import "rxjs/add/operator/toPromise";
-import {Observable} from "rxjs/Observable";
-import {BehaviorSubject} from "rxjs/BehaviorSubject";
 import {PRIMARY_OUTLET, Router} from "@angular/router";
 import {AuthHttp} from "./auth-http.service";
 
 @Injectable()
-export class BasicAuthHttp implements AuthHttp {
+export class BasicAuthHttp extends AuthHttp {
     private host = "http://localhost:9000";
     // private host = "https://local.kickshare.eu";
-    private authenticatedSubject: BehaviorSubject<boolean> = new BehaviorSubject(null);
-    private userIdSubject: BehaviorSubject<number> = new BehaviorSubject(null);
-    //@TODO make this private field?
-    authenticateEmitter: Observable<boolean>;
-    userIdEmitter: Observable<number>;
 
     constructor(private http: Http, private jsonp: Jsonp, private router: Router) {
-        this.authenticateEmitter = this.authenticatedSubject.asObservable();
-        this.userIdEmitter = this.userIdSubject.asObservable();
+        super();
         if(this.isAuthenticated()) {
 
         }
@@ -52,14 +44,6 @@ export class BasicAuthHttp implements AuthHttp {
         return localStorage.getItem('authorization') != null;
     }
 
-    public getAuthEmitter(): Observable<boolean> {
-        return this.authenticateEmitter;
-    }
-
-    public getUserIdEmitter(): Observable<number> {
-        return this.userIdEmitter;
-    }
-
     public logout(): void {
         localStorage.removeItem('authorization');
         this.userIdSubject.next(null);
@@ -73,23 +57,19 @@ export class BasicAuthHttp implements AuthHttp {
         this.jsonp.get(url, args).subscribe(response => handler(response));
     }
 
-    public get(path, params?: URLSearchParams): Promise<Response> {
+    public getResponse(path, params?: URLSearchParams): Promise<Response> {
         const url: string = `${this.host}/${path}`;
         var args = this.createRequestArgs(params);
         return this.http.get(url, args).toPromise();
     }
 
-    public getJson<T>(path, params?: URLSearchParams): Promise<T> {
-        return this.get(path, params).then(res => res.json() as T);
-    }
-
-    public post(path, data): Promise<Response> {
+    public postResponse(path, data): Promise<Response> {
         const url: string = `${this.host}/${path}`;
         var args = this.createRequestArgs();
         return this.http.post(url, data, args).toPromise();
     }
 
-    public patch(path, data): Promise<Response> {
+    public patchResponse(path, data): Promise<Response> {
         const url: string = `${this.host}/${path}`;
         var args = this.createRequestArgs();
         return this.http.patch(url, data, args).toPromise();

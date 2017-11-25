@@ -1,25 +1,18 @@
 import {Injectable} from "@angular/core";
 import {Headers, Http, Jsonp, RequestOptionsArgs, Response, URLSearchParams} from "@angular/http";
 import "rxjs/add/operator/toPromise";
-import {Observable} from "rxjs/Observable";
-import {BehaviorSubject} from "rxjs/BehaviorSubject";
 import {PRIMARY_OUTLET, Router} from "@angular/router";
 import {AuthHttp} from "./auth-http.service";
 import {OAuthService} from "angular-oauth2-oidc";
 
 @Injectable()
-export class OauthHttp implements AuthHttp {
+export class OauthHttp extends AuthHttp {
     private host = "http://localhost:9000";
     // private host = "http://localhost:8080";
     // private host = "https://local.kickshare.eu";
-    private authenticatedSubject: BehaviorSubject<boolean> = new BehaviorSubject(null);
-    private userIdSubject: BehaviorSubject<number> = new BehaviorSubject(null);
-    authenticateEmitter: Observable<boolean>;
-    userIdEmitter: Observable<number>;
 
     constructor(private http: Http, private jsonp: Jsonp, private router: Router, private oauthService: OAuthService) {
-        this.authenticateEmitter = this.authenticatedSubject.asObservable();
-        this.userIdEmitter = this.userIdSubject.asObservable();
+        super();
         // this.oauthService.loginUrl = 'http://localhost:8080/oauth/token';
         this.oauthService.scope = 'read';
         this.oauthService.clientId = 'user';
@@ -38,7 +31,7 @@ export class OauthHttp implements AuthHttp {
         console.info("Authentication OAuth: " + token['access_token']);
         console.info("Is authenticated: " + this.isAuthenticated());
         console.info("Token: " + this.oauthService.getAccessToken());
-        let user = await this.get("/accounts/user");
+        let user = await this.getResponse("/accounts/user");
         console.info("User: " + user.json()['name']);
         console.info("Response: " + JSON.stringify(user.json()));
         console.info(JSON.stringify(token));
@@ -56,14 +49,6 @@ export class OauthHttp implements AuthHttp {
         return this.oauthService.getAccessToken() != null;
     }
 
-    public getAuthEmitter(): Observable<boolean> {
-        return this.authenticateEmitter;
-    }
-
-    public getUserIdEmitter(): Observable<number> {
-        return this.userIdEmitter;
-    }
-
     public logout(): void {
         this.oauthService.logOut();
         //@TODO - consider redirect to dashboard
@@ -77,23 +62,19 @@ export class OauthHttp implements AuthHttp {
         this.jsonp.get(url, args).subscribe(response => handler(response));
     }
 
-    public get(path, params?: URLSearchParams): Promise<Response> {
+    public getResponse(path, params?: URLSearchParams): Promise<Response> {
         const url: string = `${this.host}/${path}`;
         var args = this.createRequestArgs(params);
         return this.http.get(url, args).toPromise();
     }
 
-    public getJson<T>(path, params?: URLSearchParams): Promise<T> {
-        return this.get(path, params).then(res => res.json() as T);
-    }
-
-    public post(path, data): Promise<Response> {
+    public postResponse(path, data): Promise<Response> {
         const url: string = `${this.host}/${path}`;
         var args = this.createRequestArgs();
         return this.http.post(url, data, args).toPromise();
     }
 
-    public patch(path, data): Promise<Response> {
+    public patchResponse(path, data): Promise<Response> {
         const url: string = `${this.host}/${path}`;
         var args = this.createRequestArgs();
         return this.http.patch(url, data, args).toPromise();

@@ -21,7 +21,7 @@ export class ProjectService {
     public searchProjects(options: SearchOptions): Promise<ProjectInfo[]> {
         const params = stringify(options);
         console.info("Searching projects with: " + params);
-        return this.http.get("/projects/search?" + params)
+        return this.http.getResponse("/projects/search?" + params)
             .then(
                 res => {
                     console.info("Search project result: " + JSON.stringify(res));
@@ -36,7 +36,7 @@ export class ProjectService {
         params.set("name", name);
         params.set("categoryId", "34");
 
-        return this.http.get('projects', params).then(
+        return this.http.getResponse('projects', params).then(
             res => {
                 // console.info("Received project: " + JSON.stringify(res));
                 const projects = res.json() as ProjectInfo[];
@@ -48,7 +48,7 @@ export class ProjectService {
 
     public getProject(projectId: number): Promise<ProjectInfo> {
         console.log("Searching for id: " + projectId);
-        return this.http.get(`projects/${projectId}`).then(
+        return this.http.getResponse(`projects/${projectId}`).then(
             res => {
                 console.info("Received project: " + JSON.stringify(res));
                 return res.json() as ProjectInfo
