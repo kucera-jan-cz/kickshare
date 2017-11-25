@@ -6,6 +6,7 @@ INSERT INTO city (id, name, lat, lon) VALUES
 
 INSERT INTO  backer_location (backer_id, city_id) VALUES
 (1, 3078610),
+(1, 3067695),
 (2, 3067695)
 ;
 

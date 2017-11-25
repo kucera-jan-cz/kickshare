@@ -21,38 +21,15 @@ label[for="groupLimit"] {
   background: white;
 }
 
-.vertical-align {
-  display: flex;
-  align-items: center;
-}
-
-.completer-limit /deep/ .completer-dropdown {
-    overflow-y: auto;
-    max-height: 20rem;
-}
-
-.chevron {
-    padding-top: 40%;
-}
-
-.chevron-holder {
-    position: absolute;
-    height: 100%;
-    border: 1px solid rgba(0,0,0,.15);
-    border-top-color: rgba(0, 0, 0, 0.14902);
-    background-color: white;
-    border-radius: 25%;
-    border-bottom-left-radius: 0;
-    border-top-left-radius: 0;
-    border-left: 0;
-}
-
-.chevron-holder.dropdown-open {
-    border-color: #5cb3fd;
-}
-
-.with-chevron /deep/ .completer-input {
-    border-right: 0;
-    border-bottom-right-radius: 0;
-    border-top-right-radius: 0;
+#cityCombo {
+    width: 150px;
+    /*padding: 5px;*/
+    margin-left: 10px;
+    font-size: 16px;
+    line-height: 1;
+    border-radius:5px;
+    display:inline-block;
+    border: 0;
+    /*border-radius: 0;*/
+    height: 30px;
 }

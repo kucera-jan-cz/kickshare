@@ -57,8 +57,9 @@ CREATE TABLE project_photo (
 
 -- @TODO - consider usage of address or backer_location
 CREATE TABLE backer_location (
-    backer_id BIGSERIAL PRIMARY KEY REFERENCES backer (id),
-    city_id INTEGER NOT NULL REFERENCES city (id)
+    backer_id BIGSERIAL NOT NULL REFERENCES backer (id),
+    city_id INTEGER NOT NULL REFERENCES city (id),
+    PRIMARY KEY (backer_id, city_id)
 );
 
 CREATE TABLE backer_setting (
