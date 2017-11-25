@@ -14,7 +14,7 @@ export class UserService {
 
     public getLatestNotifications(backer_id: number): Promise<Notification[]> {
         const path = "/users/" + backer_id + "/notifications/latest";
-        return this.http.get(path).then(
+        return this.http.getResponse(path).then(
             res => {
                 return res.json() as Notification[];
             }

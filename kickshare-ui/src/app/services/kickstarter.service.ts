@@ -21,7 +21,7 @@ export class KickstarterService {
     params.set("categoryId", "34");
     params.set("store", "true");
 
-    return this.http.get('/kickstarter/search', params).then(
+    return this.http.getResponse('/kickstarter/search', params).then(
       res => {
         const projects = res.json() as ProjectInfo[];
         console.info("Received projects: " + projects.map(p => p.name).join(","));

@@ -44,7 +44,7 @@ export class Tabs implements AfterContentInit {
 
   // contentChildren are set
   ngAfterContentInit() {
-    // get all active tabs
+    // getResponse all active tabs
     let activeTabs = this.tabs.filter((tab) => tab.active);
 
     // if there is no active tab set, activate the first

@@ -17,13 +17,13 @@ export class CityService {
     }
 
     public getUsersCities(userId: number): Promise<City[]> {
-        const promise: Promise<City[]> = this.http.getJson("/users/" + userId + "/cities");
+        const promise: Promise<City[]> = this.http.get("/users/" + userId + "/cities");
         return promise;
     }
 
     public getCities(cityName: string): Promise<City[]> {
         const params = stringify({name: cityName});
-        return this.http.getJson<City[]>("cities/search", params);
+        return this.http.get<City[]>("cities/search", params);
     }
 
 }

@@ -44,7 +44,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     }
 
     private async checkoutNewNotifications() {
-        //@TODO - userId get it??
+        //@TODO - userId getResponse it??
         let backerId = 1;
         let notifications = await this.userService.getLatestNotifications(backerId);
         notifications.sort((a,b) => a.id - b.id);

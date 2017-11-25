@@ -15,7 +15,7 @@ export class GroupService {
     public getGroupInfosByProject(projectId: number): Promise<Group[]> {
         console.info("Calling getGroupInfosByProject");
         const path = "/projects/" + projectId + "/groups";
-        return this.http.get(path).then(
+        return this.http.getResponse(path).then(
             res => {
                 console.info("Groups info: " + JSON.stringify(res));
                 return res.json() as Group[];
@@ -26,7 +26,7 @@ export class GroupService {
     public getGroupInfo(groupId: number): Promise<GroupInfo> {
         console.info("Calling getGroupInfo");
         const path = "/groups/" + groupId;
-        return this.http.get(path).then(
+        return this.http.getResponse(path).then(
             res => {
                 console.info("GroupDiscussion info: " + JSON.stringify(res));
                 return res.json() as GroupInfo;
@@ -35,7 +35,7 @@ export class GroupService {
     }
 
     public createGroup(group: Group): Promise<Group> {
-        return this.http.post("/groups", group)
+        return this.http.postResponse("/groups", group)
             .then(
                 res => {
                     console.info("GroupDiscussion created: " + JSON.stringify(res));
@@ -47,7 +47,7 @@ export class GroupService {
     public searchGroups(options: SearchOptions): Promise<GroupSummary[]> {
         const params = stringify(options);
         console.info("Searching groups with: " + params);
-        return this.http.get("/groups/search?" + params)
+        return this.http.getResponse("/groups/search?" + params)
             .then(
                 res => {
                     console.info("Search group result: " + JSON.stringify(res));
@@ -58,7 +58,7 @@ export class GroupService {
 
     public suggestName(projectId: number, cityId: number) : Promise<string> {
         const params = stringify({projectId: projectId, cityId : cityId});
-        return this.http.get("/groups/suggest?" + params)
+        return this.http.getResponse("/groups/suggest?" + params)
             .then(
                 res => {
                     return res.text();
@@ -68,7 +68,7 @@ export class GroupService {
 
     public createPost(groupId: number, text: string): Promise<Post> {
         const post = new Post(-1, groupId, -1, new Date(), null, 0, text);
-        return this.http.post("/groups/" + groupId + "/posts", post)
+        return this.http.postResponse("/groups/" + groupId + "/posts", post)
             .then(
                 res => {
                     return res.json() as Post;
@@ -77,11 +77,11 @@ export class GroupService {
     }
 
     public updatePost(groupId: number, post: Post): void {
-        this.http.patch("/groups/" + groupId + "/posts", post);
+        this.http.patchResponse("/groups/" + groupId + "/posts", post);
     }
 
     public readPosts(groupId: number): Promise<Post[]> {
-        return this.http.get("/groups/" + groupId + "/posts")
+        return this.http.getResponse("/groups/" + groupId + "/posts")
             .then(
                 res => {
                     return res.json() as Post[];
