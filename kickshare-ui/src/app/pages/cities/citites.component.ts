@@ -4,9 +4,10 @@
 import {Component, ElementRef, OnDestroy, OnInit} from "@angular/core";
 import "rxjs/add/operator/switchMap";
 import "rxjs/add/operator/toPromise";
-import {MapFactory} from "../../components/google_map/mapFactory.component";
+import {MapFactory} from "../../components/google/mapFactory.component";
 import {ProjectService} from "../../services/project.service";
 import {AuthHttp} from "../../services/auth-http.service";
+
 // declare var initCityMap: any;
 
 @Component({

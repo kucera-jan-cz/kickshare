@@ -8,6 +8,8 @@ import {KickstarterService} from "../../services/kickstarter.service";
 import {GroupService} from "../../services/group.service";
 import {UserRegistration} from "./userRegistration.component";
 import {Ng2CompleterModule} from "ng2-completer";
+import {NgbTypeaheadModule} from "@ng-bootstrap/ng-bootstrap";
+import {CityService} from "../../services/city.service";
 
 @NgModule({
     imports: [
@@ -15,7 +17,8 @@ import {Ng2CompleterModule} from "ng2-completer";
         ReactiveFormsModule,
         FormsModule,
         routing,
-        Ng2CompleterModule
+        Ng2CompleterModule,
+        NgbTypeaheadModule
     ],
     declarations: [
         UserRegistration,
@@ -24,7 +27,8 @@ import {Ng2CompleterModule} from "ng2-completer";
         ProjectService,
         SystemService,
         KickstarterService,
-        GroupService
+        GroupService,
+        CityService
     ]
 })
 export class UserRegistrationModule {

@@ -2,50 +2,71 @@
     <div class="row">
         <div class="col"></div>
         <div class="col-md-offset-3 col-md-6">
-            <form name="form" [formGroup]="form">
+            <!--<form name="form" formGroup="form">-->
+                <form #userForm="ngForm" ngS>
+                <!--<form id="form" name="form" class="col-md-6" (submit)="submit()">-->
                 <div class="form-login">
                     <h4>User registration</h4>
                     <div class="input-group mb-1">
                         <span class="input-group-addon"><i class="fa fa-envelope"></i></span>
-                        <input id="login-username" class="form-control" [formControl]="email" placeholder="email">
+                        <input name="login-username" class="form-control" [(ngModel)]="email" placeholder="email" required>
                     </div>
                     <div class="input-group mb-1">
                         <span class="input-group-addon"><i class="fa fa-key"></i></span>
-                        <input id="login-password" type="password" class="form-control" [formControl]="password" placeholder="password">
+                        <input name="login-password" type="password" class="form-control" [(ngModel)]="password" placeholder="password" required>
                     </div>
                     <div class="input-group mb-1">
                         <span class="input-group-addon"><i class="fa fa-user-circle"></i></span>
-                        <input id="name" class="form-control" [formControl]="name" placeholder="name">
+                        <input name="name" class="form-control" [(ngModel)]="name" placeholder="name" required>
                     </div>
                     <div class="input-group mb-1">
                         <span class="input-group-addon"><i class="fa fa-user-circle"></i></span>
-                        <input id="surname" class="form-control" [formControl]="surname" placeholder="surname">
+                        <input name="surname" class="form-control" [(ngModel)]="surname" placeholder="surname" required>
                     </div>
                     <hr>
-                    <!--<label class="align-middle" for="category_select">Country: </label>-->
+                    <label class="align-middle">Country: </label>
                     <!--<select class="form-control" id="category_select">-->
-                        <!--<option *ngFor="let item of categories">-->
-                            <!--{{item.name}}-->
+                        <!--<option *ngFor="let item of countries">-->
+                            <!--{{item}}-->
                         <!--</option>-->
                     <!--</select>-->
                     <div class="input-group mb-1">
                         <span class="input-group-addon"><i class="fa fa-globe"></i></span>
-                        <ng2-completer id="country_complete" [(ngModel)]="searchCountry" [minSearchLength]="1"
-                                       name="countryComplete" clearUnselected="true" placeholder="country">
+                        <!--<ng2-completer id="country_complete" [(ngModel)]="searchCountry" [minSearchLength]="1"-->
+                                       <!--name="countryComplete" clearUnselected="true" placeholder="country">-->
+                        <!--</ng2-completer>-->
+                        <select class="form-control" name="country_select" [(ngModel)]="country">
+                            <option *ngFor="let item of countries">
+                                {{item}}
+                            </option>
+                        </select>
+                        <ng2-completer [datasource]="countrySuggest" [minSearchLength]="3"
+                                       name="countrySuggest" clearUnselected="false"
+                                       (selected)="cityId = $event.originalObject.id">
                         </ng2-completer>
                     </div>
 
                     <div class="input-group mb-1">
                         <span class="input-group-addon"><i class="fa fa-globe"></i></span>
-                        <input id="city" class="form-control" [formControl]="city" placeholder="city">
+                        <!--<input name="city" class="form-control" [(ngModel)]="city" placeholder="city" required>-->
+                        <input name="city" type="text" class="form-control" [(ngModel)]="city" placeholder="city"
+                               [ngbTypeahead]="searchCityFunction" [inputFormatter]="cityFormatter" [resultFormatter]="cityFormatter" required/>
+                        <!--<ng2-completer name="city" [(ngModel)]="city" [minSearchLength]="2"-->
+                                <!--clearUnselected="true" placeholder="country">-->
+                        <!--</ng2-completer>-->
                     </div>
                     <div class="input-group mb-1">
                         <span class="input-group-addon"><i class="fa fa-globe"></i></span>
-                        <input id="street" class="form-control" [formControl]="street" placeholder="street">
+                        <input name="street" type="text" class="form-control" [(ngModel)]="location" placeholder="street"
+                               [disabled]="city == null || city.id == null"
+                               [ngbTypeahead]="searchStreetFunction" [inputFormatter]="streetFormatter" [resultFormatter]="streetFormatter"
+                               (selectItem)="streetSelected($event)" required/>
                     </div>
                     <div class="input-group mb-1">
                         <span class="input-group-addon"><i class="fa fa-globe"></i></span>
-                        <input id="postalCode" class="form-control" [formControl]="postalCode" placeholder="postal code">
+                        <input name="postalCode" class="form-control" [(ngModel)]="postalCode" placeholder="postal code"
+                               [disabled]="location == null || location.id == null"
+                               required>
                     </div>
                     <div class="wrapper mt-2">
                         <button [disabled]="!form.valid" class="btn btn-primary btn-md">Submit <i class="fa fa-send"></i></button>
@@ -53,6 +74,14 @@
                 </div>
             </form>
         </div>
-        <div class="col"></div>
+        <div class="col">
+        </div>
+    </div>
+    <div class="row">
+        <ul>
+            <li> City: {{city?.name}} - {{city?.id}}</li>
+            <li> Street: {{location?.address}}</li>
+            <li> Postal: {{location?.postal}}</li>
+        </ul>
     </div>
 </div>
