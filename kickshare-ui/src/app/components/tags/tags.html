@@ -1,0 +1,12 @@
+<div class="tags col">
+    <div class="row tag-pool">
+        <span *ngFor="let item of tags" class="tag badge badge-light" (click)="removeTag(item)">
+            {{item.name}}
+        </span>
+    </div>
+    <div class="row">
+        <input name="tagInput" class="form-control tag-input" placeholder="tag" #input
+               [ngbTypeahead]="searchTagFunction" [inputFormatter]="tagFormatter" [resultFormatter]="tagFormatter"
+               (selectItem)="tagSelected($event, input)">
+    </div>
+</div>

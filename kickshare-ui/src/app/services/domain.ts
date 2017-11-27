@@ -42,8 +42,8 @@ export interface Group {
 }
 
 export interface City {
-    id : number;
-    name : string;
+    id: number;
+    name: string;
 }
 
 export interface GroupInfo {
@@ -87,6 +87,11 @@ export class Post {
                 public postModified: Date,
                 postEditCount: number,
                 public postText: string) {
+    }
+}
+
+export class Tag {
+    constructor(public id: number, public name: string) {
     }
 }
 
