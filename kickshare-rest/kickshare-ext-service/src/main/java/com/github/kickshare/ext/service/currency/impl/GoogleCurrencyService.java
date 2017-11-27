@@ -72,6 +72,5 @@ public class GoogleCurrencyService implements CurrencyService {
 
     private String buildUrl(String from, String to) {
         return MessageFormat.format("https://finance.google.com/finance/converter?a=1&from={0}&to={1}", from, to);
-
     }
 }

@@ -51,7 +51,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public BackerDetails createUser(com.github.kickshare.domain.Backer backer, String password, Address address) {
+    public BackerDetails createUser(Backer backer, String password, Address address) {
         Long id = backerRepository.createReturningKey(backer().toDB(backer));
 
         BackerDetails userToStore = new BackerDetails(backer.getEmail(), encoder.encode(password), id, false);
@@ -61,7 +61,6 @@ public class UserServiceImpl implements UserService {
 
         addressDao.insert(address().toDB(address));
         BackerDetails userDetails = (BackerDetails) userManager.loadUserByUsername(backer.getEmail());
-        userDetails.getToken();
         return userDetails;
     }
 
