@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.github.kickshare.db.dao.TagRepository;
 import com.github.kickshare.db.jooq.tables.daos.Tag_2CategoryDaoDB;
+import com.github.kickshare.db.jooq.tables.pojos.TagDB;
 import com.github.kickshare.db.jooq.tables.pojos.Tag_2CategoryDB;
 import com.github.kickshare.domain.Tag;
 import com.github.kickshare.service.TagService;
@@ -29,7 +30,7 @@ public class TagServiceImpl implements TagService {
     @Override
     @Transactional
     public Tag createTag(final String name, final int categoryId) {
-        Short id = tagRepository.createReturningKey(new com.github.kickshare.db.jooq.tables.pojos.TagDB(null, name));
+        Short id = tagRepository.createReturningKey(new TagDB(null, name));
         tag2CategoryDao.insert(new Tag_2CategoryDB(categoryId, id));
         return new Tag(id, name);
     }

@@ -1,5 +1,6 @@
 package com.github.kickshare.rest.user.domain;
 
+import javax.validation.Valid;
 import javax.validation.constraints.Size;
 
 import com.github.kickshare.domain.Address;
@@ -19,6 +20,7 @@ public class UserInfo {
 
     @NonNull
     private String name;
+
     @NonNull
     private String surname;
 
@@ -27,6 +29,7 @@ public class UserInfo {
     private String password;
 
     @NonNull
+    @Valid
     private Address address;
 
 }
