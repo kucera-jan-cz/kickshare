@@ -1,7 +1,8 @@
-package com.github.kickshare.kickstarter.entity;
+package com.github.kickshare.ext.service.kickstarter.campaign.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * @author Jan.Kucera
@@ -9,6 +10,7 @@ import lombok.Data;
  */
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 public class CampaignProjectPhoto {
 
     private Long id;
@@ -18,7 +20,4 @@ public class CampaignProjectPhoto {
     private String ed;
     private String med;
     private String full;
-
-    public CampaignProjectPhoto() {
-    }
 }

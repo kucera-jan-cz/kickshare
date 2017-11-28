@@ -1,4 +1,4 @@
-package com.github.kickshare;
+package com.github.kickshare.ext.service.kickstarter;
 
 import java.io.InputStream;
 import java.text.MessageFormat;

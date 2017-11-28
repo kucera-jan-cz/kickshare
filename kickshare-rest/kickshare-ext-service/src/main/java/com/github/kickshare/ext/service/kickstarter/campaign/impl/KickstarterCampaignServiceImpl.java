@@ -1,23 +1,22 @@
-package com.github.kickshare.kickstarter;
+package com.github.kickshare.ext.service.kickstarter.campaign.impl;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
 import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Optional;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.github.kickshare.kickstarter.entity.CampaignProject;
-import com.github.kickshare.kickstarter.entity.CampaignProjectPhoto;
-import com.github.kickshare.kickstarter.entity.User;
-import com.github.kickshare.kickstarter.exception.AuthenticationException;
+import com.github.kickshare.ext.service.kickstarter.campaign.KickstarterCampaignService;
+import com.github.kickshare.ext.service.kickstarter.campaign.entity.CampaignProject;
+import com.github.kickshare.ext.service.kickstarter.campaign.entity.CampaignProjectPhoto;
+import com.github.kickshare.ext.service.kickstarter.campaign.entity.User;
+import com.github.kickshare.ext.service.kickstarter.campaign.exception.AuthenticationException;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,27 +35,17 @@ import org.springframework.web.util.UriComponentsBuilder;
 @AllArgsConstructor
 @Service
 @Component
+//@TODO - rename to CampaignService
 public class KickstarterCampaignServiceImpl implements KickstarterCampaignService {
     private static final Logger LOGGER = LoggerFactory.getLogger(KickstarterCampaignServiceImpl.class);
-    public static final String KS_PRODUCTION_ID = "2II5GGBZLOOZAA5XBU1U0Y44BU57Q58L8KOGM7H0E0YFHP3KTG";
-    private ClientHttpRequestFactory requestFactory;
-    private ObjectMapper mapper;
+    private static final String KS_PRODUCTION_ID = "2II5GGBZLOOZAA5XBU1U0Y44BU57Q58L8KOGM7H0E0YFHP3KTG";
     private final UriComponentsBuilder termUriBuilder = KickstarterCampaignServiceImpl.createTermSearchBuilder();
     private final URI xauthUri = KickstarterCampaignServiceImpl.createXAuthBuilder().build().toUri();
-
-    @Override
-    @Deprecated
-    public List<CampaignProject> findProjects() throws IOException {
-        return Collections.emptyList();
-    }
-
-    @Override
-    @Deprecated
-    public Optional<CampaignProject> findById(final Long id) throws IOException {
-        return Optional.empty();
-    }
+    private ClientHttpRequestFactory requestFactory;
+    private ObjectMapper mapper;
 
     //@TODO - better include whole Category object
+    @Override
     public List<CampaignProject> findProjects(String term, Integer category) throws IOException {
         URI uri = termUriBuilder.buildAndExpand(term, category).toUri();
 

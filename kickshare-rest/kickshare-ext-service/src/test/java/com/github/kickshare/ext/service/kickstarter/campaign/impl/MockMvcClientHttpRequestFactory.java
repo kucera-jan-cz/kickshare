@@ -1,4 +1,4 @@
-package com.github.kickshare.kickstarter;
+package com.github.kickshare.ext.service.kickstarter.campaign.impl;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;

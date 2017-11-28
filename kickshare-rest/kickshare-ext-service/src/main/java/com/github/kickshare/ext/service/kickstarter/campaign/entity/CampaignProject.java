@@ -1,12 +1,11 @@
-package com.github.kickshare.kickstarter.entity;
+package com.github.kickshare.ext.service.kickstarter.campaign.entity;
 
 import java.time.Instant;
-
-import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * @author Jan.Kucera
@@ -15,21 +14,13 @@ import lombok.Data;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 public class CampaignProject {
-    @NotNull
     private Long id;
-    @NotNull
     private String name;
-    @NotNull
     private String description;
-    @NotNull
     private String url;
-    @NotNull
     private Instant deadline;
 
     private CampaignProjectPhoto photo;
-
-    public CampaignProject() {
-
-    }
 }

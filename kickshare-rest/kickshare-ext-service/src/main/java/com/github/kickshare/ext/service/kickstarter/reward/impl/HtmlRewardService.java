@@ -17,6 +17,7 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.kickshare.ext.service.common.ResourceBuilder;
 import com.github.kickshare.ext.service.exception.ServiceNotAvailable;
 import com.github.kickshare.ext.service.kickstarter.reward.Price;
 import com.github.kickshare.ext.service.kickstarter.reward.Reward;
@@ -57,10 +58,10 @@ public class HtmlRewardService implements RewardService {
     private static final TypeReference<Map<String, String>> MAP = new TypeReference<Map<String, String>>() {};
     private final Map<String, String> currenciesBySymbols;
 
-    private final Function<String, InputStream> resourceBuilder;
+    private final ResourceBuilder resourceBuilder;
     private final DomSerializer serializer;
 
-    public HtmlRewardService(final Function<String, InputStream> resourceBuilder) {
+    public HtmlRewardService(final ResourceBuilder resourceBuilder) {
         this.resourceBuilder = resourceBuilder;
 
         final CleanerProperties properties = new CleanerProperties();

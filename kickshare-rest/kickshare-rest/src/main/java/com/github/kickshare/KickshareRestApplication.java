@@ -1,7 +1,6 @@
 package com.github.kickshare;
 
 import com.github.kickshare.db.DatabaseConfiguration;
-import com.github.kickshare.kickstarter.KSConfiguration;
 import com.github.kickshare.mapper.MappingConfiguration;
 import com.github.kickshare.security.SecurityConfig;
 import com.github.kickshare.service.ServicesConfiguration;
@@ -23,8 +22,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @EnableAutoConfiguration(exclude = {
         FlywayAutoConfiguration.class, JmxAutoConfiguration.class, DataSourceAutoConfiguration.class,
         MetricExportAutoConfiguration.class, CacheAutoConfiguration.class, SessionAutoConfiguration.class })
-@Import({ DatabaseConfiguration.class, SecurityConfig.class, MappingConfiguration.class, KSConfiguration.class,
-        ServicesConfiguration.class })
+@Import({ DatabaseConfiguration.class, SecurityConfig.class, MappingConfiguration.class, ServicesConfiguration.class })
 @ComponentScan(basePackages = { "com.github.kickshare.rest", "com.github.kickshare.db" })
 @EnableConfigurationProperties
 @EnableScheduling

@@ -8,7 +8,7 @@ import java.util.Map;
 
 import com.github.kickshare.domain.GroupSummary;
 import com.github.kickshare.domain.ProjectInfo;
-import com.github.kickshare.kickstarter.KickstarterCampaignService;
+import com.github.kickshare.ext.service.kickstarter.campaign.KickstarterCampaignService;
 import com.github.kickshare.service.GroupServiceImpl;
 import com.github.kickshare.service.entity.SearchOptions;
 import lombok.AllArgsConstructor;

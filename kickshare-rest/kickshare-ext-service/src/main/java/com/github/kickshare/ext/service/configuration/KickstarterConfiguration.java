@@ -1,4 +1,4 @@
-package com.github.kickshare.kickstarter;
+package com.github.kickshare.ext.service.configuration;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -11,8 +11,8 @@ import org.springframework.http.client.SimpleClientHttpRequestFactory;
  * @since 7.4.2017
  */
 @Configuration
-@ComponentScan("com.github.kickshare.kickstarter")
-public class KSConfiguration {
+@ComponentScan("com.github.kickshare.ext.service.kickstarter.*")
+public class KickstarterConfiguration {
     @Bean
     public ClientHttpRequestFactory requestFactory() {
         return new SimpleClientHttpRequestFactory();
