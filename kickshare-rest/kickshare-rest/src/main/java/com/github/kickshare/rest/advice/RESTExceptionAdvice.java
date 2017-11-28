@@ -1,6 +1,6 @@
 package com.github.kickshare.rest.advice;
 
-import com.github.kickshare.kickstarter.exception.AuthenticationException;
+import com.github.kickshare.ext.service.kickstarter.campaign.exception.AuthenticationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;

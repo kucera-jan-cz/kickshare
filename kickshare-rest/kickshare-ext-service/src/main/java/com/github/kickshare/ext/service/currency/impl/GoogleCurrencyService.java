@@ -6,12 +6,12 @@ import java.net.MalformedURLException;
 import java.text.MessageFormat;
 import java.util.InputMismatchException;
 import java.util.List;
-import java.util.function.Function;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.xml.parsers.ParserConfigurationException;
 
+import com.github.kickshare.ext.service.common.ResourceBuilder;
 import com.github.kickshare.ext.service.currency.CurrencyService;
 import com.github.kickshare.ext.service.currency.Rate;
 import com.github.kickshare.ext.service.exception.ServiceNotAvailable;
@@ -36,7 +36,7 @@ public class GoogleCurrencyService implements CurrencyService {
     private static final String RESULT_XPATH = "./descendant::div[@id='currency_converter_result']/span";
     private static final Pattern CURRENCY_PATTERN = Pattern.compile("((\\d+\\.?)+)\\s+(\\w+)");
     private static final String SERVICE_TYPE = "GOOGLE_FINANCE";
-    private final Function<String, InputStream> resourceBuilder;
+    private final ResourceBuilder resourceBuilder;
 
     @Override
     public Rate convert(final String from, final String to) {

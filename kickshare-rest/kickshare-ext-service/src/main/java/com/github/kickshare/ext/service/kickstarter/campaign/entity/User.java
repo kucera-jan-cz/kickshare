@@ -1,4 +1,4 @@
-package com.github.kickshare.kickstarter.entity;
+package com.github.kickshare.ext.service.kickstarter.campaign.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

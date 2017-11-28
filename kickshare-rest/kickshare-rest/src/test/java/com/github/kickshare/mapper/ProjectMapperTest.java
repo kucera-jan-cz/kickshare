@@ -8,7 +8,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.github.kickshare.common.io.ResourceUtil;
 import com.github.kickshare.domain.ProjectInfo;
-import com.github.kickshare.kickstarter.entity.CampaignProject;
+import com.github.kickshare.ext.service.kickstarter.campaign.entity.CampaignProject;
 import org.json.JSONException;
 import org.mapstruct.factory.Mappers;
 import org.skyscreamer.jsonassert.JSONAssert;

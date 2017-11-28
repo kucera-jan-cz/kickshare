@@ -1,7 +1,7 @@
 package com.github.kickshare.mapper;
 
 import com.github.kickshare.domain.ProjectPhoto;
-import com.github.kickshare.kickstarter.entity.CampaignProjectPhoto;
+import com.github.kickshare.ext.service.kickstarter.campaign.entity.CampaignProjectPhoto;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 

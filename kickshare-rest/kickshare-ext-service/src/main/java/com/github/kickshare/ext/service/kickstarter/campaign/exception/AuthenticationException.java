@@ -1,4 +1,4 @@
-package com.github.kickshare.kickstarter.exception;
+package com.github.kickshare.ext.service.kickstarter.campaign.exception;
 
 /**
  * @author Jan.Kucera

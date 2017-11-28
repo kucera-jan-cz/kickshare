@@ -8,8 +8,8 @@ import java.util.concurrent.CompletableFuture;
 
 import com.github.kickshare.db.multischema.SchemaContextHolder;
 import com.github.kickshare.domain.ProjectInfo;
-import com.github.kickshare.kickstarter.KickstarterCampaignService;
-import com.github.kickshare.kickstarter.exception.AuthenticationException;
+import com.github.kickshare.ext.service.kickstarter.campaign.KickstarterCampaignService;
+import com.github.kickshare.ext.service.kickstarter.campaign.exception.AuthenticationException;
 import com.github.kickshare.security.BackerDetails;
 import com.github.kickshare.service.GroupServiceImpl;
 import com.github.kickshare.service.ProjectService;
@@ -38,7 +38,6 @@ public class KickstarterEndpoint {
     private final KickstarterCampaignService kickstarter;
     private final GroupServiceImpl groupService;
     private final ProjectService projectService;
-//    private final ExtendedMapper dozer;
 
     @GetMapping("/search")
     public List<ProjectInfo> searchKickstarterProjects(

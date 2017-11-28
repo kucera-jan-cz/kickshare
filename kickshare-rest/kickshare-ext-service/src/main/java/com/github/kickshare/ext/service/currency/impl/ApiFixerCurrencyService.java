@@ -5,10 +5,10 @@ import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.text.MessageFormat;
 import java.util.InputMismatchException;
-import java.util.function.Function;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.kickshare.ext.service.common.ResourceBuilder;
 import com.github.kickshare.ext.service.currency.CurrencyService;
 import com.github.kickshare.ext.service.currency.Rate;
 import com.github.kickshare.ext.service.exception.ServiceNotAvailable;
@@ -25,7 +25,7 @@ public class ApiFixerCurrencyService implements CurrencyService {
     private static final Logger LOGGER = LoggerFactory.getLogger(ApiFixerCurrencyService.class);
     private static final String SERVICE_TYPE = "API_FIXER";
     private final ObjectMapper mapper = new ObjectMapper();
-    private final Function<String, InputStream> resourceBuilder;
+    private final ResourceBuilder resourceBuilder;
 
     @Override
     public Rate convert(final String from, final String to) throws ServiceNotAvailable {
