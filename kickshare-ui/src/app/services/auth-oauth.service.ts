@@ -4,6 +4,7 @@ import "rxjs/add/operator/toPromise";
 import {PRIMARY_OUTLET, Router} from "@angular/router";
 import {AuthHttp} from "./auth-http.service";
 import {OAuthService} from "angular-oauth2-oidc";
+import {HttpHeaders} from "@angular/common/http";
 
 @Injectable()
 export class OauthHttp extends AuthHttp {
@@ -26,7 +27,7 @@ export class OauthHttp extends AuthHttp {
     }
 
     public async authenticate(username: string, password: string): Promise<Number> {
-        var headers = Headers.fromResponseHeaderString("Authorization:Basic dXNlcjp1c2Vy");
+        var headers = new HttpHeaders("Authorization:Basic dXNlcjp1c2Vy");
         let token = await this.oauthService.fetchTokenUsingPasswordFlow(username, password, headers);
         console.info("Authentication OAuth: " + token['access_token']);
         console.info("Is authenticated: " + this.isAuthenticated());
