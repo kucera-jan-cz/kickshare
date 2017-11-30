@@ -10,6 +10,7 @@ import {AuthGuardService} from "./services/auth-guard.service";
 import {AuthHttp} from "./services/auth-http.service";
 import {OAuthModule} from "angular-oauth2-oidc";
 import {OauthHttp} from "./services/auth-oauth.service";
+import {HttpClientModule} from "@angular/common/http";
 
 @NgModule({
     declarations: [
@@ -19,6 +20,7 @@ import {OauthHttp} from "./services/auth-oauth.service";
         BrowserModule,
         BrowserAnimationsModule,
         FormsModule,
+        HttpClientModule,
         HttpModule,
         AppRoutingModule,
         NgbModule.forRoot(),

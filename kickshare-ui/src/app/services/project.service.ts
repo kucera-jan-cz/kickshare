@@ -7,15 +7,11 @@ import {Injectable} from "@angular/core";
 import {AuthHttp} from "./auth-http.service";
 import {ProjectInfo, SearchOptions} from "./domain";
 import {stringify} from "query-string";
-import {LogService} from "./log.service";
 
 @Injectable()
 export class ProjectService {
-    private log: LogService
 
     constructor(private http: AuthHttp) {
-        // this.log = new LogService(this);
-        this.log = new LogService();
     }
 
     public searchProjects(options: SearchOptions): Promise<ProjectInfo[]> {
