@@ -5,9 +5,11 @@ import {PRIMARY_OUTLET, Router} from "@angular/router";
 import {AuthHttp} from "./auth-http.service";
 import {OAuthService} from "angular-oauth2-oidc";
 import {HttpHeaders} from "@angular/common/http";
+import {LoggerFactory} from "../components/logger/loggerFactory.component";
 
 @Injectable()
 export class OauthHttp extends AuthHttp {
+    private logger = LoggerFactory.getLogger('services:auth:oauth');
     private host = "http://localhost:9000";
     // private host = "http://localhost:8080";
     // private host = "https://local.kickshare.eu";
@@ -29,17 +31,17 @@ export class OauthHttp extends AuthHttp {
     public async authenticate(username: string, password: string): Promise<Number> {
         var headers = new HttpHeaders("Authorization:Basic dXNlcjp1c2Vy");
         let token = await this.oauthService.fetchTokenUsingPasswordFlow(username, password, headers);
-        console.info("Authentication OAuth: " + token['access_token']);
-        console.info("Is authenticated: " + this.isAuthenticated());
-        console.info("Token: " + this.oauthService.getAccessToken());
+        this.logger.info("Authentication OAuth: " + token['access_token']);
+        this.logger.info("Is authenticated: " + this.isAuthenticated());
+        this.logger.info("Token: " + this.oauthService.getAccessToken());
         let user = await this.getResponse("/accounts/user");
-        console.info("User: " + user.json()['name']);
-        console.info("Response: " + JSON.stringify(user.json()));
-        console.info(JSON.stringify(token));
+        this.logger.info("User: " + user.json()['name']);
+        this.logger.info("Response: " + JSON.stringify(user.json()));
+        this.logger.info(JSON.stringify(token));
         //@TODO - extract also country
 
         let id = user.json()['principal']['id'] as number;
-        console.info("Emitting ID: " + id);
+        this.logger.debug("Emitting ID: " + id);
         this.userIdSubject.next(id);
         this.authenticatedSubject.next(true);
         // const userId = token.json()['id'] as number;
@@ -59,7 +61,7 @@ export class OauthHttp extends AuthHttp {
     public getJsonp(path, handler: (...args: any[]) => void): void {
         const url: string = `${this.host}/${path}`;
         var args = this.createRequestArgs();
-        console.info("Calling JSONP: " + url);
+        this.logger.info("Calling JSONP: " + url);
         this.jsonp.get(url, args).subscribe(response => handler(response));
     }
 
@@ -85,13 +87,13 @@ export class OauthHttp extends AuthHttp {
         let headers: Headers = new Headers();
         headers.append('Content-Type', 'application/json');
         if(this.oauthService.hasValidAccessToken()) {
-            console.info("Including token: "+ this.oauthService.getAccessToken());
+            this.logger.info("Including token: "+ this.oauthService.getAccessToken());
             headers.append('Authorization', 'Bearer ' + this.oauthService.getAccessToken());
         }
         const urlTree = this.router.parseUrl(this.router.url);
         const country = urlTree.root.children[PRIMARY_OUTLET].segments[0].toString().toUpperCase();
-        console.info("URL: " + this.router.url);
-        console.info("URL PATH: " + country);
+        this.logger.debug("URL: " + this.router.url);
+        this.logger.debug("URL PATH: " + country);
         //@TODO - start using valid country schema, once this logic is stable (maybe after checking supported codes?)
         headers.append('country', 'CZ');
 

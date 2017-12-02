@@ -2,6 +2,7 @@ import {Injectable} from "@angular/core";
 import {AuthHttp} from "./auth-http.service";
 import "rxjs/Rx";
 import "rxjs/add/operator/take";
+import {LoggerFactory} from "../components/logger/loggerFactory.component";
 
 /**
  * Created by KuceraJan on 2.5.2017.
@@ -13,6 +14,7 @@ declare var geoplugin_longitude: any;
 
 @Injectable()
 export class SystemService {
+    private logger = LoggerFactory.getLogger('services:system');
     country: string;
     public countryCode: string;
     backerId: number = -1;
@@ -26,14 +28,14 @@ export class SystemService {
             this._current_lat = geoplugin_latitude();
             this._current_lon = geoplugin_longitude();
         } catch (ex) {
-            console.info("Failed to load geo plugin");
+            this.logger.info("Failed to load geo plugin");
             this.country = 'Czech republic';
             this.countryCode = 'CZ';
             this._current_lat = 	50.05;
             this._current_lon = 	14.22;
         }
         this.auth.getUserIdEmitter().subscribe(userId => {
-                console.info("ID from emmiter " + userId);
+                this.logger.info("Emmiter ID: {0}", userId);
                 this.backerId = userId;
             }
         );
