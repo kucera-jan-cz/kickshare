@@ -11,7 +11,8 @@ import {ProjectService} from "../../services/project.service";
 
 @Component({
     selector: 'campaign',
-    templateUrl: './campaign.html'
+    templateUrl: './campaign.html',
+    styleUrls: ['./campaign.scss']
 })
 export class Campaign implements OnInit {
     id: number;

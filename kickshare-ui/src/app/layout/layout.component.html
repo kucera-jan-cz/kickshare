@@ -1,20 +1,12 @@
-<!--<application-header></application-header>-->
-<!--<application-sidebar [ngbCollapse]="isNavbarCollapsed"></application-sidebar>-->
-<!--<div class="pos-f-t fixed-top header">-->
-<!--<nav class="navbar navbar-inverse bg-inverse navbar-toggleable-md">-->
-<!--<application-header class="w-100"></application-header>-->
-<!--<application-sidebar class="h-100"></application-sidebar>-->
-<!--</nav>-->
-<!--</div>-->
 <application-header [isNavbarCollapsed]="isNavbarCollapsed" (toggleEvent)="toggleSidebar($event)"></application-header>
-
 <!--Sidebar -->
 <nav class="sidebar" [ngClass]="{sidebarPushRight: isActive}" [ngbCollapse]="isNavbarCollapsed">
     <ul class="list-group">
         <a [routerLink]="['./dashboard']" [routerLinkActive]="['router-link-active']" class="list-group-item" (click)="isNavbarCollapsed = !isNavbarCollapsed">
             <i class="fa fa-home"></i>&nbsp;{{ 'Dashboard' }}
         </a>
-        <a [routerLink]="['./account/group']" [routerLinkActive]="['router-link-active']" class="list-group-item" (click)="isNavbarCollapsed = !isNavbarCollapsed">
+        <a [routerLink]="['./account/group']" [routerLinkActive]="['router-link-active']" class="list-group-item"
+           (click)="isNavbarCollapsed = !isNavbarCollapsed">
             <i class="fa fa-user-plus"></i>&nbsp;{{ 'New group' }}
         </a>
         <a [routerLink]="['./cities']" [routerLinkActive]="['router-link-active']" class="list-group-item" (click)="isNavbarCollapsed = !isNavbarCollapsed">

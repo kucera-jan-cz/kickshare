@@ -1,51 +1,56 @@
 <div class="container-fluid">
-  <div class="row" >
-    <div class="col-md-8">
-      <div class="row">
-          <h4><a class="text-info" href="{{ project?.url }}">{{ project?.name }}</a></h4>
-      </div>
-      <div class="row">
-        <h5>Deadline: {{ project?.deadline  | date}}</h5>
-      </div>
+    <div class="row">
+        <div class="col-md-8">
+            <div class="row">
+                <h4><a class="text-info" href="{{ project?.url }}">{{ project?.name }}</a></h4>
+            </div>
+            <div class="row">
+                <h5>Deadline: {{ project?.deadline | date}}</h5>
+            </div>
+        </div>
+        <div class="col-md-4 m-y-1">
+            <img src="{{ project?.photo.med }}" class="project_logo">
+        </div>
     </div>
-    <div class="col-md-4">
-      <img src="{{ project?.photo.little }}" width="100%" height="100%">
+    <div class="row-fluid m-y-5">
+        <div class="card-header">Groups:</div>
+        <div class="card-block">
+            <!--<h4>Skupiny:</h4>-->
+            <table class="table table-sm table-hover table-inverse">
+                <thead>
+                <tr class="black-muted-bg">
+                    <!--<th class="browser-icons"></th>-->
+                    <th class="align-left">Název</th>
+                    <th class="align-left">Vedoucí skupiny</th>
+                    <th class="align-right">Rating</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr *ngFor="let item of groups" class="no-top-border">
+                    <td class="align-left">
+                        <a class="text-info" [routerLink]="['../../group', item.id]"> {{item.name}} - {{item.id}}</a>
+                    </td>
+                    <td class="align-left">{{item.leader_name}}</td>
+                    <td>
+                        <!--<rating [(ngModel)]="1" max="5" stateOn="ion-ios-heart" stateOff="ion-ios-heart-outline" class="rating"></rating>-->
+                        {{item.leader_rating}}/5
+                    </td>
+                    <!--<td class="align-right"><a [routerLink]="[{ campaign}]">Link</a>-->
+                    <!--<td class="align-left">5 dní</td>-->
+                    <!--<td class="align-right">{{item.participants}}</td>-->
+                </tr>
+                <!--<tr *ngFor="let item of metricsTableData" class="no-top-border">-->
+                <!--<td><img src="{{ ( item.image | baAppPicture ) }}" width="20" height="20"></td>-->
+                <!--<td ngClass="nowrap">{{item.browser}}</td>-->
+                <!--<td class="align-right">{{item.visits}}</td>-->
+                <!--<td class="table-arr"><i [ngClass]="{'icon-up': item.isVisitsUp, 'icon-down': !item.isVisitsUp }"></i></td>-->
+                <!--<td class="align-right">{{item.purchases}}</td>-->
+                <!--<td class="table-arr"><i [ngClass]="{'icon-up': item.isPurchasesUp, 'icon-down': !item.isPurchasesUp }"></i></td>-->
+                <!--<td class="align-right">{{item.percent}}</td>-->
+                <!--<td class="table-arr"><i [ngClass]="{'icon-up': item.isPercentUp, 'icon-down': !item.isPercentUp }"></i></td>-->
+                <!--</tr>-->
+                </tbody>
+            </table>
+        </div>
     </div>
-  </div>
-  <h4>Skupiny:</h4>
-  <table class="table table-hover">
-    <thead>
-    <tr class="black-muted-bg">
-      <!--<th class="browser-icons"></th>-->
-      <th class="align-left">Název</th>
-      <th class="align-left">Vedoucí skupiny</th>
-      <th class="align-right">Rating</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr *ngFor="let item of groups" class="no-top-border">
-      <td class="align-left">
-        <a class="text-info" [routerLink]="['../../group', item.id]"> {{item.name}} - {{item.id}}</a>
-      </td>
-      <td class="align-left">{{item.leader_name}}</td>
-      <td>
-        <!--<rating [(ngModel)]="1" max="5" stateOn="ion-ios-heart" stateOff="ion-ios-heart-outline" class="rating"></rating>-->
-        {{item.leader_rating}}/5
-      </td>
-      <!--<td class="align-right"><a [routerLink]="[{ campaign}]">Link</a>-->
-      <!--<td class="align-left">5 dní</td>-->
-      <!--<td class="align-right">{{item.participants}}</td>-->
-    </tr>
-    <!--<tr *ngFor="let item of metricsTableData" class="no-top-border">-->
-    <!--<td><img src="{{ ( item.image | baAppPicture ) }}" width="20" height="20"></td>-->
-    <!--<td ngClass="nowrap">{{item.browser}}</td>-->
-    <!--<td class="align-right">{{item.visits}}</td>-->
-    <!--<td class="table-arr"><i [ngClass]="{'icon-up': item.isVisitsUp, 'icon-down': !item.isVisitsUp }"></i></td>-->
-    <!--<td class="align-right">{{item.purchases}}</td>-->
-    <!--<td class="table-arr"><i [ngClass]="{'icon-up': item.isPurchasesUp, 'icon-down': !item.isPurchasesUp }"></i></td>-->
-    <!--<td class="align-right">{{item.percent}}</td>-->
-    <!--<td class="table-arr"><i [ngClass]="{'icon-up': item.isPercentUp, 'icon-down': !item.isPercentUp }"></i></td>-->
-    <!--</tr>-->
-    </tbody>
-  </table>
 </div>

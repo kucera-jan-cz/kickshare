@@ -8,6 +8,7 @@ import {ProjectService} from "../../services/project.service";
 import {GroupService} from "../../services/group.service";
 import {Backer, CampaignPhoto, Group as GroupDomain, Project} from "../../services/domain";
 import {SystemService} from "../../services/system.service";
+import {LoggerFactory} from "../../components/logger/loggerFactory.component";
 
 @Component({
     selector: 'group',
@@ -15,6 +16,7 @@ import {SystemService} from "../../services/system.service";
     templateUrl: './group.html'
 })
 export class Group implements OnInit{
+    private logger = LoggerFactory.getLogger("component:group");
     id: number;
     my_id: number;
     my_group: boolean = true;
@@ -31,7 +33,7 @@ export class Group implements OnInit{
     async ngOnInit() {
         this.my_id = 2;
         this.id = this.route.snapshot.params['id'];
-        console.info("Searching for group: " + this.id);
+        this.logger.info("Searching for group: {0}", this.id);
         let info = await this.groupService.getGroupInfo(this.id);
         this.group = info.group;
         this.project = info.project;
@@ -39,7 +41,7 @@ export class Group implements OnInit{
         this.leader = info.leader;
         this.backers = info.backers;
         this.backers.unshift(info.leader);
-        console.info("System Backer ID: " + this.system.getId());
+        this.logger.info("System Backer ID: {0}", this.system.getId());
         this.my_group = this.system.getId() == this.leader.id;
         // this.my_group = this.my_id == info.leader.id;
     }
