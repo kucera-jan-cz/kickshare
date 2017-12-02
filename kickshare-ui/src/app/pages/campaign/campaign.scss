@@ -1,36 +1,18 @@
-#searchOptions {
-  width: 100%;
-  margin-top: -10px;
+img.project_logo {
+    border: 2px solid black;
+    box-shadow: 10px 10px 15px #282828;
+    border-radius: 15px;
+    -moz-border-radius: 15px;
 }
 
-.form-control {
-  width:auto;
-  display:inline-block;
+.card-header {
+    background-color: #d2d2d2;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
 }
 
-label {
-  width:auto;
-  display:inline-block;
-  height: 33px;
+.card-block {
+    background-color: #d2d2d2;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
 }
-
-#searchInput {
-  width: 95%;
-  height: 33px;
-}
-
-#category_group select {
-  height: 33px;
-  margin: 0px;
-  padding: 0px;
-}
-
-#legend {
-  font-family: Arial, sans-serif;
-  background: #fff;
-  color: black;
-  padding: 10px;
-  margin: 10px;
-  border: 3px solid #000;
-}
-

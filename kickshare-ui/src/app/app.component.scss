@@ -2,3 +2,12 @@ app-layout {
     height: 100%;
     min-height: 100vh;
 }
+
+@font-face {
+    font-family: 'Raleway';
+    src: url('../fonts/raleway_thin-webfont.eot'); /* IE9 Compat Modes */
+}
+
+body {
+    font-family: 'Raleway', sans-serif;
+}

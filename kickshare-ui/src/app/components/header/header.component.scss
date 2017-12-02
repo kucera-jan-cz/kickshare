@@ -1,4 +1,9 @@
 $topnav-background-color: #282828;
+:host {
+    background-color: $topnav-background-color;
+    width: 100%;
+    height: 100%;
+}
 #header {
     background-color: #282828;
     a {
@@ -28,4 +33,8 @@ $topnav-background-color: #282828;
     i {color: #dddddd;
         border-color: #dddddd;
     }
+}
+
+button.btn-link:hover {
+     text-decoration: none;
 }

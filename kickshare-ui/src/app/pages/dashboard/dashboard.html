@@ -1,55 +1,49 @@
 <gmap [(projects)]="projects" (dataChange)="projectsUpdated($event)" (mapChange)="mapUpdated($event)"></gmap>
-
 <div id="dashboard_div" class="row-fluent">
-  <div id="projectTable" *ngIf="displayProjects" class="horizontal-scroll">
-    <ba-card title="Found projects" baCardClass="with-scroll table-panel">
-      <div class="horizontal-scroll">
-        <table class="table table-hover">
-          <thead>
-          <tr class="black-muted-bg">
-            <th class="browser-icons"></th>
-            <th class="align-left">Name</th>
-            <th class="align-left">Kickstarter deadline</th>
-          </tr>
-          </thead>
-          <tbody>
-          <!--(click)="projectSelected(item)"-->
-          <tr *ngFor="let item of projects" class="no-top-border">
-            <td class="project-photo"><img src="{{ ( item.photo_url ) }}"></td>
-            <td class="align-left">
-              <a [routerLink]="['../../campaign', item.id]"> {{item.name}} - {{item.id}}</a>
-            </td>
-            <td class="align-left">5 dní</td>
-          </tr>
-          </tbody>
-        </table>
-      </div>
-    </ba-card>
-  </div>
-  <!-- Groups -->
-  <div id="groupTable" *ngIf="!displayProjects" class="horizontal-scroll">
-    <ba-card title="Found groups" baCardClass="with-scroll table-panel">
-      <div class="horizontal-scroll">
-        <table class="table table-hover">
-          <thead>
-          <tr class="black-muted-bg">
-            <th class="browser-icons"></th>
-            <th class="align-left">Name</th>
-            <th class="align-left">Kickstarter deadline</th>
-          </tr>
-          </thead>
-          <tbody>
-          <!--(click)="projectSelected(item)"-->
-          <tr *ngFor="let item of groups" class="no-top-border">
-            <td class="project-photo"><img src="{{ item.photo.small }}"></td>
-            <td class="align-left">
-              <a [routerLink]="['../../group', item.group.id]"> {{item.group.name}} - {{item.group.id}}</a>
-            </td>
-            <td class="align-left">5 dní</td>
-          </tr>
-          </tbody>
-        </table>
-      </div>
-    </ba-card>
-  </div>
+    <div class="card">
+        <div class="card-header" *ngIf="displayProjects">Found projects</div>
+        <div class="card-block" *ngIf="displayProjects">
+            <table class="table table-sm table-hover">
+                <thead>
+                <tr class="black-muted-bg">
+                    <th class="browser-icons"></th>
+                    <th class="align-left">Name</th>
+                    <th class="align-left">Kickstarter deadline</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr *ngFor="let item of projects" class="no-top-border">
+                    <td class="project-photo"><img src="{{ ( item.photo.thumb ) }}"></td>
+                    <td class="align-left">
+                        <a [routerLink]="['../../campaign', item.id]"> {{item.name}} - {{item.id}}</a>
+                    </td>
+                    <td class="align-left">5 dní</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <!-- Group -->
+        <div class="card-header" *ngIf="!displayProjects">Found projects</div>
+        <div class="card-block" *ngIf="!displayProjects">
+            <table class="table table-sm table-hover">
+                <thead>
+                <tr class="black-muted-bg">
+                    <th class="browser-icons"></th>
+                    <th class="align-left">Name</th>
+                    <th class="align-left">Kickstarter deadline</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr *ngFor="let item of groups" class="no-top-border">
+                    <td class="project-photo"><img src="{{ item.photo.small }}"></td>
+                    <td class="align-left">
+                        <a [routerLink]="['../../group', item.group.id]"> {{item.group.name}} - {{item.group.id}}</a>
+                    </td>
+                    <td class="align-left">5 dní</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
 </div>

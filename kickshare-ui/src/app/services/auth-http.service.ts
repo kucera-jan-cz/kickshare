@@ -2,8 +2,10 @@ import {Response, URLSearchParams} from "@angular/http";
 import {Observable} from "rxjs/Observable";
 import "rxjs/add/operator/toPromise";
 import {BehaviorSubject} from "rxjs/BehaviorSubject";
+import {LoggerFactory} from "../components/logger/loggerFactory.component";
 
 export abstract class AuthHttp {
+    private _logger = LoggerFactory.getLogger("services:auth:http");
     protected authenticatedSubject: BehaviorSubject<boolean> = new BehaviorSubject(null);
     protected userIdSubject: BehaviorSubject<number> = new BehaviorSubject(null);
     private authenticateEmitter: Observable<boolean>;
@@ -33,19 +35,22 @@ export abstract class AuthHttp {
     abstract getResponse(path, params?: URLSearchParams): Promise<Response>;
 
     get<T>(path, params?: URLSearchParams): Promise<T> {
+        this._logger.debug("GET: {0}", path);
         return this.getResponse(path, params).then(res => res.json() as T);
     }
 
     abstract postResponse(path, data): Promise<Response>;
 
 
-    post<T>(path, params?: URLSearchParams): Promise<T> {
-        return this.postResponse(path, params).then(res => res.json() as T);
+    post<T>(path, data): Promise<T> {
+        this._logger.debug("POST: {0}", path);
+        return this.postResponse(path, data).then(res => res.json() as T);
     }
 
     abstract patchResponse(path, data): Promise<Response>;
 
     patch<T>(path, data): Promise<T> {
+        this._logger.debug("PATCH: {0}", path);
         return this.patchResponse(path, data).then(res => res.json() as T);
     }
 }

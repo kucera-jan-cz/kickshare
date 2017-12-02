@@ -10,6 +10,7 @@ import {LoggerFactory} from "../components/logger/loggerFactory.component";
 @Injectable()
 export class GroupService {
     private logger = LoggerFactory.getLogger('services:group');
+
     constructor(private http: AuthHttp) {
 
     }
@@ -26,24 +27,17 @@ export class GroupService {
     }
 
     public getGroupInfo(groupId: number): Promise<GroupInfo> {
-        this.logger.info("Calling getGroupInfo");
+        this.logger.info("Calling getGroupInfo({0})", groupId);
         const path = "/groups/" + groupId;
-        return this.http.getResponse(path).then(
-            res => {
-                this.logger.info("GroupDiscussion info: " + JSON.stringify(res));
-                return res.json() as GroupInfo;
-            }
-        );
+        const promise: Promise<GroupInfo> = this.http.get(path);
+        promise.then(group => this.logger.debug("GroupInfo: {0}", JSON.stringify(group)));
+        return promise;
     }
 
     public createGroup(group: Group): Promise<Group> {
-        return this.http.postResponse("/groups", group)
-            .then(
-                res => {
-                    this.logger.info("GroupDiscussion created: " + JSON.stringify(res));
-                    return res.json() as Group
-                }
-            );
+        const promise: Promise<Group> = this.http.post("/groups", group);
+        promise.then(group => this.logger.info("GroupDiscussion created: " + JSON.stringify(group)))
+        return promise;
     }
 
     public searchGroups(options: SearchOptions): Promise<GroupSummary[]> {
@@ -58,8 +52,8 @@ export class GroupService {
             )
     }
 
-    public suggestName(projectId: number, cityId: number) : Promise<string> {
-        const params = stringify({projectId: projectId, cityId : cityId});
+    public suggestName(projectId: number, cityId: number): Promise<string> {
+        const params = stringify({projectId: projectId, cityId: cityId});
         return this.http.getResponse("/groups/suggest?" + params)
             .then(
                 res => {
