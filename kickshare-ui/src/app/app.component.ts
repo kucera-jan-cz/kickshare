@@ -1,4 +1,6 @@
 import {Component, OnInit} from "@angular/core";
+import {LoggerFactory} from "./components/logger/loggerFactory.component";
+
 @Component({
     selector: 'app-root',
     templateUrl: './app.component.html',
@@ -6,8 +8,6 @@ import {Component, OnInit} from "@angular/core";
 })
 export class AppComponent implements OnInit {
     ngOnInit(): void {
-    }
-
-    constructor() {
+        LoggerFactory.initialize();
     }
 }

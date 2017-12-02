@@ -5,30 +5,32 @@ import {Injectable} from "@angular/core";
 import {AuthHttp} from "./auth-http.service";
 import {Group, GroupInfo, GroupSummary, Post, SearchOptions} from "./domain";
 import {stringify} from "query-string";
+import {LoggerFactory} from "../components/logger/loggerFactory.component";
 
 @Injectable()
 export class GroupService {
+    private logger = LoggerFactory.getLogger('services:group');
     constructor(private http: AuthHttp) {
 
     }
 
     public getGroupInfosByProject(projectId: number): Promise<Group[]> {
-        console.info("Calling getGroupInfosByProject");
+        this.logger.info("Calling getGroupInfosByProject");
         const path = "/projects/" + projectId + "/groups";
         return this.http.getResponse(path).then(
             res => {
-                console.info("Groups info: " + JSON.stringify(res));
+                this.logger.info("Groups info: " + JSON.stringify(res));
                 return res.json() as Group[];
             }
         );
     }
 
     public getGroupInfo(groupId: number): Promise<GroupInfo> {
-        console.info("Calling getGroupInfo");
+        this.logger.info("Calling getGroupInfo");
         const path = "/groups/" + groupId;
         return this.http.getResponse(path).then(
             res => {
-                console.info("GroupDiscussion info: " + JSON.stringify(res));
+                this.logger.info("GroupDiscussion info: " + JSON.stringify(res));
                 return res.json() as GroupInfo;
             }
         );
@@ -38,7 +40,7 @@ export class GroupService {
         return this.http.postResponse("/groups", group)
             .then(
                 res => {
-                    console.info("GroupDiscussion created: " + JSON.stringify(res));
+                    this.logger.info("GroupDiscussion created: " + JSON.stringify(res));
                     return res.json() as Group
                 }
             );
@@ -46,11 +48,11 @@ export class GroupService {
 
     public searchGroups(options: SearchOptions): Promise<GroupSummary[]> {
         const params = stringify(options);
-        console.info("Searching groups with: " + params);
+        this.logger.info("Searching groups with: " + params);
         return this.http.getResponse("/groups/search?" + params)
             .then(
                 res => {
-                    console.info("Search group result: " + JSON.stringify(res));
+                    this.logger.info("Search group result: " + JSON.stringify(res));
                     return res.json() as GroupSummary[];
                 }
             )

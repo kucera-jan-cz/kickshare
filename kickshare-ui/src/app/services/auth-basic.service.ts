@@ -3,15 +3,18 @@ import {Headers, Http, Jsonp, RequestOptionsArgs, Response, URLSearchParams} fro
 import "rxjs/add/operator/toPromise";
 import {PRIMARY_OUTLET, Router} from "@angular/router";
 import {AuthHttp} from "./auth-http.service";
+import {LoggerFactory} from "../components/logger/loggerFactory.component";
 
 @Injectable()
 export class BasicAuthHttp extends AuthHttp {
     private host = "http://localhost:9000";
+    private logger = LoggerFactory.getLogger('services:auth:basic');
+
     // private host = "https://local.kickshare.eu";
 
     constructor(private http: Http, private jsonp: Jsonp, private router: Router) {
         super();
-        if(this.isAuthenticated()) {
+        if (this.isAuthenticated()) {
 
         }
     }
@@ -30,7 +33,7 @@ export class BasicAuthHttp extends AuthHttp {
                 username = null;
                 password = null;
                 const userId = data.json()['id'] as number;
-                console.info("Authentication successful, ID: " + userId);
+                this.logger.info("Authentication successful ID: {0}", userId);
                 this.userIdSubject.next(userId);
                 this.authenticatedSubject.next(true);
             },
@@ -53,7 +56,7 @@ export class BasicAuthHttp extends AuthHttp {
     public getJsonp(path, handler: (...args: any[]) => void): void {
         const url: string = `${this.host}/${path}`;
         var args = this.createRequestArgs();
-        console.info("Calling JSONP: " + url);
+        this.logger.debug("Calling JSONP: {0}", url);
         this.jsonp.get(url, args).subscribe(response => handler(response));
     }
 
@@ -80,13 +83,13 @@ export class BasicAuthHttp extends AuthHttp {
         headers.append('Content-Type', 'application/json');
         // headers.append('Authorization', 'Basic eGF0cml4MTAxQGdtYWlsLmNvbTp1c2Vy');
         // headers.append('Authorization', localStorage.getItem('authorization'));
-        console.info("Expected: Basic eGF0cml4MTAxQGdtYWlsLmNvbTp1c2Vy");
-        console.info("Received: " + localStorage.getItem('authorization'));
+        this.logger.info("Expected: Basic eGF0cml4MTAxQGdtYWlsLmNvbTp1c2Vy");
+        this.logger.info("Received: " + localStorage.getItem('authorization'));
         // headers.append('Cookies', 'JSESSIONID='+localStorage.getItem('authorization'));
         const urlTree = this.router.parseUrl(this.router.url);
         const country = urlTree.root.children[PRIMARY_OUTLET].segments[0].toString().toUpperCase();
-        console.info("URL: " + this.router.url);
-        console.info("URL PATH: " + country);
+        this.logger.info("URL: " + this.router.url);
+        this.logger.info("URL PATH: " + country);
         headers.append('country', 'CZ');
         // headers.append('Authorization', localStorage.getItem('authorization'));
 
@@ -100,11 +103,11 @@ export class BasicAuthHttp extends AuthHttp {
     }
 
     private saveSession(response: Response, authorization: string) {
-        console.info("Type: " + response.constructor.name);
-        console.info(JSON.stringify(response));
+        this.logger.info("Type: " + response.constructor.name);
+        this.logger.info(JSON.stringify(response));
         const cookie = response.headers.get('Set-Cookie');
-        console.info("Headers: " + JSON.stringify(response.headers));
-        console.info("Cookie: "+cookie);
+        this.logger.info("Headers: " + JSON.stringify(response.headers));
+        this.logger.info("Cookie: " + cookie);
         localStorage.setItem('session', cookie);
         localStorage.setItem('authorization', authorization);
     }

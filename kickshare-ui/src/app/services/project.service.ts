@@ -7,20 +7,21 @@ import {Injectable} from "@angular/core";
 import {AuthHttp} from "./auth-http.service";
 import {ProjectInfo, SearchOptions} from "./domain";
 import {stringify} from "query-string";
+import {LoggerFactory} from "../components/logger/loggerFactory.component";
 
 @Injectable()
 export class ProjectService {
-
+    private logger = LoggerFactory.getLogger('services:project');
     constructor(private http: AuthHttp) {
     }
 
     public searchProjects(options: SearchOptions): Promise<ProjectInfo[]> {
         const params = stringify(options);
-        console.info("Searching projects with: " + params);
+        this.logger.info("Searching projects with: " + params);
         return this.http.getResponse("/projects/search?" + params)
             .then(
                 res => {
-                    console.info("Search project result: " + JSON.stringify(res));
+                    this.logger.info("Search project result: " + JSON.stringify(res));
                     return res.json() as ProjectInfo[];
                 }
             )
@@ -34,19 +35,19 @@ export class ProjectService {
 
         return this.http.getResponse('projects', params).then(
             res => {
-                // console.info("Received project: " + JSON.stringify(res));
+                // this.logger.info("Received project: " + JSON.stringify(res));
                 const projects = res.json() as ProjectInfo[];
-                console.info("Received projects: " + projects.map(p => p.name).join(","));
+                this.logger.info("Received projects: " + projects.map(p => p.name).join(","));
                 return projects;
             }
         )
     }
 
     public getProject(projectId: number): Promise<ProjectInfo> {
-        console.log("Searching for id: " + projectId);
+        this.logger.debug("Searching for id: {0}", projectId);
         return this.http.getResponse(`projects/${projectId}`).then(
             res => {
-                console.info("Received project: " + JSON.stringify(res));
+                this.logger.info("Received project: {0}", JSON.stringify(res));
                 return res.json() as ProjectInfo
             }
         );
