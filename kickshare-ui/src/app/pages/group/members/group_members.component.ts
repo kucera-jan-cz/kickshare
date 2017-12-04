@@ -8,7 +8,6 @@ import {Backer} from "../../../services/domain";
 
 @Component({
   selector: 'group_members',
-  // styleUrls: ['./group_members.scss'],
   templateUrl: './group_members.html'
 })
 export class GroupMembers {

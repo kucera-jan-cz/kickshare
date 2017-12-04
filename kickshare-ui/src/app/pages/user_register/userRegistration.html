@@ -32,28 +32,17 @@
                     <!--</select>-->
                     <div class="input-group mb-1">
                         <span class="input-group-addon"><i class="fa fa-globe"></i></span>
-                        <!--<ng2-completer id="country_complete" [(ngModel)]="searchCountry" [minSearchLength]="1"-->
-                                       <!--name="countryComplete" clearUnselected="true" placeholder="country">-->
-                        <!--</ng2-completer>-->
                         <select class="form-control" name="country_select" [(ngModel)]="country">
                             <option *ngFor="let item of countries">
                                 {{item}}
                             </option>
                         </select>
-                        <ng2-completer [datasource]="countrySuggest" [minSearchLength]="3"
-                                       name="countrySuggest" clearUnselected="false"
-                                       (selected)="cityId = $event.originalObject.id">
-                        </ng2-completer>
                     </div>
 
                     <div class="input-group mb-1">
                         <span class="input-group-addon"><i class="fa fa-globe"></i></span>
-                        <!--<input name="city" class="form-control" [(ngModel)]="city" placeholder="city" required>-->
                         <input name="city" type="text" class="form-control" [(ngModel)]="city" placeholder="city"
                                [ngbTypeahead]="searchCityFunction" [inputFormatter]="cityFormatter" [resultFormatter]="cityFormatter" required/>
-                        <!--<ng2-completer name="city" [(ngModel)]="city" [minSearchLength]="2"-->
-                                <!--clearUnselected="true" placeholder="country">-->
-                        <!--</ng2-completer>-->
                     </div>
                     <div class="input-group mb-1">
                         <span class="input-group-addon"><i class="fa fa-globe"></i></span>
@@ -65,8 +54,7 @@
                     <div class="input-group mb-1">
                         <span class="input-group-addon"><i class="fa fa-globe"></i></span>
                         <input name="postalCode" class="form-control" [(ngModel)]="postalCode" placeholder="postal code"
-                               [disabled]="location == null || location.id == null"
-                               required>
+                               [disabled]="true" required>
                     </div>
                     <div class="wrapper mt-2">
                         <button [disabled]="!form.valid" class="btn btn-primary btn-md">Submit <i class="fa fa-send"></i></button>

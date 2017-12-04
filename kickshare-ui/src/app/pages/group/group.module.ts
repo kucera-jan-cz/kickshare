@@ -11,6 +11,8 @@ import {Tab} from "../../components/tabs/tab.component";
 import {GroupMembers} from "./members/group_members.component";
 import {GroupDiscussion} from "./discussion/group_discussion.component";
 import {NgbTabsetModule} from "@ng-bootstrap/ng-bootstrap";
+import {GroupRequests} from "./requests/group_requests.component";
+
 /**
  * Created by KuceraJan on 9.4.2017.
  */
@@ -27,7 +29,8 @@ import {NgbTabsetModule} from "@ng-bootstrap/ng-bootstrap";
         Tabs,
         Tab,
         GroupMembers,
-        GroupDiscussion
+        GroupDiscussion,
+        GroupRequests
     ],
     providers: [
         ProjectService,

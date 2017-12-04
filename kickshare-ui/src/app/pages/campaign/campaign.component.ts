@@ -8,6 +8,7 @@ import "rxjs/add/operator/toPromise";
 import {Group, ProjectInfo} from "../../services/domain";
 import {GroupService} from "../../services/group.service";
 import {ProjectService} from "../../services/project.service";
+import {LoggerFactory} from "../../components/logger/loggerFactory.component";
 
 @Component({
     selector: 'campaign',
@@ -15,6 +16,7 @@ import {ProjectService} from "../../services/project.service";
     styleUrls: ['./campaign.scss']
 })
 export class Campaign implements OnInit {
+    private logger = LoggerFactory.getLogger("components:campaign");
     id: number;
     name: string;
     project: ProjectInfo;
@@ -29,13 +31,13 @@ export class Campaign implements OnInit {
     }
 
     private async init() {
-        console.info("Searching for groups");
+        this.logger.debug("Searching for groups");
         let projectPromise = this.projectService.getProject(this.id);
         //@TODO - group vs groupInfo
         this.groups = await this.groupService.getGroupInfosByProject(this.id);
-        console.info("Groups: " + JSON.stringify(this.groups));
+        this.logger.debug("Groups: " + JSON.stringify(this.groups));
         let project = await projectPromise;
-        console.info("CAMPAIGN RECEIVED: " + JSON.stringify(project));
+        this.logger.debug("CAMPAIGN RECEIVED: " + JSON.stringify(project));
         this.project = project;
         this.name = project.name;
     }
