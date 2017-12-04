@@ -14,7 +14,7 @@ import {SystemService} from "../services/system.service";
         CommonModule,
         NgbDropdownModule.forRoot(),
         LayoutRoutingModule,
-        NgbCollapseModule.forRoot()
+        NgbCollapseModule.forRoot(),
     ],
     declarations: [
         LayoutComponent,

@@ -43,15 +43,6 @@ export class UserRegistration implements OnInit {
     public street: string;
     public postalCode: string;
 
-    public states = ['Alabama', 'Alaska', 'American Samoa', 'Arizona', 'Arkansas', 'California', 'Colorado',
-        'Connecticut', 'Delaware', 'District Of Columbia', 'Federated States Of Micronesia', 'Florida', 'Georgia',
-        'Guam', 'Hawaii', 'Idaho', 'Illinois', 'Indiana', 'Iowa', 'Kansas', 'Kentucky', 'Louisiana', 'Maine',
-        'Marshall Islands', 'Maryland', 'Massachusetts', 'Michigan', 'Minnesota', 'Mississippi', 'Missouri', 'Montana',
-        'Nebraska', 'Nevada', 'New Hampshire', 'New Jersey', 'New Mexico', 'New York', 'North Carolina', 'North Dakota',
-        'Northern Mariana Islands', 'Ohio', 'Oklahoma', 'Oregon', 'Palau', 'Pennsylvania', 'Puerto Rico', 'Rhode Island',
-        'South Carolina', 'South Dakota', 'Tennessee', 'Texas', 'Utah', 'Vermont', 'Virgin Islands', 'Virginia',
-        'Washington', 'West Virginia', 'Wisconsin', 'Wyoming'];
-
     //Category
     public countries = ['Czech republic', 'Germany'];
 
@@ -85,11 +76,11 @@ export class UserRegistration implements OnInit {
         const citiesObservable: Observable<City[]> = text
             .debounceTime(200)
             .distinctUntilChanged()
-            .flatMap(term => Observable.fromPromise(this.cityService.getCities(term)))
+            .flatMap(term => Observable.fromPromise(this.cityService.getCities(term)));
         return citiesObservable;
     };
 
-    streetFormatter = (location: Location) => location.address;
+    streetFormatter = (location: Location) => location.display;
 
     searchStreetFunction = (text: Observable<string>) => {
         //@TODO - resolve country code!!

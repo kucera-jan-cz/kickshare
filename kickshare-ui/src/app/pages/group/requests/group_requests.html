@@ -1,0 +1,27 @@
+<table class="table table-hover">
+    <thead>
+    <tr class="black-muted-bg">
+        <th class="align-left">Name</th>
+        <th class="align-left">Email</th>
+        <th class="align-right">Rating</th>
+        <th class="align-right">City</th>
+        <th>Action</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let item of backers" class="no-top-border">
+        <td class="align-left">{{item.name + ' ' + item.surname}}</td>
+        <td>{{item.email}}</td>
+        <td>{{item.backer_rating}}</td>
+        <td>{{item.address?.city}}</td>
+        <td>
+            <button type="button" class="btn btn-sm btn-success">
+                <i class="fa fa-plus-square" aria-hidden="true"></i>
+            </button>
+            <button type="button" class="btn btn-sm btn-danger">
+                <i class="fa fa-minus-square" aria-hidden="true"></i>
+            </button>
+        </td>
+    </tr>
+    </tbody>
+</table>

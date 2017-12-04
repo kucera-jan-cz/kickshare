@@ -16,7 +16,7 @@ import {LoggerFactory} from "../../components/logger/loggerFactory.component";
     templateUrl: './group.html'
 })
 export class Group implements OnInit{
-    private logger = LoggerFactory.getLogger("component:group");
+    private logger = LoggerFactory.getLogger("components:group");
     id: number;
     my_id: number;
     my_group: boolean = true;
@@ -41,7 +41,7 @@ export class Group implements OnInit{
         this.leader = info.leader;
         this.backers = info.backers;
         this.backers.unshift(info.leader);
-        this.logger.info("System Backer ID: {0}", this.system.getId());
+        this.logger.warn("System Backer ID: {0}", this.system.getId());
         this.my_group = this.system.getId() == this.leader.id;
         // this.my_group = this.my_id == info.leader.id;
     }

@@ -16,6 +16,7 @@ const routes: Routes = [
             {path: 'campaign', loadChildren: 'app/pages/campaign/campaign.module#CampaignModule'},
             {path: 'login', loadChildren: 'app/pages/login/login.module#LoginModule'},
             {path: 'sign-in', loadChildren: 'app/pages/user_register/userRegistration.module#UserRegistrationModule'},
+            {path: 'user/settings', loadChildren: 'app/pages/user/userSettings.module#UserSettingsModule'},
         ]
     }
 ];

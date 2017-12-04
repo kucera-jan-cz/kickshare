@@ -37,65 +37,8 @@
         </ngb-tab>
         <ngb-tab *ngIf="my_group" title="Requests (*)">
             <ng-template ngbTabContent>
-                <table class="table table-hover">
-                    <thead>
-                    <tr class="black-muted-bg">
-                        <th class="align-left">Name</th>
-                        <th class="align-left">Email</th>
-                        <th class="align-right">Rating</th>
-                        <th class="align-right">City</th>
-                        <th>Action</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr *ngFor="let item of backers" class="no-top-border">
-                        <td class="align-left">{{item.name + ' ' + item.surname}}</td>
-                        <td>{{item.email}}</td>
-                        <td>{{item.backer_rating}}</td>
-                        <td>{{item.address?.city}}</td>
-                        <td>
-                            <button type="button" class="btn btn-success">OK</button>
-                            <button type="button" class="btn btn-danger">NOK</button>
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
+                <group_requests [(backers)]="backers"></group_requests>
             </ng-template>
         </ngb-tab>
     </ngb-tabset>
-    <!--<md-tab-group>-->
-    <!--<md-tab label="Members">-->
-    <!--<group_members [(backers)]="backers"></group_members>-->
-    <!--</md-tab>-->
-    <!--<md-tab label="Discussion">-->
-    <!--<group_discussion></group_discussion>-->
-    <!--</md-tab>-->
-    <!--<div *ngIf="my_group">-->
-    <!--<md-tab label="Requests (1)">-->
-    <!--<table class="table table-hover">-->
-    <!--<thead>-->
-    <!--<tr class="black-muted-bg">-->
-    <!--<th class="align-left">Name</th>-->
-    <!--<th class="align-left">Email</th>-->
-    <!--<th class="align-right">Rating</th>-->
-    <!--<th class="align-right">City</th>-->
-    <!--<th>Action</th>-->
-    <!--</tr>-->
-    <!--</thead>-->
-    <!--<tbody>-->
-    <!--<tr *ngFor="let item of backers" class="no-top-border">-->
-    <!--<td class="align-left">{{item.name + ' ' + item.surname}}</td>-->
-    <!--<td>{{item.email}}</td>-->
-    <!--<td>{{item.backer_rating}}</td>-->
-    <!--<td>{{item.address?.city}}</td>-->
-    <!--<td>-->
-    <!--<button type="button" class="btn btn-success">OK</button>-->
-    <!--<button type="button" class="btn btn-danger">NOK</button>-->
-    <!--</td>-->
-    <!--</tr>-->
-    <!--</tbody>-->
-    <!--</table>-->
-    <!--</md-tab>-->
-    <!--</div>-->
-    <!--</md-tab-group>-->
 </div>
