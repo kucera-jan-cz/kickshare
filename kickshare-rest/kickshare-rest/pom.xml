@@ -24,6 +24,20 @@
     </properties>
 
     <dependencies>
+        <!-- Kickshare modules -->
+
+        <dependency>
+            <groupId>com.github.kucera-jan-cz.kickshare</groupId>
+            <artifactId>kickshare-ext-service</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.github.kucera-jan-cz.kickshare</groupId>
+            <artifactId>kickshare-db</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
         <!-- Spring -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -178,13 +192,7 @@
             <version>${poi.version}</version>
         </dependency>
 
-        <dependency>
-            <groupId>com.github.kucera-jan-cz.kickshare</groupId>
-            <artifactId>kickshare-ext-service</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-
-        <!-- Parsing KS -->
+        <!-- Geo -->
         <dependency>
             <groupId>com.github.jsurfer</groupId>
             <artifactId>jsurfer-core</artifactId>
@@ -278,79 +286,6 @@
                         <location>filesystem:src/main/resources/db/migration</location>
                     </locations>
                 </configuration>
-            </plugin>
-            <!-- Following plugin is for setting System.property, it's needed for JOOQ generated class suffix -->
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>properties-maven-plugin</artifactId>
-                <version>1.0.0</version>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>set-system-properties</goal>
-                        </goals>
-                        <configuration>
-                            <properties>
-                                <property>
-                                    <name>org.jooq.util.example.java-class-name-suffix</name>
-                                    <value>DB</value>
-                                </property>
-                            </properties>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.jooq</groupId>
-                <artifactId>jooq-codegen-maven</artifactId>
-                <version>${jooq.version}</version>
-
-                <!-- The jOOQ code generation plugin is also
-                     executed in the generate-sources phase,
-                     prior to compilation -->
-                <executions>
-                    <execution>
-                        <phase>generate-sources</phase>
-                        <goals>
-                            <goal>generate</goal>
-                        </goals>
-                    </execution>
-                </executions>
-
-                <!-- This is a minimal working configuration.
-                     See the manual's section about the code
-                     generator for more details -->
-                <configuration>
-                    <jdbc>
-                        <url>${db.url}</url>
-                        <user>${db.username}</user>
-                    </jdbc>
-                    <generator>
-                        <database>
-                            <name>org.jooq.util.postgres.PostgresDatabase</name>
-                            <includes>.*</includes>
-                            <inputSchema>KS</inputSchema>
-                        </database>
-                        <target>
-                            <packageName>com.github.kickshare.db.jooq</packageName>
-                            <directory>target/generated-sources/jooq</directory>
-                        </target>
-                        <generate>
-                            <daos>true</daos>
-                            <relations>true</relations>
-                        </generate>
-                        <strategy>
-                            <name>org.jooq.util.example.JVMArgsGeneratorStrategy</name>
-                        </strategy>
-                    </generator>
-                </configuration>
-                <dependencies>
-                    <dependency>
-                        <groupId>org.postgresql</groupId>
-                        <artifactId>postgresql</artifactId>
-                        <version>${postgresql.version}</version>
-                    </dependency>
-                </dependencies>
             </plugin>
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>

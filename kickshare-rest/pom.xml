@@ -21,6 +21,7 @@
     <modules>
         <module>kickshare-rest</module>
         <module>kickshare-ext-service</module>
+        <module>kickshare-db</module>
     </modules>
 
     <properties>
