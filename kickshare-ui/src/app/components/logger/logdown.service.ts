@@ -1,5 +1,6 @@
 import * as Logdown from "logdown";
-import {Logger, LoggerLevelFactory, TemplateFormatter} from "./logger.component";
+import * as format from "string-template";
+import {Logger, LoggerLevelFactory} from "./logger.component";
 
 export class LogdownFactory extends LoggerLevelFactory {
 
@@ -8,31 +9,30 @@ export class LogdownFactory extends LoggerLevelFactory {
     }
 }
 
-export class LogdownLogger extends TemplateFormatter implements Logger {
+export class LogdownLogger implements Logger {
     private logger;
 
     constructor(private name: string) {
-        super();
         this.logger = new Logdown(name, {markdown: false});
     }
 
-    error(message: string, ...args: any[]) {
-        this.logger.error(this.format(message, args));
+    error(message: string, args: Array<any>) {
+        this.logger.error(format(message, args));
     }
 
-    warn(message: string, ...args: any[]) {
-        this.logger.warn(this.format(message, args));
+    warn(message: string, args: Array<any>) {
+        this.logger.warn(format(message, args));
     }
 
-    info(message: string, ...args: any[]) {
-        this.logger.info(this.format(message, args));
+    info(message: string, args: Array<any>) {
+        this.logger.info(format(message, args));
     }
 
-    debug(message: string, ...args: any[]) {
-        this.logger.debug(this.format(message, args));
+    debug(message: string, args: Array<any>) {
+        this.logger.debug(format(message, args));
     }
 
-    trace(message: string, ...args: any[]) {
-        this.logger.trace(this.format(message, args))
+    trace(message: string, args: Array<any>) {
+        this.logger.trace(format(message, args))
     }
 }

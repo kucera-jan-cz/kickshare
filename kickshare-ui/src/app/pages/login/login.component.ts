@@ -1,8 +1,9 @@
 import {Component} from "@angular/core";
 
-import {AbstractControl, FormBuilder, FormGroup, NgForm, Validators} from "@angular/forms";
+import {AbstractControl, FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {ActivatedRoute, Router} from "@angular/router";
 import {AuthHttp} from "../../services/auth-http.service";
+import {LoggerFactory} from "../../components/logger/loggerFactory.component";
 
 declare var $: any;
 
@@ -12,6 +13,7 @@ declare var $: any;
     styleUrls: ['login.scss']
 })
 export class LoginComponent {
+    private logger = LoggerFactory.getLogger("components:login");
     public form: FormGroup;
     public email: AbstractControl;
     public password: AbstractControl;
@@ -35,18 +37,18 @@ export class LoginComponent {
         this.password = this.form.controls['password'];
     }
 
-    async onSubmit(values: NgForm) {
-        console.info("Authenticating....");
+    async onSubmit() {
+        this.logger.info("Authenticating....");
         this.submitted = true;
         if (this.form.valid) {
-            let id: Number = await this.authenticationService.authenticate(values.value.email, values.value.password);
+            let id: Number = await this.authenticationService.authenticate(this.form.value.email, this.form.value.password);
             if (id > 0) {
                 const returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
-                console.info('Authentication successful');
-                console.info('Redirecting to :' + returnUrl);
+                this.logger.info('Authentication successful');
+                this.logger.info('Redirecting to {0}', returnUrl);
                 this.router.navigate([returnUrl]);
             } else {
-                console.error('Authentication failed');
+                this.logger.error('Authentication failed');
             }
         }
     }

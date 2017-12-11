@@ -1,6 +1,6 @@
 <application-header [isNavbarCollapsed]="isNavbarCollapsed" (toggleEvent)="toggleSidebar($event)"></application-header>
 <!--Sidebar -->
-<nav class="sidebar" [ngClass]="{sidebarPushRight: isActive}" [ngbCollapse]="isNavbarCollapsed">
+<nav class="sidebar" [ngbCollapse]="isNavbarCollapsed">
     <ul class="list-group">
         <a [routerLink]="['./dashboard']" [routerLinkActive]="['router-link-active']" class="list-group-item" (click)="isNavbarCollapsed = !isNavbarCollapsed">
             <i class="fa fa-home"></i>&nbsp;{{ 'Dashboard' }}

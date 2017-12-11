@@ -3,6 +3,7 @@ import {GroupSummary, ProjectInfo, SearchOptions} from "../../services/domain";
 import {SearchMetadata} from "./searchMetadata.component";
 import {GroupService} from "../../services/group.service";
 import {ProjectService} from "../../services/project.service";
+import {LoggerFactory} from "../../components/logger/loggerFactory.component";
 
 @Component({
     selector: 'dashboard',
@@ -10,6 +11,7 @@ import {ProjectService} from "../../services/project.service";
     templateUrl: './dashboard.html'
 })
 export class Dashboard {
+    private logger = LoggerFactory.getLogger("components:dashboard");
     projects: ProjectInfo[] = [];
     groups: GroupSummary[] = [];
     displayProjects: boolean = true;
@@ -20,12 +22,12 @@ export class Dashboard {
     }
 
     projectsUpdated(projects: ProjectInfo[]): void {
-        console.log("Dashboard received event :: Projects with " + projects.length);
+        this.logger.info("Dashboard received event :: Projects with " + projects.length);
         this.projects = projects;
     }
 
     async mapUpdated(searchMeta: SearchMetadata) {
-        console.info("Search meta updated: %s", JSON.stringify(searchMeta));
+        this.logger.info("Search meta updated: {0}", JSON.stringify(searchMeta));
 
         this.searchMeta = searchMeta;
 
@@ -37,15 +39,14 @@ export class Dashboard {
         searchOptions.se_lat = this.searchMeta.bounds.getSouthWest().lat();
         searchOptions.se_lon = this.searchMeta.bounds.getNorthEast().lng();
         if (this.searchMeta.project) {
-            console.info("Searching for groups to list");
+            this.logger.info("Searching for groups to list");
             //@TODO - make search groups with boundaries
-            // this.projectService.getGroups(this.searchMeta.project.id).then(
             searchOptions.project_id = this.searchMeta.project.id;
             this.groups = await this.groupService.searchGroups(searchOptions);
             this.projects = [];
             this.displayProjects = false;
         } else {
-            console.info("Searching for projects to list");
+            this.logger.info("Searching for projects to list");
             this.projects = await this.projectService.searchProjects(searchOptions);
             this.groups = [];
             this.displayProjects = true;

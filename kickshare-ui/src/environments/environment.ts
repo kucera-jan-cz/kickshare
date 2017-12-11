@@ -9,7 +9,7 @@ export const environment = {
     root: 'WARN',
     error_info: '',
     warn_info: '',
-    log_info: 'components:google:geo:factory',
+    log_info: 'components:google:geo:factory,components:group',
     debug_info: '',
     trace_info: '',
     off_info: ''

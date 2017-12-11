@@ -18,7 +18,6 @@ import {LoggerFactory} from "../../components/logger/loggerFactory.component";
 export class Group implements OnInit{
     private logger = LoggerFactory.getLogger("components:group");
     id: number;
-    my_id: number;
     my_group: boolean = true;
     group: GroupDomain;
     project: Project;
@@ -31,7 +30,6 @@ export class Group implements OnInit{
     }
 
     async ngOnInit() {
-        this.my_id = 2;
         this.id = this.route.snapshot.params['id'];
         this.logger.info("Searching for group: {0}", this.id);
         let info = await this.groupService.getGroupInfo(this.id);
@@ -41,7 +39,7 @@ export class Group implements OnInit{
         this.leader = info.leader;
         this.backers = info.backers;
         this.backers.unshift(info.leader);
-        this.logger.warn("System Backer ID: {0}", this.system.getId());
+        this.logger.info("System Backer ID: {0}, Leader ID: {1}", 0, 2);
         this.my_group = this.system.getId() == this.leader.id;
         // this.my_group = this.my_id == info.leader.id;
     }
