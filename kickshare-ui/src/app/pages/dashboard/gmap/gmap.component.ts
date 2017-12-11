@@ -44,7 +44,7 @@ export class GMap implements OnInit, OnDestroy {
     @Output() mapChange: EventEmitter<SearchMetadata> = new EventEmitter();
     @Output() optionsChange: EventEmitter<SearchOptions> = new EventEmitter();
     tags = [{value: 0, display: 'Action'}, {value: 1, display: 'Co-op'}];
-    protected dataService: CustomData;
+    dataService: CustomData;
     groupGridMap: google.maps.Map;
     markerCluster: any;
     protected searchOptions: JSONPSearchOptions = new JSONPSearchOptions();

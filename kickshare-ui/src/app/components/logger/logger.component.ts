@@ -1,5 +1,4 @@
 import {environment} from "../../../environments/environment";
-// import {template} from 'string-template';
 import {sprintf} from 'sprintf-js';
 import * as format from "string-template";
 
@@ -10,11 +9,11 @@ import * as format from "string-template";
 
 export interface Logger {
 
-    error(message: string, ...args: any[]);
+    error(message: string, ...args: Array<any>);
 
-    warn(message: string, ...args: any[]);
+    warn(message: string, ...args: Array<any>);
 
-    info(message: string, ...args: any[]);
+    info(message: string, ...args: Array<any>);
 
     debug(message: string, ...args: any[]);
 
@@ -44,7 +43,7 @@ export class NoLogger implements Logger {
 
 export class TemplateFormatter implements Formatter {
 
-    format(message: string, ...args: any[]): string {
+    format(message: string, ...args: Array<any>): string {
         return format(message, args)
     }
 }
@@ -132,23 +131,22 @@ export class LogLevel implements Logger {
     constructor(private level: Level, private logger: Logger) {
     }
 
-    error(message: string, ...args: any[]) {
+    error(message: string, ...args: Array<any>) {
         if (this.level > Level.ERROR) {
         } else {
             this.logger.error(message, args);
         }
     }
 
-    warn(message: string, ...args: any[]) {
+    warn(message: string, ...args: Array<any>) {
         if (this.level > Level.WARN) {
         } else {
             this.logger.warn(message, args);
         }
     }
 
-    info(message: string, ...args: any[]) {
+    info(message: string, ...args: Array<any>) {
         if (this.level > Level.INFO) {
-
         } else {
             this.logger.info(message, args);
         }

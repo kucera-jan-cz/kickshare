@@ -7,6 +7,7 @@ import "rxjs/add/operator/toPromise";
 import {MapFactory} from "../../components/google/mapFactory.component";
 import {ProjectService} from "../../services/project.service";
 import {AuthHttp} from "../../services/auth-http.service";
+import {LoggerFactory} from "../../components/logger/loggerFactory.component";
 
 // declare var initCityMap: any;
 
@@ -16,6 +17,7 @@ import {AuthHttp} from "../../services/auth-http.service";
     templateUrl: './cities.html'
 })
 export class Cities implements OnInit, OnDestroy {
+    private logger = LoggerFactory.getLogger("components:cities");
     // url = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyA-NAJu2diDDRzMKz9jKTIj6HVXODMjXpk&callback=initCityMap';
 
     private factory = new MapFactory();
@@ -27,10 +29,8 @@ export class Cities implements OnInit, OnDestroy {
 
     ngOnInit(): void {
         var readDataCallback = this.readCities.bind(this);
-        //49.3333	14.8833	4
         const center = new google.maps.LatLng(49.333,14.8833);
         this.cityMap = this.factory.createCityMap('city-map', center, readDataCallback);
-        console.info("Map: " + this.cityMap == null);
         google.maps.event.addListenerOnce(this.cityMap, 'tilesloaded', () => this.readCities());
     }
 
@@ -39,9 +39,8 @@ export class Cities implements OnInit, OnDestroy {
     }
 
     private readCities() {
-        console.info("Map: " + this.cityMap == null);
         const bounds = this.cityMap.getBounds();
-        console.info("City read data from bounds: " + JSON.stringify(bounds));
+        this.logger.info("City read data from bounds: {0}", JSON.stringify(bounds));
         //@TODO - rewrite to NW and SE option notation
         var sw_lat = `sw_lat=${bounds.getSouthWest().lat()}`;
         var sw_lon = `sw_lon=${bounds.getSouthWest().lng()}`;
@@ -54,7 +53,7 @@ export class Cities implements OnInit, OnDestroy {
     }
 
     private readCoordinates(resp: Response) {
-        console.info("Got response: " + JSON.stringify(resp));
+        this.logger.info("Got response: {0}", JSON.stringify(resp));
         const response = resp.json();
         this.clearData();
         for (var i = 0; i < response['features'].length; i++) {
