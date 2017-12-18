@@ -1,7 +1,7 @@
 /**
  * Created by KuceraJan on 9.4.2017.
  */
-import {Component, OnInit} from "@angular/core";
+import {Component, OnInit, ViewChild} from "@angular/core";
 import {ActivatedRoute} from "@angular/router";
 import "rxjs/add/operator/switchMap";
 import {ProjectService} from "../../services/project.service";
@@ -9,6 +9,7 @@ import {GroupService} from "../../services/group.service";
 import {Backer, CampaignPhoto, Group as GroupDomain, Project} from "../../services/domain";
 import {SystemService} from "../../services/system.service";
 import {LoggerFactory} from "../../components/logger/loggerFactory.component";
+import {GroupMembers} from "./members/group_members.component";
 
 @Component({
     selector: 'group',
@@ -24,6 +25,8 @@ export class Group implements OnInit{
     photo: CampaignPhoto;
     leader: Backer;
     backers: Backer[];
+    @ViewChild(GroupMembers) members: GroupMembers;
+
 
     constructor(private route: ActivatedRoute, private groupService: GroupService, private projectService: ProjectService,
                 private system: SystemService) {
@@ -39,8 +42,7 @@ export class Group implements OnInit{
         this.leader = info.leader;
         this.backers = info.backers;
         this.backers.unshift(info.leader);
-        this.logger.info("System Backer ID: {0}, Leader ID: {1}", 0, 2);
+        this.logger.info("System Backer ID: {0}, Leader ID: {1}", this.system.getId(), info.leader.id);
         this.my_group = this.system.getId() == this.leader.id;
-        // this.my_group = this.my_id == info.leader.id;
     }
 }

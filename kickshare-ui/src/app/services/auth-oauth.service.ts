@@ -77,6 +77,12 @@ export class OauthHttp extends AuthHttp {
         return this.http.post(url, data, args).toPromise();
     }
 
+    public deleteResponse(path, params?: URLSearchParams): Promise<Response> {
+        const url: string = `${this.host}/${path}`;
+        var args = this.createRequestArgs(params);
+        return this.http.delete(url, args).toPromise();
+    }
+
     public patchResponse(path, data): Promise<Response> {
         const url: string = `${this.host}/${path}`;
         var args = this.createRequestArgs();

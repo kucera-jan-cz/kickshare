@@ -22,7 +22,10 @@ public class GroupPermission implements PermissionEvaluator {
 
     @Override
     public boolean hasPermission(final Authentication authentication, final Object targetDomainObject, final Object permission) {
-        BackerDetails backer = (BackerDetails) authentication.getPrincipal();
+        if (!BackerDetails.class.isInstance(authentication.getPrincipal())) {
+            return false;
+        }
+        final BackerDetails backer = (BackerDetails) authentication.getPrincipal();
         Long groupId = (Long) targetDomainObject;
         switch (String.valueOf(permission)) {
             case PermissionConstants.IS_MEMBER:

@@ -27,7 +27,7 @@
     <ngb-tabset>
         <ngb-tab title="Members">
             <ng-template ngbTabContent>
-                <group_members [(backers)]="backers"></group_members>
+                <group_members [groupId]="id" [backers]="backers" [leader]="leader"></group_members>
             </ng-template>
         </ngb-tab>
         <ngb-tab title="Discussion">
@@ -37,7 +37,7 @@
         </ngb-tab>
         <ngb-tab *ngIf="my_group" title="Requests (*)">
             <ng-template ngbTabContent>
-                <group_requests [(backers)]="backers"></group_requests>
+                <group_requests [groupId]="id" [(backers)]="backers"></group_requests>
             </ng-template>
         </ngb-tab>
     </ngb-tabset>

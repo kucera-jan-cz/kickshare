@@ -53,4 +53,11 @@ export abstract class AuthHttp {
         this._logger.debug("PATCH: {0}", path);
         return this.patchResponse(path, data).then(res => res.json() as T);
     }
+
+    abstract deleteResponse(path, data): Promise<Response>;
+
+    delete<T>(path,data) : Promise<T> {
+        this._logger.debug("DELETE: {0}", path);
+        return this.deleteResponse(path, data).then(res => res.json() as T);
+    }
 }

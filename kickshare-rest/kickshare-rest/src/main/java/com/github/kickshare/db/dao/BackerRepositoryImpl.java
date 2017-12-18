@@ -61,7 +61,7 @@ public class BackerRepositoryImpl extends AbstractRepository<BackerRecordDB, Bac
                         .from(BACKER_2_GROUP)
                         .where(BACKER_2_GROUP.BACKER_ID.eq(backerId))
                         .and(BACKER_2_GROUP.STATUS.eq(GroupRequestStatusDB.APPROVED))
-                        .and(GROUP.ID.eq(groupId))
+                        .and(BACKER_2_GROUP.GROUP_ID.eq(groupId))
         );
     }
 
