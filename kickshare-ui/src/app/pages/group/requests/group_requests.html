@@ -15,10 +15,10 @@
         <td>{{item.backer_rating}}</td>
         <td>{{item.address?.city}}</td>
         <td>
-            <button type="button" class="btn btn-sm btn-success">
+            <button type="button" class="btn btn-sm btn-success" (click)="approve(item)">
                 <i class="fa fa-plus-square" aria-hidden="true"></i>
             </button>
-            <button type="button" class="btn btn-sm btn-danger">
+            <button type="button" class="btn btn-sm btn-danger" (click)="decline(item)">
                 <i class="fa fa-minus-square" aria-hidden="true"></i>
             </button>
         </td>

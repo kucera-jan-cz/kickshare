@@ -105,7 +105,7 @@ public class GroupEndpoint {
     }
 
     @PostMapping
-    public Group create(@RequestBody @Valid Group group, @AuthenticationPrincipal BackerDetails user) throws IOException {
+    public Group create(@RequestBody @Valid Group group, @AuthenticationPrincipal BackerDetails user) {
         final Long projectId = group.getProjectId();
         final String name = group.getName();
         final boolean isLocal = group.getIsLocal();
@@ -118,10 +118,14 @@ public class GroupEndpoint {
         groupService.registerBacker(groupId, user.getId());
     }
 
-    @GroupOwner
-    @DeleteMapping("/{groupId}/users/{backerId]")
+    @GroupMember
+    @DeleteMapping("/{groupId}/users/{backerId}")
     public void deleteParticipant(@PathVariable Long groupId, @PathVariable Long backerId, @AuthenticationPrincipal BackerDetails user) {
-        Validate.isTrue(!user.getId().equals(backerId), "Leader can't be removed from owning group");
+        //@TODO - implement validation for group owner and closing down group when money has been send
+        Group group = groupService.getGroup(groupId);
+        boolean isLeader = group.getLeaderId().equals(user.getId());
+        boolean isMember = user.getId().equals(backerId);
+        Validate.isTrue(isLeader || isMember, "Illegal request - not leader nor backer id fit");
         groupService.removeBacker(groupId, backerId);
     }
 

@@ -211,7 +211,7 @@ public class GroupServiceImpl {
     }
 
     public boolean isGroupMember(final Long backerId, final Long groupId) {
-        return backerRepository.ownGroup(backerId, groupId);
+        return backerRepository.isGroupMember(backerId, groupId);
     }
 
     public void updateGroupRequestStatus(final Long groupId, final Long backerId, GroupRequestStatusDB status) {

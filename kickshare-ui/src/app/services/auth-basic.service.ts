@@ -78,6 +78,12 @@ export class BasicAuthHttp extends AuthHttp {
         return this.http.patch(url, data, args).toPromise();
     }
 
+    public deleteResponse(path, params?: URLSearchParams): Promise<Response> {
+        const url: string = `${this.host}/${path}`;
+        var args = this.createRequestArgs(params);
+        return this.http.delete(url, args).toPromise();
+    }
+
     private createRequestArgs(params?: URLSearchParams): RequestOptionsArgs {
         let headers: Headers = new Headers();
         headers.append('Content-Type', 'application/json');

@@ -15,8 +15,13 @@
     <td>{{item.backer_rating}}</td>
     <td>{{item.address?.city}}</td>
     <td>
-      <div *ngIf="item.id == my_id">
-        <button type="button" class="btn btn-danger">Leave group</button>
+      <div *ngIf="item.id == viewerId && viewerId != leader.id">
+        <button type="button" class="btn btn-danger" (click)="deleteBacker(item)">Leave group</button>
+      </div>
+      <div *ngIf="item.id != leader.id && viewerId == leader.id">
+          <button type="button" class="btn btn-sm btn-danger" (click)="deleteBacker(item)">
+              <i class="fa fa-minus-square" aria-hidden="true"></i>
+          </button>
       </div>
     </td>
   </tr>

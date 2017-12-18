@@ -36,7 +36,7 @@ export class GroupService {
 
     public createGroup(group: Group): Promise<Group> {
         const promise: Promise<Group> = this.http.post("/groups", group);
-        promise.then(group => this.logger.info("GroupDiscussion created: " + JSON.stringify(group)))
+        promise.then(group => this.logger.info("GroupDiscussion created: " + JSON.stringify(group)));
         return promise;
     }
 
@@ -50,6 +50,24 @@ export class GroupService {
                     return res.json() as GroupSummary[];
                 }
             )
+    }
+
+    public acceptBacker(groupId: number, backerId: number): Promise<any> {
+        const path = `/groups/${groupId}/users/${backerId}/approve`;
+        const promise: Promise<any> = this.http.post(path, null);
+        return promise;
+    }
+
+    public rejectBacker(groupId: number, backerId: number): Promise<any> {
+        const path = `/groups/${groupId}/users/${backerId}/decline`;
+        const promise: Promise<any> = this.http.post(path, null);
+        return promise;
+    }
+
+    public leaveGroup(groupId: number, backerId: number): Promise<any> {
+        const path = `/groups/${groupId}/users/${backerId}`;
+        const promise: Promise<any> = this.http.delete(path, null);
+        return promise;
     }
 
     public suggestName(projectId: number, cityId: number): Promise<string> {
