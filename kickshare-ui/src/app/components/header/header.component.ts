@@ -13,12 +13,13 @@ import {SystemService} from "../../services/system.service";
     styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent implements OnInit, OnDestroy {
+    displayNotification: boolean = false;
     @Input() isNavbarCollapsed: boolean;
     @Output() toggleEvent: EventEmitter<boolean> = new EventEmitter();
     private timer: Observable<number>;
     private alive: boolean = true;
     private notifications: Notification[] = [];
-    public country: string;
+    country: string;
 
     constructor(private userService: UserService, private authHttp: AuthHttp, public router: Router, private system: SystemService) {
         this.timer = Observable.timer(0, 5000);
@@ -27,7 +28,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
                 this.toggleSidebar();
             }
         });
-        this.country = this.system.countryCode;
+        this.country = this.system.countryCode.toLowerCase();
     }
 
     ngOnInit() {

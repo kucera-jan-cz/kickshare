@@ -38,3 +38,18 @@ $topnav-background-color: #282828;
 button.btn-link:hover {
      text-decoration: none;
 }
+
+#notification {
+    position: fixed;
+    top: 5px;
+    border: 0;
+    z-index: 1000;
+    left: 50%;
+    width: 70%;
+    transform: translate(-50%, 0%);
+}
+
+.alert {
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
