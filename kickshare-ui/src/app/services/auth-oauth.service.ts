@@ -24,6 +24,7 @@ export class OauthHttp extends AuthHttp {
         this.oauthService.setStorage(sessionStorage);
         //@TODO - figure out whether this is valid approach
         this.oauthService.logoutUrl = this.host + '';
+        this.oauthService.restartSessionChecksIfStillLoggedIn();
         // this.oauthService.setupAutomaticSilentRefresh();
         // this.oauthService.restartSessionChecksIfStillLoggedIn();
     }

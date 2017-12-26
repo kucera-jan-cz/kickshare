@@ -1,0 +1,28 @@
+<div class="container-fluid">
+    <div class="row m-auto">
+        ID: {{id}}
+        <div class="comment-avatar"><img src="assets/face_avatars/user-00.png" alt=""></div>
+    </div>
+    <div class="card card-block">
+        <div class="row-fluid">
+            <table class="table table-sm table-hover table-striped table-inverse">
+                <thead>
+                <tr class="black-muted-bg">
+                    <th class="align-left">Name</th>
+                    <th class="align-left">Leader</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr *ngFor="let item of groups" class="no-top-border">
+                    <td class="align-left">
+                        <a class="text-info" [routerLink]="['/cz/group', item.id]"> {{item.name}}</a>
+                    </td>
+                    <td class="align-left">
+                        {{item.leader_id}}
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

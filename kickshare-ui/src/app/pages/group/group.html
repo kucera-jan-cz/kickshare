@@ -1,23 +1,27 @@
-<div class="container-fluid">
+<div class="container-fluid" *ngIf="initialized">
     <div class="row m-1">
         <div class="col-md-8">
             <div class="row">
                 <h3>{{ group?.name }}</h3>
             </div>
             <div class="row">
-                <h5>Leader: {{ leader?.name + ' ' + leader?.surname}}</h5>
-            </div>
-            <div class="row">
-                <!--<a href = "{{ project?.url }}" >Link</a>-->
-                <h5>Kickstarter:
-                    <a class="text-info" href="{{ project?.url }}">{{project?.name}}</a>
+                <h5>Project:
+                    <a class="text-info" [routerLink]="[url.campaign(project.id)]">{{project.name}}</a>
                 </h5>
             </div>
             <div class="row">
-                <h5>Kickstarter deadline: {{ project?.deadline | date}}</h5>
+                <h5>Leader: {{ leader.name + ' ' + leader.surname}}</h5>
             </div>
             <div class="row">
-                <h5>Group id: {{id}}</h5> || <h5>My group: {{my_group}}</h5>
+                <h5>Kickstarter:
+                    <a class="text-info" href="{{ project.url }}">{{project.name}}</a>
+                </h5>
+            </div>
+            <div class="row">
+                <h5>Kickstarter deadline: {{ project.deadline | date}}</h5>
+            </div>
+            <div class="row">
+                <h5>Group id: {{meta.getId()}}</h5> || <h5>My group: {{meta.isLeader()}}</h5>
             </div>
         </div>
         <div class="col-md-4">
@@ -27,7 +31,7 @@
     <ngb-tabset>
         <ngb-tab title="Members">
             <ng-template ngbTabContent>
-                <group_members [groupId]="id" [backers]="backers" [leader]="leader"></group_members>
+                <group_members [meta]="meta"></group_members>
             </ng-template>
         </ngb-tab>
         <ngb-tab title="Discussion">
@@ -37,7 +41,7 @@
         </ngb-tab>
         <ngb-tab *ngIf="my_group" title="Requests (*)">
             <ng-template ngbTabContent>
-                <group_requests [groupId]="id" [(backers)]="backers"></group_requests>
+                <group_requests [meta]="meta"></group_requests>
             </ng-template>
         </ngb-tab>
     </ngb-tabset>

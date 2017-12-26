@@ -5,7 +5,7 @@ import {FormsModule} from "@angular/forms";
 import {routing} from "./group.routing";
 import {GroupService} from "../../services/group.service";
 import {ProjectService} from "../../services/project.service";
-import {Group} from "./group.component";
+import {GroupComponent} from "./group.component";
 import {Tabs} from "../../components/tabs/tabs.component";
 import {Tab} from "../../components/tabs/tab.component";
 import {GroupMembers} from "./members/group_members.component";
@@ -25,7 +25,7 @@ import {GroupRequests} from "./requests/group_requests.component";
     ],
 
     declarations: [
-        Group,
+        GroupComponent,
         Tabs,
         Tab,
         GroupMembers,

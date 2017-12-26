@@ -113,8 +113,10 @@ public class GroupEndpoint {
         return groupService.getGroup(groupId);
     }
 
-    @PostMapping("/{groupId}/users")
-    public void registerParticipant(@PathVariable Long groupId, @AuthenticationPrincipal BackerDetails user) {
+    @PostMapping("/{groupId}/users/{backerId}")
+    public void registerParticipant(@PathVariable Long groupId, @PathVariable Long backerId, @AuthenticationPrincipal BackerDetails user) {
+        //@TODO - validation is missing here
+        Validate.isTrue(user.getId().equals(backerId), "Invalid backer id");
         groupService.registerBacker(groupId, user.getId());
     }
 
@@ -153,6 +155,12 @@ public class GroupEndpoint {
     public List<Backer> getUsers(@PathVariable Long groupId, @AuthenticationPrincipal BackerDetails user) {
         LOGGER.info("{}", user);
         return groupService.getGroupUsers(groupId);
+    }
+
+    @GetMapping("/{groupId}/users/requests")
+    public List<Backer> getUserRequests(@PathVariable Long groupId, @AuthenticationPrincipal BackerDetails user) {
+        LOGGER.info("{}", user);
+        return groupService.getGroupUserRequests(groupId);
     }
 
     @GroupMember

@@ -11,6 +11,8 @@ import {AuthHttp} from "./services/auth-http.service";
 import {OAuthModule} from "angular-oauth2-oidc";
 import {OauthHttp} from "./services/auth-oauth.service";
 import {HttpClientModule} from "@angular/common/http";
+import {UrlService} from "./services/url.service";
+import {SystemService} from "./services/system.service";
 
 @NgModule({
     declarations: [
@@ -28,6 +30,8 @@ import {HttpClientModule} from "@angular/common/http";
         JsonpModule
     ],
     providers : [
+        SystemService,
+        UrlService,
         AuthGuardService,
         // {provide: AuthHttp, useClass: BasicAuthHttp}
         {provide: AuthHttp, useClass: OauthHttp}

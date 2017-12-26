@@ -1,12 +1,12 @@
 import {RouterModule, Routes} from "@angular/router";
 
 import {ModuleWithProviders} from "@angular/core";
-import {Group} from "./group.component";
+import {GroupComponent} from "./group.component";
 
 export const routes: Routes = [
   {
     path: ':id',
-    component: Group,
+    component: GroupComponent,
     children: [
     ]
   }

@@ -25,7 +25,7 @@ import {SystemService} from "../services/system.service";
     providers: [
         UserService,
         AuthGuardService,
-        SystemService
+        SystemService,
     ]
 })
 export class LayoutModule { }

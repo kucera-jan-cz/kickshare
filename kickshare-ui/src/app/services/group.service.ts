@@ -3,7 +3,7 @@
  */
 import {Injectable} from "@angular/core";
 import {AuthHttp} from "./auth-http.service";
-import {Group, GroupInfo, GroupSummary, Post, SearchOptions} from "./domain";
+import {Backer, Group, GroupInfo, GroupSummary, Post, SearchOptions} from "./domain";
 import {stringify} from "query-string";
 import {LoggerFactory} from "../components/logger/loggerFactory.component";
 
@@ -60,6 +60,18 @@ export class GroupService {
 
     public rejectBacker(groupId: number, backerId: number): Promise<any> {
         const path = `/groups/${groupId}/users/${backerId}/decline`;
+        const promise: Promise<any> = this.http.post(path, null);
+        return promise;
+    }
+
+    public getBackerRequests(groupId: number): Promise<Backer[]> {
+        const path = `groups/${groupId}/users/requests`;
+        const promise: Promise<Backer[]> = this.http.get(path, null);
+        return promise;
+    }
+
+    public joinGroup(groupId:number, backerId: number) : Promise<any> {
+        const path = `/groups/${groupId}/users/${backerId}`;
         const promise: Promise<any> = this.http.post(path, null);
         return promise;
     }

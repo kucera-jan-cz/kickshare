@@ -4,7 +4,7 @@
 
 import {Injectable} from "@angular/core";
 import {AuthHttp} from "./auth-http.service";
-import {Notification} from "./domain";
+import {Group, Notification} from "./domain";
 
 @Injectable()
 export class UserService {
@@ -19,6 +19,12 @@ export class UserService {
                 return res.json() as Notification[];
             }
         )
+    }
+
+    public getUserGroups(backerId: number): Promise<Group[]> {
+        const path = `/users/${backerId}/groups`;
+        const groups: Promise<Group[]> = this.http.get(path);
+        return groups;
     }
 }
 

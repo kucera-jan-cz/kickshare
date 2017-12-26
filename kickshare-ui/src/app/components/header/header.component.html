@@ -8,7 +8,7 @@
         <button type="button" class="close" daria-label="Close" (click)="displayNotification = true">
             <span aria-hidden="true">&times;</span>
         </button>
-        <strong>Warning!</strong> With great power comes great responsibility.
+        <strong>Warning!</strong> With great power comes great responsibility. ({{backerId}})
     </div>
     <div id="header" class="container-fluid p-0">
         <div class="row align-items-center w-100">
@@ -47,7 +47,7 @@
                             <span class="fa fa-user fa-2x"></span>
                         </button>
                         <div ngbDropdownMenu aria-labelledby="env-dropdown">
-                            <a class="dropdown-item" href="javascript:void(0)"><i class="fa fa-fw fa-user"></i> Profile</a>
+                            <a class="dropdown-item" [routerLink]="['/', country, 'profile']"><i class="fa fa-fw fa-user"></i> Profile</a>
                             <a class="dropdown-item" href="javascript:void(0)"><i class="fa fa-fw fa-envelope"></i> Inbox</a>
                             <a class="dropdown-item" [routerLink]="['/', country, 'user', 'settings']"><i class="fa fa-fw fa-gear"></i> Settings</a>
                             <a class="dropdown-item" [routerLink]="['/', country, 'login']" (click)="onLoggedout()"><i
