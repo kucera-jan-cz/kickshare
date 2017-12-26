@@ -37,6 +37,7 @@ import com.github.kickshare.service.util.GroupNameFactory;
 import lombok.AllArgsConstructor;
 import org.apache.commons.lang3.Validate;
 import org.jooq.DSLContext;
+import org.jooq.Record;
 import org.jooq.Result;
 import org.jooq.SelectField;
 import org.jooq.TableLike;
@@ -167,10 +168,20 @@ public class GroupServiceImpl {
         return backer().toDomain(groupRepository.findAllUsers(groupId));
     }
 
+    public List<Backer> getGroupUserRequests(Long groupId) {
+        return backer().toDomain(groupRepository.findWaitingUsers(groupId));
+    }
+
     @Transactional
     public void registerBacker(Long groupId, Long backerId) {
         //@TODO - add supporting message
-        backer2GroupDao.update(new Backer_2GroupDB(groupId, backerId, GroupRequestStatusDB.REQUESTED, null));
+        Record record = dsl.newRecord(BACKER_2_GROUP, new Backer_2GroupDB(groupId, backerId, GroupRequestStatusDB.REQUESTED, null));
+        dsl
+                .insertInto(BACKER_2_GROUP)
+                .set(record)
+                .onConflictDoNothing()
+                .execute();
+//        backer2GroupDao.insert(new Backer_2GroupDB(groupId, backerId, GroupRequestStatusDB.REQUESTED, null));
     }
 
     @Transactional

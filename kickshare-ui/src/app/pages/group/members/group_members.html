@@ -1,30 +1,47 @@
-<table class="table table-sm table-hover table-striped table-inverse">
-  <thead>
-  <tr class="black-muted-bg">
-    <th class="align-left">Name</th>
-    <th class="align-left">Email</th>
-    <th class="align-right">Rating</th>
-    <th class="align-right">City</th>
-    <th>Action</th>
-  </tr>
-  </thead>
-  <tbody>
-  <tr *ngFor="let item of backers" class="no-top-border">
-    <td class="align-left">{{item.name + ' ' + item.surname}}</td>
-    <td>{{item.email}}</td>
-    <td>{{item.backer_rating}}</td>
-    <td>{{item.address?.city}}</td>
-    <td>
-      <div *ngIf="item.id == viewerId && viewerId != leader.id">
-        <button type="button" class="btn btn-danger" (click)="deleteBacker(item)">Leave group</button>
-      </div>
-      <div *ngIf="item.id != leader.id && viewerId == leader.id">
-          <button type="button" class="btn btn-sm btn-danger" (click)="deleteBacker(item)">
-              <i class="fa fa-minus-square" aria-hidden="true"></i>
-          </button>
-      </div>
-    </td>
-  </tr>
-  </tbody>
-</table>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-9 p-0">
+            <table class="table table-sm table-hover table-striped table-inverse">
+                <thead>
+                <tr class="black-muted-bg">
+                    <th class="align-left">Name</th>
+                    <th class="align-left">Email</th>
+                    <th class="align-right">Rating</th>
+                    <th class="align-right">City</th>
+                    <th>Action</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr class="no-top-border">
+                    <td class="align-left">{{leader.name + ' ' + leader.surname}}</td>
+                    <td>{{leader.email}}</td>
+                    <td>{{leader.backer_rating}}</td>
+                    <td>{{leader.address?.city}}</td>
+                    <td></td>
+                </tr>
+                <tr *ngFor="let item of meta.getBackers()" class="no-top-border">
+                    <td class="align-left">{{item.name + ' ' + item.surname}}</td>
+                    <td>{{item.email}}</td>
+                    <td>{{item.backer_rating}}</td>
+                    <td>{{item.address?.city}}</td>
+                    <td>
+                        <div *ngIf="item.id == viewerId && meta.isBacker()">
+                            <button type="button" class="btn btn-danger" (click)="deleteBacker(item)">Leave group</button>
+                        </div>
+                        <div *ngIf="meta.isLeader()">
+                            <button type="button" class="btn btn-sm btn-danger" (click)="deleteBacker(item)">
+                                <i class="fa fa-minus-square" aria-hidden="true"></i>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="col-sm-3 p-1" *ngIf="meta.isAnonymous() || meta.canJoin()">
+            <button type="button" class="btn btn-success btn-lg btn-block" (click)="joinGroup()">Join group</button>
+        </div>
+    </div>
+</div>
 

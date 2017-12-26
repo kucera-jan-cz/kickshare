@@ -20,6 +20,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     private alive: boolean = true;
     private notifications: Notification[] = [];
     country: string;
+    backerId: number;
 
     constructor(private userService: UserService, private authHttp: AuthHttp, public router: Router, private system: SystemService) {
         this.timer = Observable.timer(0, 5000);
@@ -32,6 +33,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
+        this.backerId = this.system.getId();
         //@TODO - figure out whether periodic checking is really needed
         // this.timer
         //     .takeWhile(() => this.alive)

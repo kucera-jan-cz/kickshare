@@ -84,29 +84,29 @@ export abstract class LoggerLevelFactory implements ILoggerFactory {
 
     getLogger(name: string): Logger {
         this.debug("Choosing log level for " + name);
-        if (this.errorRegexes.some(r => r.test(name))) {
-            this.debug("ERROR level chosen");
-            return new LogLevel(Level.ERROR, this.newInstance(name));
-        }
-        if (this.warnRegexes.some(r => r.test(name))) {
-            this.debug("WARN level chosen");
-            return new LogLevel(Level.WARN, this.newInstance(name));
-        }
-        if (this.infoRegexes.some(r => r.test(name))) {
-            this.debug("INFO level chosen");
-            return new LogLevel(Level.INFO, this.newInstance(name));
-        }
-        if (this.debugRegexes.some(r => r.test(name))) {
-            this.debug("DEBUG level chosen");
-            return new LogLevel(Level.DEBUG, this.newInstance(name));
+        if (this.offRegexes.some(r => r.test(name))) {
+            this.debug("OFF level chosen");
+            return LoggerLevelFactory.offLogger;
         }
         if (this.traceRegexes.some(r => r.test(name))) {
             this.debug("TRACE level chosen");
             return new LogLevel(Level.TRACE, this.newInstance(name));
         }
-        if (this.offRegexes.some(r => r.test(name))) {
-            this.debug("OFF level chosen");
-            return LoggerLevelFactory.offLogger;
+        if (this.debugRegexes.some(r => r.test(name))) {
+            this.debug("DEBUG level chosen");
+            return new LogLevel(Level.DEBUG, this.newInstance(name));
+        }
+        if (this.infoRegexes.some(r => r.test(name))) {
+            this.debug("INFO level chosen");
+            return new LogLevel(Level.INFO, this.newInstance(name));
+        }
+        if (this.warnRegexes.some(r => r.test(name))) {
+            this.debug("WARN level chosen");
+            return new LogLevel(Level.WARN, this.newInstance(name));
+        }
+        if (this.errorRegexes.some(r => r.test(name))) {
+            this.debug("ERROR level chosen");
+            return new LogLevel(Level.ERROR, this.newInstance(name));
         }
         this.debug("DEFAULT level chosen - " + Level[this.rootLevel]);
         return new LogLevel(this.rootLevel, this.newInstance(name));
@@ -154,6 +154,7 @@ export class LogLevel implements Logger {
 
     debug(message: string, ...args: any[]) {
         if (this.level > Level.DEBUG) {
+        } else {
             this.logger.debug(message, args);
         }
     }
