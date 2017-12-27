@@ -70,46 +70,77 @@ export abstract class LoggerLevelFactory implements ILoggerFactory {
     private traceRegexes: RegExp[] = LoggerLevelFactory.parseInfo(environment.trace_info);
     private offRegexes: RegExp[] = LoggerLevelFactory.parseInfo(environment.off_info);
 
-    constructor() {
-    }
-
     abstract newInstance(name: string): Logger;
 
     static parseInfo(info: string) {
         return info
             .split(",")
             .filter(i => i)
+            .map(i => i + '$')
             .map(r => new RegExp(r));
     }
 
-    getLogger(name: string): Logger {
+    public getLogger(name: string): Logger {
         this.debug("Choosing log level for " + name);
+        var level: Level = this.getLevel(name);
+        return new LogLevel(level, this.newInstance(name));
+    }
+
+
+    getLevel(name: string): Level {
+        const packages= this.getPackages(name);
+        var level;
+        for(var i = 0; i < packages.length; i++) {
+            level = this.matchLevel(packages[i]);
+            if(level != null) {
+                return level;
+            }
+        }
+        level = this.rootLevel;
+        this.debug("DEFAULT level chosen - " + Level[this.rootLevel]);
+        return level;
+    }
+
+    private getPackages(name: string) : string[] {
+        let parts = name.split(":");
+        if(parts.length < 2) {
+            return Array.of(name);
+        }
+        const packages = Array.of(parts[0]);
+        for(var i = 1; i < parts.length; i++) {
+            let previous = packages[i-1];
+            packages.push(`${previous}:${parts[i]}`);
+        }
+        return packages.reverse();
+    }
+
+    private matchLevel(name: string): Level {
+        this.debug("Matching level: "+name);
         if (this.offRegexes.some(r => r.test(name))) {
-            this.debug("OFF level chosen");
-            return LoggerLevelFactory.offLogger;
+            this.debug("OFF level chosen for " + name);
+            return Level.OFF;
         }
         if (this.traceRegexes.some(r => r.test(name))) {
-            this.debug("TRACE level chosen");
-            return new LogLevel(Level.TRACE, this.newInstance(name));
+            this.debug("TRACE level chosen for " + name);
+            return Level.TRACE;
         }
         if (this.debugRegexes.some(r => r.test(name))) {
-            this.debug("DEBUG level chosen");
-            return new LogLevel(Level.DEBUG, this.newInstance(name));
+            this.debug("DEBUG level chosen for " + name);
+            return Level.DEBUG;
         }
         if (this.infoRegexes.some(r => r.test(name))) {
-            this.debug("INFO level chosen");
-            return new LogLevel(Level.INFO, this.newInstance(name));
+            this.debug("INFO level chosen for " + name);
+            return Level.INFO;
         }
         if (this.warnRegexes.some(r => r.test(name))) {
-            this.debug("WARN level chosen");
-            return new LogLevel(Level.WARN, this.newInstance(name));
+            this.debug("WARN level chosen for " + name);
+            return Level.WARN;
         }
         if (this.errorRegexes.some(r => r.test(name))) {
-            this.debug("ERROR level chosen");
-            return new LogLevel(Level.ERROR, this.newInstance(name));
+            this.debug("ERROR level chosen for " + name);
+            return Level.ERROR;
         }
-        this.debug("DEFAULT level chosen - " + Level[this.rootLevel]);
-        return new LogLevel(this.rootLevel, this.newInstance(name));
+
     }
 
     debug(msg: string) {
