@@ -10,7 +10,7 @@ import {AuthGuardService} from "./services/auth-guard.service";
 import {AuthHttp} from "./services/auth-http.service";
 import {OAuthModule} from "angular-oauth2-oidc";
 import {OauthHttp} from "./services/auth-oauth.service";
-import {HttpClientModule} from "@angular/common/http";
+import {HttpClientJsonpModule, HttpClientModule} from "@angular/common/http";
 import {UrlService} from "./services/url.service";
 import {SystemService} from "./services/system.service";
 
@@ -23,10 +23,13 @@ import {SystemService} from "./services/system.service";
         BrowserAnimationsModule,
         FormsModule,
         HttpClientModule,
+        HttpClientJsonpModule,
+        //@TODO - remove all occurence of "@angular/http";
         HttpModule,
         AppRoutingModule,
         NgbModule.forRoot(),
         OAuthModule.forRoot(),
+        //@TODO - rewrite to modern Jsonp
         JsonpModule
     ],
     providers : [
