@@ -1,8 +1,6 @@
 /**
  * Created by KuceraJan on 9.4.2017.
  */
-import {URLSearchParams} from "@angular/http";
-
 import {Injectable} from "@angular/core";
 import {AuthHttp} from "./auth-http.service";
 import {ProjectInfo, SearchOptions} from "./domain";
@@ -12,19 +10,16 @@ import {LoggerFactory} from "../components/logger/loggerFactory.component";
 @Injectable()
 export class ProjectService {
     private logger = LoggerFactory.getLogger('services:project');
+
     constructor(private http: AuthHttp) {
     }
 
     public searchProjects(options: SearchOptions): Promise<ProjectInfo[]> {
         const params = stringify(options);
         this.logger.info("Searching projects with: " + params);
-        return this.http.getResponse("/projects/search?" + params)
-            .then(
-                res => {
-                    this.logger.info("Search project result: " + JSON.stringify(res));
-                    return res.json() as ProjectInfo[];
-                }
-            )
+        const promise: Promise<ProjectInfo[]> = this.http.get("/projects/search?" + params);
+        promise.then(it => this.logger.info("Search project result: " + JSON.stringify(it)));
+        return promise;
     }
 
     public searchProjectsByName(name: string): Promise<ProjectInfo[]> {
@@ -33,24 +28,16 @@ export class ProjectService {
         params.set("name", name);
         params.set("categoryId", "34");
 
-        return this.http.getResponse('projects', params).then(
-            res => {
-                // this.logger.info("Received project: " + JSON.stringify(res));
-                const projects = res.json() as ProjectInfo[];
-                this.logger.info("Received projects: " + projects.map(p => p.name).join(","));
-                return projects;
-            }
-        )
+        const promise: Promise<ProjectInfo[]> = this.http.get("/projects?" + params);
+        promise.then(it => this.logger.info("Received projects: " + it.map(p => p.name).join(",")));
+        return promise;
     }
 
     public getProject(projectId: number): Promise<ProjectInfo> {
         this.logger.debug("Searching for id: {0}", projectId);
-        return this.http.getResponse(`projects/${projectId}`).then(
-            res => {
-                this.logger.info("Received project: {0}", JSON.stringify(res));
-                return res.json() as ProjectInfo
-            }
-        );
+        const promise: Promise<ProjectInfo> = this.http.get(`projects/${projectId}`);
+        promise.then(it => this.logger.info("Received project: {0}", JSON.stringify(it)));
+        return promise;
     }
 }
 

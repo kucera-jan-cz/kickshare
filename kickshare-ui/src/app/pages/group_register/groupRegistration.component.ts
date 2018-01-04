@@ -60,7 +60,7 @@ export class GroupRegistration implements OnInit {
         if (event.which >= 37 && event.which <= 40) {
             return;
         }
-        this.logger.trace("Searching for {0}, Key: {1}",  text, event.which);
+        this.logger.trace("Searching for {0}, Key: {1}", text, event.which);
         if (text !== "" && text.length > 2) {
             if (event.which == 13) {
                 this.filteredList = await this.kickstarter.searchProjects(text);
@@ -94,6 +94,7 @@ export class GroupRegistration implements OnInit {
             this.logger.warn("Item not selected");
         }
     }
+
     citySelected() {
         this.logger.info("City selected");
         this.renderGroupName();
@@ -107,9 +108,11 @@ export class GroupRegistration implements OnInit {
     private async renderGroupName() {
         if (this.selected != null) {
             const cityId = this.isLocal ? this.selectedCity.id : -1;
+
             var groupName = await this.groupService.suggestName(this.selected.id, cityId);
             this.logger.info("Suggested group name: " + groupName);
-            this.groupName = groupName;
+            this.logger.info("Suggested group name: " + JSON.stringify(groupName));
+            this.groupName = "" + groupName;
         } else {
             this.logger.warn("Project is not selected skipping");
         }

@@ -18,12 +18,9 @@ export class GroupService {
     public getGroupInfosByProject(projectId: number): Promise<Group[]> {
         this.logger.info("Calling getGroupInfosByProject");
         const path = "/projects/" + projectId + "/groups";
-        return this.http.getResponse(path).then(
-            res => {
-                this.logger.info("Groups info: " + JSON.stringify(res));
-                return res.json() as Group[];
-            }
-        );
+        const promise: Promise<Group[]> = this.http.get(path);
+        promise.then(group => this.logger.info("Groups info: ", JSON.stringify(group)));
+        return promise;
     }
 
     public getGroupInfo(groupId: number): Promise<GroupInfo> {
@@ -43,13 +40,9 @@ export class GroupService {
     public searchGroups(options: SearchOptions): Promise<GroupSummary[]> {
         const params = stringify(options);
         this.logger.info("Searching groups with: " + params);
-        return this.http.getResponse("/groups/search?" + params)
-            .then(
-                res => {
-                    this.logger.info("Search group result: " + JSON.stringify(res));
-                    return res.json() as GroupSummary[];
-                }
-            )
+        const promise: Promise<GroupSummary[]> = this.http.get("/groups/search?" + params);
+        promise.then(group => this.logger.info("Search group result: ", JSON.stringify(group)));
+        return promise;
     }
 
     public acceptBacker(groupId: number, backerId: number): Promise<any> {
@@ -70,7 +63,7 @@ export class GroupService {
         return promise;
     }
 
-    public joinGroup(groupId:number, backerId: number) : Promise<any> {
+    public joinGroup(groupId: number, backerId: number): Promise<any> {
         const path = `/groups/${groupId}/users/${backerId}`;
         const promise: Promise<any> = this.http.post(path, null);
         return promise;
@@ -84,35 +77,23 @@ export class GroupService {
 
     public suggestName(projectId: number, cityId: number): Promise<string> {
         const params = stringify({projectId: projectId, cityId: cityId});
-        return this.http.getResponse("/groups/suggest?" + params)
-            .then(
-                res => {
-                    return res.text();
-                }
-            )
+        const promise: Promise<string> = this.http.get<string>("/groups/suggest?" + params, null, "text");
+        return promise;
     }
 
     public createPost(groupId: number, text: string): Promise<Post> {
         const post = new Post(-1, groupId, -1, new Date(), null, 0, text);
-        return this.http.postResponse("/groups/" + groupId + "/posts", post)
-            .then(
-                res => {
-                    return res.json() as Post;
-                }
-            )
+        const promise: Promise<Post> = this.http.post("/groups/" + groupId + "/posts", post);
+        return promise;
     }
 
     public updatePost(groupId: number, post: Post): void {
-        this.http.patchResponse("/groups/" + groupId + "/posts", post);
+        this.http.patch("/groups/" + groupId + "/posts", post);
     }
 
     public readPosts(groupId: number): Promise<Post[]> {
-        return this.http.getResponse("/groups/" + groupId + "/posts")
-            .then(
-                res => {
-                    return res.json() as Post[];
-                }
-            )
+        const promise: Promise<Post[]> = this.http.get(`/groups/${groupId}/posts`);
+        return promise;
     }
 }
 

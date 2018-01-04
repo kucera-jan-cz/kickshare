@@ -160,8 +160,6 @@ export class GMap implements OnInit, OnDestroy {
             this.searchOptions.project_id = this.selectedProject.id;
         }
         const params = this.searchOptions.toParams() + "&callback=JSONP_CALLBACK";
-        ;
-
         this.logger.info("Searching with params: " + params);
         //@TODO - prefix is missing
         const url = `groups/search/data.jsonp?${params}`;
@@ -242,8 +240,7 @@ export class GMap implements OnInit, OnDestroy {
         this.markerCluster.clearMarkers();
     }
 
-    private readCoordinates(resp: Response) {
-        const response = resp.json();
+    private readCoordinates(response: any) {
         this.clearData();
         for (var i = 0; i < response['features'].length; i++) {
             const coords = response['features'][i].geometry.coordinates;

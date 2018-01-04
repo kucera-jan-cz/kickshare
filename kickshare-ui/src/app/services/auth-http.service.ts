@@ -1,8 +1,8 @@
-import {Response, URLSearchParams} from "@angular/http";
 import {Observable} from "rxjs/Observable";
 import "rxjs/add/operator/toPromise";
 import {BehaviorSubject} from "rxjs/BehaviorSubject";
 import {LoggerFactory} from "../components/logger/loggerFactory.component";
+import {HttpClient, HttpHeaders, HttpParams, HttpRequest, HttpResponse} from "@angular/common/http";
 
 export abstract class AuthHttp {
     private _logger = LoggerFactory.getLogger("services:auth:http");
@@ -11,7 +11,7 @@ export abstract class AuthHttp {
     private authenticateEmitter: Observable<boolean>;
     private userIdEmitter: Observable<number>;
 
-    constructor() {
+    constructor(protected host: String, protected http: HttpClient) {
         this.authenticateEmitter = this.authenticatedSubject.asObservable();
         this.userIdEmitter = this.userIdSubject.asObservable();
     }
@@ -30,34 +30,47 @@ export abstract class AuthHttp {
 
     abstract logout(): void ;
 
-    abstract getJsonp(path, handler: (...args: any[]) => void): void;
-
-    abstract getResponse(path, params?: URLSearchParams): Promise<Response>;
-
-    get<T>(path, params?: URLSearchParams): Promise<T> {
-        this._logger.debug("GET: {0}", path);
-        return this.getResponse(path, params).then(res => res.json() as T);
+    public getJsonp(path, handler: (...args: any[]) => void): void {
+        const url: string = `${this.host}/${path}`;
+        this._logger.info("Calling JSONP: " + url);
+        this.http.jsonp(url, "JSONP_CALLBACK").subscribe(response => handler(response));
     }
 
-    abstract postResponse(path, data): Promise<Response>;
-
-
-    post<T>(path, data): Promise<T> {
-        this._logger.debug("POST: {0}", path);
-        return this.postResponse(path, data).then(res => res.json() as T);
+    get<T>(path, params?: HttpParams, contentType?: "text" | "json"): Promise<T> {
+        return this.exchange<T>("GET", path, params, null, contentType);
     }
 
-    abstract patchResponse(path, data): Promise<Response>;
-
-    patch<T>(path, data): Promise<T> {
-        this._logger.debug("PATCH: {0}", path);
-        return this.patchResponse(path, data).then(res => res.json() as T);
+    post<T>(path, data, contentType?: "text" | "json"): Promise<T> {
+        return this.exchange<T>("POST", path, null, data, contentType);
     }
 
-    abstract deleteResponse(path, data): Promise<Response>;
+    patch<T>(path, data, contentType?: "text" | "json"): Promise<T> {
+        return this.exchange<T>("PATH", path, null, data, contentType);
+    }
 
-    delete<T>(path,data) : Promise<T> {
-        this._logger.debug("DELETE: {0}", path);
-        return this.deleteResponse(path, data).then(res => res.json() as T);
+    delete<T>(path, data, contentType?: "text" | "json"): Promise<T> {
+        return this.exchange<T>("DELETE", path, null, data, contentType);
+    }
+
+    private exchange<T>(method: string, path: string, params: HttpParams | undefined, body: any, responseType: "json" | "text" = "json"): Promise<T> {
+        this._logger.debug("{0}: {1}", method, path);
+        const url: string = `${this.host}/${path}`;
+        const request: HttpRequest<any> = this.createRequest(method, url, params, body, responseType);
+        const observable = this.http.request<T>(request) as Observable<HttpResponse<T>>;
+        return observable.map(it => it.body).toPromise();
+    }
+
+    protected abstract authHeaders(): HttpHeaders;
+
+    private createRequest<T>(method: string, url: string, params: HttpParams | undefined, body: T, responseType?: 'json' | 'text'): HttpRequest<T> {
+        var headers: HttpHeaders = this.authHeaders();
+        headers = headers.append('Content-Type', 'application/json');
+
+        return new HttpRequest<T>(method, url, body, {
+            'headers': headers,
+            'params': params,
+            'responseType': responseType,
+            'withCredentials': true
+        });
     }
 }
