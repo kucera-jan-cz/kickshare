@@ -71,7 +71,6 @@ export class GroupMetadata {
         return this.backersSub.getValue().find(b => b.id == this.backerId) != null;
     }
 
-    //@TODO - anonymous
     public canJoin(): boolean {
         const alreadyRequested = this.requestsSub.getValue().find(r => r.id == this.backerId) != null;
         return !alreadyRequested && !this.isMember() && !this.isLeader();

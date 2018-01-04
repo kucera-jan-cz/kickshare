@@ -1,4 +1,3 @@
-//@TODO remove this since loading campaig from browser is probably not possible
 import {stringify} from "query-string";
 
 export interface Campaign {
