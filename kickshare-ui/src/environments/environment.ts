@@ -6,11 +6,11 @@
 export const environment = {
     production: false,
     loggers: 'services:*,components:*,pages:*',
-    root: 'WARN',
+    root: 'DEBUG',
     error_info: '',
     warn_info: '',
     log_info:   'components:google:geo:factory,components:group',
-    debug_info: 'components:group:members,services:group',
+    debug_info: 'components:group:members,services:group,services:auth:oauth',
     trace_info: '',
     off_info: ''
 

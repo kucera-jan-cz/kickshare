@@ -6,6 +6,11 @@
 * ``ng serve --ssl true --ssl-key ../kickshare-dist/nginx/privatekey.key --ssl-cert ../kickshare-dist/nginx/certificate.crt``
 * ``ng build``
 
+#### Clean old library
+ * ``npm -g remove @angular/cli``
+ * ``npm cache clean``
+ * ``npm -g install @angular/cli``
+
 ### Design and style
 * [Bootstrap override](https://github.com/twbs/bootstrap/issues/23112)
 ####TODO
