@@ -11,6 +11,7 @@ import {LoggerFactory} from "../../components/logger/loggerFactory.component";
     templateUrl: './dashboard.html'
 })
 export class Dashboard {
+
     private logger = LoggerFactory.getLogger("components:dashboard");
     projects: ProjectInfo[] = [];
     groups: GroupSummary[] = [];

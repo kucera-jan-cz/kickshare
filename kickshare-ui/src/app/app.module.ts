@@ -12,7 +12,7 @@ import {OauthHttp} from "./services/auth-oauth.service";
 import {HttpClientJsonpModule, HttpClientModule} from "@angular/common/http";
 import {UrlService} from "./services/url.service";
 import {SystemService} from "./services/system.service";
-import {HttpModule, JsonpModule} from "@angular/http/http";
+import {CountryGuardService} from "./services/country-guard.service";
 
 @NgModule({
     declarations: [
@@ -32,6 +32,7 @@ import {HttpModule, JsonpModule} from "@angular/http/http";
         SystemService,
         UrlService,
         AuthGuardService,
+        CountryGuardService,
         // {provide: AuthHttp, useClass: BasicAuthHttp}
         {provide: AuthHttp, useClass: OauthHttp}
     ],

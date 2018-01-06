@@ -5,6 +5,7 @@ import {FaqComponent} from "./pages/faq/faq.component";
 import {AuthGuardService} from "./services/auth-guard.service";
 import {FaqModule} from "./pages/faq/faq.module";
 import {LayoutModule} from "./layout/layout.module";
+import {CountryGuardService} from "./services/country-guard.service";
 
 
 const routes: Routes = [
@@ -36,15 +37,18 @@ const countryRoutes: Routes = [
     },
     {
         path: 'cz',
-        children: routes
+        children: routes,
+        canActivateChild: [CountryGuardService],
     },
     {
         path: 'sk',
-        children: routes
+        children: routes,
+        canActivateChild: [CountryGuardService],
     },
     {
         path: 'de',
-        children: routes
+        children: routes,
+        canActivateChild: [CountryGuardService],
     },
 
 ];
