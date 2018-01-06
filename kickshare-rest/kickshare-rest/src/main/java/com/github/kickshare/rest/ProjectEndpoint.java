@@ -38,10 +38,10 @@ public class ProjectEndpoint {
 
 
     @GetMapping
-    public List<ProjectInfo> searchProjects(@RequestParam final String name, @RequestParam final Integer categoryId,
+    public List<ProjectInfo> searchProjects(@RequestParam final String name, @RequestParam(name="category_id") final Integer categoryId,
             @RequestParam(defaultValue = "false") final Boolean useKickstarter) throws IOException {
         Validate.inclusiveBetween(3, 100, StringUtils.length(name), "Name parameter must be at least 3 characters long");
-        List<ProjectInfo> projects = projectService.findProjectInfoByName(name);
+        List<ProjectInfo> projects = projectService.findProjectInfoByName(categoryId, name);
         LOGGER.debug("Found projects: {}", projects);
         if (useKickstarter && projects.isEmpty()) {
             return searchKickstarter(name, categoryId);

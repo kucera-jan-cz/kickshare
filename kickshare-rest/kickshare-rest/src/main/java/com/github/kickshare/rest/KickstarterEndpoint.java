@@ -42,7 +42,7 @@ public class KickstarterEndpoint {
     @GetMapping("/search")
     public List<ProjectInfo> searchKickstarterProjects(
             @RequestParam final String name,
-            @RequestParam(defaultValue = "34") final Integer categoryId,
+            @RequestParam(name="category_id", defaultValue = "34") final Integer categoryId,
             @RequestParam(defaultValue = "false") final boolean store) throws IOException {
         Validate.inclusiveBetween(3, 100, StringUtils.length(name), "Name parameter must be at least 3 characters long");
         List<ProjectInfo> projects = searchKickstarter(name, categoryId);

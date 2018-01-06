@@ -18,6 +18,6 @@ public interface ProjectService {
 
     List<ProjectInfo> searchProjects(SearchOptions options) throws IOException;
 
-    List<ProjectInfo> findProjectInfoByName(final String name);
+    List<ProjectInfo> findProjectInfoByName(final Integer categoryId, final String name);
 }
 

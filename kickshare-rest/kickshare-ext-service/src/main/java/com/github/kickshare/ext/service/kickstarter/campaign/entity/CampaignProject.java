@@ -17,6 +17,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class CampaignProject {
     private Long id;
+    private Integer categoryId;
     private String name;
     private String description;
     private String url;

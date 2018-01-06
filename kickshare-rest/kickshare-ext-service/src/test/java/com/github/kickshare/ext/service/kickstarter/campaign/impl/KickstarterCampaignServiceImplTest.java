@@ -34,6 +34,7 @@ public class KickstarterCampaignServiceImplTest {
         assertNotNull(projects);
         CampaignProject project = projects.get(0);
         assertEquals(439380282, project.getId().longValue());
+        assertEquals(34, project.getCategoryId().intValue());
     }
 
 }

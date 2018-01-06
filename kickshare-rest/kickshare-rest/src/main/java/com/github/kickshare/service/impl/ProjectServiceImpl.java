@@ -1,5 +1,6 @@
 package com.github.kickshare.service.impl;
 
+import static com.github.kickshare.db.jooq.Tables.CATEGORY;
 import static com.github.kickshare.db.jooq.Tables.PROJECT;
 import static com.github.kickshare.mapper.EntityMapper.photo;
 import static com.github.kickshare.mapper.EntityMapper.project;
@@ -67,8 +68,8 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     @Transactional
-    public List<ProjectInfo> findProjectInfoByName(final String name) {
-        final List<com.github.kickshare.db.jooq.tables.pojos.ProjectDB> projects = searchProjectsByName(name);
+    public List<ProjectInfo> findProjectInfoByName(final Integer categoryId, final String name) {
+        final List<com.github.kickshare.db.jooq.tables.pojos.ProjectDB> projects = searchProjectsByName(categoryId, name);
         final List<ProjectInfo> infos = projects.stream().map(this::toProjectInfo).collect(Collectors.toList());
         return infos;
     }
@@ -83,7 +84,15 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
 
-    private List<com.github.kickshare.db.jooq.tables.pojos.ProjectDB> searchProjectsByName(String name) {
-        return dsl.select().from(PROJECT).where(PROJECT.NAME.like('%' + name + '%')).fetchInto(com.github.kickshare.db.jooq.tables.pojos.ProjectDB.class);
+    private List<com.github.kickshare.db.jooq.tables.pojos.ProjectDB> searchProjectsByName(Integer categoryId, String name) {
+        return dsl.select(PROJECT.fields())
+                .from(PROJECT)
+                .join(CATEGORY).on(CATEGORY.ID.eq(PROJECT.CATEGORY_ID))
+                .where(PROJECT.NAME.like('%' + name + '%'))
+                .and(
+                        CATEGORY.ID.eq(categoryId).or(CATEGORY.PARENT_ID.eq(categoryId))
+                )
+
+                .fetchInto(com.github.kickshare.db.jooq.tables.pojos.ProjectDB.class);
     }
 }

@@ -100,8 +100,10 @@ public class KickstarterCampaignServiceImpl implements KickstarterCampaignServic
                 photoNode.path("med").asText(null),
                 photoNode.path("full").asText(null)
         );
+        Integer categoryId = projectNode.get("category").get("id").intValue();
         return new CampaignProject(
                 id,
+                categoryId,
                 projectNode.get("name").textValue(),
                 projectNode.get("blurb").textValue(),
                 projectNode.path("urls").path("web").path("project").textValue(),

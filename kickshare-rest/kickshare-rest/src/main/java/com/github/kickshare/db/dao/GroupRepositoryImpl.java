@@ -92,7 +92,8 @@ public class GroupRepositoryImpl extends AbstractRepository<GroupRecordDB, Group
     public List<GroupDB> searchGroups(SearchOptions options) {
         List<com.github.kickshare.db.jooq.tables.pojos.GroupDB> groups = dsl.select()
                 .from(GROUP)
-                .where(groupQuery.apply(options))
+                //@TODO - decide whether we need filter through category
+                .where(groupQuery.apply(options, true))
                 .fetchInto(com.github.kickshare.db.jooq.tables.pojos.GroupDB.class);
         LOGGER.info("Returning: {}", groups);
         return groups;
@@ -110,6 +111,7 @@ public class GroupRepositoryImpl extends AbstractRepository<GroupRecordDB, Group
                 .join(PROJECT).on(GROUP.PROJECT_ID.eq(PROJECT.ID))
                 .join(PROJECT_PHOTO).on(PROJECT_PHOTO.PROJECT_ID.eq(PROJECT.ID))
                 .join(BACKER).on(GROUP.LEADER_ID.eq(BACKER.ID))
+                //@TODO - decide whether we need filter through category
                 .where(groupQuery.apply(options))
                 .fetch(mapper);
         return groups;

@@ -24,6 +24,7 @@ public interface ProjectMapper {
             @Mapping(source = "photo.small", target = "photoUrl"),
             @Mapping(source = "photo", target = "photo"),
             @Mapping(source = "id", target = "project.id"),
+            @Mapping(source = "categoryId", target = "project.categoryId"),
             @Mapping(source = "name", target = "project.name"),
             @Mapping(source = "description", target = "project.description"),
             @Mapping(source = "url", target = "project.url"),
