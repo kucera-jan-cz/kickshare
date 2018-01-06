@@ -46,15 +46,13 @@ export class Cities implements OnInit, OnDestroy {
         var sw_lon = `sw_lon=${bounds.getSouthWest().lng()}`;
         var ne_lon = `ne_lon=${bounds.getNorthEast().lng()}`;
         var ne_lat = `ne_lat=${bounds.getNorthEast().lat()}`;
-        var script = document.createElement('script');
         var params = `callback=JSONP_CALLBACK&only_local=false&${sw_lat}&${sw_lon}&${ne_lat}&${ne_lon}`;
         const path = `cities/search/jsonp?${params}`;
         this.http.getJsonp(path, resp => this.readCoordinates(resp));
     }
 
-    private readCoordinates(resp: Response) {
-        this.logger.info("Got response: {0}", JSON.stringify(resp));
-        const response = resp.json();
+    private readCoordinates(response: any) {
+        this.logger.info("Got response: {0}", JSON.stringify(response));
         this.clearData();
         for (var i = 0; i < response['features'].length; i++) {
             const coords = response['features'][i].geometry.coordinates;

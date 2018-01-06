@@ -69,6 +69,7 @@ export class GMap implements OnInit, OnDestroy {
     }
 
     initGroupGridMapTS() {
+        //@TODO - move this logic from mapFactory?
         const current_lat = this.system.current_lat;
         const current_lon = this.system.current_lon;
 
