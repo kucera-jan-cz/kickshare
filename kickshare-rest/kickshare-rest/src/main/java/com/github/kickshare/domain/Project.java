@@ -8,6 +8,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.NonNull;
 
 /**
  * @author Jan.Kucera
@@ -20,6 +21,8 @@ import lombok.NoArgsConstructor;
 public class Project {
     @NotNull
     private Long id;
+    @NonNull
+    private Integer categoryId;
     @NotNull
     private String name;
     @NotNull

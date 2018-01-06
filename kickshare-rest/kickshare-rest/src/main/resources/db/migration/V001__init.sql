@@ -8,6 +8,7 @@ CREATE TABLE category (
 
 CREATE TABLE project (
 	id BIGSERIAL PRIMARY KEY,
+	category_id INTEGER NOT NULL REFERENCES category (id),
 	name VARCHAR(255) NOT NULL,
 	description VARCHAR(255) NOT NULL,
 	url VARCHAR(512) NOT NULL,

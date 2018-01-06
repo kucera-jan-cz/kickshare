@@ -1,5 +1,6 @@
 package com.github.kickshare.db.dao;
 
+import static com.github.kickshare.db.jooq.Tables.CATEGORY;
 import static com.github.kickshare.db.jooq.Tables.CITY;
 import static com.github.kickshare.db.jooq.Tables.GROUP;
 import static com.github.kickshare.db.jooq.Tables.GROUP_POST;
@@ -8,7 +9,6 @@ import static com.github.kickshare.mapper.EntityMapper.photo;
 import static com.github.kickshare.mapper.EntityMapper.project;
 import static org.jooq.impl.DSL.count;
 
-import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.function.Function;
@@ -77,23 +77,17 @@ public class KickshareRepositoryImpl implements KickshareRepository {
 
     @Override
     public List<com.github.kickshare.db.jooq.tables.pojos.GroupDB> searchGroups(SearchOptions options) {
-        List<com.github.kickshare.db.jooq.tables.pojos.GroupDB> groups = dsl.select()
+        List<com.github.kickshare.db.jooq.tables.pojos.GroupDB> groups = dsl.select(GROUP.fields())
                 .from(GROUP)
+                .join(PROJECT).on(GROUP.PROJECT_ID.eq(PROJECT.ID))
+                .join(CATEGORY).on(CATEGORY.ID.eq(PROJECT.CATEGORY_ID))
                 .where(groupQuery.apply(options))
                 .fetchInto(com.github.kickshare.db.jooq.tables.pojos.GroupDB.class);
         LOGGER.info("Returning: {}", groups);
         return groups;
     }
 
-    public List<GroupPostDB> getGroupPost(Long groupId, Pageable pageable) {
-        return dsl.select()
-                .from(GROUP_POST)
-                .where(GROUP_POST.GROUP_ID.eq(groupId))
-                .orderBy(GROUP_POST.POST_MODIFIED.desc())
-                .fetchInto(com.github.kickshare.db.jooq.tables.pojos.GroupPostDB.class);
-    }
-
-    public List<CityGrid> searchCityGrid(SearchOptions options) throws IOException {
+    public List<CityGrid> searchCityGrid(SearchOptions options) {
         final Function<Record, CityGrid> transformer = (rec) -> {
             CityGrid grid = new CityGrid();
             final Integer total = rec.get("count", Integer.class);
@@ -116,6 +110,8 @@ public class KickshareRepositoryImpl implements KickshareRepository {
         Field<Integer> local = count().filterWhere(GROUP.IS_LOCAL.eq(true)).as("is_local");
         List<CityGrid> cities = dsl.select(GROUP.LAT, GROUP.LON, local, count())
                 .from(GROUP)
+                .join(PROJECT).on(GROUP.PROJECT_ID.eq(PROJECT.ID))
+                .join(CATEGORY).on(CATEGORY.ID.eq(PROJECT.CATEGORY_ID))
                 .where(groupQuery.apply(options))
                 .groupBy(GROUP.LAT, GROUP.LON)
                 .fetch((row) -> transformer.apply(row));
@@ -123,4 +119,12 @@ public class KickshareRepositoryImpl implements KickshareRepository {
         return cities;
     }
 
+    public List<GroupPostDB> getGroupPost(Long groupId, Pageable pageable) {
+        return dsl.select()
+                .from(GROUP_POST)
+                .where(GROUP_POST.GROUP_ID.eq(groupId))
+                .orderBy(GROUP_POST.POST_MODIFIED.desc())
+                .fetchInto(com.github.kickshare.db.jooq.tables.pojos.GroupPostDB.class);
+    }
 }
+
