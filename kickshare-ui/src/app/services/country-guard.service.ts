@@ -44,7 +44,7 @@ export class CountryGuardService implements CanActivateChild, CanActivate {
         const urlTree = this.router.parseUrl(url);
         this.logger.trace("Tree: " + urlTree.root.children[PRIMARY_OUTLET]);
         const countryCode = urlTree.root.children[PRIMARY_OUTLET].segments[0].toString().toUpperCase();
-        this.logger.debug("Setting country code {0}", countryCode);
+        this.logger.info("Setting country code {0}", countryCode);
         return countryCode;
     }
 

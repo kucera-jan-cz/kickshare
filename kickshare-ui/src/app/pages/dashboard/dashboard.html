@@ -1,4 +1,4 @@
-<gmap [(projects)]="projects" (dataChange)="projectsUpdated($event)" (mapChange)="mapUpdated($event)"></gmap>
+<gmap (dataChange)="projectsUpdated($event)" (mapChange)="mapUpdated($event)"></gmap>
 <div id="dashboard_div" class="row-fluent">
     <div class="card">
         <div class="card-header" *ngIf="displayProjects">Found projects</div>

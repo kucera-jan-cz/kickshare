@@ -39,6 +39,7 @@ export class Dashboard {
         searchOptions.nw_lon = this.searchMeta.bounds.getSouthWest().lng();
         searchOptions.se_lat = this.searchMeta.bounds.getSouthWest().lat();
         searchOptions.se_lon = this.searchMeta.bounds.getNorthEast().lng();
+        searchOptions.category_id = this.searchMeta.category.id;
         if (this.searchMeta.project) {
             this.logger.info("Searching for groups to list");
             //@TODO - make search groups with boundaries

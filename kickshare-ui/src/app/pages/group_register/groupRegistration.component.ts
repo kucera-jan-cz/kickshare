@@ -3,7 +3,7 @@ import {Component, ElementRef, OnInit} from "@angular/core";
 import "style-loader!./groupRegistration.scss";
 import {FormGroup} from "@angular/forms";
 import {ProjectService} from "../../services/project.service";
-import {City, Group, ProjectInfo} from "../../services/domain";
+import {Category, City, Group, ProjectInfo} from "../../services/domain";
 import {SystemService} from "../../services/system.service";
 import {KickstarterService} from "../../services/kickstarter.service";
 import {GroupService} from "../../services/group.service";
@@ -28,6 +28,7 @@ export class GroupRegistration implements OnInit {
     public filteredList = [];
     public nameElement: ElementRef;
 
+    selectedCategory: Category;
     public selected: ProjectInfo;
     public isLocal = false;
     public groupName = '';
@@ -61,11 +62,12 @@ export class GroupRegistration implements OnInit {
             return;
         }
         this.logger.trace("Searching for {0}, Key: {1}", text, event.which);
+        const categoryId = this.selectedCategory.id;
         if (text !== "" && text.length > 2) {
             if (event.which == 13) {
-                this.filteredList = await this.kickstarter.searchProjects(text);
+                this.filteredList = await this.kickstarter.searchProjects(categoryId, text);
             } else {
-                this.filteredList = await this.projectService.searchProjectsByName(text);
+                this.filteredList = await this.projectService.searchProjectsByName(categoryId, text);
             }
             this.logger.info("Received projects (" + this.filteredList.length + "): " + this.filteredList.map(p => p.name).join(","));
         } else {
@@ -123,7 +125,7 @@ export class GroupRegistration implements OnInit {
      * @param content
      */
     open(content) {
-        this.modalService.open(content, {backdrop: 'static', size: 'lg'});
+        this.modalService.open(content, {backdrop: 'static', size: 'lg', windowClass: 'projects-modal'});
     }
 
     /**

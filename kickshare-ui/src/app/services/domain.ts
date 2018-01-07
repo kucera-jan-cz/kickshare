@@ -24,7 +24,8 @@ export interface CampaignPhoto {
 
 export interface Category {
     name: string;
-    id: number
+    id: number;
+    order?: number
 }
 
 export interface Group {
@@ -125,6 +126,7 @@ export class SearchOptions {
     only_local?: boolean;
     name?: string;
     project_id?: number;
+    category_id: number;
     nw_lat?: number;
     nw_lon?: number;
     se_lat?: number;

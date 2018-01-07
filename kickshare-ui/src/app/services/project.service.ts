@@ -1,11 +1,13 @@
 /**
  * Created by KuceraJan on 9.4.2017.
  */
+
 import {Injectable} from "@angular/core";
 import {AuthHttp} from "./auth-http.service";
 import {ProjectInfo, SearchOptions} from "./domain";
 import {stringify} from "query-string";
 import {LoggerFactory} from "../components/logger/loggerFactory.component";
+import {HttpParams} from "@angular/common/http";
 
 @Injectable()
 export class ProjectService {
@@ -22,12 +24,8 @@ export class ProjectService {
         return promise;
     }
 
-    public searchProjectsByName(name: string): Promise<ProjectInfo[]> {
-        // console.log("Searching for project: " + name);
-        let params = new URLSearchParams();
-        params.set("name", name);
-        params.set("categoryId", "34");
-
+    public searchProjectsByName(categoryId: number, name: string): Promise<ProjectInfo[]> {
+        let params = new HttpParams().set("name", name).set("category_id", String(categoryId));
         const promise: Promise<ProjectInfo[]> = this.http.get("/projects?" + params);
         promise.then(it => this.logger.info("Received projects: " + it.map(p => p.name).join(",")));
         return promise;

@@ -15,11 +15,11 @@ export class KickstarterService {
     constructor(private http: AuthHttp) {
     }
 
-    public searchProjects(name: string): Promise<ProjectInfo[]> {
+    public searchProjects(categoryId: number, name: string): Promise<ProjectInfo[]> {
         this.logger.debug("Searching for Kickstarter project: " + name);
         var params = new HttpParams()
             .set("name", name)
-            .set("categoryId", "34")
+            .set("category_id", String(categoryId))
             .set("store", "true");
 
         const promise: Promise<ProjectInfo[]> = this.http.get('/kickstarter/search', params);
