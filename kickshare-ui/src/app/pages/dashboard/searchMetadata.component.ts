@@ -1,4 +1,4 @@
-import {GroupInfo, Project} from "../../services/domain";
+import {Category, GroupInfo, Project} from "../../services/domain";
 import LatLngBounds = google.maps.LatLngBounds;
 /**
  * Created by KuceraJan on 6.4.2017.
@@ -9,6 +9,7 @@ export class SearchMetadata {
   tags: string[];  //@TODO
   bounds: LatLngBounds;
 
+    category: Category;
   displayProjects: boolean = true;
   projects: Project[] = [];
   groups: GroupInfo[];

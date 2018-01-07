@@ -23,7 +23,8 @@ export class CustomData extends Subject<CompleterItem[]> implements CompleterDat
     }
 
     public async search(term: string) {
-        let data = await this.projectService.searchProjectsByName(term);
+        //@TODO - insert category via subsription
+        let data = await this.projectService.searchProjectsByName(34, term);
         // Now we can slice/sort/change or manipulate the result in any way that we want
         data = data.slice(0, 10);
 

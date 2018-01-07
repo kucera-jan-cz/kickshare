@@ -1,0 +1,5 @@
+<select class="form-control" [(ngModel)]="selectedCategory" *ngIf="initialized" (ngModelChange)="itemSelected($event)">
+    <option *ngFor="let item of categories | orderBy: ['-order', 'name']" [ngValue]="item">
+        {{item.name}}
+    </option>
+</select>

@@ -2,11 +2,13 @@
     <div id="search_new" class="row m-0 p-l-2">
         <div class="col-12 col-sm-auto m-l-1 p-l-1">
             <label class="align-middle" for="category_select">Category: </label>
-            <select class="form-control" id="category_select">
-                <option *ngFor="let item of categories">
-                    {{item.name}}
-                </option>
-            </select>
+            <category (selected)="selectedCategory = $event"></category>
+            <!--categorySelected($event)-->
+            <!--<select class="form-control" id="category_select" [(ngModel)]="selectedCategory">-->
+            <!--<option *ngFor="let item of categories | orderBy: ['-order', 'name']" [ngValue]="item">-->
+            <!--{{item.name}}-->
+            <!--</option>-->
+            <!--</select>-->
         </div>
         <div class="col-12 col-sm-auto m-l-1 p-0">
             <ng2-completer id="gmap_complete" class="d-inline-block" [(ngModel)]="searchTerm" [datasource]="dataService" [minSearchLength]="3"
@@ -16,7 +18,7 @@
             <span class="d-inline-block fa-stack fa-lg" (click)="searchGroups()">
                         <i class="fa fa-square-o fa-stack-2x"></i>
                         <i class="fa fa-search-plus fa-flip-horizontal fa-stack-1x"></i>
-                </span>
+            </span>
         </div>
         <div class="col-12 col-sm-auto ">
             <label>

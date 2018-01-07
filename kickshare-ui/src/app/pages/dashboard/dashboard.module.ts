@@ -13,6 +13,7 @@ import {Ng2CompleterModule} from "ng2-completer";
 import {BaCard} from "../../components/baCard/baCard.component";
 import {UserService} from "../../services/user.service";
 import {SystemService} from "../../services/system.service";
+import {CategoryModule} from "../../components/category/category.module";
 
 @NgModule({
     imports: [
@@ -21,8 +22,8 @@ import {SystemService} from "../../services/system.service";
         // AppTranslationModule,
         // NgaModule,
         routing,
-        Ng2CompleterModule
-        // CampaignModule
+        Ng2CompleterModule,
+        CategoryModule
     ],
     declarations: [
         BaCard,

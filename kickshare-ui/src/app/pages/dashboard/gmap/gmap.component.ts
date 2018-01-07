@@ -1,7 +1,7 @@
 /**
  * Created by KuceraJan on 26.3.2017.
  */
-import {Component, EventEmitter, Input, OnDestroy, OnInit, Output, Sanitizer, SecurityContext} from "@angular/core";
+import {Component, EventEmitter, OnDestroy, OnInit, Output, Sanitizer, SecurityContext} from "@angular/core";
 import {Router} from "@angular/router";
 import "style-loader!./gmap.scss";
 import {CategoryService} from "../../../services/categories.service";
@@ -13,6 +13,7 @@ import {SearchMetadata} from "../searchMetadata.component";
 import {AuthHttp} from "../../../services/auth-http.service";
 import {SystemService} from "../../../services/system.service";
 import {LoggerFactory} from "../../../components/logger/loggerFactory.component";
+import {UserDefaults} from "../../../constants/user.defaults";
 import LatLngBounds = google.maps.LatLngBounds;
 import MapTypeId = google.maps.MapTypeId;
 import StyleOptions = google.maps.Data.StyleOptions;
@@ -28,20 +29,18 @@ declare var getBounds: Function;
 })
 export class GMap implements OnInit, OnDestroy {
     private logger = LoggerFactory.getLogger("components:dashboard:gmap");
-    loadAPI: Promise<any>;
-    //@TODO externalize the key
-    url = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyA-NAJu2diDDRzMKz9jKTIj6HVXODMjXpk&callback=initMap';
     index = 1;
     searchTerm: string;
     settings = {
         onlyNearBy: false,
         withTags: false
     };
+    selectedCategory: Category;
     categories: Category[];
     selectedProject: Project;
-    @Input() projects: Project[];
     @Output() dataChange: EventEmitter<ProjectInfo[]> = new EventEmitter();
     @Output() mapChange: EventEmitter<SearchMetadata> = new EventEmitter();
+    //@TODO - this output is probably not used anymore
     @Output() optionsChange: EventEmitter<SearchOptions> = new EventEmitter();
     tags = [{value: 0, display: 'Action'}, {value: 1, display: 'Co-op'}];
     dataService: CustomData;
@@ -57,9 +56,20 @@ export class GMap implements OnInit, OnDestroy {
                 private http: AuthHttp) {
     }
 
-
     async ngOnInit() {
         this.categories = await this.categoryService.getCategories();
+        this.categories.forEach(it => {
+            //@TODO - verify this approach
+            var order = UserDefaults.DEFAULT_CATEGORY_PREFERENCES[it.id] || 0;
+            it.order = it.order || order;
+            // if (!it.order && UserDefaults.DEFAULT_CATEGORY_PREFERENCES[it.id]) {
+            //     console.error("Changing order " + it.name + " to " + UserDefaults.DEFAULT_CATEGORY_PREFERENCES[it.id]);
+            //     it.order = UserDefaults.DEFAULT_CATEGORY_PREFERENCES[it.id];
+            // } else {
+            //     it.order = 0;
+            // }
+        });
+        this.selectedCategory = this.categories.reduce((prev, current) => (prev.order > current.order) ? prev : current);
         this.initGroupGridMapTS();
         this.dataService = new CustomData(this.projectService);
     }
@@ -136,6 +146,7 @@ export class GMap implements OnInit, OnDestroy {
 
         this.groupGridMap.controls[google.maps.ControlPosition.RIGHT_TOP].push(legend);
 
+        //@TODO - probably use readDataFromSearch
         this.readData(new google.maps.LatLng(current_lat, current_lon));
     }
 
@@ -147,24 +158,18 @@ export class GMap implements OnInit, OnDestroy {
         this.http.getJsonp(url, response => this.readCoordinates(response));
     }
 
-    private readDataFromSearch(name?: string, onlyLocal?: boolean) {
+    searchGroups() {
+        const searchTerm = this.sanitizer.sanitize(SecurityContext.NONE, this.searchTerm);
+        this.readDataFromSearch(searchTerm, false);
+        this.logger.info("Searching for: {0}", searchTerm);
         const bounds: LatLngBounds = this.groupGridMap.getBounds();
-        this.logger.info("Reading data bounds!!!" + JSON.stringify(bounds));
-        this.searchOptions.nw_lat = bounds.getNorthEast().lat();
-        this.searchOptions.nw_lon = bounds.getSouthWest().lng();
-        this.searchOptions.se_lat = bounds.getSouthWest().lat();
-        this.searchOptions.se_lon = bounds.getNorthEast().lng();
-        if (onlyLocal != null) {
-            this.searchOptions.only_local = onlyLocal;
-        }
-        if (this.selectedProject != null) {
-            this.searchOptions.project_id = this.selectedProject.id;
-        }
-        const params = this.searchOptions.toParams() + "&callback=JSONP_CALLBACK";
-        this.logger.info("Searching with params: " + params);
-        //@TODO - prefix is missing
-        const url = `groups/search/data.jsonp?${params}`;
-        this.http.getJsonp(url, response => this.readCoordinates(response));
+        const searchMeta = new SearchMetadata();
+        searchMeta.project = this.selectedProject;
+        searchMeta.category = this.selectedCategory;
+        searchMeta.bounds = bounds;
+        this.searchOptions.category_id = this.selectedCategory.id;
+        this.mapChange.next(searchMeta);
+        this.optionsChange.next(this.searchOptions);
     }
 
     getIconStyle(type): StyleOptions {
@@ -193,16 +198,9 @@ export class GMap implements OnInit, OnDestroy {
         }
     }
 
-    searchGroups() {
-        const searchTerm = this.sanitizer.sanitize(SecurityContext.NONE, this.searchTerm);
-        this.readDataFromSearch(searchTerm, false);
-        this.logger.info("Searching for: {0}", searchTerm);
-        const bounds: LatLngBounds = this.groupGridMap.getBounds();
-        const searchMeta = new SearchMetadata();
-        searchMeta.project = this.selectedProject;
-        searchMeta.bounds = bounds;
-        this.mapChange.next(searchMeta);
-        this.optionsChange.next(this.searchOptions);
+    categorySelected(category: any) {
+        this.logger.warn("Category selected: {0}", JSON.stringify(category));
+        this.selectedCategory = category;
     }
 
     nameTyped(event: KeyboardEvent) {
@@ -221,6 +219,28 @@ export class GMap implements OnInit, OnDestroy {
             this.selectedProject = null;
             this.logger.info("Require at least 3 characters");
         }
+    }
+
+    private readDataFromSearch(name?: string, onlyLocal?: boolean) {
+        //@TODO - nove logic to group.service?
+        const bounds: LatLngBounds = this.groupGridMap.getBounds();
+        this.logger.info("Reading data bounds!!!" + JSON.stringify(bounds));
+        this.searchOptions.nw_lat = bounds.getNorthEast().lat();
+        this.searchOptions.nw_lon = bounds.getSouthWest().lng();
+        this.searchOptions.se_lat = bounds.getSouthWest().lat();
+        this.searchOptions.se_lon = bounds.getNorthEast().lng();
+        if (onlyLocal != null) {
+            this.searchOptions.only_local = onlyLocal;
+        }
+        if (this.selectedProject != null) {
+            this.searchOptions.project_id = this.selectedProject.id;
+        }
+        this.searchOptions.category_id = this.selectedCategory.id;
+        const params = this.searchOptions.toParams() + "&callback=JSONP_CALLBACK";
+        this.logger.info("Searching with params: " + params);
+        //@TODO - prefix is missing
+        const url = `groups/search/data.jsonp?${params}`;
+        this.http.getJsonp(url, response => this.readCoordinates(response));
     }
 
     itemSelected(event: CompleterItem) {

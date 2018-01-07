@@ -8,18 +8,23 @@ import {SystemService} from "../../services/system.service";
 import {KickstarterService} from "../../services/kickstarter.service";
 import {GroupService} from "../../services/group.service";
 import {CityService} from "../../services/city.service";
+import {CategoryModule} from "../../components/category/category.module";
+import {CategoryService} from "../../services/categories.service";
 
 @NgModule({
     imports: [
         CommonModule,
         ReactiveFormsModule,
         FormsModule,
-        routing
+        routing,
+        CategoryModule
     ],
     declarations: [
         GroupRegistration,
     ],
     providers: [
+        //@TODO - consider whether exporting this service with CategoryModule
+        CategoryService,
         ProjectService,
         SystemService,
         KickstarterService,

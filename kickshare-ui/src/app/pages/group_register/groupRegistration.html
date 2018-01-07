@@ -86,11 +86,17 @@
 
     <!-- Modal -->
     <ng-template #content let-c="close" let-d="dismiss" size="lg">
-        <div class="modal-header">
-            <div class="row container col-md-12">
-                <h5 class="col-sm-3 m-0 vertical-align" id="exampleModalLabel">Find projects:</h5>
-                <input class="col-sm-9 input-block-level search-query" [value]="name" (keyup)="nameTyped($event)"/>
+        <div class="modal-header px-0">
+            <div class="d-flex flex-row container px-0">
+                <category class="w-25 pl-2" (selected)="selectedCategory = $event"></category>
+                <span class="w-25 pr-3 text-right align-self-center">Find projects:</span>
+                <input class="w-50 input-block-level search-query w-auto" [value]="name" (keyup)="nameTyped($event)"/>
             </div>
+            <!--<div class="row container col-md-12">-->
+            <!--<category class="col-sm-3" (selected)="selectedCategory = $event"></category>-->
+            <!--<span class="col-sm-3 m-0 p-0 align-self-center">Find projects:</span>-->
+            <!--<input class="col-sm-6 input-block-level search-query" [value]="name" (keyup)="nameTyped($event)"/>-->
+            <!--</div>-->
             <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="c('Cross click')">
                 <span aria-hidden="true">&times;</span>
             </button>
