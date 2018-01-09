@@ -8,6 +8,7 @@ import java.util.concurrent.CompletableFuture;
 
 import com.github.kickshare.db.multischema.SchemaContextHolder;
 import com.github.kickshare.domain.ProjectInfo;
+import com.github.kickshare.ext.service.kickstarter.backer.KickstarterBackerService;
 import com.github.kickshare.ext.service.kickstarter.campaign.KickstarterCampaignService;
 import com.github.kickshare.ext.service.kickstarter.campaign.exception.AuthenticationException;
 import com.github.kickshare.security.BackerDetails;
@@ -35,7 +36,8 @@ import org.springframework.web.bind.annotation.RestController;
 public class KickstarterEndpoint {
     private static final Logger LOGGER = LoggerFactory.getLogger(KickstarterEndpoint.class);
 
-    private final KickstarterCampaignService kickstarter;
+    private final KickstarterCampaignService campaignService;
+    private final KickstarterBackerService backerService;
     private final GroupServiceImpl groupService;
     private final ProjectService projectService;
 
@@ -56,7 +58,7 @@ public class KickstarterEndpoint {
     @PostMapping("/backer/verify")
     public void verifyBacker(@RequestParam String email, @RequestParam String password, @AuthenticationPrincipal BackerDetails user)
             throws IOException, AuthenticationException {
-        Long kickstarterId = kickstarter.verify(email, password);
+        Long kickstarterId = backerService.verify(email, password);
         groupService.saveLeader(user.getId(), email, kickstarterId);
     }
 
@@ -75,7 +77,7 @@ public class KickstarterEndpoint {
     }
 
     private List<ProjectInfo> searchKickstarter(final String name, @RequestParam final Integer categoryId) throws IOException {
-        final List<ProjectInfo> projects = project().toDomain(kickstarter.findProjects(name, categoryId));
+        final List<ProjectInfo> projects = project().toDomain(campaignService.findProjects(name, categoryId));
         LOGGER.debug("Found kickstarter projects: \n{}", projects);
         return projects;
     }
