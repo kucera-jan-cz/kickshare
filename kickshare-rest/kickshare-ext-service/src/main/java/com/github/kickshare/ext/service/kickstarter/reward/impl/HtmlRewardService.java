@@ -19,6 +19,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.kickshare.ext.service.common.ResourceBuilder;
 import com.github.kickshare.ext.service.exception.ServiceNotAvailable;
+import com.github.kickshare.ext.service.kickstarter.common.HtmlUtil;
 import com.github.kickshare.ext.service.kickstarter.reward.Price;
 import com.github.kickshare.ext.service.kickstarter.reward.Reward;
 import com.github.kickshare.ext.service.kickstarter.reward.RewardService;
@@ -111,7 +112,7 @@ public class HtmlRewardService implements RewardService {
         String description = descriptionParams.stream()
                 .map(Node::getText)
                 .filter(StringUtils::isNotBlank)
-                .map(s -> s.replaceAll("^\\s+|\\s+$|\\s*(\n)\\s*|(\\s)\\s*", "$1$2"))
+                .map(HtmlUtil::removeEmptyCharacters)
                 .collect(Collectors.joining(System.lineSeparator()));
 
         LOGGER.info("Description:\t{}", description);
