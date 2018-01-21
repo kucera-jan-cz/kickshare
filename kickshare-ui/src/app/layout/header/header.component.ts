@@ -29,7 +29,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
                 this.toggleSidebar();
             }
         });
-        this.country = this.system.countryCode.toLowerCase();
+        this.country = this.system.getCountry().toLowerCase();
     }
 
     ngOnInit() {

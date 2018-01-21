@@ -1,0 +1,21 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col"></div>
+        <div id="country-form" class="col-md-offset-3 col-md-6">
+            <form name="form" (ngSubmit)="onSubmit()">
+                <div class="form-login">
+                    <h4>Please select your country: </h4>
+                    <select id="countryCombo" name="countryCombo" class="form-control" [(ngModel)]="selectedCountry">
+                        <option *ngFor="let country of countries; let i = index" [ngValue]="country">
+                            {{ country.name }}
+                        </option>
+                    </select>
+                    <label for="rememberCountry">Remember my choice?</label>
+                    <input type="checkbox" name="rememberCountry" id="rememberCountry" [(ngModel)]="rememberCountry" [value]="false">
+                    <button class="btn btn-primary btn-md">Continue <i class="fa fa-sign-in"></i></button>
+                </div>
+            </form>
+        </div>
+        <div class="col"></div>
+    </div>
+</div>

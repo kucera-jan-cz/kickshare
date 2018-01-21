@@ -7,7 +7,7 @@ export class UrlService {
     private country: string;
 
     constructor(private system: SystemService) {
-        this.country = system.countryCode.toLowerCase();
+        this.country = system.getCountry().toLowerCase();
     }
 
     public campaign(id: number): string {

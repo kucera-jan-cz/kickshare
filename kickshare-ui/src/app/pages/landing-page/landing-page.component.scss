@@ -1,0 +1,76 @@
+body {
+    background-color: #fff;
+    -webkit-font-smoothing: antialiased;
+    font: normal 10px Roboto, arial, sans-serif;
+    font-family: Roboto, arial, sans-serif;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 10px;
+    line-height: normal;
+    font-size-adjust: none;
+    font-stretch: normal;
+    -x-system-font: none;
+    font-feature-settings: normal;
+    font-language-override: normal;
+    font-kerning: auto;
+    font-variant-alternates: normal;
+    font-variant-caps: normal;
+    font-variant-east-asian: normal;
+    font-variant-ligatures: normal;
+    font-variant-numeric: normal;
+    font-variant-position: normal;
+}
+
+#country-form {
+    max-width: 500px;
+}
+
+a {
+    color: #3f2b7a;
+    text-decoration: underline;
+}
+
+.container-fluid {
+    padding: 25px;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    /* bring your own prefixes */
+    transform: translate(-50%, -50%);
+}
+
+.form-control {
+    font-size: 14px;
+}
+
+.form-login {
+    background-color: #EDEDED;
+    padding-top: 10px;
+    padding-bottom: 20px;
+    padding-left: 20px;
+    padding-right: 20px;
+    border-radius: 15px;
+    border-color: #d2d2d2;
+    border-width: 5px;
+    box-shadow: 0 1px 0 #cfcfcf;
+}
+
+.form-login * {
+    font-size: 14px;
+}
+
+h4 {
+    border: 0 solid #fff;
+    border-bottom-width: 1px;
+    padding-bottom: 10px;
+    text-align: center;
+    font-size: 14px;
+}
+
+.form-control {
+    border-radius: 10px;
+}
+
+.wrapper {
+    text-align: center;
+}

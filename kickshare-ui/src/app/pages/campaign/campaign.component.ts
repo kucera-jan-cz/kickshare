@@ -9,6 +9,7 @@ import {Group, ProjectInfo} from "../../services/domain";
 import {GroupService} from "../../services/group.service";
 import {ProjectService} from "../../services/project.service";
 import {LoggerFactory} from "../../components/logger/loggerFactory.component";
+import {UrlService} from "../../services/url.service";
 
 @Component({
     selector: 'campaign',
@@ -22,7 +23,8 @@ export class Campaign implements OnInit {
     project: ProjectInfo;
     groups: Group[];
 
-    constructor(private route: ActivatedRoute, private groupService: GroupService, private projectService: ProjectService) {
+    constructor(private route: ActivatedRoute, private groupService: GroupService, private projectService: ProjectService,
+                public url: UrlService) {
     }
 
     ngOnInit() {
