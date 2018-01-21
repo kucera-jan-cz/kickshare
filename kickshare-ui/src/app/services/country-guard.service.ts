@@ -4,55 +4,68 @@
 import {Injectable} from "@angular/core";
 import {ActivatedRouteSnapshot, CanActivate, CanActivateChild, PRIMARY_OUTLET, Router, RouterStateSnapshot} from "@angular/router";
 import {LoggerFactory} from "../components/logger/loggerFactory.component";
-import {loadScript} from "../utils/util";
 import {Subject} from "rxjs/Rx";
-import {Observable} from 'rxjs/Observable';
+import {Observable} from "rxjs/Observable";
+import {SystemService} from "./system.service";
+import {CountryConstants} from "../constants/country.constants";
+import {Country} from "./domain";
 
 @Injectable()
 export class CountryGuardService implements CanActivateChild, CanActivate {
     private logger = LoggerFactory.getLogger('services:country:guard');
-    private countrySubject: Subject<string> = new Subject();
-    private countryObservable: Observable<string>;
+    private countrySubject: Subject<Country> = new Subject();
+    private countryObservable: Observable<Country>;
 
-    constructor(private router: Router) {
+    constructor(private router: Router, private systemService: SystemService) {
         this.logger.debug("Initializing Country Guard Service");
         this.countryObservable = this.countrySubject.distinctUntilChanged();
-        this.countryObservable.subscribe(countryCode => this.loadGoogleMaps(countryCode));
+        this.countryObservable.subscribe(country => {
+            systemService.setCountry(country.code);
+        });
     }
 
-    canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
-        return this.validateAndStoreCountry(route, state);
+    canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
+        this.logger.debug("Can activate {0}", state.url);
+
+        //@TODO - externalize to constant class
+        // We retrieve country from data (f.e from url /cz) or we have already set country in local store
+        const code: string = route.data['code'] || window.localStorage.getItem(CountryConstants.COUNTRY_LOCAL_STORAGE);
+        if (code) {
+            this.logger.debug("Initializing {0}", code);
+            //Navigate directly to dashboard since user chose permanently country
+            this.validateAndInitialize(code);
+            const country = code.toLowerCase();
+            const url = `/${country}/dashboard`;
+            this.router.navigateByUrl(url);
+            return false;
+        } else {
+            this.logger.debug("Simply passing through");
+            return true;
+        }
     }
 
-    canActivateChild(childRoute: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
-        return this.validateAndStoreCountry(childRoute, state);
-    }
-
-    public getCountryEmitter(): Observable<string> {
-        return this.countryObservable;
-    }
-
-    private validateAndStoreCountry(childRoute: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
-        this.logger.debug("Routing to URL: " + state.url);
+    canActivateChild(childRoute: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
+        this.logger.debug("Can activate child {0}", state.url);
         const countryCode = this.extractCountryCode(state.url);
-        //@TODO - implement supported country validation
-        this.countrySubject.next(countryCode);
-        return Observable.of(true);
+        this.validateAndInitialize(countryCode);
+        return true;
+    }
+
+    private validateAndInitialize(code: string): Country {
+        const country = CountryConstants.country(code);
+        if (country) {
+            this.logger.debug("Initializing dependencies with country: {0}", country);
+            this.countrySubject.next(country);
+            return country;
+        } else {
+            throw "Failed to identify country";
+        }
     }
 
     private extractCountryCode(url: string): string {
         const urlTree = this.router.parseUrl(url);
-        this.logger.trace("Tree: " + urlTree.root.children[PRIMARY_OUTLET]);
         const countryCode = urlTree.root.children[PRIMARY_OUTLET].segments[0].toString().toUpperCase();
         this.logger.info("Setting country code {0}", countryCode);
         return countryCode;
     }
-
-    private loadGoogleMaps(countryCode:string): void {
-        this.logger.info("Loading google maps for country {0}", countryCode);
-        const key = "AIzaSyA-NAJu2diDDRzMKz9jKTIj6HVXODMjXpk";
-        loadScript("https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js");
-        loadScript(`https://maps.googleapis.com/maps/api/js?key=${key}`);
-    }
-
 }

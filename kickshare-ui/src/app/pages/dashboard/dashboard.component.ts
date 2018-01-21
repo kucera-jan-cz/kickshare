@@ -4,6 +4,7 @@ import {SearchMetadata} from "./searchMetadata.component";
 import {GroupService} from "../../services/group.service";
 import {ProjectService} from "../../services/project.service";
 import {LoggerFactory} from "../../components/logger/loggerFactory.component";
+import {UrlService} from "../../services/url.service";
 
 @Component({
     selector: 'dashboard',
@@ -19,7 +20,7 @@ export class Dashboard {
     searchMeta: SearchMetadata = new SearchMetadata();
 
 
-    constructor(private groupService: GroupService, private projectService: ProjectService) {
+    constructor(private groupService: GroupService, private projectService: ProjectService, public url: UrlService) {
     }
 
     projectsUpdated(projects: ProjectInfo[]): void {

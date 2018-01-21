@@ -15,7 +15,7 @@
                 <tr *ngFor="let item of projects" class="no-top-border">
                     <td class="project-photo"><img src="{{ ( item.photo.thumb ) }}"></td>
                     <td class="align-left">
-                        <a [routerLink]="['../../campaign', item.id]"> {{item.name}} - {{item.id}}</a>
+                        <a [routerLink]="[url.campaign(item.id)]"> {{item.name}} - {{item.id}}</a>
                     </td>
                     <td class="align-left">5 dní</td>
                 </tr>
@@ -37,7 +37,7 @@
                 <tr *ngFor="let item of groups" class="no-top-border">
                     <td class="project-photo"><img src="{{ item.photo.small }}"></td>
                     <td class="align-left">
-                        <a [routerLink]="['../../group', item.group.id]"> {{item.group.name}} - {{item.group.id}}</a>
+                        <a [routerLink]="[url.group(item.group.id)]"> {{item.group.name}} - {{item.group.id}}</a>
                     </td>
                     <td class="align-left">5 dní</td>
                 </tr>

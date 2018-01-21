@@ -137,6 +137,12 @@ export class SearchOptions {
     }
 }
 
+export class Country {
+    constructor(public name: string,
+                public code: string) {
+    }
+}
+
 export class JSONPSearchOptions extends SearchOptions {
     // callback = 'JSONP_CALLBACK';
 }

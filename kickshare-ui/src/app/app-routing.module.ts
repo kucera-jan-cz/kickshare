@@ -6,12 +6,11 @@ import {AuthGuardService} from "./services/auth-guard.service";
 import {FaqModule} from "./pages/faq/faq.module";
 import {LayoutModule} from "./layout/layout.module";
 import {CountryGuardService} from "./services/country-guard.service";
+import {LandingPageComponent} from "./pages/landing-page/landing-page.component";
+import {LandingPageModule} from "./pages/landing-page/landing-page.module";
 
 
 const routes: Routes = [
-    {
-        path: '', component: LayoutComponent,
-        children: [
             {path: 'dashboard', loadChildren: './pages/dashboard/dashboard.module#DashboardModule'},
             {path: 'blank-page', loadChildren: './pages/blank-page/blank-page.module#BlankPageModule'},
             {path: 'account/group', loadChildren: './pages/group_register/groupRegistration.module#GroupRegistrationModule', canActivate: [AuthGuardService]},
@@ -25,39 +24,31 @@ const routes: Routes = [
             {path: 'faq', component: FaqComponent},
             {path: 'sign-in', loadChildren: './pages/user_register/userRegistration.module#UserRegistrationModule'},
             {path: 'user/settings', loadChildren: './pages/user/userSettings.module#UserSettingsModule'},
-        ]
-    }
 ];
 
 const countryRoutes: Routes = [
     {
         path: '',
-        redirectTo: '/cz/blank-page',
-        pathMatch: 'full'
+        component: LandingPageComponent,
+        canActivate: [CountryGuardService],
     },
     {
         path: 'cz',
+        component: LayoutComponent,
         children: routes,
         canActivateChild: [CountryGuardService],
+        runGuardsAndResolvers: 'always'
     },
-    {
-        path: 'sk',
-        children: routes,
-        canActivateChild: [CountryGuardService],
-    },
-    {
-        path: 'de',
-        children: routes,
-        canActivateChild: [CountryGuardService],
-    },
-
 ];
 
 @NgModule({
     imports: [
         FaqModule,
+        LandingPageModule,
         LayoutModule,
-        RouterModule.forRoot(countryRoutes)],
+        RouterModule.forRoot(countryRoutes),
+    ],
+    providers: [CountryGuardService],
     exports: [RouterModule]
 })
 export class AppRoutingModule {

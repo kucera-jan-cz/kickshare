@@ -1,4 +1,4 @@
-import {Component, OnInit} from "@angular/core";
+import {Component} from "@angular/core";
 import {Router} from "@angular/router";
 import {LoggerFactory} from "../components/logger/loggerFactory.component";
 import {SystemService} from "../services/system.service";
@@ -10,17 +10,12 @@ declare let EventSource: any;
     templateUrl: './layout.component.html',
     styleUrls: ['./layout.component.scss']
 })
-export class LayoutComponent implements OnInit {
+export class LayoutComponent {
     private logger = LoggerFactory.getLogger("components:layout");
     public isNavbarCollapsed = true;
 
     constructor(public router: Router, private system: SystemService) {
-    }
-
-    ngOnInit() {
-        if (this.router.url === '/') {
-            this.router.navigate(['/blank-page']);
-        }
+        this.logger.debug("Initializing layout component")
     }
 
     login() {

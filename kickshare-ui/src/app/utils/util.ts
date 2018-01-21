@@ -12,3 +12,7 @@ export function loadScript(src: string, callback?: (this: HTMLElement, ev: Event
     document.getElementsByTagName("head")[0].appendChild(script);
     script.src = src;
 }
+
+export function random(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}

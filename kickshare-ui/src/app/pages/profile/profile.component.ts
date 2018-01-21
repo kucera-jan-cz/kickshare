@@ -7,6 +7,7 @@ import {GroupService} from "../../services/group.service";
 import {UserService} from "../../services/user.service";
 import {SystemService} from "../../services/system.service";
 import {Group} from "../../services/domain";
+import {UrlService} from "../../services/url.service";
 
 @Component({
     selector: 'profile',
@@ -18,7 +19,7 @@ export class ProfileComponent implements OnInit {
     id: number;
     groups: Group[];
 
-    constructor(private groupService: GroupService, private userService: UserService, private systemService: SystemService) {
+    constructor(private groupService: GroupService, private userService: UserService, private systemService: SystemService, public url: UrlService) {
     }
 
     async ngOnInit() {
