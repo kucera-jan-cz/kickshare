@@ -1,7 +1,9 @@
 package com.github.kickshare.service.impl;
 
+import java.io.IOException;
 import java.util.List;
 
+import com.github.kickshare.common.io.ResourceUtil;
 import com.github.kickshare.db.jooq.Tables;
 import com.github.kickshare.db.jooq.enums.TokenTypeDB;
 import com.github.kickshare.db.jooq.tables.TokenRequestDB;
@@ -51,5 +53,14 @@ public class SchedulingService {
         }
     }
 
+    //@TODO - implement rating calculations
+    public void updateLeaderRatings() throws IOException {
+        String sql = ResourceUtil.toString("db/sql/update_leader_rating.sql");
+        this.dsl.execute(sql);
+    }
 
+    public void updateBackerRatings() throws IOException {
+        String sql = ResourceUtil.toString("db/sql/update_backer_rating.sql");
+        this.dsl.execute(sql);
+    }
 }

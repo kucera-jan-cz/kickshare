@@ -13,6 +13,7 @@ import com.github.kickshare.domain.Backer;
 import com.github.kickshare.domain.Group;
 import com.github.kickshare.domain.GroupDetail;
 import com.github.kickshare.domain.Post;
+import com.github.kickshare.domain.Rating;
 import com.github.kickshare.security.BackerDetails;
 import com.github.kickshare.security.permission.GroupMember;
 import com.github.kickshare.security.permission.GroupOwner;
@@ -38,6 +39,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -69,6 +71,7 @@ public class GroupEndpoint {
     private GroupServiceImpl groupService;
 
     @RequestMapping(value = "/search/jsonp", produces = MediaType.APPLICATION_JSON_VALUE)
+    @Deprecated
     public FeatureCollection getData(
             @RequestParam String callback,
             @RequestParam(required = false) Float lat,
@@ -161,6 +164,23 @@ public class GroupEndpoint {
     public List<Backer> getUserRequests(@PathVariable Long groupId, @AuthenticationPrincipal BackerDetails user) {
         LOGGER.info("{}", user);
         return groupService.getGroupUserRequests(groupId);
+    }
+
+    @GroupMember
+    @PutMapping("/{groupId}/users/{userId}/rate")
+    public ResponseEntity<?> createRating(@PathVariable Long groupId, @PathVariable Long userId, @RequestBody @Valid Rating rating,
+            @AuthenticationPrincipal BackerDetails user) {
+        Validate.isTrue(!user.getId().equals(userId), "User can't rate himself!");
+        this.groupService.rate(user.getId(), groupId, userId, rating.getRating(), rating.getMessage());
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @GroupMember
+    @DeleteMapping("/{groupId}/users/{userId}/rate")
+    public ResponseEntity<?> deleteRating(@PathVariable Long groupId, @PathVariable Long userId, @AuthenticationPrincipal BackerDetails user) {
+        Validate.isTrue(!user.getId().equals(userId), "User can't delete his ratings!");
+        this.groupService.deleteRate(user.getId(), groupId, userId);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     @GroupMember

@@ -16,12 +16,15 @@ import java.util.stream.Collectors;
 import com.github.kickshare.db.dao.BackerRepository;
 import com.github.kickshare.db.dao.GroupPostRepository;
 import com.github.kickshare.db.dao.GroupRepository;
+import com.github.kickshare.db.dao.RatingRepository;
 import com.github.kickshare.db.jooq.enums.GroupRequestStatusDB;
 import com.github.kickshare.db.jooq.tables.daos.Backer_2GroupDaoDB;
 import com.github.kickshare.db.jooq.tables.daos.CityDaoDB;
 import com.github.kickshare.db.jooq.tables.daos.LeaderDaoDB;
+import com.github.kickshare.db.jooq.tables.pojos.BackerRatingDB;
 import com.github.kickshare.db.jooq.tables.pojos.Backer_2GroupDB;
 import com.github.kickshare.db.jooq.tables.pojos.GroupPostDB;
+import com.github.kickshare.db.jooq.tables.pojos.LeaderRatingDB;
 import com.github.kickshare.db.multischema.SchemaContextHolder;
 import com.github.kickshare.domain.Backer;
 import com.github.kickshare.domain.City;
@@ -67,6 +70,7 @@ public class GroupServiceImpl {
     private final Backer_2GroupDaoDB backer2GroupDao;
     private final GroupPostRepository groupPostRepository;
     private final ProjectService projectService;
+    private final RatingRepository ratingRepository;
 
 
     private final CityDaoDB cityDao;
@@ -228,5 +232,29 @@ public class GroupServiceImpl {
     public void updateGroupRequestStatus(final Long groupId, final Long backerId, GroupRequestStatusDB status) {
         //@TODO - add supporting message
         backer2GroupDao.update(new Backer_2GroupDB(groupId, backerId, status, null));
+    }
+
+    @Transactional
+    public void rate(final Long authorId, final Long groupId, final Long userId, final Short rating, final String message) {
+        Group group = this.getGroup(groupId);
+
+        if (group.getLeaderId().equals(authorId)) {
+            final BackerRatingDB entity = new BackerRatingDB(authorId, groupId, userId, rating, message);
+            ratingRepository.rateBacker(entity);
+        } else {
+            final LeaderRatingDB entity = new LeaderRatingDB(authorId, groupId, userId, rating, message);
+            ratingRepository.rateLeader(entity);
+        }
+    }
+
+    @Transactional
+    public void deleteRate(final Long authorId, final Long groupId, final Long userId) {
+        Group group = this.getGroup(groupId);
+
+        if (group.getLeaderId().equals(authorId)) {
+            ratingRepository.deleteBackerRating(authorId, groupId, userId);
+        } else {
+            ratingRepository.deleteLeaderRating(authorId, groupId, userId);
+        }
     }
 }

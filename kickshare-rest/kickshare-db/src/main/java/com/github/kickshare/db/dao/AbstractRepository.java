@@ -51,6 +51,15 @@ public abstract class AbstractRepository<R extends UpdatableRecord<R>, P, T> imp
         return insert.getReturnedRecord();
     }
 
+
+    @Override
+    public void insertIgnoringDuplicates(P entity) {
+        InsertQuery<R> insert = dsl.insertQuery(table);
+        insert.addRecord(dsl.newRecord(table, entity));
+        insert.onDuplicateKeyIgnore(true);
+        insert.execute();
+    }
+
     @Override
     public Configuration configuration() {
         return dao.configuration();

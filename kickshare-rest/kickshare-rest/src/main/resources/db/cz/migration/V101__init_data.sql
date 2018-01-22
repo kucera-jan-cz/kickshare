@@ -27,6 +27,8 @@ INSERT INTO "group" (id, leader_id, name, project_id, lat, lon, is_local) VALUES
 (1, 1, 'Quodd Heroes - CZ', 439380282, 49.1951, 16.6068, false);
 INSERT INTO backer_2_group (group_id, backer_id, status) VALUES
 (1, 1, 'APPROVED'), (1, 2, 'APPROVED');
+INSERT INTO backer_rating (author_id,  group_id, backer_id, rating, "message") VALUES
+(2, 1, 1, 5.0, 'Excellent delivery');
 
 INSERT INTO "group" (id, leader_id, name, project_id, lat, lon) VALUES
 (2, 1, 'The Edge - Brno', 1893061183, 49.1951, 16.6068 );
@@ -47,11 +49,17 @@ INSERT INTO "group" (id, leader_id, name, project_id, lat, lon, is_local) VALUES
 (5, 3, 'Quodd Heroes - Praha', 439380282, 50.0833, 14.4666, false );
 INSERT INTO backer_2_group (group_id, backer_id, status) VALUES
 (5, 2, 'APPROVED'), (5, 3, 'APPROVED'), (5, 1, 'APPROVED');
+INSERT INTO backer_rating (author_id,  group_id, backer_id, rating, "message") VALUES
+(3, 5, 1, 4.0, 'Thinks Batman is the best...');
+INSERT INTO leader_rating (author_id, group_id, leader_id, rating, "message") VALUES
+(2, 5, 3, 4.0, 'Funny guy but is from Marvel'),
+(1, 5, 3, 5.0, 'Always friendly neighbour')
+;
 
 INSERT INTO "group" (id, leader_id, name, project_id, lat, lon) VALUES
 (6, 2, 'The Edge - Praha', 1893061183, 50.0833, 14.4666 );
-INSERT INTO backer_2_group (group_id, backer_id, status) VALUES (6, 1, 'APPROVED');
-INSERT INTO backer_2_group (group_id, backer_id, status) VALUES (6, 2, 'APPROVED');
+INSERT INTO backer_2_group (group_id, backer_id, status) VALUES
+(6, 1, 'APPROVED'), (6, 2, 'APPROVED');
 
 INSERT INTO "group" (id, leader_id, name, project_id, lat, lon, is_local) VALUES
 (7, 4, 'The Edge - CZ', 1893061183, 49.83332, 18.25, true );
@@ -62,3 +70,4 @@ INSERT INTO "group" (id, leader_id, name, project_id, lat, lon, is_local) VALUES
 INSERT INTO backer_2_group (group_id, backer_id, status) VALUES (8, 4, 'APPROVED');
 
 ALTER SEQUENCE group_id_seq RESTART WITH 100;
+
