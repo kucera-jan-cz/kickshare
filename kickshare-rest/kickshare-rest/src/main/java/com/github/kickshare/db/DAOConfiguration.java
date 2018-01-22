@@ -14,6 +14,8 @@ import com.github.kickshare.db.jooq.tables.daos.TagDaoDB;
 import com.github.kickshare.db.jooq.tables.daos.Tag_2CategoryDaoDB;
 import com.github.kickshare.db.jooq.tables.daos.TokenRequestDaoDB;
 import com.github.kickshare.db.jooq.tables.daos.UsersDaoDB;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
@@ -25,6 +27,8 @@ import org.springframework.context.annotation.Import;
 @Configuration
 @Import(JooqConfiguration.class)
 public class DAOConfiguration {
+    private static final Logger LOGGER = LoggerFactory.getLogger(DAOConfiguration.class);
+
     @Bean
     public ProjectDaoDB projectDao(org.jooq.Configuration configuration) {
         return new ProjectDaoDB(configuration);

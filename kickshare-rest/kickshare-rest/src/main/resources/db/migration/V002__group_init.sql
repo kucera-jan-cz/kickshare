@@ -58,8 +58,23 @@ CREATE TABLE group_post (
 );
 
 CREATE TABLE backer_rating (
-    backer_id BIGSERIAL NOT NULL REFERENCES backer (id),
-    group_id BIGSERIAL NOT NULL REFERENCES "group" (id),
+    author_id BIGSERIAL NOT NULL REFERENCES backer (id),
+    group_id BIGSERIAL NOT NULL,
+    backer_id BIGSERIAL NOT NULL,
+
     rating SMALLINT NOT NULL,
-    is_leader BOOLEAN NOT NULL
+    message TEXT,
+    FOREIGN KEY (group_id, backer_id) REFERENCES backer_2_group (group_id, backer_id),
+    PRIMARY KEY (backer_id, group_id, author_id)
+);
+
+CREATE TABLE leader_rating (
+    author_id BIGSERIAL NOT NULL REFERENCES backer (id),
+    group_id BIGSERIAL NOT NULL,
+    leader_id BIGSERIAL NOT NULL,
+
+    rating SMALLINT NOT NULL,
+    message TEXT,
+    FOREIGN KEY (group_id, leader_id) REFERENCES backer_2_group (group_id, backer_id),
+    PRIMARY KEY (leader_id, group_id, author_id)
 );

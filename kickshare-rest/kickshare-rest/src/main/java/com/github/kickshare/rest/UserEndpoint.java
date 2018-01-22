@@ -2,6 +2,7 @@ package com.github.kickshare.rest;
 
 import static com.github.kickshare.mapper.EntityMapper.city;
 
+import java.util.Collections;
 import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
@@ -12,6 +13,7 @@ import com.github.kickshare.domain.Backer;
 import com.github.kickshare.domain.City;
 import com.github.kickshare.domain.Group;
 import com.github.kickshare.domain.Notification;
+import com.github.kickshare.domain.UserRating;
 import com.github.kickshare.rest.user.domain.UserInfo;
 import com.github.kickshare.security.BackerDetails;
 import com.github.kickshare.service.GroupServiceImpl;
@@ -47,6 +49,12 @@ public class UserEndpoint {
     private GroupServiceImpl groupService;
     private UserService userService;
     private CityRepository cityRepository;
+
+
+    @GetMapping("/{userId}/ratings")
+    public UserRating getUserRatings(@PathVariable final Long userId) {
+        return new UserRating(Collections.emptyList(), Collections.emptyList());
+    }
 
     @GetMapping("/{userId}/groups")
     public List<Group> getUserGroups(@PathVariable final Long userId) {
