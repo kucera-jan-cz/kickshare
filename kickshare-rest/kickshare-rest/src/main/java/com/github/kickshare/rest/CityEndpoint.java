@@ -2,15 +2,15 @@ package com.github.kickshare.rest;
 
 import static com.github.kickshare.mapper.EntityMapper.city;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
 import com.github.kickshare.db.dao.CityRepository;
 import com.github.kickshare.db.dao.KickshareRepository;
+import com.github.kickshare.db.jooq.tables.pojos.CityDB;
+import com.github.kickshare.db.query.LocationDB;
 import com.github.kickshare.domain.City;
-import com.github.kickshare.service.entity.Location;
 import lombok.AllArgsConstructor;
 import org.geojson.Feature;
 import org.geojson.FeatureCollection;
@@ -38,12 +38,12 @@ public class CityEndpoint {
     @RequestMapping(value = "/search/jsonp", produces = MediaType.APPLICATION_JSON_VALUE)
     public FeatureCollection getData(
             @RequestParam String callback,
-            @RequestParam Map<String, String> params) throws IOException {
-        Location leftBottom = new Location(
+            @RequestParam Map<String, String> params) {
+        LocationDB leftBottom = new LocationDB(
                 Float.parseFloat(params.get("sw_lat")),
                 Float.parseFloat(params.get("sw_lon"))
         );
-        Location rightTop = new Location(
+        LocationDB rightTop = new LocationDB(
                 Float.parseFloat(params.get("ne_lat")),
                 Float.parseFloat(params.get("ne_lon"))
         );
@@ -60,7 +60,7 @@ public class CityEndpoint {
         return city().toDomain(cityRepository.searchCitiesByName(name));
     }
 
-    public static Feature point(final City city) {
+    public static Feature point(final CityDB city) {
         Feature feature = new Feature();
         feature.setGeometry(new Point(city.getLon().floatValue(), city.getLat().floatValue()));
         feature.setProperty("name", city.getName());

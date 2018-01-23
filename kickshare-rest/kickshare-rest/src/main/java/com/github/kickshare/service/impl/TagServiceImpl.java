@@ -1,5 +1,7 @@
 package com.github.kickshare.service.impl;
 
+import static com.github.kickshare.mapper.EntityMapper.tag;
+
 import java.util.List;
 
 import com.github.kickshare.db.dao.TagRepository;
@@ -24,7 +26,7 @@ public class TagServiceImpl implements TagService {
 
     @Override
     public List<Tag> getTags(final int categoryId) {
-        return tagRepository.getTags(categoryId);
+        return tag().toDomain(tagRepository.getTags(categoryId));
     }
 
     @Override

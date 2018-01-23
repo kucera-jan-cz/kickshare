@@ -21,6 +21,7 @@ public class EntityMapper {
     private TagMapper tag;
     private CityMapper city;
     private NotificationMapper notification;
+    private SimpleMapper simple;
 
 
     public static AddressMapper address() {
@@ -57,6 +58,10 @@ public class EntityMapper {
 
     public static NotificationMapper notification() {
         return INSTANCE.notification;
+    }
+
+    public static SimpleMapper map() {
+        return INSTANCE.simple;
     }
 
     public static void setInstance(final EntityMapper instance) {

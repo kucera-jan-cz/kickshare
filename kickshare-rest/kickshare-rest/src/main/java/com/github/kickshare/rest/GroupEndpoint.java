@@ -1,5 +1,7 @@
 package com.github.kickshare.rest;
 
+import static com.github.kickshare.mapper.EntityMapper.map;
+
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
@@ -9,6 +11,7 @@ import javax.validation.Valid;
 
 import com.github.kickshare.db.dao.KickshareRepository;
 import com.github.kickshare.db.jooq.enums.GroupRequestStatusDB;
+import com.github.kickshare.db.pojos.CityGridDB;
 import com.github.kickshare.domain.Backer;
 import com.github.kickshare.domain.Group;
 import com.github.kickshare.domain.GroupDetail;
@@ -18,7 +21,6 @@ import com.github.kickshare.security.BackerDetails;
 import com.github.kickshare.security.permission.GroupMember;
 import com.github.kickshare.security.permission.GroupOwner;
 import com.github.kickshare.service.GroupServiceImpl;
-import com.github.kickshare.service.entity.CityGrid;
 import com.github.kickshare.service.entity.SearchOptions;
 import lombok.AllArgsConstructor;
 import org.apache.commons.lang3.RandomUtils;
@@ -90,7 +92,7 @@ public class GroupEndpoint {
             @RequestParam Map<String, String> params
     ) throws IOException {
         SearchOptions options = SearchOptions.toOptions(params);
-        final List<CityGrid> cityGrids = repository.searchCityGrid(options);
+        final List<CityGridDB> cityGrids = repository.searchCityGrid(map().toDB(options));
         FeatureCollection collection = new FeatureCollection();
         collection.addAll(cityGrids.stream().map(GroupEndpoint::point).collect(Collectors.toList()));
         return collection;
@@ -210,7 +212,7 @@ public class GroupEndpoint {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    public static Feature point(final CityGrid city) {
+    public static Feature point(final CityGridDB city) {
         Feature feature = new Feature();
         feature.setGeometry(new Point(city.getLocation().getLon(), city.getLocation().getLat()));
         feature.setProperty("type", city.getType().name());

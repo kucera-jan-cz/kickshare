@@ -24,11 +24,11 @@ public class TagRepositoryImpl extends AbstractRepository<TagRecordDB, TagDB, Sh
     }
 
     @Override
-    public List<com.github.kickshare.domain.Tag> getTags(final int categoryId) {
+    public List<TagDB> getTags(final int categoryId) {
         return dsl.select()
                 .from(TAG)
                 .join(TAG_2_CATEGORY).on(TAG.ID.eq(TAG_2_CATEGORY.TAG_ID))
                 .where(TAG_2_CATEGORY.CATEGORY_ID.eq(categoryId))
-                .fetchInto(com.github.kickshare.domain.Tag.class);
+                .fetchInto(TagDB.class);
     }
 }

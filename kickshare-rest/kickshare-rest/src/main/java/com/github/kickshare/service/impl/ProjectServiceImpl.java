@@ -2,6 +2,7 @@ package com.github.kickshare.service.impl;
 
 import static com.github.kickshare.db.jooq.Tables.CATEGORY;
 import static com.github.kickshare.db.jooq.Tables.PROJECT;
+import static com.github.kickshare.mapper.EntityMapper.map;
 import static com.github.kickshare.mapper.EntityMapper.photo;
 import static com.github.kickshare.mapper.EntityMapper.project;
 
@@ -61,7 +62,7 @@ public class ProjectServiceImpl implements ProjectService {
     @Transactional
     @Override
     public List<ProjectInfo> searchProjects(SearchOptions options) throws IOException {
-        final List<com.github.kickshare.db.jooq.tables.pojos.ProjectDB> projects = projectRepository.searchProjects(options);
+        final List<com.github.kickshare.db.jooq.tables.pojos.ProjectDB> projects = projectRepository.searchProjects(map().toDB(options));
         final List<ProjectInfo> infos = projects.stream().map(this::toProjectInfo).collect(Collectors.toList());
         return infos;
     }

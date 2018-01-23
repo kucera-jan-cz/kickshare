@@ -1,5 +1,8 @@
 package com.github.kickshare.mapper;
 
+import java.util.List;
+
+import com.github.kickshare.db.jooq.tables.pojos.TagDB;
 import com.github.kickshare.domain.Tag;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
@@ -12,7 +15,11 @@ import org.mapstruct.factory.Mappers;
 public interface TagMapper {
     TagMapper INSTANCE = Mappers.getMapper(TagMapper.class);
 
-    Tag toDomain(com.github.kickshare.db.jooq.tables.pojos.TagDB source);
+    Tag toDomain(TagDB source);
 
-    com.github.kickshare.db.jooq.tables.pojos.TagDB toDB(Tag source);
+    List<Tag> toDomain(List<TagDB> source);
+
+    TagDB toDB(Tag source);
+
+    List<TagDB> toDB(List<Tag> source);
 }

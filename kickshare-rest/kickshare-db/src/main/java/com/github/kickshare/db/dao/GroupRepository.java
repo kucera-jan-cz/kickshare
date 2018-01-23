@@ -6,8 +6,7 @@ import com.github.kickshare.db.jooq.tables.pojos.BackerDB;
 import com.github.kickshare.db.jooq.tables.pojos.GroupDB;
 import com.github.kickshare.db.jooq.tables.pojos.GroupPostDB;
 import com.github.kickshare.db.jooq.tables.records.GroupRecordDB;
-import com.github.kickshare.domain.GroupSummary;
-import com.github.kickshare.service.entity.SearchOptions;
+import com.github.kickshare.db.query.SearchOptionsDB;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -38,7 +37,5 @@ public interface GroupRepository extends EnhancedDAO<GroupRecordDB, GroupDB, Lon
 
     long getGroupPostCount(final Long groupId);
 
-    List<GroupDB> searchGroups(SearchOptions options);
-
-    List<GroupSummary> searchGroupDetails(SearchOptions options);
+    List<GroupDB> searchGroups(SearchOptionsDB options);
 }

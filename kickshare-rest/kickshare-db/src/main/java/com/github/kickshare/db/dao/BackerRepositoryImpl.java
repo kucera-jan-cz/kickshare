@@ -9,8 +9,8 @@ import static com.github.kickshare.db.jooq.Tables.GROUP;
 import com.github.kickshare.db.jooq.enums.GroupRequestStatusDB;
 import com.github.kickshare.db.jooq.tables.daos.BackerDaoDB;
 import com.github.kickshare.db.jooq.tables.pojos.BackerDB;
+import com.github.kickshare.db.jooq.tables.pojos.CityDB;
 import com.github.kickshare.db.jooq.tables.records.BackerRecordDB;
-import com.github.kickshare.domain.City;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,18 +29,18 @@ public class BackerRepositoryImpl extends AbstractRepository<BackerRecordDB, Bac
         super(dao);
     }
 
-    public City getPermanentAddress(Long backerId) {
-//        City city = this.dsl.select()
+    public CityDB getPermanentAddress(Long backerId) {
+//        CityDB city = this.dsl.select()
 //                .from(CITY)
 //                .join(BACKER_LOCATION).on(CITY.ID.eq(BACKER_LOCATION.CITY_ID))
 //                .where(BACKER_LOCATION.BACKER_ID.eq(backerId))
-//                .fetchOneInto(City.class);
+//                .fetchOneInto(CityDB.class);
 
-        City city = this.dsl.select()
+        CityDB city = this.dsl.select()
                 .from(CITY)
                 .join(ADDRESS).on(CITY.ID.eq(ADDRESS.CITY_ID))
                 .where(ADDRESS.BACKER_ID.eq(backerId))
-                .fetchOneInto(City.class);
+                .fetchOneInto(CityDB.class);
         LOGGER.info("Retrieved permanent city for backer ({}): {}", backerId, city);
         return city;
 

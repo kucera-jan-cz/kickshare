@@ -320,6 +320,45 @@
     </build>
     <profiles>
         <profile>
+            <id>DB</id>
+            <activation>
+                <property>
+                    <name>schema</name>
+                </property>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.flywaydb</groupId>
+                        <artifactId>flyway-maven-plugin</artifactId>
+                        <version>3.0</version>
+
+                        <!-- Note that we're executing the Flyway plugin in the "generate-sources" phase -->
+                        <executions>
+                            <execution>
+                                <phase>generate-sources</phase>
+                                <goals>
+                                    <goal>migrate</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                        <configuration>
+                            <url>${db.url}</url>
+                            <user>${db.username}</user>
+                            <schemas>
+                                <schema>${schema}</schema>
+                            </schemas>
+                            <locations>
+                                <location>filesystem:src/main/resources/db/migration</location>
+                                <location>filesystem:src/main/resources/db/${schema}/migration</location>
+                            </locations>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <!--@TODO - remove this plugin once confirmed that lombok can be build without flags -->
+        <profile>
             <id>Java 9</id>
             <activation>
                 <jdk>9</jdk>
