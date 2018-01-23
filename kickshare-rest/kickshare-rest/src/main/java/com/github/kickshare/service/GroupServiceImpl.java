@@ -5,6 +5,7 @@ import static com.github.kickshare.db.jooq.Tables.BACKER_2_GROUP;
 import static com.github.kickshare.db.jooq.Tables.GROUP;
 import static com.github.kickshare.mapper.EntityMapper.backer;
 import static com.github.kickshare.mapper.EntityMapper.group;
+import static com.github.kickshare.mapper.EntityMapper.map;
 import static org.jooq.impl.DSL.concat;
 import static org.jooq.impl.DSL.val;
 
@@ -23,11 +24,11 @@ import com.github.kickshare.db.jooq.tables.daos.CityDaoDB;
 import com.github.kickshare.db.jooq.tables.daos.LeaderDaoDB;
 import com.github.kickshare.db.jooq.tables.pojos.BackerRatingDB;
 import com.github.kickshare.db.jooq.tables.pojos.Backer_2GroupDB;
+import com.github.kickshare.db.jooq.tables.pojos.CityDB;
 import com.github.kickshare.db.jooq.tables.pojos.GroupPostDB;
 import com.github.kickshare.db.jooq.tables.pojos.LeaderRatingDB;
 import com.github.kickshare.db.multischema.SchemaContextHolder;
 import com.github.kickshare.domain.Backer;
-import com.github.kickshare.domain.City;
 import com.github.kickshare.domain.Group;
 import com.github.kickshare.domain.GroupDetail;
 import com.github.kickshare.domain.GroupSummary;
@@ -81,7 +82,7 @@ public class GroupServiceImpl {
 
     @Transactional
     public Long createGroup(Long projectId, String groupName, Long leaderId, boolean isLocal, Integer limit) {
-        City city = Validate.notNull(backerRepository.getPermanentAddress(leaderId), "Give leader ({0}) does not have permanent address", leaderId);
+        CityDB city = Validate.notNull(backerRepository.getPermanentAddress(leaderId), "Give leader ({0}) does not have permanent address", leaderId);
         Long groupId = groupRepository.createReturningKey(
                 new com.github.kickshare.db.jooq.tables.pojos.GroupDB(
                         null, leaderId, projectId, groupName, city.getId(), city.getLat(), city.getLon(), isLocal, limit)
@@ -162,7 +163,7 @@ public class GroupServiceImpl {
     @Transactional
     public List<GroupDetail> searchGroups(SearchOptions options) {
         //@TODO - implement this temporal properly
-        return groupRepository.searchGroups(options).stream()
+        return groupRepository.searchGroups(map().toDB(options)).stream()
                 .map(g -> getGroupDetail(g.getId()))
                 .collect(Collectors.toList());
     }

@@ -5,7 +5,7 @@ import java.util.List;
 
 import com.github.kickshare.db.jooq.tables.pojos.ProjectDB;
 import com.github.kickshare.db.jooq.tables.records.ProjectRecordDB;
-import com.github.kickshare.service.entity.SearchOptions;
+import com.github.kickshare.db.query.SearchOptionsDB;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -17,5 +17,5 @@ public interface ProjectRepository extends EnhancedDAO<ProjectRecordDB, ProjectD
 
     List<ProjectDB> findProjects();
 
-    List<ProjectDB> searchProjects(SearchOptions options) throws IOException;
+    List<ProjectDB> searchProjects(SearchOptionsDB options) throws IOException;
 }

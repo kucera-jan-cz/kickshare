@@ -3,12 +3,11 @@ package com.github.kickshare.db.dao;
 import java.io.IOException;
 import java.util.List;
 
+import com.github.kickshare.db.jooq.tables.pojos.CityDB;
 import com.github.kickshare.db.jooq.tables.pojos.GroupDB;
-import com.github.kickshare.domain.City;
-import com.github.kickshare.domain.ProjectInfo;
-import com.github.kickshare.service.entity.CityGrid;
-import com.github.kickshare.service.entity.Location;
-import com.github.kickshare.service.entity.SearchOptions;
+import com.github.kickshare.db.pojos.CityGridDB;
+import com.github.kickshare.db.query.LocationDB;
+import com.github.kickshare.db.query.SearchOptionsDB;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -27,13 +26,6 @@ public interface KickshareRepository {
      *  RESP: geo, local/global
      */
 
-    /** HEADER
-     * REQ: project_id
-     * RESP: name, deadline, photo_url, url, [tags]
-     */
-
-    void saveProjects(final List<ProjectInfo> projects);
-
     //DASHBOARD
     /** COMBOBOX CATEGORY
      *  REQ: {}
@@ -51,10 +43,10 @@ public interface KickshareRepository {
      *  RESP: Name, photo_url, url, project_id
      */
 
-    List<City> findCitiesWithing(Location ne, Location sw);
+    List<CityDB> findCitiesWithing(LocationDB ne, LocationDB sw);
 
-    List<GroupDB> searchGroups(SearchOptions options);
+    List<GroupDB> searchGroups(SearchOptionsDB options);
 
-    List<CityGrid> searchCityGrid(SearchOptions options) throws IOException;
+    List<CityGridDB> searchCityGrid(SearchOptionsDB options) throws IOException;
 
 }

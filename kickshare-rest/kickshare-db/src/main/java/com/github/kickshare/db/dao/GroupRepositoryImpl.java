@@ -4,8 +4,6 @@ import static com.github.kickshare.db.jooq.Tables.BACKER;
 import static com.github.kickshare.db.jooq.Tables.BACKER_2_GROUP;
 import static com.github.kickshare.db.jooq.Tables.GROUP;
 import static com.github.kickshare.db.jooq.Tables.GROUP_POST;
-import static com.github.kickshare.db.jooq.Tables.PROJECT;
-import static com.github.kickshare.db.jooq.Tables.PROJECT_PHOTO;
 
 import java.util.List;
 
@@ -16,11 +14,8 @@ import com.github.kickshare.db.jooq.tables.pojos.GroupPostDB;
 import com.github.kickshare.db.jooq.tables.pojos.ProjectDB;
 import com.github.kickshare.db.jooq.tables.records.GroupRecordDB;
 import com.github.kickshare.db.query.GroupQueryBuilder;
-import com.github.kickshare.domain.GroupSummary;
-import com.github.kickshare.service.entity.SearchOptions;
+import com.github.kickshare.db.query.SearchOptionsDB;
 import org.jooq.Configuration;
-import org.jooq.Record;
-import org.jooq.RecordMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -89,7 +84,7 @@ public class GroupRepositoryImpl extends AbstractRepository<GroupRecordDB, Group
     }
 
     @Override
-    public List<GroupDB> searchGroups(SearchOptions options) {
+    public List<GroupDB> searchGroups(SearchOptionsDB options) {
         List<com.github.kickshare.db.jooq.tables.pojos.GroupDB> groups = dsl.select()
                 .from(GROUP)
                 //@TODO - decide whether we need filter through category
@@ -99,23 +94,23 @@ public class GroupRepositoryImpl extends AbstractRepository<GroupRecordDB, Group
         return groups;
     }
 
-    @Override
-    public List<GroupSummary> searchGroupDetails(SearchOptions options) {
-        RecordMapper<Record, GroupSummary> mapper = (record -> {
-            GroupSummary summary = new GroupSummary();
-//            record.into()
-            return null;
-        });
-        List<GroupSummary> groups = dsl.select()
-                .from(GROUP)
-                .join(PROJECT).on(GROUP.PROJECT_ID.eq(PROJECT.ID))
-                .join(PROJECT_PHOTO).on(PROJECT_PHOTO.PROJECT_ID.eq(PROJECT.ID))
-                .join(BACKER).on(GROUP.LEADER_ID.eq(BACKER.ID))
-                //@TODO - decide whether we need filter through category
-                .where(groupQuery.apply(options))
-                .fetch(mapper);
-        return groups;
-    }
+//    @Override
+//    public List<GroupSummary> searchGroupDetails(SearchOptions options) {
+//        RecordMapper<Record, GroupSummary> mapper = (record -> {
+//            GroupSummary summary = new GroupSummary();
+////            record.into()
+//            return null;
+//        });
+//        List<GroupSummary> groups = dsl.select()
+//                .from(GROUP)
+//                .join(PROJECT).on(GROUP.PROJECT_ID.eq(PROJECT.ID))
+//                .join(PROJECT_PHOTO).on(PROJECT_PHOTO.PROJECT_ID.eq(PROJECT.ID))
+//                .join(BACKER).on(GROUP.LEADER_ID.eq(BACKER.ID))
+//                //@TODO - decide whether we need filter through category
+//                .where(groupQuery.apply(options))
+//                .fetch(mapper);
+//        return groups;
+//    }
 
 //    @Override
 //    public GroupSummary getGroupInfo(final Long groupId) {

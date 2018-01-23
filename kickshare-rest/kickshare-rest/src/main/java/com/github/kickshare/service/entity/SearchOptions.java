@@ -5,6 +5,7 @@ import java.util.Map;
 import lombok.Builder;
 import lombok.Data;
 
+//@TODO - move this to domain
 /**
  * @author Jan.Kucera
  * @since 3.4.2017
@@ -13,8 +14,6 @@ import lombok.Data;
 @Builder
 public class SearchOptions {
     private Boolean searchLocalOnly;
-    @Deprecated //Will be used projectId
-    private String projectName;
     private Integer categoryId;
     private Long projectId;
     private GeoBoundary geoBoundary;
@@ -23,7 +22,6 @@ public class SearchOptions {
     public static SearchOptions toOptions(Map<String, String> params) {
         SearchOptions.SearchOptionsBuilder builder = SearchOptions.builder();
         builder.searchLocalOnly(Boolean.valueOf(params.get("only_local")));
-        builder.projectName(params.get("name"));
         //@TODO - change to required value once UI and BE will work
         builder.categoryId(Integer.valueOf(params.getOrDefault("category_id", "34")));
         builder.projectId(Long.valueOf(params.getOrDefault("project_id", "-1")));

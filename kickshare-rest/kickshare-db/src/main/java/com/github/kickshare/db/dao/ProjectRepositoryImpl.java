@@ -10,7 +10,7 @@ import com.github.kickshare.db.jooq.tables.daos.ProjectDaoDB;
 import com.github.kickshare.db.jooq.tables.pojos.ProjectDB;
 import com.github.kickshare.db.jooq.tables.records.ProjectRecordDB;
 import com.github.kickshare.db.query.GroupQueryBuilder;
-import com.github.kickshare.service.entity.SearchOptions;
+import com.github.kickshare.db.query.SearchOptionsDB;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -32,7 +32,7 @@ public class ProjectRepositoryImpl extends AbstractRepository<ProjectRecordDB, P
         return dao.findAll();
     }
 
-    public List<ProjectDB> searchProjects(SearchOptions options) {
+    public List<ProjectDB> searchProjects(SearchOptionsDB options) {
         final Integer categoryId = options.getCategoryId();
         final List<ProjectDB> projects = dsl.select(PROJECT.fields())
                 .from(PROJECT)
