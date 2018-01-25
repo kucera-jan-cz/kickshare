@@ -1,10 +1,12 @@
-package com.github.kickshare.db.dao;
+package com.github.kickshare.db.dao.impl;
 
 import static com.github.kickshare.db.jooq.Tables.BACKER_LOCATION;
 import static com.github.kickshare.db.jooq.Tables.CITY;
 
 import java.util.List;
 
+import com.github.kickshare.db.dao.CityRepository;
+import com.github.kickshare.db.dao.common.AbstractRepository;
 import com.github.kickshare.db.jooq.tables.pojos.CityDB;
 import com.github.kickshare.db.jooq.tables.records.CityRecordDB;
 import org.jooq.DAO;

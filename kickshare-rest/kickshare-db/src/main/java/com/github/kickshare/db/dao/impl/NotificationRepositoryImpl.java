@@ -1,9 +1,10 @@
-package com.github.kickshare.db.dao;
+package com.github.kickshare.db.dao.impl;
 
 import static com.github.kickshare.db.jooq.Tables.NOTIFICATION;
 
 import java.util.List;
 
+import com.github.kickshare.db.dao.NotificationRepository;
 import com.github.kickshare.db.jooq.tables.pojos.NotificationDB;
 import lombok.AllArgsConstructor;
 import org.jooq.DSLContext;

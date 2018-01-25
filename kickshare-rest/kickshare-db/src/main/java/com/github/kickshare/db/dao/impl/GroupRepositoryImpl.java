@@ -1,4 +1,4 @@
-package com.github.kickshare.db.dao;
+package com.github.kickshare.db.dao.impl;
 
 import static com.github.kickshare.db.jooq.Tables.BACKER;
 import static com.github.kickshare.db.jooq.Tables.BACKER_2_GROUP;
@@ -7,6 +7,8 @@ import static com.github.kickshare.db.jooq.Tables.GROUP_POST;
 
 import java.util.List;
 
+import com.github.kickshare.db.dao.GroupRepository;
+import com.github.kickshare.db.dao.common.AbstractRepository;
 import com.github.kickshare.db.jooq.enums.GroupRequestStatusDB;
 import com.github.kickshare.db.jooq.tables.daos.GroupDaoDB;
 import com.github.kickshare.db.jooq.tables.pojos.GroupDB;

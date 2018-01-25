@@ -1,4 +1,4 @@
-package com.github.kickshare.db.dao;
+package com.github.kickshare.db.dao.impl;
 
 import static com.github.kickshare.db.jooq.Tables.CATEGORY;
 import static com.github.kickshare.db.jooq.Tables.CITY;
@@ -10,6 +10,7 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.function.Function;
 
+import com.github.kickshare.db.dao.KickshareRepository;
 import com.github.kickshare.db.jooq.tables.pojos.CityDB;
 import com.github.kickshare.db.jooq.tables.pojos.GroupDB;
 import com.github.kickshare.db.pojos.CityGridDB;

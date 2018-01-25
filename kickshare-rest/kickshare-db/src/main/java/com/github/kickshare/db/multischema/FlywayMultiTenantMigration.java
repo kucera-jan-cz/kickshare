@@ -12,7 +12,6 @@ import org.apache.commons.lang3.ArrayUtils;
 import org.flywaydb.core.Flyway;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.boot.autoconfigure.flyway.FlywayProperties;
 import org.springframework.core.io.ResourceLoader;
 
 /**
@@ -25,7 +24,6 @@ public class FlywayMultiTenantMigration {
     private Supplier<Flyway> flywaySupplier;
     private ResourceLoader resourceLoader;
     private List<String> schemas;
-    private FlywayProperties properties;
     private Boolean parallel;
 
     @PostConstruct
@@ -44,9 +42,9 @@ public class FlywayMultiTenantMigration {
         flyway.setSchemas(schema);
         String schemaSpecificLocation = MessageFormat.format("classpath:db/{0}/migration", schema.toLowerCase());
         if (resourceLoader.getResource(schemaSpecificLocation).exists()) {
-            flyway.setLocations(ArrayUtils.add(properties.getLocations().toArray(new String[0]), schemaSpecificLocation));
+            flyway.setLocations(ArrayUtils.add(flyway.getLocations(), schemaSpecificLocation));
         } else {
-            flyway.setLocations(properties.getLocations().toArray(new String[0]));
+            LOGGER.debug("Using default locations: {}", flyway.getLocations());
         }
         flyway.migrate();
     }

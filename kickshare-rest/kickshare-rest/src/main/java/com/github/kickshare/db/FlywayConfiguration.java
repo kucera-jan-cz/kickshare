@@ -43,6 +43,6 @@ public class FlywayConfiguration {
             @Autowired FlywayProperties properties,
             @Value("${kickshare.flyway.schemas}") String schemas,
             @Value("${kickshare.flyway.parallel}") Boolean parallel) {
-        return new FlywayMultiTenantMigration(flyway, resourceLoader, Arrays.asList(schemas.split(",")), properties, parallel);
+        return new FlywayMultiTenantMigration(flyway, resourceLoader, Arrays.asList(schemas.split(",")), parallel);
     }
 }

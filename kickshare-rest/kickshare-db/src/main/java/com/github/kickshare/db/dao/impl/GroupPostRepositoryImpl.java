@@ -1,9 +1,11 @@
-package com.github.kickshare.db.dao;
+package com.github.kickshare.db.dao.impl;
 
 import static com.github.kickshare.db.jooq.Tables.GROUP_POST;
 
 import java.sql.Timestamp;
 
+import com.github.kickshare.db.dao.GroupPostRepository;
+import com.github.kickshare.db.dao.common.AbstractRepository;
 import com.github.kickshare.db.jooq.tables.daos.GroupPostDaoDB;
 import com.github.kickshare.db.jooq.tables.pojos.GroupPostDB;
 import com.github.kickshare.db.jooq.tables.records.GroupPostRecordDB;

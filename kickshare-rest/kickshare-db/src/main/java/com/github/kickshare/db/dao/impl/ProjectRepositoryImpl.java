@@ -1,4 +1,4 @@
-package com.github.kickshare.db.dao;
+package com.github.kickshare.db.dao.impl;
 
 import static com.github.kickshare.db.jooq.Tables.CATEGORY;
 import static com.github.kickshare.db.jooq.Tables.GROUP;
@@ -6,6 +6,8 @@ import static com.github.kickshare.db.jooq.Tables.PROJECT;
 
 import java.util.List;
 
+import com.github.kickshare.db.dao.ProjectRepository;
+import com.github.kickshare.db.dao.common.AbstractRepository;
 import com.github.kickshare.db.jooq.tables.daos.ProjectDaoDB;
 import com.github.kickshare.db.jooq.tables.pojos.ProjectDB;
 import com.github.kickshare.db.jooq.tables.records.ProjectRecordDB;

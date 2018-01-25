@@ -1,7 +1,9 @@
-package com.github.kickshare.db.dao;
+package com.github.kickshare.db.dao.impl;
 
 import static com.github.kickshare.db.jooq.Tables.USERS;
 
+import com.github.kickshare.db.dao.UserRepository;
+import com.github.kickshare.db.dao.common.AbstractRepository;
 import com.github.kickshare.db.jooq.tables.daos.UsersDaoDB;
 import com.github.kickshare.db.jooq.tables.pojos.UsersDB;
 import com.github.kickshare.db.jooq.tables.records.UsersRecordDB;

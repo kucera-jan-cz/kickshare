@@ -1,4 +1,4 @@
-package com.github.kickshare.db.dao;
+package com.github.kickshare.db.dao.common;
 
 import org.jooq.DAO;
 import org.jooq.TableRecord;

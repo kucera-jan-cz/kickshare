@@ -1,10 +1,12 @@
-package com.github.kickshare.db.dao;
+package com.github.kickshare.db.dao.impl;
 
 import static com.github.kickshare.db.jooq.Tables.TAG;
 import static com.github.kickshare.db.jooq.Tables.TAG_2_CATEGORY;
 
 import java.util.List;
 
+import com.github.kickshare.db.dao.TagRepository;
+import com.github.kickshare.db.dao.common.AbstractRepository;
 import com.github.kickshare.db.jooq.tables.daos.TagDaoDB;
 import com.github.kickshare.db.jooq.tables.pojos.TagDB;
 import com.github.kickshare.db.jooq.tables.records.TagRecordDB;
