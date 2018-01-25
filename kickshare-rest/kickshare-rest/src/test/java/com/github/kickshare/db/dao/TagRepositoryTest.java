@@ -4,6 +4,7 @@ import static org.testng.Assert.assertNotNull;
 
 import java.sql.SQLException;
 
+import com.github.kickshare.db.dao.impl.TagRepositoryImpl;
 import com.github.kickshare.db.jooq.tables.daos.TagDaoDB;
 import com.github.kickshare.db.jooq.tables.pojos.TagDB;
 import com.github.kickshare.db.jooq.tables.records.TagRecordDB;

@@ -4,6 +4,7 @@ import static org.testng.Assert.assertNotNull;
 
 import java.sql.SQLException;
 
+import com.github.kickshare.db.dao.impl.GroupRepositoryImpl;
 import com.github.kickshare.db.jooq.tables.daos.GroupDaoDB;
 import com.github.kickshare.db.jooq.tables.pojos.GroupDB;
 import org.jooq.DSLContext;
@@ -28,7 +29,7 @@ public class GroupRepositoryTest {
     }
 
     @Test(enabled = false)
-    public void load() throws SQLException {
+    public void load() {
 //        GroupRepositoryImpl repository = new GroupRepositoryImpl(dsl);
 //        Group group = repository.findOne(1L);
         GroupDaoDB dao = new GroupDaoDB(dsl.configuration());
@@ -37,7 +38,7 @@ public class GroupRepositoryTest {
 
 
     @Test(enabled = false)
-    public void create() throws SQLException {
+    public void create() {
 //        GroupRepositoryImpl repository = new GroupRepositoryImpl();
         GroupRepositoryImpl repository = new GroupRepositoryImpl(dsl.configuration());
         GroupDB group = new GroupDB();

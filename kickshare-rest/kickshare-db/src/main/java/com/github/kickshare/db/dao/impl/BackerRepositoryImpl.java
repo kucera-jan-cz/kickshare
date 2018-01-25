@@ -1,4 +1,4 @@
-package com.github.kickshare.db.dao;
+package com.github.kickshare.db.dao.impl;
 
 import static com.github.kickshare.db.jooq.Tables.ADDRESS;
 import static com.github.kickshare.db.jooq.Tables.BACKER;
@@ -6,6 +6,8 @@ import static com.github.kickshare.db.jooq.Tables.BACKER_2_GROUP;
 import static com.github.kickshare.db.jooq.Tables.CITY;
 import static com.github.kickshare.db.jooq.Tables.GROUP;
 
+import com.github.kickshare.db.dao.BackerRepository;
+import com.github.kickshare.db.dao.common.AbstractRepository;
 import com.github.kickshare.db.jooq.enums.GroupRequestStatusDB;
 import com.github.kickshare.db.jooq.tables.daos.BackerDaoDB;
 import com.github.kickshare.db.jooq.tables.pojos.BackerDB;

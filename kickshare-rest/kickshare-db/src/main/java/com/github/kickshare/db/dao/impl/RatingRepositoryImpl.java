@@ -1,8 +1,9 @@
-package com.github.kickshare.db.dao;
+package com.github.kickshare.db.dao.impl;
 
 import static com.github.kickshare.db.jooq.Tables.BACKER_RATING;
 import static com.github.kickshare.db.jooq.Tables.LEADER_RATING;
 
+import com.github.kickshare.db.dao.RatingRepository;
 import com.github.kickshare.db.jooq.tables.pojos.BackerRatingDB;
 import com.github.kickshare.db.jooq.tables.pojos.LeaderRatingDB;
 import lombok.AllArgsConstructor;

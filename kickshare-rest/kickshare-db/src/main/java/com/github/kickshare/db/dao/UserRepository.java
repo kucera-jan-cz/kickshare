@@ -1,5 +1,6 @@
 package com.github.kickshare.db.dao;
 
+import com.github.kickshare.db.dao.common.EnhancedDAO;
 import com.github.kickshare.db.jooq.tables.pojos.UsersDB;
 import com.github.kickshare.db.jooq.tables.records.UsersRecordDB;
 

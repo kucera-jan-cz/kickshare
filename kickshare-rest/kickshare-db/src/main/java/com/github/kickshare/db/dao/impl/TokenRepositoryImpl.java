@@ -1,5 +1,7 @@
-package com.github.kickshare.db.dao;
+package com.github.kickshare.db.dao.impl;
 
+import com.github.kickshare.db.dao.TokenRepository;
+import com.github.kickshare.db.dao.common.AbstractRepository;
 import com.github.kickshare.db.jooq.tables.daos.TokenRequestDaoDB;
 import com.github.kickshare.db.jooq.tables.pojos.TokenRequestDB;
 import com.github.kickshare.db.jooq.tables.records.TokenRequestRecordDB;

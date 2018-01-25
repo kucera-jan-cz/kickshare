@@ -4,7 +4,7 @@ import static com.github.kickshare.mapper.EntityMapper.address;
 import static com.github.kickshare.mapper.EntityMapper.backer;
 
 import com.github.kickshare.db.dao.BackerRepository;
-import com.github.kickshare.db.dao.UserRepositoryImpl;
+import com.github.kickshare.db.dao.impl.UserRepositoryImpl;
 import com.github.kickshare.db.jooq.tables.daos.AddressDaoDB;
 import com.github.kickshare.db.jooq.tables.daos.CityDaoDB;
 import com.github.kickshare.db.jooq.tables.pojos.CityDB;
