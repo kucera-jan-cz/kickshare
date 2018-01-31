@@ -8,6 +8,7 @@ import {BehaviorSubject} from "rxjs/BehaviorSubject";
 import {AsyncSubject} from "rxjs/AsyncSubject";
 import {CountryConstants} from "../constants/country.constants";
 import {Router} from "@angular/router";
+import {environment} from "../../environments/environment";
 
 /**
  * Created by KuceraJan on 2.5.2017.
@@ -55,7 +56,11 @@ export class SystemService {
     }
 
     public getCountry(): string {
-        return this.countryCode || this.router.routerState.snapshot.url.substr(1,3).toUpperCase();
+        const country = this.countryCode || this.router.routerState.snapshot.url.substr(1, 3).toUpperCase();
+        if (country == null || country.length != 2) {
+            throw new Error("Country code is not yet resolved: " + country);
+        }
+        return country;
     }
 
     get current_lat(): number {
@@ -71,7 +76,7 @@ export class SystemService {
     }
 
     public static initializeGoogleMaps() {
-        if (SystemService.initialized) {
+        if (SystemService.initialized || !environment.google_maps_enabled) {
             return;
         }
         try {

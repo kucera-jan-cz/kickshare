@@ -6,6 +6,8 @@ import {UserService} from "../../services/user.service";
 import {Notification} from "../../services/domain";
 import {AuthHttp} from "../../services/auth-http.service";
 import {SystemService} from "../../services/system.service";
+import {UrlService} from "../../services/url.service";
+import {Subscription} from "rxjs/Rx";
 
 @Component({
     selector: 'application-header',
@@ -16,15 +18,16 @@ export class HeaderComponent implements OnInit, OnDestroy {
     displayNotification: boolean = false;
     @Input() isNavbarCollapsed: boolean;
     @Output() toggleEvent: EventEmitter<boolean> = new EventEmitter();
+    private routerSubscription: Subscription;
     private timer: Observable<number>;
     private alive: boolean = true;
     private notifications: Notification[] = [];
     country: string;
     backerId: number;
 
-    constructor(private userService: UserService, private authHttp: AuthHttp, public router: Router, private system: SystemService) {
+    constructor(private userService: UserService, private authHttp: AuthHttp, public router: Router, private system: SystemService, public url: UrlService) {
         this.timer = Observable.timer(0, 5000);
-        this.router.events.subscribe((val) => {
+        this.routerSubscription = this.router.events.subscribe((val) => {
             if (val instanceof NavigationEnd && window.innerWidth <= 992) {
                 this.toggleSidebar();
             }
@@ -43,6 +46,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy(): void {
+        this.routerSubscription.unsubscribe();
         this.alive = false;
     }
 

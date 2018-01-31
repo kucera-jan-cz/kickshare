@@ -1,9 +1,9 @@
 import {Component} from '@angular/core';
 import {Country} from "../../services/domain";
-import {CountryService} from "../../services/country.service";
 import {Router} from "@angular/router";
 import {LoggerFactory} from "../../components/logger/loggerFactory.component";
 import {CountryConstants} from "../../constants/country.constants";
+import {UrlService} from "../../services/url.service";
 
 @Component({
     selector: 'app-landing-page',
@@ -16,7 +16,7 @@ export class LandingPageComponent {
     selectedCountry: Country = this.countries[0];
     rememberCountry: boolean = false;
 
-    constructor(private router: Router, private countryService: CountryService) {
+    constructor(private router: Router, private url: UrlService) {
         const code = window.localStorage.getItem(CountryConstants.COUNTRY_LOCAL_STORAGE);
         if (code) {
             this.logger.debug("Using local storage({0}) and redirecting", code);
@@ -35,9 +35,8 @@ export class LandingPageComponent {
     }
 
     private redirect(countryCode: string) {
-        const code = countryCode.toLowerCase();
-        const landingUrl = `/${code}/dashboard`;
-        this.router.navigateByUrl(landingUrl);
+        const url = this.url.landingPageUrl(countryCode.toLowerCase());
+        this.router.navigateByUrl(url);
     }
 }
 

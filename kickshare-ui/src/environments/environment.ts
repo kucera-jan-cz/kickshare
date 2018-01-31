@@ -5,6 +5,8 @@
 
 export const environment = {
     production: false,
+    landing_page: "/{0}/group/1",
+    google_maps_enabled: true,
     loggers: 'services:*,components:*,pages:*',
     root: 'DEBUG',
     error_info: '',
@@ -13,5 +15,4 @@ export const environment = {
     debug_info: 'components:group:members,services:group,component:landing-page',
     trace_info: 'services:country:guard,services:system',
     off_info: ''
-
 };
