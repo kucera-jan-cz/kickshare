@@ -9,6 +9,7 @@ import {Observable} from "rxjs/Observable";
 import {SystemService} from "./system.service";
 import {CountryConstants} from "../constants/country.constants";
 import {Country} from "./domain";
+import {UrlService} from "./url.service";
 
 @Injectable()
 export class CountryGuardService implements CanActivateChild, CanActivate {
@@ -16,7 +17,7 @@ export class CountryGuardService implements CanActivateChild, CanActivate {
     private countrySubject: Subject<Country> = new Subject();
     private countryObservable: Observable<Country>;
 
-    constructor(private router: Router, private systemService: SystemService) {
+    constructor(private router: Router, private systemService: SystemService, private url: UrlService) {
         this.logger.debug("Initializing Country Guard Service");
         this.countryObservable = this.countrySubject.distinctUntilChanged();
         this.countryObservable.subscribe(country => {
@@ -34,8 +35,7 @@ export class CountryGuardService implements CanActivateChild, CanActivate {
             this.logger.debug("Initializing {0}", code);
             //Navigate directly to dashboard since user chose permanently country
             this.validateAndInitialize(code);
-            const country = code.toLowerCase();
-            const url = `/${country}/dashboard`;
+            const url = this.url.landingPageUrl(code.toLowerCase());
             this.router.navigateByUrl(url);
             return false;
         } else {

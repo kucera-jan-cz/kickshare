@@ -9,8 +9,8 @@ import {CountryGuardService} from "./services/country-guard.service";
 import {LandingPageComponent} from "./pages/landing-page/landing-page.component";
 import {LandingPageModule} from "./pages/landing-page/landing-page.module";
 
-
 const routes: Routes = [
+            {path: '', redirectTo: 'dashboard', pathMatch: 'full'},
             {path: 'dashboard', loadChildren: './pages/dashboard/dashboard.module#DashboardModule'},
             {path: 'blank-page', loadChildren: './pages/blank-page/blank-page.module#BlankPageModule'},
             {path: 'account/group', loadChildren: './pages/group_register/groupRegistration.module#GroupRegistrationModule', canActivate: [AuthGuardService]},
