@@ -40,4 +40,12 @@ export class UrlService {
             return this.EMPTY;
         }
     }
+
+    public login(): string {
+        return `/${this.country}/login`;
+    }
+
+    public register(): string {
+        return `/${this.country}/sign-in`;
+    }
 }

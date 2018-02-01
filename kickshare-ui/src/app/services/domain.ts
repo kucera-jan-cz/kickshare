@@ -61,15 +61,19 @@ export interface GroupSummary {
     leader: Backer
 }
 
-export interface Backer {
-    id: number,
-    name: string,
-    surname: string,
-    email: string,
-    leader_rating: number
-    backer_rating: number
-    city: string,
-    address: Address
+export class Backer {
+    id: number;
+    name: string;
+    surname: string;
+    email: string;
+    leader_rating: number;
+    backer_rating: number;
+    city: string;
+    address: Address;
+
+    get fullname() {
+        return `${this.name} ${this.surname}`;
+    }
 }
 
 export interface Address {
@@ -82,12 +86,47 @@ export interface Address {
 export class Post {
     constructor(postId: number,
                 groupId: number,
-                backerId: number,
+                public backerId: number,
                 postCreated: Date,
                 public postModified: Date,
                 postEditCount: number,
                 public postText: string) {
     }
+}
+
+export class MessagePost {
+    public postId: number;
+    public author: string;
+    public backerId: number;
+    public postCreated: Date;
+    public postModified: Date;
+    public postText: string;
+}
+
+export class PageRequest {
+    constructor(public page: number, public size: number = 10, public seek: string = "1") {
+    }
+
+    toParams(): string {
+        return `size=${this.size}&page=${this.page}&seek=${this.seek}`
+    }
+}
+
+export class Page {
+    totalPages: number;
+    totalElements: number;
+    last: boolean;
+    size: number;
+    number: number;
+    numberOfElements: number;
+    first: boolean;
+}
+
+export class Pageable<T> extends Page {
+    content: Array<T>;
+    seek: string;
+
+
 }
 
 export class Tag {
