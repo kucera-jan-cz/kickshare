@@ -4,6 +4,7 @@ import {AbstractControl, FormBuilder, FormGroup, Validators} from "@angular/form
 import {ActivatedRoute, Router} from "@angular/router";
 import {AuthHttp} from "../../services/auth-http.service";
 import {LoggerFactory} from "../../components/logger/loggerFactory.component";
+import {UrlService} from "../../services/url.service";
 
 declare var $: any;
 
@@ -19,7 +20,7 @@ export class LoginComponent {
     public password: AbstractControl;
     public submitted: boolean = false;
 
-    model: any = {}
+    model: any = {};
     public username: string;
     // public password: string;
     loading = false;
@@ -27,6 +28,7 @@ export class LoginComponent {
     constructor(private route: ActivatedRoute,
                 private router: Router,
                 private authenticationService: AuthHttp,
+                public url: UrlService,
                 private fb: FormBuilder) {
         this.form = fb.group({
             'email': ['', Validators.compose([Validators.required, Validators.email])],
