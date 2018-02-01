@@ -2,7 +2,7 @@
     <div class="row">
         <div class="col-md-8">
             <div class="row">
-                <h4><a class="text-info" href="{{ project?.url }}">{{ project?.name }}</a></h4>
+                <h4><a href="{{ project?.url }}">{{ project?.name }}</a></h4>
             </div>
             <div class="row">
                 <h5>Deadline: {{ project?.deadline | date}}</h5>
@@ -29,7 +29,7 @@
                 <tbody>
                 <tr *ngFor="let item of groups" class="no-top-border">
                     <td class="align-left">
-                        <a class="text-info" [routerLink]="[url.group(item.id)]"> {{item.name}} - {{item.id}}</a>
+                        <a [routerLink]="[url.group(item.id)]"> {{item.name}} - {{item.id}}</a>
                     </td>
                     <td class="align-left">{{item.leader_name}}</td>
                     <td>
