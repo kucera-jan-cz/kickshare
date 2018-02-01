@@ -16,7 +16,7 @@ import {Subscription} from "rxjs/Rx";
 })
 export class HeaderComponent implements OnInit, OnDestroy {
     displayNotification: boolean = false;
-    @Input() isNavbarCollapsed: boolean;
+    @Input() sidebarCollapsed: boolean;
     @Output() toggleEvent: EventEmitter<boolean> = new EventEmitter();
     private routerSubscription: Subscription;
     private timer: Observable<number>;
@@ -64,8 +64,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
     toggleSidebar() {
         const dom: any = document.querySelector('body');
         dom.classList.toggle('left-sidebar');
-        this.isNavbarCollapsed = !this.isNavbarCollapsed;
-        this.toggleEvent.next(this.isNavbarCollapsed);
+        this.sidebarCollapsed = !this.sidebarCollapsed;
+        this.toggleEvent.next(this.sidebarCollapsed);
     }
 
     onLoggedout() {

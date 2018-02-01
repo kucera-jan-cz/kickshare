@@ -1,11 +1,12 @@
-$topnav-background-color: #282828;
 :host {
-    background-color: $topnav-background-color;
     width: 100%;
     height: 100%;
 }
 #header {
-    background-color: #282828;
+    background-color: #444;
+    box-shadow: 0 1px 13px -1px #999999;
+    max-height: 60px;
+    height: 60px;
     a {
         text-decoration: none;
         color: #dddddd;
@@ -18,9 +19,10 @@ $topnav-background-color: #282828;
 #logo {
     display: block;
     max-width: 70%;
-    min-width: 56px;
-    min-height: 40px;
-    height: auto;
+
+    a img {
+        height: 50px;
+    }
 }
 
 #side_bar_toggle_area {
@@ -28,7 +30,6 @@ $topnav-background-color: #282828;
 }
 
 #side_bar_toggle {
-    background-color: $topnav-background-color;
     box-shadow: 0px 0px 0px #dddddd;
     i {color: #dddddd;
         border-color: #dddddd;
@@ -47,6 +48,10 @@ button.btn-link:hover {
     left: 50%;
     width: 70%;
     transform: translate(-50%, 0%);
+}
+
+.dropdown-menu {
+    top: 45px;
 }
 
 .alert {

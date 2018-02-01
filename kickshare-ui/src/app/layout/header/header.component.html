@@ -11,25 +11,24 @@
         <strong>Warning!</strong> With great power comes great responsibility. ({{backerId}})
     </div>
     <div id="header" class="container-fluid p-0">
-        <div class="row align-items-center w-100">
+        <div class="row align-items-center w-100 h-100">
             <div class="col-auto col-xs-auto" id="side_bar_toggle_area">
                 <a id="side_bar_toggle" class="nav-link" href="javascript:void(0)" (click)="toggleSidebar()">
                     <i class="fa fa-bars fa-border" aria-hidden="true"></i>
                 </a>
             </div>
-            <div id="logo" class="hidden-sm-down col-md-7">
-                <a class="navbar-brand" [routerLink]="[url.landingPageUrl()]">
-                    <img class="d-inline-block align-top" src="/assets/icon/kickshare_logo_white_green.png">
+            <div id="logo" class="hidden-sm-down col-md-7  py-1">
+                <a class="" [routerLink]="[url.landingPageUrl()]">
+                    <img class="img-fluid" src="/assets/icon/kickshare_logo_white_green.png">
                 </a>
             </div>
-            <div class="col-10 col-xs-10 col-md-4 p-1 text-right pull-right">
-
-                <ul class="nav pull-right">
+            <div class="col-10 col-xs-10 col-md-4 p-0 h-100 text-right pull-right">
+                <ul class="nav pull-right h-100">
                     <div ngbDropdown placement="bottom-right">
-                        <button class="btn btn-link text-white" id="env-dropdown" ngbDropdownToggle>
-                            <span class="fa fa-envelope fa-inverse fa-2x"></span>
+                        <button class="btn btn-link text-white h-100" id="env-dropdown" ngbDropdownToggle>
+                            <span class="fa fa-envelope fa-inverse fa-lg"></span>
                         </button>
-                        <div ngbDropdownMenu aria-labelledby="env-dropdown">
+                        <div ngbDropdownMenu aria-labelledby="env-dropdown" class="mt-0">
                             <div class="media-body dropdown-item">
                                 <h5 class="mt-0 mb-1">Stan Lee</h5>
                                 <p class="small text-muted"><i class="fa fa-clock-o"></i> Yesterday at 4:32 PM</p>
@@ -43,10 +42,10 @@
                         </div>
                     </div>
                     <div ngbDropdown placement="bottom-right">
-                        <button class="btn btn-link text-white nohover" id="user-dropdown" ngbDropdownToggle>
-                            <span class="fa fa-user fa-2x"></span>
+                        <button class="btn btn-link text-white nohover h-100" id="user-dropdown" ngbDropdownToggle>
+                            <span class="fa fa-user fa-lg"></span>
                         </button>
-                        <div ngbDropdownMenu aria-labelledby="env-dropdown">
+                        <div ngbDropdownMenu aria-labelledby="env-dropdown" class="mt-0">
                             <a class="dropdown-item" [routerLink]="['/', country, 'profile']"><i class="fa fa-fw fa-user"></i> Profile</a>
                             <a class="dropdown-item" href="javascript:void(0)"><i class="fa fa-fw fa-envelope"></i> Inbox</a>
                             <a class="dropdown-item" [routerLink]="['/', country, 'user', 'settings']"><i class="fa fa-fw fa-gear"></i> Settings</a>

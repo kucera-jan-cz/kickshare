@@ -1,4 +1,4 @@
-<div id="searchOptions" class="container-fluid p-0">
+<div id="searchOptions" class="container-fluid p-0 mx-3">
     <div id="search_new" class="row m-0 p-l-2">
         <div class="col-12 col-sm-auto m-l-1 p-l-1">
             <label class="align-middle" for="category_select">Category: </label>
@@ -10,18 +10,8 @@
             <!--</option>-->
             <!--</select>-->
         </div>
-        <div class="col-12 col-sm-auto m-l-1 p-0">
-            <ng2-completer id="gmap_complete" class="d-inline-block" [(ngModel)]="searchTerm" [datasource]="dataService" [minSearchLength]="3"
-                           name="projectComplete" (keyup)="nameTyped($event)" clearUnselected="true"
-                           (selected)="itemSelected($event)">
-            </ng2-completer>
-            <span class="d-inline-block fa-stack fa-lg" (click)="searchGroups()">
-                        <i class="fa fa-square-o fa-stack-2x"></i>
-                        <i class="fa fa-search-plus fa-flip-horizontal fa-stack-1x"></i>
-            </span>
-        </div>
-        <div class="col-12 col-sm-auto ">
-            <label>
+        <div class="col-12 col-sm-auto align-self-center">
+            <label class="align-self-center">
                 <input type="checkbox" name="search_only_near_by" [(ngModel)]="settings.onlyNearBy">
                 Only near by
             </label>
@@ -29,6 +19,15 @@
                 <input type="checkbox" name="search_use_tags" [(ngModel)]="settings.withTags">
                 Contains tags:
             </label>
+        </div>
+        <div class="col-12 col-sm-auto m-l-1 p-0">
+            <ng2-completer id="gmap_complete" class="d-inline-block" [(ngModel)]="searchTerm" [datasource]="dataService" [minSearchLength]="3"
+                           name="projectComplete" (keyup)="nameTyped($event)" clearUnselected="true"
+                           (selected)="itemSelected($event)">
+            </ng2-completer>
+            <button type="button" class="btn btn-success p-1" (click)="searchGroups()">
+                <i class="fa fa-search-plus fa-lg" aria-hidden="true"></i>
+            </button>
         </div>
         <div class="col-0 col-sm-0 bg-inverse"></div>
     </div>

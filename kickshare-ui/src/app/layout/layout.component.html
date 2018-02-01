@@ -1,24 +1,24 @@
-<application-header [isNavbarCollapsed]="isNavbarCollapsed" (toggleEvent)="toggleSidebar($event)"></application-header>
+<application-header [sidebarCollapsed]="sidebarCollapsed" (toggleEvent)="toggleSidebar($event)"></application-header>
 <!--Sidebar -->
-<nav class="sidebar" [ngbCollapse]="isNavbarCollapsed">
+<nav class="navbar-static-side" [ngbCollapse]="sidebarCollapsed">
     <ul class="list-group">
-        <a [routerLink]="['./dashboard']" class="list-group-item" (click)="isNavbarCollapsed = true">
-            <i class="fa fa-home"></i>&nbsp;{{ 'Dashboard' }}
+        <a [routerLink]="['./dashboard']" class="list-group-item text-center" (click)="sidebarCollapsed = true">
+            <i class="fa fa-home"></i>Home
         </a>
-        <a [routerLink]="['./account/group']" class="list-group-item" (click)="isNavbarCollapsed = true">
-            <i class="fa fa-user-plus"></i>&nbsp;{{ 'New group' }}
+        <a [routerLink]="['./account/group']" class="list-group-item text-center" (click)="sidebarCollapsed = true">
+            <i class="fa fa-user-plus"></i>Group
         </a>
-        <a [routerLink]="['./cities']" class="list-group-item" (click)="isNavbarCollapsed = true">
-            <i class="fa fa-globe"></i>&nbsp;{{ 'Cities' }}
+        <a [routerLink]="['./cities']" class="list-group-item text-center" (click)="sidebarCollapsed = true">
+            <i class="fa fa-globe"></i>Cities
         </a>
-        <a [routerLink]="['./blank-page']" class="list-group-item" (click)="isNavbarCollapsed = true">
-            <i class="fa fa-fw fa-bar-chart-o"></i>&nbsp;{{ 'Blank' }}
+        <a [routerLink]="['./blank-page']" class="list-group-item text-center" (click)="sidebarCollapsed = true">
+            <i class="fa fa-fw fa-bar-chart-o"></i>Blank
         </a>
-        <a [routerLink]="['./faq']" class="list-group-item" (click)="isNavbarCollapsed = true">
-            <i class="fa fa-fw fa-question-circle"></i>&nbsp;{{ 'FAQ' }}
+        <a [routerLink]="['./faq']" class="list-group-item text-center" (click)="sidebarCollapsed = true">
+            <i class="fa fa-fw fa-question-circle"></i>FAQ
         </a>
-        <a class="list-group-item" (click)="login()">
-            <i class="fa fa-fw fa-sign-in"></i>&nbsp;{{ 'Login' }}
+        <a class="list-group-item text-center" (click)="login()">
+            <i class="fa fa-fw fa-sign-in"></i>Login
         </a>
     </ul>
 </nav>

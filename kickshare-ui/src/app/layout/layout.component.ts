@@ -12,7 +12,7 @@ declare let EventSource: any;
 })
 export class LayoutComponent {
     private logger = LoggerFactory.getLogger("components:layout");
-    public isNavbarCollapsed = true;
+    public sidebarCollapsed = true;
 
     constructor(public router: Router, private system: SystemService) {
         this.logger.debug("Initializing layout component")
@@ -22,7 +22,7 @@ export class LayoutComponent {
         const snapshot = this.router.routerState.snapshot;
         this.logger.info("Routing to login from {0}", snapshot.url);
         this.router.navigate(['/', this.system.countryCode.toLowerCase(), 'login'], {queryParams: {returnUrl: snapshot.url}});
-        this.isNavbarCollapsed = !this.isNavbarCollapsed
+        this.sidebarCollapsed = !this.sidebarCollapsed
     }
 
     togg() {
@@ -30,8 +30,8 @@ export class LayoutComponent {
         dom.classList.toggle('navbarToggleExternalContent');
     }
 
-    toggleSidebar(navbarCollapsed: boolean) {
-        this.isNavbarCollapsed = navbarCollapsed;
+    toggleSidebar(sidebarCollapsed: boolean) {
+        this.sidebarCollapsed = sidebarCollapsed;
         const dom: any = document.querySelector('body');
         dom.classList.toggle('left-sidebar');
     }

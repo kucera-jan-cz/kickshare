@@ -6,7 +6,7 @@
             </div>
             <div class="row">
                 <h5>Project:
-                    <a class="text-info" [routerLink]="[url.campaign(project.id)]">{{project.name}}</a>
+                    <a [routerLink]="[url.campaign(project.id)]">{{project.name}}</a>
                 </h5>
             </div>
             <div class="row">
@@ -14,7 +14,7 @@
             </div>
             <div class="row">
                 <h5>Kickstarter:
-                    <a class="text-info" href="{{ project.url }}">{{project.name}}</a>
+                    <a href="{{ project.url }}">{{project.name}}</a>
                 </h5>
             </div>
             <div class="row">

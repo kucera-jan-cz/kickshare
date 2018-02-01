@@ -4,10 +4,14 @@
 }
 
 @font-face {
-    font-family: 'Raleway';
-    src: url('../fonts/raleway_thin-webfont.eot'); /* IE9 Compat Modes */
+
+    /*font-family: 'Raleway';*/
+    /*src: url('../fonts/raleway_thin-webfont.eot'); !* IE9 Compat Modes *!*/
 }
 
 body {
-    font-family: 'Raleway', sans-serif;
+    font-family: "Mukta", Helvetica, Arial, sans-serif;
+    background-color: #f8f8f7
+    /*#f6f9fa;*/
+    /*font-family: 'Raleway', sans-serif;*/
 }
