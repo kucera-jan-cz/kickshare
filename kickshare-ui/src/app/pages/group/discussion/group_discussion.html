@@ -4,52 +4,28 @@
     <ul id="comments-list" class="comments-list">
         <li *ngFor="let post of posts">
             <div class="comment-main-level row">
+                <div class="avatar"><img src="assets/face_avatars/user-00.png" alt=""></div>
+                <div class="box">
+                    <div class="comment-head row">
+                        <h6 class="comment-name by-author">
+                            <a href="http://creaticode.com/blog">{{post.author}}</a>
+                            <span>{{post.postModified | date: shortDate }}</span>
+                        </h6>
+                    </div>
+                    <div class="comment-content">{{post.postText}}</div>
+                </div>
                 <div class="comment-avatar"><img src="assets/face_avatars/user-00.png" alt=""></div>
                 <div class="comment-box m-2">
                     <div class="comment-head row">
-                        <h6 class="comment-name by-author"><a href="http://creaticode.com/blog">Agustin Ortiz</a>
-                            <span>{{post.postModified}}</span>
+                        <h6 class="comment-name by-author">
+                            <a href="http://creaticode.com/blog">{{post.author}}</a>
+                            <span>{{post.postModified | date: shortDate }}</span>
                         </h6>
                     </div>
                     <div class="comment-content">{{post.postText}}</div>
                 </div>
             </div>
         </li>
-      <!--<li>-->
-        <!--<div class="comment-main-level row">-->
-          <!--<div class="comment-avatar"><img src="assets/face_avatars/user-00.png" alt=""></div>-->
-          <!--<div class="comment-box m-2">-->
-            <!--<div class="comment-head row">-->
-              <!--<h6 class="comment-name by-author"><a href="http://creaticode.com/blog">Agustin Ortiz</a>-->
-                <!--<span>hace 20 minutos</span>-->
-              <!--</h6>-->
-            <!--</div>-->
-            <!--<div class="comment-content">-->
-              <!--Lorem ipsum dolor sit amet, consectetur adipisicing elit. Velit omnis animi et iure laudantium vitae, praesentium optio, sapiente-->
-              <!--distinctio-->
-              <!--illo?-->
-            <!--</div>-->
-          <!--</div>-->
-        <!--</div>-->
-      <!--</li>-->
-      <!--<li>-->
-        <!--<div class="comment-main-level row">-->
-          <!--<div class="comment-avatar"><img src="assets/face_avatars/user-10.png" alt=""></div>-->
-          <!--<div class="comment-box m-2">-->
-            <!--<div class="comment-head">-->
-              <!--<h6 class="comment-name by-author"><a href="http://creaticode.com/blog">Agustin Ortiz</a></h6>-->
-              <!--<span>hace 20 minutos</span>-->
-              <!--<i class="fa fa-reply"></i>-->
-              <!--<i class="fa fa-heart"></i>-->
-            <!--</div>-->
-            <!--<div class="comment-content">-->
-              <!--Lorem ipsum dolor sit amet, consectetur adipisicing elit. Velit omnis animi et iure laudantium vitae, praesentium optio, sapiente-->
-              <!--distinctio-->
-              <!--illo?-->
-            <!--</div>-->
-          <!--</div>-->
-        <!--</div>-->
-      <!--</li>-->
     </ul>
   </div>
   <div class="col-md-2"></div>
@@ -58,14 +34,14 @@
   <div class="widget-area no-padding blank">
     <div class="status-upload">
       <form>
-        <textarea placeholder="What are you doing right now?"></textarea>
+          <textarea placeholder="What are you doing right now?" name="messageArea" [(ngModel)]="message"></textarea>
         <ul>
           <li><a title="" data-toggle="tooltip" data-placement="bottom" data-original-title="Audio"><i class="fa fa-music"></i></a></li>
           <li><a title="" data-toggle="tooltip" data-placement="bottom" data-original-title="Video"><i class="fa fa-video-camera"></i></a></li>
           <li><a title="" data-toggle="tooltip" data-placement="bottom" data-original-title="Sound Record"><i class="fa fa-microphone"></i></a></li>
           <li><a title="" data-toggle="tooltip" data-placement="bottom" data-original-title="Picture"><i class="fa fa-picture-o"></i></a></li>
         </ul>
-        <button type="submit" class="btn btn-success green"><i class="fa fa-share"></i> Share</button>
+          <button type="submit" class="btn btn-success" (click)="postMessage(message)"><i class="fa fa-share"></i> Share</button>
       </form>
     </div><!-- Status Upload  -->
   </div><!-- Widget Area -->

@@ -267,7 +267,7 @@ body {
   box-shadow: 0 1px 1px rgba(0,0,0,0.15);
 }
 
-.comments-list .comment-box:before, .comments-list .comment-box:after {
+.comments-list .comment-box:before, .comments-list .comment-box:after, .comments-list .box:after {
   content: '';
   height: 0;
   width: 0;
@@ -289,7 +289,7 @@ body {
 .reply-list .comment-box {
   width: 610px;
 }
-.comment-box .comment-head {
+.box, .comment-box .comment-head {
   background: #FCFCFC;
   padding: 10px 12px;
   border-bottom: 1px solid #E5E5E5;
@@ -315,7 +315,7 @@ body {
   color: #03658c;
 }
 
-.comment-box .comment-name {
+.box, .comment-box .comment-name {
   color: #283035;
   font-size: 14px;
   font-weight: 700;
@@ -535,12 +535,26 @@ span.round-tabs.one{
 /*MATERIAL TABS*/
 
 .tabsdemoDynamicHeight md-content {
-  background-color: transparent !important; }
+  background-color: transparent !important;
+}
 .tabsdemoDynamicHeight md-content md-tabs {
   background: #f6f6f6;
-  border: 1px solid #e1e1e1; }
+  border: 1px solid #e1e1e1;
+}
 .tabsdemoDynamicHeight md-content md-tabs md-tabs-wrapper {
-  background: white; }
+  background: white;
+}
 .tabsdemoDynamicHeight md-content h1:first-child {
-  margin-top: 0; }
+  margin-top: 0;
+}
 
+.avatar {
+    img {
+        width: 59px;
+        height: 59px;
+    }
+}
+
+.box {
+
+}

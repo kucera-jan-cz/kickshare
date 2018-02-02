@@ -3,7 +3,7 @@
  */
 import {Injectable} from "@angular/core";
 import {AuthHttp} from "./auth-http.service";
-import {Backer, Group, GroupInfo, GroupSummary, Post, SearchOptions} from "./domain";
+import {Backer, Group, GroupInfo, GroupSummary, Pageable, Post, SearchOptions} from "./domain";
 import {stringify} from "query-string";
 import {LoggerFactory} from "../components/logger/loggerFactory.component";
 
@@ -42,6 +42,13 @@ export class GroupService {
         this.logger.info("Searching groups with: " + params);
         const promise: Promise<GroupSummary[]> = this.http.get("/groups/search?" + params);
         promise.then(group => this.logger.info("Search group result: ", JSON.stringify(group)));
+        return promise;
+    }
+
+    public getGroupBackers(groupId: number): Promise<Backer[]> {
+        this.logger.info("Calling getGroupBackers: {0}", groupId);
+        const promise: Promise<Backer[]> = this.http.get(`/groups/${groupId}/users`);
+        promise.then(it => this.logger.info("Search group users result: ", JSON.stringify(it)));
         return promise;
     }
 
@@ -91,8 +98,8 @@ export class GroupService {
         this.http.patch("/groups/" + groupId + "/posts", post);
     }
 
-    public readPosts(groupId: number): Promise<Post[]> {
-        const promise: Promise<Post[]> = this.http.get(`/groups/${groupId}/posts`);
+    public readPosts(groupId: number): Promise<Pageable<Post>> {
+        const promise: Promise<Pageable<Post>> = this.http.get(`/groups/${groupId}/posts?size=10&page=0&seek=1`);
         return promise;
     }
 }
