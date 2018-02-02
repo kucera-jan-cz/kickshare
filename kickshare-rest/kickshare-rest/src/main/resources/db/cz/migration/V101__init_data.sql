@@ -13,6 +13,7 @@ INSERT INTO backer (id, email, name, surname, leader_rating, backer_rating) VALU
 ;
 ALTER SEQUENCE backer_id_seq RESTART WITH 100;
 
+--@TODO consider delete in favor of generic backer_settings
 INSERT INTO backer_setting (backer_id, category_id) VALUES
 (1, 34),
 (2, 34),
@@ -66,8 +67,22 @@ INSERT INTO "group" (id, leader_id, name, project_id, lat, lon, is_local) VALUES
 INSERT INTO backer_2_group (group_id, backer_id, status) VALUES (7, 4, 'APPROVED');
 
 INSERT INTO "group" (id, leader_id, name, project_id, lat, lon, is_local) VALUES
-(8, 4, 'The Edge - CZ', 1893061183, 49.0520, 15.8086, true );
+(8, 4, 'The Edge - CZ #02', 1893061183, 49.0520, 15.8086, true );
 INSERT INTO backer_2_group (group_id, backer_id, status) VALUES (8, 4, 'APPROVED');
 
 ALTER SEQUENCE group_id_seq RESTART WITH 100;
 
+INSERT INTO "group_post" ("group_id", "backer_id", "post_created", "post_edit_count", "post_text") VALUES
+(1, 2, timestamp '2018-01-01 14:09:17.911', 0, 'Minima explicabo officia expedita sed nihil iure.'),
+(1, 2, timestamp '2018-01-05 14:09:17.911', 0, 'Voluptatem molestiae ab qui molestiae repudiandae.'),
+(1, 1, timestamp '2018-01-17 14:09:17.911', 0, 'Voluptas necessitatibus modi earum molestiae autem.'),
+(1, 1, timestamp '2018-01-17 14:09:17.911', 0, 'Distinctio molestiae qui deleniti dicta.'),
+(1, 2, timestamp '2018-01-17 14:09:17.911', 0, 'Quidem explicabo animi enim.'),
+(1, 2, timestamp '2018-01-20 14:09:17.911', 0, 'Ut at explicabo numquam molestias molestiae officiis eligendi.'),
+(1, 1, timestamp '2018-01-25 14:09:17.911', 0, 'Sit impedit quibusdam.'),
+(1, 2, timestamp '2018-01-26 14:09:17.911', 0, 'Ullam est ut odit rerum illum commodi blanditiis.'),
+(1, 1, timestamp '2018-01-27 13:09:17.911', 0, 'Eveniet quia eveniet porro laborum eius itaque esse.'),
+(1, 2, timestamp '2018-01-28 14:09:17.911', 0, 'Deleniti cupiditate qui eius.'),
+(1, 1, timestamp '2018-01-28 17:09:17.911', 0, 'Voluptas explicabo animi enim.'),
+(1, 1, timestamp '2018-01-28 19:11:17.911', 0, 'Eveniet impedit quibusdam.')
+;

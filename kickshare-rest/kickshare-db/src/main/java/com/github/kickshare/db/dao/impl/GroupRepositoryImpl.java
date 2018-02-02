@@ -4,6 +4,7 @@ import static com.github.kickshare.db.jooq.Tables.BACKER;
 import static com.github.kickshare.db.jooq.Tables.BACKER_2_GROUP;
 import static com.github.kickshare.db.jooq.Tables.GROUP;
 import static com.github.kickshare.db.jooq.Tables.GROUP_POST;
+import static com.github.kickshare.db.util.PagingUtil.paginate;
 
 import java.util.List;
 
@@ -17,7 +18,9 @@ import com.github.kickshare.db.jooq.tables.pojos.ProjectDB;
 import com.github.kickshare.db.jooq.tables.records.GroupRecordDB;
 import com.github.kickshare.db.query.GroupQueryBuilder;
 import com.github.kickshare.db.query.SearchOptionsDB;
+import com.github.kickshare.db.util.SeekPageRequest;
 import org.jooq.Configuration;
+import org.jooq.SortOrder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -147,6 +150,14 @@ public class GroupRepositoryImpl extends AbstractRepository<GroupRecordDB, Group
                 .orderBy(GROUP_POST.POST_ID.desc())
                 .limit(offset, size)
                 .fetchInto(GroupPostDB.class);
+    }
+
+    public List<GroupPostDB> getGroupPost(final Long groupId, SeekPageRequest page) {
+        return paginate(GROUP_POST.POST_ID, SortOrder.DESC, page).apply(
+                dsl.select()
+                        .from(GROUP_POST)
+                        .where(GROUP_POST.GROUP_ID.eq(groupId))
+        ).fetchInto(GroupPostDB.class);
     }
 
     public long getGroupPostCount(final Long groupId) {

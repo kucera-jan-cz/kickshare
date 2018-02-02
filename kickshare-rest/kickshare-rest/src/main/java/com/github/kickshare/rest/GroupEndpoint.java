@@ -12,6 +12,7 @@ import javax.validation.Valid;
 import com.github.kickshare.db.dao.KickshareRepository;
 import com.github.kickshare.db.jooq.enums.GroupRequestStatusDB;
 import com.github.kickshare.db.pojos.CityGridDB;
+import com.github.kickshare.db.util.SeekPageRequest;
 import com.github.kickshare.domain.Backer;
 import com.github.kickshare.domain.Group;
 import com.github.kickshare.domain.GroupDetail;
@@ -188,7 +189,8 @@ public class GroupEndpoint {
     @GroupMember
     @GetMapping("/{groupId}/posts")
     public Page<Post> getPosts(@PathVariable Long groupId,
-            //@ModelAttribute final SeekPageRequest<Long> pageInfo,
+            //@ModelAttribute final
+             SeekPageRequest seekPage,
             Pageable pageInfo,
             @AuthenticationPrincipal BackerDetails user) {
         LOGGER.info("{}", user);
