@@ -36,10 +36,16 @@
         </ngb-tab>
         <ngb-tab title="Discussion">
             <ng-template ngbTabContent>
-                <group_discussion [meta]="meta"></group_discussion>
+                <group_discussion *ngIf="meta.isMember()" [meta]="meta"></group_discussion>
+                <!--@TODO consider move following page as standalone component? -->
+                <div *ngIf="meta.isAnonymous()">
+                    <h2>Content is available only for registered users</h2>
+
+                    <p>Please <a [routerLink]="[url.login()]" [queryParams]="{returnUrl: selfLink}">login</a> or <a [routerLink]="[url.register()]">register</a></p>
+                </div>
             </ng-template>
         </ngb-tab>
-        <ngb-tab *ngIf="my_group" title="Requests (*)">
+        <ngb-tab *ngIf="meta.isLeader()" title="Requests (*)">
             <ng-template ngbTabContent>
                 <group_requests [meta]="meta"></group_requests>
             </ng-template>

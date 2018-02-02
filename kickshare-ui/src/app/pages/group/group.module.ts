@@ -12,6 +12,8 @@ import {GroupMembers} from "./members/group_members.component";
 import {GroupDiscussion} from "./discussion/group_discussion.component";
 import {NgbTabsetModule} from "@ng-bootstrap/ng-bootstrap";
 import {GroupRequests} from "./requests/group_requests.component";
+import {PageNavigationModule} from "../../components/paging/page-navigation.module";
+import {NgArrayPipesModule} from "angular-pipes";
 
 /**
  * Created by KuceraJan on 9.4.2017.
@@ -21,7 +23,9 @@ import {GroupRequests} from "./requests/group_requests.component";
         CommonModule,
         FormsModule,
         routing,
-        NgbTabsetModule.forRoot()
+        NgbTabsetModule.forRoot(),
+        PageNavigationModule,
+        NgArrayPipesModule
     ],
 
     declarations: [

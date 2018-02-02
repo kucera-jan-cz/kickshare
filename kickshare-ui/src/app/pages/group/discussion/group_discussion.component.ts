@@ -1,62 +1,76 @@
 /**
  * Created by KuceraJan on 9.4.2017.
  */
-import {Component, Input, OnInit} from "@angular/core";
+import {Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges} from "@angular/core";
 import {ActivatedRoute} from "@angular/router";
 import "rxjs/add/operator/switchMap";
 import {GroupService} from "../../../services/group.service";
-import {MessagePost} from "../../../services/domain";
+import {Backer, MessagePost, Page, Pageable, PageRequest, Post} from "../../../services/domain";
 import {GroupMetadata} from "../components/group.metadata";
 import {toMap} from "../../../utils/util";
 import {LoggerFactory} from "../../../components/logger/loggerFactory.component";
+import {Subscription} from "rxjs/Subscription";
 
 @Component({
     selector: 'group_discussion',
     styleUrls: ['./group_discussion.scss'],
     templateUrl: './group_discussion.html'
 })
-export class GroupDiscussion implements OnInit {
+export class GroupDiscussion implements OnInit, OnChanges, OnDestroy {
+
     private logger = LoggerFactory.getLogger("components:group:discussion");
 
     @Input() meta: GroupMetadata;
+    private backerSubscription: Subscription;
+    private namesById: Map<number, string>;
     message: string;
-    posts: MessagePost[] = [
-        // new Post(1, 1, 1, new Date(), new Date(), 0, "Lorem ipsum dolor sit amet"),
-        // new Post(2, 1, 1, new Date(), new Date(), 0, "Lorem ipsum dolor sit amet")
-    ];
+    page: Page;
+    posts: MessagePost[] = [];
 
-    constructor(private route: ActivatedRoute, private groupService: GroupService) {
 
+    constructor(private route: ActivatedRoute, private groupService: GroupService) {}
+
+    ngOnChanges(changes: SimpleChanges): void {
+        if (changes['meta']) {
+            this.meta = changes['meta'].currentValue;
+        }
     }
 
     async ngOnInit() {
-        //@TODO promise all?
-        const page = await this.groupService.readPosts(this.meta.getId());
-        // const ids = new Set(page.content.map(it => it.backerId));
-        const members = await this.groupService.getGroupBackers(this.meta.getId());
-        const namesById = toMap(members, it => it.id, it => it.name + " " + it.surname);
-        // new Map(members.map((it) => [ it.id, it.name + " "+  it.surname ]));
-        this.posts = page.content.map(it => JSON.parse(JSON.stringify(it)));
-        this.posts.forEach(it => it.author = namesById.get(it.backerId));
-        this.logger.info("Names by id: {0}", JSON.stringify(namesById));
-        this.logger.info("Messages: {0}", JSON.stringify(this.posts));
+        this.getPosts(new PageRequest(0));
+        this.backerSubscription = this.meta.backers().subscribe(
+            (backers: Backer[]) => this.namesById = toMap(backers, it => it.id, it => it.name + " " + it.surname)
+        );
     }
 
-    setPage(page: number) {
-        if (page < 1 || page > this.pager.totalPages) {
+    ngOnDestroy(): void {
+        this.backerSubscription.unsubscribe();
+        //@TODO - destroy this subscription or freshing
+    }
+
+    setPage(selectedPage: number) {
+        if (selectedPage < -1 || selectedPage > this.page.totalPages) {
             return;
         }
-
-        // get pager object from service
-        this.pager = this.pagerService.getPager(this.allItems.length, page);
-
-        // get current page of items
-        this.pagedItems = this.allItems.slice(this.pager.startIndex, this.pager.endIndex + 1);
+        this.getPosts(new PageRequest(selectedPage))
     }
 
     async postMessage(text: string) {
-        const newPost = await this.groupService.createPost(this.meta.getId(), text);
+        await this.groupService.createPost(this.meta.getId(), text);
         this.message = "";
+        //@TODO - verify this behavior
+        this.getPosts(new PageRequest(0));
         // this.posts.push(newPost);
+    }
+
+    private async getPosts(requestedPage: PageRequest) {
+        const page: Pageable<Post> = await this.groupService.readPosts(this.meta.getId(), requestedPage);
+        const header: Page = page;
+        this.logger.info("Page: {0}", JSON.stringify(header));
+        const posts: MessagePost[] = page.content.map(it => JSON.parse(JSON.stringify(it)));
+        posts.forEach(it => it.author = this.namesById.get(it.backerId));
+        this.posts = posts;
+        this.logger.debug("Messages: {0}", JSON.stringify(this.posts));
+        this.page = page;
     }
 }

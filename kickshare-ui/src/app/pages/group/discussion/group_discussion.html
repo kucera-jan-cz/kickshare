@@ -2,14 +2,14 @@
   <div class="col-md-2"></div>
   <div class="col-md-8">
     <ul id="comments-list" class="comments-list">
-        <li *ngFor="let post of posts">
+        <li *ngFor="let post of posts | orderBy: ['postCreated']">
             <div class="comment-main-level row">
                 <div class="avatar"><img src="assets/face_avatars/user-00.png" alt=""></div>
                 <div class="box">
                     <div class="comment-head row">
                         <h6 class="comment-name by-author">
                             <a href="http://creaticode.com/blog">{{post.author}}</a>
-                            <span>{{post.postModified | date: shortDate }}</span>
+                            <span>{{post.postCreated | date: shortDate }}</span>
                         </h6>
                     </div>
                     <div class="comment-content">{{post.postText}}</div>
@@ -19,13 +19,15 @@
                     <div class="comment-head row">
                         <h6 class="comment-name by-author">
                             <a href="http://creaticode.com/blog">{{post.author}}</a>
-                            <span>{{post.postModified | date: shortDate }}</span>
+                            <span>{{post.postCreated | date: shortDate }}</span>
                         </h6>
                     </div>
                     <div class="comment-content">{{post.postText}}</div>
                 </div>
             </div>
         </li>
+        <page-navigation [page]="page" (value)="setPage($event)">
+        </page-navigation>
     </ul>
   </div>
   <div class="col-md-2"></div>

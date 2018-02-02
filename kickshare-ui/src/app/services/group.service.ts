@@ -3,7 +3,7 @@
  */
 import {Injectable} from "@angular/core";
 import {AuthHttp} from "./auth-http.service";
-import {Backer, Group, GroupInfo, GroupSummary, Pageable, Post, SearchOptions} from "./domain";
+import {Backer, Group, GroupInfo, GroupSummary, Pageable, PageRequest, Post, SearchOptions} from "./domain";
 import {stringify} from "query-string";
 import {LoggerFactory} from "../components/logger/loggerFactory.component";
 
@@ -98,8 +98,8 @@ export class GroupService {
         this.http.patch("/groups/" + groupId + "/posts", post);
     }
 
-    public readPosts(groupId: number): Promise<Pageable<Post>> {
-        const promise: Promise<Pageable<Post>> = this.http.get(`/groups/${groupId}/posts?size=10&page=0&seek=1`);
+    public readPosts(groupId: number, params: PageRequest): Promise<Pageable<Post>> {
+        const promise: Promise<Pageable<Post>> = this.http.get(`/groups/${groupId}/posts?${params.toParams()}`);
         return promise;
     }
 }

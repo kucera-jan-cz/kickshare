@@ -38,8 +38,6 @@ export class OauthHttp extends AuthHttp {
         this.logger.info("User: " + user['name']);
         this.logger.info("Response: " + JSON.stringify(user));
         this.logger.info(JSON.stringify(token));
-        //@TODO - extract also country
-
         let id = user['principal']['id'] as number;
         this.logger.debug("Emitting ID: " + id);
         this.userIdSubject.next(id);

@@ -104,7 +104,7 @@ export class MessagePost {
 }
 
 export class PageRequest {
-    constructor(public page: number, public size: number = 10, public seek: string = "1") {
+    constructor(public page: number, public size: number = 3, public seek: string = "1") {
     }
 
     toParams(): string {
@@ -125,8 +125,6 @@ export class Page {
 export class Pageable<T> extends Page {
     content: Array<T>;
     seek: string;
-
-
 }
 
 export class Tag {
