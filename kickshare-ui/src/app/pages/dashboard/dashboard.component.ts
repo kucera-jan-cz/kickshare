@@ -43,7 +43,6 @@ export class Dashboard {
         searchOptions.category_id = this.searchMeta.category.id;
         if (this.searchMeta.project) {
             this.logger.info("Searching for groups to list");
-            //@TODO - make search groups with boundaries
             searchOptions.project_id = this.searchMeta.project.id;
             this.groups = await this.groupService.searchGroups(searchOptions);
             this.projects = [];

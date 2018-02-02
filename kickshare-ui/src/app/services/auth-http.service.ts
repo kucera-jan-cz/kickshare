@@ -36,6 +36,12 @@ export abstract class AuthHttp {
         this.http.jsonp(url, "JSONP_CALLBACK").subscribe(response => handler(response));
     }
 
+    public jsonp(path, options: HttpParams, callback = "JSONP_CALLBACK"): Observable<Object> {
+        const params = options.toString();
+        const url: string = `${this.host}/${path}?${params}`;
+        return this.http.jsonp(url, callback)
+    }
+
     get<T>(path, params?: HttpParams, contentType?: "text" | "json"): Promise<T> {
         return this.exchange<T>("GET", path, params, null, contentType);
     }

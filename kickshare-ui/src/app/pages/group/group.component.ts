@@ -2,7 +2,7 @@
  * Created by KuceraJan on 9.4.2017.
  */
 import {Component, OnInit} from "@angular/core";
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import "rxjs/add/operator/switchMap";
 import {ProjectService} from "../../services/project.service";
 import {GroupService} from "../../services/group.service";
@@ -29,16 +29,17 @@ export class GroupComponent implements OnInit {
     // @ViewChild(GroupMembers) members: GroupMembers;
     meta: GroupMetadata;
     country: string;
+    selfLink: string = null;
 
-    constructor(private route: ActivatedRoute, private groupService: GroupService, private projectService: ProjectService,
+    constructor(private route: ActivatedRoute, private router: Router, private groupService: GroupService, private projectService: ProjectService,
                 private systemService: SystemService, public url: UrlService) {
+        this.selfLink = router.url;
     }
 
     async ngOnInit() {
         this.country = this.systemService.countryCode.toLowerCase();
         this.id = this.route.snapshot.params['id'];
         this.logger.info("Searching for group: {0}", this.id);
-        //@TODO - parallel requests instead of waits
         let info = await this.groupService.getGroupInfo(this.id);
         this.meta = new GroupMetadata(info, this.systemService.getId(), this.groupService);
         this.group = info.group;

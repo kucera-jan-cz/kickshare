@@ -40,27 +40,27 @@ export class GroupMetadata {
     }
 
     public async reject(backer: Backer) {
-        const promise = await this.groupService.rejectBacker(this.getId(), backer.id);
+        await this.groupService.rejectBacker(this.getId(), backer.id);
         const currentRequests = this.requestsSub.getValue();
         remove(currentRequests, backer);
         this.requestsSub.next(currentRequests);
     }
 
     public async join() {
-        const promise = await this.groupService.joinGroup(this.getId(), this.backerId);
+        await this.groupService.joinGroup(this.getId(), this.backerId);
         const currentRequests = await this.groupService.getBackerRequests(this.getId());
         this.requestsSub.next(currentRequests);
     }
 
     public async leave(backer: Backer) {
-        const promise = await this.groupService.leaveGroup(this.getId(), backer.id);
+        await this.groupService.leaveGroup(this.getId(), backer.id);
         const currentBackers = this.backersSub.getValue();
         remove(currentBackers, backer);
         this.backersSub.next(currentBackers);
     }
 
     public getBackers(): Backer[] {
-        return this.group.backers;
+        return this.backersSub.getValue();
     }
 
     public getLeader(): Backer {
@@ -68,7 +68,7 @@ export class GroupMetadata {
     }
 
     public isMember() {
-        return this.backersSub.getValue().find(b => b.id == this.backerId) != null;
+        return this.isLeader() || this.getBackers().find(b => b.id == this.backerId) != null;
     }
 
     public canJoin(): boolean {
