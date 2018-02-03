@@ -33,8 +33,8 @@
                     <div class="input-group mb-1">
                         <span class="input-group-addon"><i class="fa fa-globe"></i></span>
                         <select class="form-control" name="country_select" [(ngModel)]="country">
-                            <option *ngFor="let item of countries">
-                                {{item}}
+                            <option *ngFor="let item of countries" [ngValue]="item">
+                                {{item.name}}
                             </option>
                         </select>
                     </div>
