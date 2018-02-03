@@ -174,9 +174,24 @@ export class SearchOptions {
     }
 }
 
+export class Location {
+    constructor (public lat: number, public lon: number) {
+    }
+}
+
+export class Bounds {
+    constructor (public sw: Location, public ne: Location) {
+
+    }
+}
+
 export class Country {
     constructor(public name: string,
-                public code: string) {
+                public code: string,
+                public center: Location,
+                public zoom: number,
+                public bounds: Bounds
+    ) {
     }
 }
 

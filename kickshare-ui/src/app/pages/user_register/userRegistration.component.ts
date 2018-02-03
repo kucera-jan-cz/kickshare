@@ -3,7 +3,7 @@ import {Component, ElementRef, OnInit} from "@angular/core";
 import "style-loader!./userRegistration.scss";
 import {FormGroup} from "@angular/forms";
 import {ProjectService} from "../../services/project.service";
-import {City, ProjectInfo} from "../../services/domain";
+import {City, Country, ProjectInfo} from "../../services/domain";
 import {SystemService} from "../../services/system.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {NgbModal, NgbTypeaheadSelectItemEvent} from "@ng-bootstrap/ng-bootstrap";
@@ -11,6 +11,7 @@ import {Observable} from "rxjs/Observable";
 import {CityService} from "../../services/city.service";
 import {GeoFactory} from "../../components/google/geoFactory.component";
 import {Location} from "../../components/google/location.component";
+import {CountryConstants} from "../../constants/country.constants";
 
 declare var $: any;
 
@@ -37,14 +38,14 @@ export class UserRegistration implements OnInit {
 
     //Location
     public searchCountry: string;
-    public country: string;
+    public country: Country;
     public city: City;
     public location: Location;
     public street: string;
     public postalCode: string;
 
     //Category
-    public countries = ['Czech republic', 'Germany'];
+    public countries:Country[] = CountryConstants.countries();
 
     private geoFactory = new GeoFactory();
 
@@ -55,8 +56,6 @@ export class UserRegistration implements OnInit {
     }
 
     async ngOnInit() {
-        console.info("Loading country");
-        this.country = this.systemService.countryCode;
     }
 
     async nameTyped(event: KeyboardEvent) {
@@ -83,11 +82,10 @@ export class UserRegistration implements OnInit {
     streetFormatter = (location: Location) => location.display;
 
     searchStreetFunction = (text: Observable<string>) => {
-        //@TODO - resolve country code!!
         const streetsObservable: Observable<Location[]> = text
             .debounceTime(250)
             .distinctUntilChanged()
-            .flatMap(term => Observable.fromPromise(this.geoFactory.search('CZ', term)));
+            .flatMap(term => Observable.fromPromise(this.geoFactory.search(this.country.code, term)));
         return streetsObservable;
     };
 

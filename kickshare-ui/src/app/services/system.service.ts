@@ -52,11 +52,15 @@ export class SystemService {
     }
 
     public setCountry(code: string): void {
-        this.countryCode = code.toUpperCase();
+        if(code.length == 2) {
+            this.countryCode = code.toUpperCase();
+        } else {
+            throw new Error("Country code is not valid: " + code);
+        }
     }
 
     public getCountry(): string {
-        const country = this.countryCode || this.router.routerState.snapshot.url.substr(1, 3).toUpperCase();
+        const country = this.countryCode || this.router.routerState.snapshot.url.substr(1, 2).toUpperCase();
         if (country == null || country.length != 2) {
             throw new Error("Country code is not yet resolved: " + country);
         }
